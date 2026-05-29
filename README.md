@@ -97,6 +97,8 @@ After building the image locally or pulling it from Docker Hub, you can easily s
     *   **Chrome Debugging:** The browser's remote debugging port is available at `localhost:9223` (or your custom port).
     *   **Chinese Input (zh tag only):** fcitx5 autostarts in the panel; press `Ctrl+Space` to toggle between the default English keyboard and Chinese Pinyin, or click the fcitx icon to pick another layout.
 
+    The browser profile is persisted in a Docker volume mounted at `/home/vncuser/.config/chromium`. This keeps Chromium cookies, local storage, preferences, and other profile state across container removal/recreation through the provided run script and Compose files.
+
 3.  **Customization and Troubleshooting:**
 
     **Screen Resolution:**
@@ -119,9 +121,16 @@ After building the image locally or pulling it from Docker Hub, you can easily s
     # Run a specific version and give the container a custom name
     ./run-container.sh --tag 1.2.0 --name my-custom-container
 
+    # Use a specific persistent Chromium profile volume
+    ./run-container.sh --name my-custom-container --profile-volume my-custom-container-chromium-profile
+
     # Run the Chinese-enabled image (built or pulled as autobyteus/chrome-vnc:zh)
     ./run-container.sh --tag zh
     ```
+
+    Google can still require password or two-factor re-authentication for account-security reasons. The persistent volume prevents local profile loss; it does not override Google's session policy.
+
+    Downstream images based on this image should also mount `/home/vncuser/.config/chromium` to persistent storage in their own `docker run` or Compose entry points.
 
 ## Reliable Recovery After Host/Daemon Restart
 

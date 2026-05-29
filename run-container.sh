@@ -8,6 +8,7 @@ CONTAINER_NAME="chrome-vnc"
 VNC_PORT=5900
 DEBUG_PORT=9223
 SCREEN_RESOLUTION="1920x1080x24"
+PROFILE_VOLUME=""
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -32,12 +33,20 @@ while [[ $# -gt 0 ]]; do
       SCREEN_RESOLUTION="$2"
       shift 2
       ;;
+    --profile-volume)
+      PROFILE_VOLUME="$2"
+      shift 2
+      ;;
     *)
       echo "Unknown option: $1"
       exit 1
       ;;
   esac
 done
+
+if [ -z "$PROFILE_VOLUME" ]; then
+  PROFILE_VOLUME="${CONTAINER_NAME}-chromium-profile"
+fi
 
 # Check if image exists locally; if not, pull it from Docker Hub.
 if ! docker image inspect "$IMAGE_NAME:$TAG" &> /dev/null; then
@@ -66,6 +75,7 @@ docker run -d \
   -p "$DEBUG_PORT":9223 \
   -e DISPLAY=:99 \
   -e SCREEN_RESOLUTION="$SCREEN_RESOLUTION" \
+  -v "$PROFILE_VOLUME":/home/vncuser/.config/chromium \
   --restart unless-stopped \
   "$IMAGE_NAME:$TAG"
 
@@ -73,3 +83,4 @@ echo "Container started successfully!"
 echo "VNC accessible at: localhost:$VNC_PORT (no password required)"
 echo "Chrome debugging port: $DEBUG_PORT"
 echo "Screen resolution: $SCREEN_RESOLUTION"
+echo "Chromium profile volume: $PROFILE_VOLUME"

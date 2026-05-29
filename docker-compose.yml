@@ -14,4 +14,9 @@ services:
     environment:
       - DISPLAY=:99
       - SCREEN_RESOLUTION=1920x1080x24
+    volumes:
+      - chromium-profile:/home/vncuser/.config/chromium
     restart: unless-stopped
+
+volumes:
+  chromium-profile:

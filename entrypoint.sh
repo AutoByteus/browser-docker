@@ -14,6 +14,13 @@ chown -R vncuser:vncuser ${XDG_RUNTIME_DIR}
 chmod -R 700 ${XDG_RUNTIME_DIR}
 export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 
+# Ensure mounted Chromium profile volumes are writable by the browser user.
+CHROMIUM_PROFILE_DIR="/home/vncuser/.config/chromium"
+mkdir -p "${CHROMIUM_PROFILE_DIR}"
+chown vncuser:vncuser /home/vncuser/.config
+chown -R vncuser:vncuser "${CHROMIUM_PROFILE_DIR}"
+chmod 700 "${CHROMIUM_PROFILE_DIR}"
+
 # DBus configuration
 mkdir -p /var/run/dbus
 chown messagebus:messagebus /var/run/dbus
