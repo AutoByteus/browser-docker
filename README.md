@@ -153,3 +153,17 @@ docker exec <container> sh -lc 'rm -f /tmp/.X99-lock /tmp/.X11-unix/X99 && super
 ```
 
 To make recovery permanent, rebuild/pull the updated image and recreate containers.
+
+Chromium can also leave profile lock files behind when a container is removed
+and recreated while reusing the persistent profile volume. Current images clear
+known stale Chromium lock artifacts during `/entrypoint.sh` startup before
+Supervisor launches Chromium. The cleanup preserves the locks when they appear
+to belong to a live Chromium/Chrome process in the current container, and it
+does not delete browser profile data.
+
+For already-running older containers that fail with "The profile appears to be
+in use", recover manually:
+
+```bash
+docker exec <container> sh -lc 'rm -f /home/vncuser/.config/chromium/SingletonLock /home/vncuser/.config/chromium/SingletonSocket /home/vncuser/.config/chromium/SingletonCookie /home/vncuser/.config/chromium/Default/LOCK /home/vncuser/.config/chromium/Default/.org.chromium.Chromium.* && supervisorctl restart chrome'
+```
