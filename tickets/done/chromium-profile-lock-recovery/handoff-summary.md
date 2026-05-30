@@ -29,4 +29,9 @@ The startup helper removes only known Chromium lock artifacts when stale. It pre
 - The active base-image repo is `/home/ryan-ai/SSD/autobyteus_org_workspace/browser-docker`.
 - The old-looking sibling worktree `/home/ryan-ai/SSD/autobyteus_org_workspace/browser-docker-persistent-chromium-profile` is not the current base repo.
 - The current LLM server container remains running; this work did not disturb it.
-- User explicitly confirmed finalization. Ticket archival, commit/push, merge, and release are now in progress.
+- User explicitly confirmed finalization.
+- Committed as `3951af5`, pushed the ticket branch, fast-forward merged to `origin/main`, and pushed `origin/main`.
+- Published Docker Hub tags:
+  - `autobyteus/chrome-vnc:1.3.6` / `latest`: `sha256:dbd749ca4bcbdab7fefc48b2f2fa2741e24e5919b6078596ec59b41ab77f1daa`
+  - `autobyteus/chrome-vnc:1.3.6-zh` / `zh`: `sha256:1e1e1fcd71775fdbf7c682b47a98bb78548f4d78db0dc50ffdd2fd2c9ec2f850`
+- Removed the dedicated ticket worktree and deleted the merged local ticket branch.
