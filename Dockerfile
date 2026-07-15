@@ -39,6 +39,7 @@ RUN apt-get update && \
     dnsutils \
     dos2unix \
     git \
+    gh \
     golang \
     htop \
     iputils-ping \
@@ -65,9 +66,9 @@ RUN apt-get update && \
     xfce4-terminal \
     # Runtimes
     nodejs \
-    python3.11 \
-    python3.11-dev \
-    python3.11-venv \
+    python3.13 \
+    python3.13-dev \
+    python3.13-venv \
     && if [ "${IMAGE_VARIANT}" = "zh" ]; then \
         apt-get install -y \
         # Fonts and locales
@@ -134,7 +135,7 @@ RUN if [ "${IMAGE_VARIANT}" = "zh" ]; then \
     fi
 
 # Layer 3: Post-installation configuration
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
     python3 -m ensurepip && \
     python3 -m pip install --upgrade pip wheel setuptools && \
@@ -198,11 +199,12 @@ COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY base.conf /etc/supervisor/conf.d/base.conf
 COPY entrypoint.sh /entrypoint.sh
 COPY start-vnc.sh /usr/local/bin/start-vnc.sh
+COPY start-chrome.sh /usr/local/bin/start-chrome.sh
 COPY disable-screensaver.sh /home/vncuser/disable-screensaver.sh
 
-RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /home/vncuser/disable-screensaver.sh && \
-    chmod +x /entrypoint.sh /usr/local/bin/start-vnc.sh /home/vncuser/disable-screensaver.sh && \
-    chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /home/vncuser/disable-screensaver.sh
+RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+    chmod +x /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+    chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh
 
 EXPOSE 5900 6080 9223
 
