@@ -100,5 +100,5 @@ rm -f "/tmp/.X${DISPLAY_NUM}-lock" "/tmp/.X11-unix/X${DISPLAY_NUM}"
 mkdir -p "$(dirname /var/run/supervisor.sock)"
 chown vncuser:vncuser "$(dirname /var/run/supervisor.sock)"
 
-# Start supervisord as root from its standard location
-exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+# Start the Python 3.13-compatible pip-installed Supervisor.
+exec /usr/local/bin/supervisord -n -c /etc/supervisor/supervisord.conf

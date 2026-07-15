@@ -139,7 +139,7 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1
     update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
     python3 -m ensurepip && \
     python3 -m pip install --upgrade pip wheel setuptools && \
-    python3 -m pip install websockify uv && \
+    python3 -m pip install supervisor==4.3.0 websockify uv && \
     npm install -g yarn
 
 # Configure npm and yarn for the vncuser to use a local directory for global packages.
