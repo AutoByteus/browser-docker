@@ -1,0 +1,23 @@
+== prior-failure recheck and ARM64 default image contract ==
+$ image ID/architecture/base/identity
+b936f29b5f2f41d2efdeea069bf384ec6f729e2a12d83060e698644fbb609790 arm64 linux
+Error: ioctl(SIOCSIFFLAGS): Operation not permitted: OCI permission denied
+$ tests/validate-image.sh localhost/brd-ubuntu24:arm64-default default 1000 1000
+Error: ioctl(SIOCSIFFLAGS): Operation not permitted: OCI permission denied
+== successful retry: prior-failure recheck and ARM64 default image contract ==
+b936f29b5f2f41d2efdeea069bf384ec6f729e2a12d83060e698644fbb609790 arm64 linux
+vncuser:x:1000:1000::/home/vncuser:/bin/bash
+vncuser:x:1000:
+PASS: APIE2E-F-001 resolved in full exact Dockerfile image
+== durable harness stdin local fix and authoritative ARM64 default image validation ==
+NOTE: tests/validate-image.sh now passes -i so its heredoc executes under both Docker and Podman-compatible clients.
+Usage: 
+    websockify [options] [source_addr:]source_port target_addr:target_port
+    websockify [options] --token-plugin=CLASS [source_addr:]source_port
+    websockify [options] --unix-target=FILE [source_addr:]source_port
+    websockify [options] [source_addr:]source_port -- WRAP_COMMAND_LINE
+
+websockify: error: no such option: --version
+== authoritative ARM64 default image validation retry after package-supported websockify probe ==
+NOTE: websockify 0.13.0 has no --version option; durable test now verifies installed distribution metadata plus executable --help.
+PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.

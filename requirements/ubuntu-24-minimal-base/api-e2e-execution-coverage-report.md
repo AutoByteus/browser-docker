@@ -3,25 +3,16 @@
 ## Execution Round Meta
 
 - Requirements Doc: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-doc.md`
-- Investigation Notes: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/investigation-notes.md`
-- Requirements Revision Record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md`
-- Design Spec: `N/A — not applicable`
-- Supplemental Task Artifacts: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
-- Architecture Design Revision Record: `N/A — not applicable`
-- Design Review Report: `N/A — not applicable`
-- Architecture Review Revision Record: `N/A — not applicable`
-- Implementation Handoff: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-handoff.md`
-- Implementation Revision Record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-revision-record.md` (`IR-001`)
-- Code Review Report: `N/A — not applicable`
-- Code Review Revision Record: `N/A — not applicable`
-- Delivery Revision Record: `N/A — initial validation`
-- Relevant Delivery Revision IDs: `N/A`
+- Investigation Notes / Revision Record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/investigation-notes.md`; `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md`
+- Design / Architecture Review Artifacts: `N/A — not applicable; approved direct route`
+- Supplemental Artifact: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
+- Implementation Handoff / Revision: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-revision-record.md` (`IR-002`)
+- Failure-Origin Review / Revision: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/code-review-report.md`; `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-001`)
 - Coverage Investigation: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
 - API/E2E Revision Record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
-- Current API/E2E Revision ID: `API-REV-001`
-- Current Execution Round: `1`
-- Trigger: Direct API/E2E handoff from Implementation Engineer at commit `bf290fd`.
-- Prior Round Reviewed: `N/A — no prior completed API/E2E result`
+- Current API/E2E Revision ID / Round: `API-REV-002` / `2`
+- Trigger: Implementation Engineer re-entry at commit `e604ffa` after the `APIE2E-F-001` Local Fix.
+- Prior Round Reviewed: `Yes — API-REV-001, Fail / 49%.`
 - Latest Authoritative Round: This file.
 
 ## Routing Classification
@@ -30,203 +21,152 @@
 - Architectural risk: `Low`
 - Input route: `Direct Low-Risk`
 - Successful-output route: `Delivery`
-- Proportional test-code review decision: `Not Required — direct low-risk route`; this round did not pass and is routed by the failure rule instead.
+- Proportional test-code review: `Not Required — direct low-risk route`; this round is not a Pass.
 
 ## Investigation And Execution Basis
 
-- Coverage investigation completed before durable coverage changes or final execution: `Yes`.
-- Investigation plan followed: `Yes`, through the mandatory clean default build gate. Later image/runtime/multi-platform steps stopped when the build failed.
-- Existing coverage decisions revised during execution: No prior durable tests existed. Three requirement-linked scripts were added. The source script passed; built-image/runtime scripts could not run because no image was produced.
-- Reroute required during execution: `Yes — critical AC-003 implementation failure`.
-- Notes: Docker/BuildX was absent at intake. Docker, BuildX, QEMU, Podman and Buildah were installed. A nested Docker daemon could not start containers because the outer cgroup filesystem is read-only. A task-isolated Podman/Buildah VFS build with chroot execution then ran the exact Dockerfile, with no cache and real Ubuntu/XtraDeb/NodeSource inputs, and reached a deterministic Dockerfile error unrelated to builder semantics. Both official platform roots were independently inspected to confirm the same precondition.
+- Investigation completed before execution: `Yes`; the round-2 prior-failure-first plan was added before commands ran.
+- Plan followed: `Partially`. Repository checks, the mandatory prior-failure recheck, a full ARM64 default build, and built-image validation ran. The user then explicitly directed API/E2E not to continue Podman validation and requested remote-branch availability for testing elsewhere.
+- Coverage decisions revised: `tests/validate-image.sh` required two test-owned corrections: `-i` so its heredoc executes, and a package-supported websockify metadata/help probe because websockify 0.13.0 exposes no `--version` option.
+- New implementation failure: `None observed`.
+- Result basis: required critical matrix coverage is incomplete; therefore this cannot be a Pass. The formal result is `Blocked — user-directed stop/external validation pending`, not a product failure and not a claim that all execution was impossible in the current environment.
 
-## Compatibility / Legacy Scope Check
+## Compatibility / Legacy / Persistence Scope
 
-- Reviewed requirements/design introduce, tolerate, or ambiguously describe backward compatibility in scope: `No`.
-- Compatibility-only or legacy-retention behavior observed in implementation: `No`.
-- Approved persisted-data transition followed without unnecessary migration or version-specific runtime fallback: `N/A — image did not build; source still reflects the approved Not Affected decision`.
-- Durable coverage added or retained only for compatibility-only behavior: `No`.
-- Compatibility reroute: `N/A`.
-- Upstream recipient notified: Dynamic handoff occurs after this report and revision record are persisted.
+- Invalid backward-compatibility or legacy-retention behavior observed: `No`.
+- Approved persisted-data decision: `Not Affected`.
+- Persisted-data transition verified: `No — representative reuse/recovery lifecycle was not reached before the user-directed stop`.
+- Compatibility-only durable coverage added: `No`.
 
 ## Changed Boundary And Evidence Matrix
 
-| Scenario ID | Behavior / Requirement / AC IDs | Changed Boundary | Execution Surface / Mode | Evidence Type | Result | Evidence / Artifact |
-| --- | --- | --- | --- | --- | --- | --- |
-| AE2E-SCN-001 | BEH-001–BEH-003; source portions of AC-001–AC-004, AC-009, AC-011–AC-012 | Base/release/tag/path/docs declarations | Durable source harness | Durable | Pass | `tests/validate-source-contract.sh`; `evidence/repository-checks.log` |
-| AE2E-SCN-004 | REQ-001–REQ-005; AC-002–AC-004 | Exact official base and clean default build | No-cache real Dockerfile build on ARM64 using task-isolated Podman/Buildah chroot | Live / Temporary | **Fail** | `evidence/build-default-arm64.log`; `evidence/base-identity-and-uid-collision.log` |
-| AE2E-SCN-002 | AC-001, AC-006–AC-007, AC-010 | Completed image identity/tool/package/variant | Durable image harness | Durable | Not Tested | Default image was not produced. |
-| AE2E-SCN-003 | AC-005–AC-008, AC-010 | Supervisor/services/browser/VNC/websockify/profile | Durable runtime harness | Durable / Live / Browser | Not Tested | Default image was not produced. |
-| AE2E-SCN-005 | AC-005, AC-007 | Semantic browser rendering and supporting desktop evidence | Browser/DevTools/VNC | Browser | Not Tested | Runtime prerequisite failed. |
+| Scenario ID | Requirement / AC | Execution Surface | Evidence Type | Result | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| AE2E-SCN-001 | Source portions AC-001–AC-004, AC-009–AC-012 | Repository Bash/static/config assertions | Durable | Pass | `evidence/repository-checks-round2.log` |
+| AE2E-SCN-004 | Prior `APIE2E-F-001`; AC-003; ARM64 default | Exact no-cache Dockerfile build with real dependencies under Podman/Buildah OCI isolation | Live / Temporary | Pass | `evidence/build-default-arm64-oci-round2.log` |
+| AE2E-SCN-002 | AC-001, AC-003, default portion AC-006, AC-010 | Completed ARM64 default image | Durable / Live | Pass | `tests/validate-image.sh`; `evidence/image-default-arm64-round2.log` |
+| AE2E-SCN-003 | AC-005–AC-008, AC-010 runtime | Supervisor/process/VNC/WebSocket/DevTools/profile | Durable / Live | Not Tested | User-directed stop before runtime execution. |
+| AE2E-SCN-004 remaining | AC-004, AC-007, pre-publication AC-011/AC-012 | ARM64 `zh`, AMD64 default/`zh`, local no-push multi-platform indexes | Live / Temporary | Not Tested | User-directed stop. |
+| AE2E-SCN-005 | AC-005, AC-007 | Semantic Chromium rendering and supporting desktop/VNC evidence | Browser / Desktop | Not Tested | User-directed stop. |
+| Custom identity/recovery portions of AE2E-SCN-002/003 | AC-006, AC-008 | Full 1234:1234 build/runtime and persisted-volume/stale-lock lifecycle | Live / Lifecycle | Not Tested | User-directed stop. |
 
 ## Acceptance-Criteria Result Matrix
 
-| Acceptance Criterion | Result | Direct Evidence / Reason |
+| AC | Result | Direct Evidence / Remaining Gap |
 | --- | --- | --- |
-| AC-001 | Not Tested (source portion passed) | Dockerfile resolves to explicit `ubuntu:24.04`; the exact ARM64 base was pulled, but no completed product image exists for `/etc/os-release` inspection. |
-| AC-002 | Pass | Exact Docker Official `ubuntu:24.04` platform roots were pulled/inspected for ARM64 and AMD64 by digest; the source has no alternate/heavyweight base. |
-| AC-003 | **Fail** | The no-cache default ARM64 build installed real Noble dependencies, then exited status 4 at `groupadd -g 1000 vncuser`. Current official Noble roots already define `ubuntu` UID/GID 1000. |
-| AC-004 | Not Tested | Full default/`zh` AMD64/ARM64 builds stopped at the failed default build gate. Base-root inspection confirms both architectures have the same default-ID collision, but this is not claimed as a full build result. |
-| AC-005 | Not Tested | No runnable image. |
-| AC-006 | Not Tested | No runnable default or custom-ID image. |
-| AC-007 | Not Tested | No `zh` image. |
-| AC-008 | Not Tested | No image for profile recreation/recovery. |
-| AC-009 | Pass | Durable source scan and documentation review found the intended 24.04/Python 3.12 identity and no active 22.04 claim. |
-| AC-010 | Not Tested | Python packages began resolving from Noble, but the completed interpreter/tool/websockify image contract could not be inspected or started. |
-| AC-011 pre-publication | **Fail — not release-ready** | `VERSION=1.4.0` and tag/platform source semantics pass, but required builds/runtime checks have not passed. No publication was attempted. |
-| AC-012 pre-publication | **Fail — gate not met** | No publishable immutable images/digests exist; server repository work remained untouched and deferred. |
+| AC-001 | Partial Pass | ARM64 default completed image directly reports Ubuntu 24.04 Noble; remaining targets untested. |
+| AC-002 | Pass | Exact official `ubuntu:24.04` base; no alternate base. |
+| AC-003 | Partial Pass | Full no-cache ARM64 default build passed and UID/GID 1000 resolve to `vncuser`; complete target matrix not run. |
+| AC-004 | Not Tested / incomplete | AMD64 and `zh` full builds not run. |
+| AC-005 | Partial Pass | Built-image Python/tool contents passed; live service/browser surface not run. |
+| AC-006 | Partial Pass | Default identity passed; full custom-ID build/runtime not run. |
+| AC-007 | Not Tested | `zh` image/input path not run. |
+| AC-008 | Not Tested | Persistence/recovery lifecycle not run. |
+| AC-009 | Pass | Source and README identity scan passed. |
+| AC-010 | Partial Pass | Noble Python 3.12 package ownership, isolated tools, `uv`, websockify passed on ARM64 default; runtime/other targets untested. |
+| AC-011 pre-publication | Not Ready | Source tag/version/platform contract passed; complete executable gate did not. No push by API/E2E. |
+| AC-012 pre-publication | Not Ready | No remote image/manifests/digests verified; server adoption remains deferred. |
 
-## Additional Repository Coverage Execution
+## Commands And Execution Results
 
-No commands were added after the investigation's repository result and confidence decision. The authoritative command/results table is in `api-e2e-coverage-investigation.md`.
+| Order | Command / Configuration | Result | Evidence |
+| --- | --- | --- | --- |
+| 1 | Bash syntax; `git diff --check`; `tests/validate-source-contract.sh`; exact IR-002 grep assertions; obsolete scan; task-isolated Supervisor parser with `XDG_RUNTIME_DIR=/run/user/1234` | Pass | `evidence/repository-checks-round2.log`. An earlier parser attempt read the outer host include; the successful task-isolated retry is authoritative. |
+| 2 | `podman ... build --arch arm64 --no-cache --layers=false --isolation=chroot ... IMAGE_VARIANT=default` | Alternate-builder failure after identity passed | `evidence/build-default-arm64-round2.log`; Node/libuv fd assertion during npm, not treated as product failure because OCI retry passed. |
+| 3 | `podman ... build --arch arm64 --no-cache --layers=false --isolation=oci --runtime crun --runtime-flag cgroup-manager=disabled ... IMAGE_VARIANT=default` | Pass | `evidence/build-default-arm64-oci-round2.log` |
+| 4 | Completed-image UID/GID probe and corrected `tests/validate-image.sh localhost/brd-ubuntu24:arm64-default default 1000 1000` | Pass | `evidence/image-default-arm64-round2.log` |
 
 ## Validation Confidence Scorecard
 
-Broader runtime validation did not run because the build gate failed, so post-repository and final scores are the same.
+| Category | Post-Repository | Final | Change / Basis | Residual Uncertainty |
+| --- | ---: | ---: | --- | --- |
+| Requirement and AC proof | 40% | 55% | Full ARM64 default build/image closed prior failure and some image contracts | Critical runtime, variant, architecture, custom-ID, input, and recovery proof missing |
+| Changed-boundary directness | 75% | 85% | Exact Dockerfile and real completed ARM64 image | No complete matrix or live runtime |
+| Cross-boundary realism / mock gap | 40% | 50% | Real base/package/tool integration; no mocks | Services/browser/network/profile not run |
+| Environment/configuration/identity/fixture fidelity | 75% | 80% | Native ARM64, official base, no cache, real repositories/default identity | No Docker BuildX, AMD64, custom runtime, or profile fixture |
+| Failure/edge/lifecycle/recovery evidence | 45% | 50% | Prior UID collision directly resolved | Restart/recovery/custom/variant edges missing |
+| User surface/browser/desktop confidence | 0% | 0% | No round-2 browser or VNC journey | Entire live user surface remains open |
+| Durable regression coverage quality | 75% | 85% | Source and corrected image harness passed | Runtime harness unexecuted |
 
-| Confidence Category | Post-Repository Score | Final Score | Change | New / Final Supporting Evidence | Residual Uncertainty |
-| --- | --- | --- | --- | --- | --- |
-| Requirement and acceptance-criteria proof | 35% | 35% | 0 | Direct AC-003 failure; AC-002/AC-009 pass | Most runtime criteria not reached |
-| Changed-boundary execution directness | 75% | 75% | 0 | Exact Dockerfile and real official base/packages executed to failure | No completed image |
-| Cross-boundary integration realism and mock gap | 40% | 40% | 0 | Real remote dependency resolution; no mocks | No service/browser/profile integration |
-| Environment, configuration, identity, and fixture fidelity | 75% | 75% | 0 | ARM64 host, no-cache real build, both exact platform base roots inspected | No Docker BuildX execution because nested cgroups prevented it |
-| Failure, edge-case, lifecycle, and recovery evidence | 45% | 45% | 0 | Deterministic build failure and cross-platform base precondition | Lifecycle/recovery not reached |
-| User-surface, browser, and desktop-shell confidence | 0% | 0% | 0 | None; no runnable upgraded image | Entire user surface untested |
-| Durable regression coverage quality and relevance | 75% | 75% | 0 | Three focused scripts added; source gate executed and passed | Image/runtime scripts await a repaired build |
-
-- Overall post-repository confidence: `49%`.
-- Overall final confidence: `49%`.
-- Calculation method: Simple average of seven applicable categories, rounded from 49.3%.
-- Confidence change produced by broader validation: `0` — broader runtime validation could not begin after the build failure.
-- Every critical acceptance criterion directly proven: `No`; AC-003 directly fails.
-- Any final applicable category below 90%: `Yes — all seven`.
-- Default final confidence target of 95% met: `No`.
-- Confidence-limiting residual risks: In addition to the proven default user-creation defect, all built-image runtime, `zh`, custom-ID, persistence/recovery and multi-platform completion behavior remains unverified.
+- Overall post-repository confidence: `50%` (rounded simple average).
+- Overall final confidence: `58%` (rounded from 57.9%).
+- Default 95% target met: `No`.
+- Critical acceptance criteria directly proven: `No`.
+- Applicable categories below 90%: `All`.
 
 ## Broader Validation Decision And Execution
 
-- Decision/mode from investigation: `Required — CLI, Live API, Lifecycle, Browser`.
-- Material deviation: The runtime/browser/lifecycle portion was stopped because the clean default build failed.
-- Confidence gap addressed: The clean build directly disproved default image buildability; static/source evidence alone would have missed the pre-existing Noble `ubuntu` UID/GID.
-- Startup order/readiness: Container runtime installation and nested Docker attempts completed; nested Docker container execution was unavailable due outer cgroups. The alternate no-cache real Dockerfile build started, resolved the official base and real repositories, installed dependencies, generated `en_US.UTF-8`, then failed before image creation. No service readiness was possible.
-- Environment choices: ARM64 host; isolated `/tmp/brd-*` stores; no registry push; exact branch/commit; no application accounts/secrets.
-- Fixtures/identities: Default build identity `USER_UID=1000`/`USER_GID=1000`; exact base platform roots for ARM64 and AMD64.
+- Decision: `Required`.
+- Completed broader evidence: full exact no-cache ARM64 default image build and image-level identity/package/tool assertions.
+- Planned but not completed: ARM64 `zh`; AMD64 default/`zh`; custom identity; live Supervisor/browser/VNC/websockify/debugging; locale/input; persistence/recovery; no-push multi-platform index inspection.
+- Stop reason: the user explicitly asked API/E2E not to resume Podman validation and requested testing in another environment.
+- Environment note: nested Docker remained unavailable because the outer cgroup filesystem is read-only, but Podman OCI successfully built and ran the image-level checks. The result is not attributed to an unavoidable environment blocker.
+- Fixtures/accounts/secrets: no external account or secret used; runtime/profile fixture work did not start.
 
-| Scenario / Journey Step | Expected Observable Result | Actual Observable Result | Evidence | Result |
-| --- | --- | --- | --- | --- |
-| Pull exact ARM64 `ubuntu:24.04` and start no-cache build | Official Noble base resolves and build proceeds | Base digest `sha256:33ceb719…`; Noble/XtraDeb/NodeSource repositories and packages resolved | Build/base logs | Pass |
-| Create preserved default `vncuser` identity | `groupadd -g 1000 vncuser` and subsequent `useradd` succeed | `groupadd: GID '1000' already exists`; build exits 4 because base already has `ubuntu:x:1000` | Build/base logs | **Fail** |
-| Inspect both official platform base roots | Identify whether the failure is architecture-specific | Both ARM64 and AMD64 roots contain `ubuntu` with UID/GID 1000 | Base identity log | Pass (failure classification evidence) |
-| Start default/`zh` and validate services/browser/profile | Stable Supervisor and user surfaces | Not reached; no image | Build log | Not Tested |
+## Desktop / Browser And Lifecycle Status
 
-## Desktop Application Validation
-
-- Planned approach: Real Chromium DevTools semantic DOM assertion plus VNC/websockify/process evidence.
-- Browser-tested web-equivalent behavior: Not executed.
-- Shell-specific/lifecycle behavior: Not executed.
-- Effect on already-running desktop application: None. No current environment display/profile or unrelated container was modified.
-- Confidence consequence: User-surface category remains 0% and blocks Pass independently of the proven build failure.
-
-## Platform / Runtime Targets
-
-- Host: Linux ARM64 (`aarch64`), kernel `6.12.54-linuxkit`.
-- Requested image targets: `linux/arm64`, `linux/amd64`.
-- Build/runtime tooling installed for validation: Docker Engine/CLI 29.1.3, BuildX 0.30.1, Podman 3.4.4, Buildah 1.23.1, QEMU user-static 6.2.
-- Actual failing build target: ARM64; both target base roots separately inspected.
-- Browser/engine: Not reached.
-
-## Lifecycle / Upgrade / Restart / Persisted-Data Checks
-
-- Approved persisted-data decision: `Not Affected`.
-- Representative existing data exercised: None; image prerequisite failed.
-- Direct-use/discard/migration result: Not tested.
-- Migration completion/recovery: `N/A — no migration approved`.
-- Version-specific runtime branch, dual read/write, or compatibility fallback observed: `No` in source review.
-- Residual persisted-data risk: Profile persistence and stale-lock cleanup remain entirely unexecuted and must be rerun after the build fix.
+No live Chromium/XFCE/VNC/websockify/DevTools journey ran in round 2. No assertion is made about the running Supervisor graph, GUI input behavior, persistence, restart, or stale-lock recovery. No existing desktop/profile was modified.
 
 ## Tests Implemented Or Updated
 
-| Path / Scenario | Change | Requirement / Boundary | Execution Result | Notes |
-| --- | --- | --- | --- | --- |
-| `tests/validate-source-contract.sh` / AE2E-SCN-001 | Added | AC-001–AC-004, AC-009, pre-publication AC-011/AC-012 | Pass | Fast source/release/path/docs gate. |
-| `tests/validate-image.sh` / AE2E-SCN-002 | Added | AC-001, AC-006–AC-007, AC-010 | Not Tested | Requires a successfully built image. |
-| `tests/validate-running-container.sh` / AE2E-SCN-003 | Added | AC-005–AC-008, AC-010 | Not Tested | Includes Supervisor/process, VNC, WebSocket, DevTools semantic DOM and profile-write probes. |
-
-## Tests Removed As Stale Or Obsolete
-
-None.
-
-## Durable Coverage Changed In The Codebase
-
-- Repository-resident durable coverage added, updated, or removed this round: `Yes — three files added; none updated/removed`.
-- Paths added: `/home/autobyteus/workspace/browser-docker/tests/validate-source-contract.sh`; `/home/autobyteus/workspace/browser-docker/tests/validate-image.sh`; `/home/autobyteus/workspace/browser-docker/tests/validate-running-container.sh`.
-- Paths removed: None.
-- Added paths attached for proportional test-code review: `Not Applicable — direct low-risk route`; they remain included in the complete failure package.
-
-## Other Execution Artifacts
-
-| Artifact Path | Type / Purpose | Retained Or Temporary | Notes |
+| Path / Scenario | Change | Result | Notes |
 | --- | --- | --- | --- |
-| `requirements/ubuntu-24-minimal-base/evidence/repository-checks.log` | Syntax/static/Supervisor/source evidence | Retained | Passing checks. |
-| `requirements/ubuntu-24-minimal-base/evidence/build-default-arm64.log` | Complete clean build output | Retained | Authoritative failing command output. |
-| `requirements/ubuntu-24-minimal-base/evidence/base-identity-and-uid-collision.log` | ARM64/AMD64 base digest/root identity evidence | Retained | Confirms failure mechanism on both targets. |
+| `tests/validate-image.sh` / AE2E-SCN-002 | Updated | Pass on ARM64 default | Added interactive stdin for heredoc execution; used websockify distribution metadata plus supported `--help`. |
+| `tests/validate-source-contract.sh` / AE2E-SCN-001 | Reused unchanged | Pass | Existing durable source contract remains valid. |
+| `tests/validate-running-container.sh` / AE2E-SCN-003 | Reused unchanged | Not Tested | Required live runtime was stopped at user direction. |
 
-## Temporary Execution Methods / Scaffolding
+- Durable paths added this round: none.
+- Durable paths updated this round: `/home/autobyteus/workspace/browser-docker/tests/validate-image.sh`.
+- Durable paths removed: none.
+- Proportional test review: `Not Required — direct low-risk route`; result did not pass.
 
-| Path / Method | Why Needed | Result / Evidence | Cleanup Result |
-| --- | --- | --- | --- |
-| Task-specific nested Docker daemon attempts under `/tmp/brd-ubuntu24-*` | Try the repository's documented Docker/BuildX route after installing missing tools | Daemon initialized, but nested containers could not use the read-only outer cgroup hierarchy | Daemon stopped; task data scheduled for removal after text evidence persisted |
-| Task-specific Podman/Buildah VFS/chroot stores | Execute the exact Dockerfile and real dependency boundary without nested cgroups | Reproduced builder-independent UID/GID failure | No processes remain; stores removed after evidence capture |
-| Temporary Supervisor config under `/tmp` | Parse repository `base.conf` with custom XDG path without touching system config | Pass | Removed after evidence capture |
+## Evidence Artifacts
+
+| Path | Purpose |
+| --- | --- |
+| `requirements/ubuntu-24-minimal-base/evidence/repository-checks-round2.log` | Repository/static/config checks and corrected isolated parser evidence |
+| `requirements/ubuntu-24-minimal-base/evidence/build-default-arm64-round2.log` | Chroot-builder deviation after the IR-002 identity step passed |
+| `requirements/ubuntu-24-minimal-base/evidence/build-default-arm64-oci-round2.log` | Authoritative full ARM64 default no-cache build success |
+| `requirements/ubuntu-24-minimal-base/evidence/image-default-arm64-round2.log` | Prior-failure identity probe, harness corrections, and final image-contract pass |
 
 ## Dependencies Mocked Or Emulated
 
-| Dependency | Method | Why Real Dependency Was Not Used | Confidence Limitation |
-| --- | --- | --- | --- |
-| Docker BuildX execution engine | Podman/Buildah chroot executed exact Dockerfile after Docker daemon cgroup failure | Outer container exposes cgroup v2 read-only | Full BuildX/platform output is still required after correction; the observed `groupadd` semantics and base files are not builder-specific. |
+No product dependency was mocked. Podman/Buildah OCI executed the exact Dockerfile because nested Docker/BuildX container execution could not use the outer read-only cgroups. QEMU/binfmt was prepared but AMD64 work was stopped before execution; no AMD64 claim is made.
+
+## Cleanup
+
+| Resource | Action | Result |
+| --- | --- | --- |
+| Podman/Buildah containers, stores, wrapper, and config | Removed | Pass; no task process/store remains |
+| Task-created `/dev/net/tun` | Removed | Pass |
+| Task-enabled binfmt registration and mount | Disabled/unmounted | Pass |
+| Docker Hub | No mutation | Pass |
+| AutoByteus server repository | No write | Pass |
+
+## Prior Failure Resolution
+
+| Prior Failure | Resolution | Evidence |
+| --- | --- | --- |
+| `APIE2E-F-001` / AC-003 — Noble base UID/GID 1000 collision | Resolved for the full exact no-cache ARM64 default image at `e604ffa`; UID/GID 1000 map to `vncuser` | `evidence/build-default-arm64-oci-round2.log`; `evidence/image-default-arm64-round2.log` |
 
 ## Result Summary
 
-| Result | Scenario IDs | Summary / Reason |
+| Result | Scenario IDs | Summary |
 | --- | --- | --- |
-| Pass | AE2E-SCN-001 | Static/source/release/path/documentation contract gate passed. |
-| **Fail** | AE2E-SCN-004 | Critical AC-003 default clean build fails on the official Noble base's pre-existing UID/GID 1000. |
-| Not Tested | AE2E-SCN-002, AE2E-SCN-003, AE2E-SCN-005 | Built-image, runtime, browser, `zh`, custom-ID and recovery prerequisites were not met. |
-
-## Cleanup Performed
-
-| Resource / Process / Data | Ownership | Cleanup Action | Result |
-| --- | --- | --- | --- |
-| Nested Docker daemon sessions | API/E2E round | Interrupted gracefully | Pass; no daemon remains |
-| Podman API service | API/E2E round | Interrupted | Pass; no service remains |
-| Validation containers | API/E2E round | Failed/temporary instances removed by task tools | Pass; none running |
-| Task build/rootfs stores | API/E2E round | Removed after extracting text evidence | Pass |
-| Docker Hub / external registry | Delivery-owned | No push or mutation attempted | Pass |
-| AutoByteus server repository | Out of scope | No source write performed | Pass |
-
-## Preliminary Classification
-
-- Finding ID: `APIE2E-F-001`.
-- Classification: `Local Fix — implementation` (preliminary).
-- Expected: The default clean build preserves UID/GID 1000 and creates the `vncuser` runtime identity successfully on official Ubuntu 24.04.
-- Observed: Official Ubuntu 24.04 currently includes `ubuntu` with UID/GID 1000 on both target platform roots. Dockerfile line 95 unconditionally calls `groupadd -g ${USER_GID} vncuser`; with the default `USER_GID=1000`, the ARM64 clean build exits status 4 before an image exists.
-- Recommended owner: Implementation Engineer, after Code Reviewer confirms failure origin.
+| Pass | AE2E-SCN-001; ARM64-default portions of AE2E-SCN-002/004 | Repository contract, exact default build, prior identity failure recheck, and built-image contract passed. |
+| Blocked / Not Tested | Remaining AE2E-SCN-002–005 | User directed the stage to stop and continue testing externally before the required matrix was complete. |
 
 ## Recommended Recipient
 
-Dynamic handoff recipient for an API/E2E `Fail` (normally `/software_engineering_team/code_reviewer`) for focused failure-origin review.
-
-## Evidence / Notes
-
-This is not an environment blocker: the exact clean Dockerfile execution failed in an implementation-owned command, and the relevant base files independently confirm the same collision for AMD64 and ARM64. Docker Hub publication must not occur. On rework, first rerun AC-003 and `APIE2E-F-001`, then reuse AE2E-SCN-001 through AE2E-SCN-005 to complete the entire matrix.
+`User/external validation continuation`. The user-requested remote push is Delivery-owned. No successful validation or release-readiness handoff is claimed.
 
 ## Latest Authoritative Result
 
-- Result: `Fail`.
-- Final validation confidence: `49%`.
+- Result: `Blocked — user-directed stop/external validation pending`.
+- Final validation confidence: `58%`.
 - Default 95% confidence target met: `No`.
-- Any final applicable confidence category below 90%: `Yes — all seven`.
-- Broader validation decision: `Required but stopped at failed build gate`.
-- Critical acceptance criteria lacking direct proof: AC-001 runtime, AC-004–AC-008, AC-010, and the pre-publication readiness portions of AC-011/AC-012; AC-003 directly fails.
-- Required next recipient: Dynamic API/E2E failure recipient for focused failure-origin review.
-- Notes: No publication or server adoption may begin from this result.
+- Any applicable category below 90%: `Yes — all seven`.
+- Broader validation decision: `Required but stopped at explicit user direction after partial ARM64 default success`.
+- Critical ACs lacking direct proof: complete AC-003/AC-004 matrix, runtime portions of AC-005/AC-006/AC-010, AC-007, AC-008, and pre-publication readiness for AC-011/AC-012.
+- Required next recipient: `User request / external testing; Delivery owns the requested remote push`.
+- Notes: No new implementation failure was found. `APIE2E-F-001` is resolved for the full ARM64 default image. No publication or server-adoption claim is made.

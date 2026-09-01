@@ -1,0 +1,34 @@
+== API/E2E round 2 repository checks ==
+$ git rev-parse HEAD
+e604ffa1ee8d3e33aa83a4960b48e434647e965b
+$ bash -n build-multi-arch.sh entrypoint.sh start-vnc.sh disable-screensaver.sh run-container.sh tests/*.sh
+PASS
+$ git diff --check
+PASS
+$ tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+$ exact IR-002 Dockerfile assertions
+RUN if getent passwd ubuntu >/dev/null; then userdel --remove ubuntu; fi && \
+    if getent group ubuntu >/dev/null; then groupdel ubuntu; fi && \
+    groupadd -g ${USER_GID} vncuser && \
+PASS
+$ Supervisor configuration parse/interpolation with XDG_RUNTIME_DIR=/run/user/1234
+Traceback (most recent call last):
+  File "<stdin>", line 10, in <module>
+AssertionError: {'dbus': 'unix:path=/run/user/1000/bus', 'xfce': 'unix:path=/run/user/1000/bus', 'fcitx': 'unix:path=/run/user/1000/bus', 'copyq': 'unix:path=/run/user/1000/bus', 'chrome': 'unix:path=/run/user/1000/bus'}
+$ active production/docs obsolete-reference scan
+PASS
+$ changed implementation file-size guardrails
+  219 Dockerfile
+   85 base.conf
+  104 entrypoint.sh
+  169 README.md
+  145 build-multi-arch.sh
+  722 total
+PASS
+corrected task-isolated Supervisor configuration parse/interpolation
+Error: positional arguments are not supported: ['/tmp/brd2-supervisor.d8Ct0l/supervisord.conf']
+For help, use - -h
+NOTE: the immediately preceding parser assertion used the outer environment /etc/supervisor include and was invalid harness setup, not a repository result; corrected isolated parse above is authoritative.
+corrected task-isolated Supervisor configuration parse/interpolation (successful retry)
+PASS: {'dbus': 'unix:path=/run/user/1234/bus', 'xfce': 'unix:path=/run/user/1234/bus', 'fcitx': 'unix:path=/run/user/1234/bus', 'copyq': 'unix:path=/run/user/1234/bus', 'chrome': 'unix:path=/run/user/1234/bus'}

@@ -22,7 +22,7 @@ expected_gid="${4:-1000}"
 
 docker image inspect "$image" >/dev/null
 
-docker run --rm --entrypoint /bin/bash \
+docker run --rm -i --entrypoint /bin/bash \
   -e EXPECTED_VARIANT="$variant" \
   -e EXPECTED_UID="$expected_uid" \
   -e EXPECTED_GID="$expected_gid" \
@@ -63,8 +63,8 @@ grep -RqiE 'Suites:[[:space:]]+noble|[[:space:]]noble([[:space:]-]|$)' /etc/apt/
 [[ "$(readlink -f /usr/local/bin/websockify)" == "/opt/browser-tools/bin/websockify" ]] || fail "websockify public command is not isolated"
 [[ "$(readlink -f /usr/local/bin/uv)" == "/opt/browser-tools/bin/uv" ]] || fail "uv public command is not isolated"
 [[ -d "$(readlink -f /usr/local/share/websockify)" ]] || fail "stable websockify data link is broken"
-/opt/browser-tools/bin/python -c 'import sys, uv, websockify; assert sys.prefix == "/opt/browser-tools"'
-websockify --version >/dev/null
+/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, uv, websockify; assert sys.prefix == "/opt/browser-tools"; assert importlib.metadata.version("websockify")'
+websockify --help >/dev/null
 uv --version | grep -Eq '^uv [0-9]'
 
 [[ "$(node --version)" == v22.* ]] || fail "Node.js is not major version 22"
