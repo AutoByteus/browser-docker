@@ -3,11 +3,11 @@
 ## Document Status
 
 - Status: `Ready for Approval`
-- Current requirements revision ID: `RER-003`
+- Current requirements revision ID: `RER-004`
 - Request / ticket: `BRD-UBUNTU24-001`
 - Requirements owner: Requirements Engineer (`/requirements_engineer`)
 - Date: 2026-09-01
-- Approval state and reference: The user confirmed on 2026-09-01 that “minimal” refers to the base image itself; explicit approval of the complete requirements baseline is still pending.
+- Approval state and reference: The user confirmed on 2026-09-01 that “minimal” refers to the base image itself and explicitly agreed with Python 3.12; explicit approval of the complete requirements baseline is still pending.
 
 ## Problem And Desired Outcome
 
@@ -77,7 +77,7 @@
 | REQ-004 | Except for the Python version change in REQ-007, the upgraded image shall preserve the currently documented browser, desktop, VNC, websockify, remote-debugging, runtime/tooling, locale, input-method, user, port, and persistent-profile outcomes. | BEH-002 | Must | The request concerns base/runtime modernization, not removal of existing capabilities. | Current repository sources and docs; user Python follow-up. |
 | REQ-005 | Any compatibility adjustments required by Ubuntu 24.04 shall remain limited to realizing REQ-001 through REQ-004 and shall not intentionally change unrelated public or operational behavior. | BEH-001, BEH-002 | Must | Prevents scope drift during distribution compatibility work. | Scope decision in RER-001. |
 | REQ-006 | Repository documentation shall state Ubuntu 24.04 LTS and shall not continue to claim Ubuntu 22.04 for the built image. | BEH-003 | Must | Published usage documentation must match the image. | `README.md:6`. |
-| REQ-007 | The upgraded image shall use Python 3.12 as its supported `python3` and `python` developer runtime, sourced from Ubuntu 24.04's official repositories, instead of the current Deadsnakes Python 3.11 runtime. | BEH-002 | Proposed Must | Python 3.12 is Ubuntu 24.04's native/default supported Python and avoids selecting a newer PPA-only interpreter that is outside Noble's official Python set. | User follow-up on 2026-09-01; Ubuntu Noble Python availability documentation. |
+| REQ-007 | The upgraded image shall use Python 3.12 as its supported `python3` and `python` developer runtime, sourced from Ubuntu 24.04's official repositories, instead of the current Deadsnakes Python 3.11 runtime. | BEH-002 | Must | Python 3.12 is Ubuntu 24.04's native/default supported Python and avoids selecting a newer PPA-only interpreter that is outside Noble's official Python set. | User agreement on 2026-09-01; Ubuntu Noble Python availability documentation. |
 
 ## Acceptance Criteria
 
@@ -159,14 +159,14 @@
 | --- | --- | --- | --- | --- |
 | ASM-001 | “24 stable version” means Ubuntu 24.04 LTS, not a floating `24`, `latest`, or a newer LTS. | Ubuntu version tags and release cadence make an explicit version necessary. | User approval of this package. | Awaiting approval. |
 | ASM-002 | “the minimal one” refers to Canonical's official minimal OCI base rootfs, not removal of the current browser/desktop/tool feature set. | The final product necessarily installs Chromium, XFCE, runtimes, and utilities, so final-image minimization would be a separate scope decision. | Confirmed directly by the user on 2026-09-01. | Validated. |
-| ASM-003 | Other named runtimes remain preserved, but Python is intentionally upgraded from 3.11 to Ubuntu 24.04's native 3.12. | User asked to modernize Python alongside the base; 3.12 maximizes Noble integration while avoiding a PPA-only newer interpreter. | User approval plus downstream build/runtime validation. | Proposed; awaiting approval. |
+| ASM-003 | Other named runtimes remain preserved, but Python is intentionally upgraded from 3.11 to Ubuntu 24.04's native 3.12. | User asked to modernize Python alongside the base; 3.12 maximizes Noble integration while avoiding a PPA-only newer interpreter. | User explicitly agreed with Python 3.12 on 2026-09-01; downstream build/runtime validation remains required. | Validated. |
 
 ## Open Decisions And Questions
 
 | Decision / Question ID | Question | Why It Matters | Options / Evidence | Decision Owner | Status |
 | --- | --- | --- | --- | --- | --- |
 | DEC-001 | Does the approval basis correctly interpret “minimal” as the official minimal Ubuntu OCI base without pruning installed features? | A different interpretation would materially expand scope and change preserved behavior. | User confirmed that minimal refers to the base image itself. | User | Resolved 2026-09-01. |
-| DEC-002 | Should the image select Python 3.12 or a newer Python 3.13/3.14? | This determines repository origin, compatibility risk, and whether the runtime aligns with Ubuntu 24.04's supported package set. | Recommended: 3.12, the only/default Python in official Noble repositories. Python 3.13 is stable upstream but requires an external source on Noble; Python 3.14 is the current newest stable upstream and carries greater ecosystem/OS divergence. | User | Awaiting approval of the 3.12 recommendation. |
+| DEC-002 | Should the image select Python 3.12 or a newer Python 3.13/3.14? | This determines repository origin, compatibility risk, and whether the runtime aligns with Ubuntu 24.04's supported package set. | Selected: 3.12, the only/default Python in official Noble repositories. The user explicitly agreed on 2026-09-01. | User | Resolved 2026-09-01. |
 
 ## Traceability
 
@@ -200,7 +200,7 @@
 - Material assumptions and open decisions are visible: `Yes`
 - User approval received: `No`
 - Requirements package ready for downstream route: `No`
-- Remaining blocker: Explicit user approval of the complete proposed requirements baseline, including the Python 3.12 recommendation. The minimal-base interpretation is confirmed.
+- Remaining blocker: Explicit user approval of the complete proposed requirements baseline. The minimal-base interpretation and Python 3.12 selection are confirmed.
 
 ## Architecture Design Routing Assessment
 

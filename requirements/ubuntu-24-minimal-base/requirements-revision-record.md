@@ -9,6 +9,7 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 | RER-001 | Initial Ubuntu 24.04 minimal-base requirements baseline | N/A | Ready for Approval | REQ-001–REQ-006; BEH-001–BEH-003 | Evidence-backed baseline created and presented for explicit approval. |
 | RER-002 | User clarification of “minimal” | Ready for Approval | Ready for Approval | ASM-002; DEC-001; scope boundary | Confirmed that minimal applies to the official base image; installed-feature pruning remains out of scope. |
 | RER-003 | Python runtime modernization question | Ready for Approval | Ready for Approval | REQ-004, REQ-007; BEH-002; AC-006, AC-010; SCN-003; ASM-003; DEC-002 | Proposed Ubuntu-native Python 3.12 instead of current Deadsnakes Python 3.11 or a newer PPA-only interpreter. |
+| RER-004 | User agreement on Python 3.12 | Ready for Approval | Ready for Approval | REQ-007; ASM-003; DEC-002 | Python 3.12 selection confirmed; complete-package approval remains pending. |
 
 ## Revision Entries
 
@@ -59,3 +60,19 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 - Downstream architecture or direct-implementation route impact: Python source, installation, `pip` isolation, and hard-coded websockify path now require validation; routing remains pending approval.
 - Remaining gaps, assumptions, or blocked decisions: User decision on Python 3.12 recommendation and complete-baseline approval; Docker/BuildX validation remains downstream.
 - Next action or recipient: User accepts Python 3.12 and approves the complete baseline, or selects a different version for revision.
+
+### RER-004 — Python 3.12 selection confirmed
+
+- Triggering user feedback, prototype package, downstream feedback, or investigation evidence: User stated, “i agree with Python 3.12.”
+- Prior authoritative status (`N/A` for `RER-001`): Ready for Approval
+- Current authoritative status: Ready for Approval
+- Requirement, behavior, acceptance-criteria, scenario, or decision IDs affected: REQ-007 priority/decision reference, ASM-003, and DEC-002.
+- Scenario-basis or scenario-validity changes: None; the proposed SCN-003 behavior is now user-confirmed.
+- Why this baseline or revision was recorded: Convert the Python 3.12 recommendation into an explicit user decision without treating agreement on one decision as approval of the entire requirements package.
+- Canonical artifact sections changed: Document approval reference, Requirements, Assumptions, Open Decisions, Readiness Check, Initial Request And Clarifications, Source Log, and assumption record.
+- Supplemental artifacts added, changed, or removed: None.
+- Prototype evidence or product decisions incorporated: N/A — no Product Design request.
+- User approval impact: REQ-007's version choice is explicitly confirmed; the complete requirements package still requires explicit approval.
+- Downstream architecture or direct-implementation route impact: No change from RER-003; Python 3.12 is now the required selection once the package is approved.
+- Remaining gaps, assumptions, or blocked decisions: Explicit approval of the complete requirements baseline; Docker/BuildX validation remains downstream.
+- Next action or recipient: User explicitly approves or revises the complete baseline.
