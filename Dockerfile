@@ -1,5 +1,5 @@
-# Base image for all architectures
-FROM ubuntu:22.04
+# Canonical's official Ubuntu OCI image uses a minimal, container-tailored rootfs.
+FROM ubuntu:24.04
 
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -24,7 +24,6 @@ ENV LC_ALL=en_US.UTF-8
 RUN apt-get update && \
     apt-get install -y software-properties-common ca-certificates curl && \
     add-apt-repository -y universe && \
-    add-apt-repository -y ppa:deadsnakes/ppa && \
     add-apt-repository -y ppa:xtradeb/apps && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 
@@ -65,9 +64,11 @@ RUN apt-get update && \
     xfce4-terminal \
     # Runtimes
     nodejs \
-    python3.11 \
-    python3.11-dev \
-    python3.11-venv \
+    python3 \
+    python3-dev \
+    python3-pip \
+    python3-venv \
+    python-is-python3 \
     && if [ "${IMAGE_VARIANT}" = "zh" ]; then \
         apt-get install -y \
         # Fonts and locales
@@ -134,11 +135,16 @@ RUN if [ "${IMAGE_VARIANT}" = "zh" ]; then \
     fi
 
 # Layer 3: Post-installation configuration
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
-    python3 -m ensurepip && \
-    python3 -m pip install --upgrade pip wheel setuptools && \
-    python3 -m pip install websockify uv && \
+# Keep Python-installed image tooling out of Noble's externally managed system
+# environment. The public commands use the isolated environment while python3
+# and python continue to resolve to Ubuntu's native Python 3.12 interpreter.
+RUN python3 -m venv /opt/browser-tools && \
+    /opt/browser-tools/bin/python -m pip install --upgrade pip wheel setuptools && \
+    /opt/browser-tools/bin/python -m pip install websockify uv && \
+    ln -s /opt/browser-tools/bin/websockify /usr/local/bin/websockify && \
+    ln -s /opt/browser-tools/bin/uv /usr/local/bin/uv && \
+    WEBSOCKIFY_PACKAGE_DIR="$(/opt/browser-tools/bin/python -c 'from pathlib import Path; import websockify; print(Path(websockify.__file__).parent)')" && \
+    ln -s "${WEBSOCKIFY_PACKAGE_DIR}" /usr/local/share/websockify && \
     npm install -g yarn
 
 # Configure npm and yarn for the vncuser to use a local directory for global packages.

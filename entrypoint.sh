@@ -6,12 +6,12 @@ mkdir -p /var/run/supervisor
 chmod 755 /var/run/supervisor
 chown vncuser:vncuser /var/run/supervisor
 
-# Set runtime directory from environment
-export XDG_RUNTIME_DIR=/run/user/1000
-mkdir -p ${XDG_RUNTIME_DIR}
-mkdir -p ${XDG_RUNTIME_DIR}/dconf
-chown -R vncuser:vncuser ${XDG_RUNTIME_DIR}
-chmod -R 700 ${XDG_RUNTIME_DIR}
+# Set runtime directory from the image's configured UID.
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/${USER_UID:-1000}}"
+mkdir -p "${XDG_RUNTIME_DIR}"
+mkdir -p "${XDG_RUNTIME_DIR}/dconf"
+chown -R vncuser:vncuser "${XDG_RUNTIME_DIR}"
+chmod -R 700 "${XDG_RUNTIME_DIR}"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 
 # Ensure mounted Chromium profile volumes are writable by the browser user.
