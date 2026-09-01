@@ -23,9 +23,14 @@ docker inspect -f '{{.State.Running}}' "$container" | grep -qx true
 deadline=$((SECONDS + 120))
 while (( SECONDS < deadline )); do
   status="$(docker exec "$container" supervisorctl status 2>&1 || true)"
-  if for program in dbus tigervnc xfce fcitx copyq chrome socat websockify; do
-       grep -Eq "^${program}[[:space:]]+RUNNING" <<<"$status" || exit 1
-     done; then
+  all_running=true
+  for program in dbus tigervnc xfce fcitx copyq chrome socat websockify; do
+    if ! grep -Eq "^${program}[[:space:]]+RUNNING" <<<"$status"; then
+      all_running=false
+      break
+    fi
+  done
+  if "$all_running"; then
     break
   fi
   sleep 2
@@ -40,7 +45,7 @@ for program in dbus tigervnc xfce fcitx copyq chrome socat websockify; do
   }
 done
 
-docker exec -e EXPECTED_VARIANT="$variant" -e EXPECTED_UID="$expected_uid" "$container" /bin/bash -s <<'CONTAINER_CHECKS'
+docker exec -i -e EXPECTED_VARIANT="$variant" -e EXPECTED_UID="$expected_uid" "$container" /bin/bash -s <<'CONTAINER_CHECKS'
 set -euo pipefail
 
 fail() {
@@ -99,7 +104,7 @@ CONTAINER_CHECKS
 
 # Drive the existing Chromium instance over its real DevTools WebSocket and
 # assert semantic DOM state rather than treating a screenshot as the sole proof.
-docker exec "$container" node <<'NODE'
+docker exec -i "$container" node <<'NODE'
 const http = require('http');
 
 function getJson(path) {

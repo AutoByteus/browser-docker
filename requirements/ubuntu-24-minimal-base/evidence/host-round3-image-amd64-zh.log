@@ -1,0 +1,9 @@
+id=sha256:a72343279ac16b62e14c861acb527acbab3516dcdda7dfe38f749c2742b7ea4e arch=amd64 os=linux
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.
+x86_64
+amd64
+/usr/bin/fcitx5
+zh_CN.utf8
+zh_TW.utf8
+PASS: AMD64 zh clean build and image/locale/input contracts validated under emulation.

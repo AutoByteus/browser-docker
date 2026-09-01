@@ -1,0 +1,21 @@
+=== custom 1234:1234 image contract ===
+PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.
+=== custom 1234:1234 runtime ===
+5acaaa411b4317c81756ab6d9a6b18dc0cc508fdc7336ca6447015a0bc53e7d8
+chrome                           RUNNING   pid 39, uptime 0:00:05
+copyq                            RUNNING   pid 37, uptime 0:00:05
+dbus                             RUNNING   pid 32, uptime 0:00:05
+disable_screensaver              EXITED    Sep 01 12:22 PM
+fcitx                            RUNNING   pid 35, uptime 0:00:05
+socat                            RUNNING   pid 42, uptime 0:00:05
+tigervnc                         RUNNING   pid 33, uptime 0:00:05
+websockify                       RUNNING   pid 44, uptime 0:00:05
+xfce                             RUNNING   pid 34, uptime 0:00:05
+PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+uid=1234(vncuser) gid=1234(vncuser) groups=1234(vncuser),27(sudo)
+XDG=/run/user/1234 DBUS=
+runtime=1234:1234:700 profile=1234:1234:700 marker=1234:1234:700
+runtime=1234:1234:700 profile=1234:1234:700 marker=1234:1234:700
+runtime=1234:1234:664 profile=1234:1234:664 marker=1234:1234:664
+PASS: full custom UID/GID build, image, service graph, browser render, and profile write validated.

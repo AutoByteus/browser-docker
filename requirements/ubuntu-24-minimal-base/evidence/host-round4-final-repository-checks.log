@@ -1,0 +1,47 @@
+=== round-4 final repository/artifact checks ===
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS: durable tests, artifacts, diff hygiene, task cleanup, and prior latest restoration verified.
+=== status/stat ===
+## requirements/ubuntu-24-minimal-base...origin/requirements/ubuntu-24-minimal-base [ahead 1]
+ M requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md
+ M requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md
+ M requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md
+ M requirements/ubuntu-24-minimal-base/code-review-report.md
+ M requirements/ubuntu-24-minimal-base/code-review-revision-record.md
+ M tests/validate-image.sh
+ M tests/validate-running-container.sh
+ M tests/validate-source-contract.sh
+?? requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-amd64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-amd64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-arm64-custom-1234.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-arm64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-arm64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-cleanup.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-final-repository-checks.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-amd64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-amd64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-arm64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-runtime-arm64-custom-1234.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-runtime-arm64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-multiplatform-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-multiplatform-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-preflight.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-profile-stale-lock-recovery.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-runtime-arm64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-zh-ime-authoritative.png
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-zh-vnc-ime-interaction.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round4-alias-regression.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round4-cleanup.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round4-exact-apple-silicon-build.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round4-final-repository-checks.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round4-image-runtime-regression.log
+ .../api-e2e-coverage-investigation.md              | 224 ++++++++++---------
+ .../api-e2e-execution-coverage-report.md           | 247 ++++++++++-----------
+ .../api-e2e-revision-record.md                     |  60 +++++
+ .../ubuntu-24-minimal-base/code-review-report.md   | 224 ++++++++++---------
+ .../code-review-revision-record.md                 |  78 ++++++-
+ tests/validate-image.sh                            |   2 +-
+ tests/validate-running-container.sh                |  15 +-
+ tests/validate-source-contract.sh                  |   1 +
+ 8 files changed, 505 insertions(+), 346 deletions(-)

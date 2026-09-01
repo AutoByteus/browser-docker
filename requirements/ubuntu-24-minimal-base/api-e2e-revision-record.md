@@ -8,6 +8,8 @@ The latest `api-e2e-coverage-investigation.md` and `api-e2e-execution-coverage-r
 | --- | --- | --- | --- | --- |
 | API-REV-001 | Implementation Engineer / `implementation-handoff.md` / round 1 | `RER-006`; `IR-001`; architecture/review revisions `N/A` | N/A | `Fail` / `49%` |
 | API-REV-002 | Implementation Engineer / `IR-002` re-entry / round 2 | `RER-006`; `IR-002`; `CRR-001`; `API-REV-001` | `Fail` / `49%` | `Blocked — user-directed stop` / `58%` |
+| API-REV-003 | Solution Designer / host Docker/BuildX continuation / round 3 | `RER-006`; `IR-002`; `CRR-001`; `API-REV-002` | `Blocked — user-directed stop` / `58%` | `Fail` / `89%` |
+| API-REV-004 | Code Reviewer / `IR-003` + `CRR-004` re-entry / round 4 | `RER-006`; `IR-003`; `CRR-003`; `CRR-004`; `API-REV-003` | `Fail` / `89%` | `Pass` / `96%` |
 
 ## Revision Entries
 
@@ -54,3 +56,61 @@ None — this is the initial baseline.
 - New or remaining failure IDs: None. The remaining matrix is untested, not classified as a new implementation failure.
 - Recommended recipient: User/external validation continuation; Delivery owns the requested remote branch push.
 - Remaining risks/untested scope: default live runtime; ARM64 `zh`; AMD64 default/`zh`; full custom identity; service/browser/VNC/websockify/debugging; locale/input; persistence/recovery; and pre-publication AC-011/AC-012. No image publication or server adoption occurred.
+
+### API-REV-003 — Host matrix closes prior gaps; Apple Silicon wrapper fails
+
+- Triggering role, report path, and round: Solution Designer host-continuation request; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`; API/E2E round 3 at implementation commit `e604ffa` and branch checkpoint `951da03`.
+- Triggering finding or scenario IDs: prior open `AE2E-SCN-002`–`AE2E-SCN-005`; new `APIE2E-F-002`; AC-003.
+- Related revision IDs: requirements `RER-006`; implementation `IR-002`; failure-origin review `CRR-001`; prior API/E2E `API-REV-002`; design/architecture revisions `N/A` under the approved direct low-risk route.
+- Why recorded: complete the user-requested host Docker/BuildX continuation, replace the round-2 external-continuation state with executable evidence, and preserve the confirmed supported-entry-surface failure.
+- Environment delta: macOS ARM64 host with Docker Desktop client/server `29.0.1`, BuildX `v0.29.1-desktop.1`, and a `docker-container` builder reporting `linux/arm64` and `linux/amd64`. Docker/BuildX replaced Podman as requested.
+- Coverage decisions/durable paths changed:
+  - Updated `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-image.sh` so the `zh` English-default assertion includes the existing third `Default=True` line (`grep -A3`).
+  - Updated `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-running-container.sh` to poll readiness without terminating on the first pre-ready state and to attach stdin (`docker exec -i`) for both heredoc assertion bodies.
+  - No durable coverage added or removed.
+- Scenarios rechecked: exact clean ARM64/AMD64 default/`zh` builds; built-image contracts; full custom `1234:1234`; default and `zh` live Supervisor/VNC/websockify/DevTools/Chromium; real Pinyin desktop input; profile persistence and stale Chromium/X recovery; local no-push multi-platform indexes for both variants.
+- Result delta: every round-2 untested functional and release-readiness-local scenario passed. The exact documented Apple Silicon command `./build-multi-arch.sh --no-cache` failed before BuildX because `uname -m=arm64` is not accepted by the script's `x86_64|aarch64` mapping.
+
+#### Prior Failure Resolution
+
+| Prior Scenario / Failure Reference | Previous Classification | Current Resolution | Evidence |
+| --- | --- | --- | --- |
+| `APIE2E-F-001` / Noble default UID/GID collision | Resolved on round-2 ARM64 default | Remains resolved across clean ARM64/AMD64 default/`zh` images and the full custom-ID path. | Round-3 build and image logs under `requirements/ubuntu-24-minimal-base/evidence/` |
+| Round-2 external-continuation gaps / AE2E-SCN-002–005 | Not Tested | Closed: platform/variant matrix, live runtime, custom identity, locale/input, browser/VNC, persistence/recovery, and local OCI indexes passed. | Canonical round-3 execution report and host-round3 evidence |
+
+- Canonical artifacts updated:
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Prior result and confidence: `Blocked — user-directed stop/external validation pending` / `58%`.
+- Current result and confidence: `Fail` / `89%`.
+- New or remaining failure: `APIE2E-F-002 / AC-003` — the supported Apple Silicon local-build wrapper rejects `arm64` and exits `1` before BuildX execution. Direct clean ARM64 BuildX succeeds, isolating the wrapper mapping.
+- Recommended recipient: `/code_reviewer` for focused failure-origin review plus proportional review of the two updated durable test files; then implementation correction and API/E2E re-entry.
+- Remaining risks/untested scope: no remaining round-2 local executable gap. Docker Hub publication/remote manifest identity and server adoption remain intentionally untested and out of API/E2E scope; publication is not ready while AC-003 fails.
+
+### API-REV-004 — Exact Apple Silicon build and focused regression pass
+
+- Triggering role, report path, and round: Code Reviewer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` (`CRR-004`); API/E2E round 4 at implementation commit `6bbe7a9edab3d19a320ef53e2a99df0fb59b8eef`.
+- Triggering finding/scenario: `APIE2E-F-002`; AC-003; AE2E-SCN-001; new temporary AE2E-SCN-006 alias regression.
+- Related revisions: requirements `RER-006`; implementation `IR-003`; source review `CRR-004`; prior durable-test review `CRR-003`; prior API/E2E `API-REV-003`; design/architecture revisions `N/A` under the approved direct route.
+- Why recorded: replace the round-3 failure with authoritative real-host evidence for the reviewed alias correction and preserve the proportionate regression/durable-coverage delta.
+- Environment/command delta: on the real macOS ARM64 host, the exact command `./build-multi-arch.sh --no-cache` selected `linux/arm64`, executed a no-cache BuildX build, applied `autobyteus/chrome-vnc:1.4.0` and `:latest`, loaded one ARM64 image, and returned `0`. The loaded image and normal runtime/browser/service/profile regression gates passed.
+- Coverage decision/durable path changed: updated `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-source-contract.sh` with one exact assertion for `arm64|aarch64)`. This protects the critical alias without adding a disproportionate Docker/uname-double harness. No durable coverage was added or removed; the prior two test corrections remain unchanged and `CRR-003 Pass`.
+- Other regression evidence: independent controlled real-script matrix passed `arm64`, `aarch64`, `x86_64`, local load, no-cache, `zh`, multi-platform push, tag selection, and unsupported-host failure.
+
+#### Prior Failure Resolution
+
+| Prior Scenario / Failure | Previous Classification | Current Resolution | Evidence |
+| --- | --- | --- | --- |
+| `APIE2E-F-002` / AC-003 — Apple Silicon `arm64` rejected | Confirmed implementation-owned Local Fix; API/E2E Fail (`CRR-002`, `API-REV-003`) | Resolved. The exact supported command reaches BuildX, clean builds, selects/loads ARM64 with both expected tags, and the loaded image passes durable image/runtime gates. | `evidence/host-round4-exact-apple-silicon-build.log`; `evidence/host-round4-image-runtime-regression.log` |
+| `APIE2E-F-001` — Noble UID/GID collision | Resolved previously | Remains resolved on the round-4 exact-command image (`vncuser` 1000:1000). | Round-4 image/runtime log |
+
+- Canonical artifacts updated:
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Prior result and confidence: `Fail` / `89%`.
+- Current result and confidence: `Pass` / `96%`.
+- New or remaining failure IDs: `None`.
+- Recommended recipient: `/code_reviewer` for proportional review of the round-4 `tests/validate-source-contract.sh` update; then Delivery if it passes.
+- Remaining risk/deferred scope: no local API/E2E blocker. Docker Hub publication/remote manifest verification is Delivery-owned, and server adoption remains the separate post-publication ticket.

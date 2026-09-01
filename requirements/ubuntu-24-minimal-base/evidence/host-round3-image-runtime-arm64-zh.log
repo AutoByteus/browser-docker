@@ -1,0 +1,35 @@
+=== zh image contract ===
+FAIL: English input item is not default
+=== corrected zh image contract ===
+PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.
+=== zh runtime ===
+ab8dc9792d7171542410232c2fa5920ce06066d219280044997fffcc6f5a3e6c
+chrome                           RUNNING   pid 38, uptime 0:00:06
+copyq                            RUNNING   pid 37, uptime 0:00:06
+dbus                             RUNNING   pid 32, uptime 0:00:06
+disable_screensaver              EXITED    Sep 01 12:15 PM
+fcitx                            RUNNING   pid 35, uptime 0:00:06
+socat                            RUNNING   pid 41, uptime 0:00:06
+tigervnc                         RUNNING   pid 33, uptime 0:00:06
+websockify                       RUNNING   pid 51, uptime 0:00:06
+xfce                             RUNNING   pid 34, uptime 0:00:06
+PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+=== zh locale/input semantic configuration ===
+35
+NotoSansCJK-Regular.ttc: "Noto Sans CJK SC" "Regular"
+wqy-zenhei.ttc: "WenQuanYi Zen Hei" "Regular"
+[Groups/0]
+Name=Default
+Default Layout=us
+
+[Groups/0/Items/0]
+Name=keyboard-us
+Layout=us
+Default=True
+
+[Groups/0/Items/1]
+Name=pinyin
+PASS: fcitx5 active, Pinyin available, US/English remains default, zh locales/fonts present.
+=== host zh ports ===
+PASS: zh VNC/websockify/DevTools host surfaces

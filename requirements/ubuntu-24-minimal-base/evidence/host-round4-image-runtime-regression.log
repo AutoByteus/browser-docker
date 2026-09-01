@@ -1,0 +1,21 @@
+=== loaded image durable contract ===
+PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.
+=== normal-entrypoint focused live regression ===
+e34b78cdeb1ed1ceeca927036d856e831e3d950e290fbd069d74a72e7ac7e0b2
+chrome                           RUNNING   pid 40, uptime 0:00:07
+copyq                            RUNNING   pid 39, uptime 0:00:07
+dbus                             RUNNING   pid 34, uptime 0:00:07
+disable_screensaver              EXITED    Sep 01 01:54 PM
+fcitx                            RUNNING   pid 37, uptime 0:00:07
+socat                            RUNNING   pid 41, uptime 0:00:07
+tigervnc                         RUNNING   pid 35, uptime 0:00:07
+websockify                       RUNNING   pid 42, uptime 0:00:07
+xfce                             RUNNING   pid 310, uptime 0:00:05
+PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+=== host surface and loaded-tag identity ===
+PASS host VNC/websockify/DevTools
+image=sha256:13d9dd530ef09a7f7f91bb3428ce3a1731055d9213f47d91133b64ac0ae60051 running=true platform=linux
+aarch64
+os=24.04 python=Python 3.12.3 marker=runtime-write-ok
+PASS: loaded exact-command image satisfies image, live service, browser render, host network, and profile-write regression gates.

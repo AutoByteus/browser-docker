@@ -81,7 +81,7 @@ if [[ "$EXPECTED_VARIANT" == "zh" ]]; then
   locale -a | grep -qi '^zh_CN\.utf8$' || fail "zh_CN.UTF-8 locale is missing"
   locale -a | grep -qi '^zh_TW\.utf8$' || fail "zh_TW.UTF-8 locale is missing"
   grep -q '^Default Layout=us$' /home/vncuser/.config/fcitx5/profile || fail "US layout is not configured as the default layout"
-  grep -A2 '^\[Groups/0/Items/0\]$' /home/vncuser/.config/fcitx5/profile | grep -q '^Default=True$' || fail "English input item is not default"
+  grep -A3 '^\[Groups/0/Items/0\]$' /home/vncuser/.config/fcitx5/profile | grep -q '^Default=True$' || fail "English input item is not default"
   grep -A1 '^\[Groups/0/Items/1\]$' /home/vncuser/.config/fcitx5/profile | grep -q '^Name=pinyin$' || fail "Pinyin input item is missing"
 else
   ! dpkg-query -W -f='${db:Status-Status}' fcitx5 2>/dev/null | grep -q 'installed' || fail "default image unexpectedly contains fcitx5"

@@ -2,154 +2,172 @@
 
 ## Review Round Meta
 
-- Review Entry Point: `API/E2E Failure-Origin Review`
-- Requirements Doc Reviewed As Context: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-doc.md` (`Approved`, `RER-006`)
-- Investigation Notes Reviewed As Context: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/investigation-notes.md`
-- Requirements Revision Record Reviewed As Context: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md`
-- Design Spec Reviewed As Context: `N/A — not applicable; approved direct route`
-- Supplemental Task Artifacts Reviewed As Context: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
-- Architecture Design Revision Record Reviewed As Context: `N/A — not applicable`
-- Relevant Architecture Design Revision IDs: `N/A`
-- Design Review Report Reviewed As Context: `N/A — not applicable`
-- Architecture Review Revision Record Reviewed As Context: `N/A — not applicable`
+- Review Entry Point: `Implementation Review`
+- Requirements Doc Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-doc.md` (`Approved`, `RER-006`)
+- Investigation Notes Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/investigation-notes.md`
+- Design Spec Reviewed As Context: `N/A — approved direct requirements-to-implementation route`
+- Supplemental Task Artifacts Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
+- Solution Revision Record Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-revision-record.md`
+- Relevant Solution Revision IDs: `RER-006`
+- Design Review Report Reviewed As Context: `N/A — approved direct route`
+- Architecture Review Revision Record Reviewed As Context: `N/A — approved direct route`
 - Relevant Architecture Review Revision IDs: `N/A`
-- Implementation Handoff Reviewed As Context: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-handoff.md`
-- Implementation Revision Record Reviewed As Context: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-revision-record.md`
-- Relevant Implementation Revision IDs: `IR-001`
-- Code Review Revision Record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/code-review-revision-record.md`
-- Current Code Review Revision ID: `CRR-001`
-- Current Review Round: `1`
-- Trigger: API/E2E round 1 `Fail` at repository commit `4e2faea`, testing implementation commit `bf290fd`.
-- Prior Review Round Reviewed: `N/A — no prior canonical code-review result`
-- Latest Authoritative Round: This file, round 1.
-- Coverage Investigation Reviewed (failure-origin entry point): `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
-- Execution Coverage Report Reviewed (failure-origin entry point): `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
-- API/E2E Revision Record Reviewed (failure-origin entry point): `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
-- Relevant API/E2E Revision IDs: `API-REV-001`
-- Delivery Revision Record Reviewed (delivery re-entry only): `N/A`
+- Implementation Handoff Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`
+- Implementation Revision Record Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md`
+- Relevant Implementation Revision IDs: `IR-003`
+- Code Review Revision Record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md`
+- Current Code Review Revision ID: `CRR-004`
+- Current Review Round: `3`
+- Trigger: Implementation-owned Local Fix `IR-003` at commit `6bbe7a9edab3d19a320ef53e2a99df0fb59b8eef`, resolving the source cause of `APIE2E-F-002` / AC-003.
+- Prior Review Round Reviewed: Round 2 / `CRR-002` / `Fail — Local Fix / implementation`; separate durable-test result `CRR-003` remains `Pass` and authoritative in `api-e2e-test-review-report.md`.
+- Latest Authoritative Round: This file, round 3.
+- Coverage Investigation Reviewed As Re-entry Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+- Execution Coverage Report Reviewed As Re-entry Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
+- API/E2E Revision Record Reviewed As Re-entry Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Relevant API/E2E Revision IDs: `API-REV-003`
+- Delivery Revision Record Reviewed: `N/A for this re-entry`; historical pre-verification records remain in the cumulative package.
 - Relevant Delivery Revision IDs: `N/A`
-- Failing Scenario IDs: `AE2E-SCN-004`; `SCN-001`; `AC-003`; `APIE2E-F-001`
-- Exact Failing Commands / Execution Mode: `podman --root /tmp/brd-podman-build-root --runroot /tmp/brd-podman-build-run --storage-driver vfs --cgroup-manager cgroupfs --events-backend file build --no-cache --layers=false --isolation=chroot --network=host --build-arg IMAGE_VARIANT=default -t autobyteus/chrome-vnc:1.4.0 -t autobyteus/chrome-vnc:latest .`; task-isolated ARM64 no-cache execution of the exact Dockerfile and real remote dependencies after nested Docker/BuildX was prevented by the outer read-only cgroup hierarchy.
-- Failure Evidence Paths: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/evidence/build-default-arm64.log`; `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/evidence/base-identity-and-uid-collision.log`; `/home/autobyteus/workspace/browser-docker/Dockerfile`; `/home/autobyteus/workspace/browser-docker/build-multi-arch.sh`
-
-## Routing Classification Review
-
-- Task size (`Small`/`Medium`/`Large`): `Medium`
-- Architectural risk (`Low`/`High`): `Low`
-- Selected route (`Implementation Review`/`API/E2E Failure-Origin Review`): `API/E2E Failure-Origin Review`
-- Independent source review required by the classification: `Failure-origin exception`
-- Classification evidence or correction required: The approved direct Medium/Low classification remains supported. The failure is a bounded compatibility defect in the existing Dockerfile identity-creation step, not a new subsystem, ownership boundary, lifecycle, or requirement decision. No classification correction is required.
+- Triggering Finding IDs: `APIE2E-F-002`
+- Implementation Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-003-architecture-alias-check.log`
 
 ## Review Scope
 
-- Changed implementation and behavior reviewed: Only the failed clean default Ubuntu 24.04 build path and the preserved default `vncuser` UID/GID contract needed to determine origin and owner.
-- Files / areas reviewed: Approved `BEH-001`/`SCN-001`/`REQ-001`–`REQ-005`/`AC-003` basis; implementation handoff and `IR-001`; `Dockerfile` identity setup; `build-multi-arch.sh` build entry path; `API-REV-001`, execution/coverage reports, and the two failure-evidence logs. The implementation delta from `bf290fd^` to `bf290fd` was inspected to confirm the base change and unchanged identity command.
-- Explicit exclusions: No full implementation structural review or scorecard; no proportional review of the added durable test files because this is the failed-execution entry point; no review of unexecuted runtime/browser/persistence/publication behavior; no server-repository work.
+- Changed implementation and behavior reviewed: IR-003's correction of the documented Apple Silicon local-build/load path, plus preservation of Linux ARM64, AMD64, variant, tag, load, push, and explicit unsupported-host behavior in the same wrapper.
+- Files / areas reviewed: `build-multi-arch.sh`; its CLI/build path in `README.md`; `tests/validate-source-contract.sh`; implementation commit `6bbe7a9`; current implementation handoff and `IR-003`; prior `CRR-002`/`CR-PREM-002`; API/E2E round-3 failure and isolation evidence.
+- Explicit exclusions: No API/E2E result is replaced by this source review. The exact Apple Silicon Docker/BuildX command, publication, remote manifest verification, and server adoption remain downstream. API/E2E-owned dirty test/report/evidence changes are not implementation source and were confirmed absent from commit `6bbe7a9`; their completed proportional review remains in `CRR-003`.
 
 ## Upstream Behavior And Production-Path Basis Confirmation
 
-- Approved requirements basis understood: `Yes`. An image maintainer normally invokes the repository build flow to produce a runnable default Ubuntu 24.04 image. Successful clean default build and preservation of the existing `vncuser` identity are explicit requirements, not a scenario inferred from the test.
-- Design-spec behavior map verified against the implementation: `N/A — direct route`; the requirements behavior/scenario map was traced directly through production source.
+- Approved requirements basis understood: `Yes`. The wrapper is the approved operational entry surface for local builds, and Apple Silicon `arm64` plus AMD64/ARM64 support are explicit existing contracts.
+- Design-spec behavior map verified against the implementation: `N/A — direct route`; the approved requirements map was verified directly against the current wrapper, README, and implementation evidence.
 - Design review report and round confirmed: `N/A — direct route`.
-- Behavior-basis status: `Contradicted`
-- Changed or newly discovered behavior, if any: None. The failure contradicts approved behavior; it does not establish a new behavior requirement.
-- Remaining material ambiguity, if any: None for failure origin or ownership.
+- Behavior-basis status: `Confirmed`
+- Changed or newly discovered behavior, if any: None. IR-003 implements the already approved/documented host spelling; it adds no new product behavior.
+- Remaining material ambiguity, if any: None.
 
-| Behavior ID | Current Status (`Confirmed`/`Contradicted`/`Unclear`/`Newly Discovered`) | Current Implementation Path And Lifecycle Evidence | Contradicting Or Newly Discovered Supported Behavior Evidence (Only When Applicable) |
+| Behavior ID | Current Status | Current Implementation Path And Lifecycle Evidence | Contradicting Or Newly Discovered Supported Behavior Evidence |
 | --- | --- | --- | --- |
-| `BEH-001` / `SCN-001` | `Contradicted` | `build-multi-arch.sh:20-22,49-53,74-89,125-134` carries the supported local no-cache build into the repository Dockerfile. `Dockerfile:2,4-5,95-96` selects official Noble, defaults to UID/GID 1000, and unconditionally creates a new group/user with those IDs. The build reaches line 95 and exits 4, so no runnable local image is produced. | `REQ-003`, `REQ-005`, and `AC-003` require the clean default build to complete. `build-default-arm64.log` records `groupadd: GID '1000' already exists`; `base-identity-and-uid-collision.log` shows the official ARM64 and AMD64 roots already contain `ubuntu:x:1000` in both passwd and group. |
-| `BEH-002` preserved identity prerequisite | `Contradicted` | The default `vncuser` creation step fails before runtime lifecycle can begin. | `BEH-002`, `REQ-004`, and `AC-006` preserve the existing `vncuser` and UID/GID behavior. The observed build never creates that runtime identity or an image in which it can be exercised. |
+| `BEH-001` / `SCN-001` | `Confirmed` | Maintainer invokes the documented local command; argument parsing retains `--no-cache`; absence of `--push` selects `--load`; Docker/BuildX is checked and bootstrapped; `uname -m` enters `arm64\|aarch64 -> linux/arm64` or `x86_64 -> linux/amd64`; the existing tag/variant policy is applied; `docker buildx build` receives the normalized platform. Independent controlled executions confirmed each command shape. | None. Exact post-fix Apple Silicon Docker/BuildX execution remains API/E2E evidence, not a source-basis ambiguity. |
+| `BEH-002` | `Confirmed — unchanged in IR-003` | The build wrapper still sends the existing Dockerfile and `IMAGE_VARIANT` into BuildX. Dockerfile, runtime identities, services, ports, tooling, input, and profile paths are untouched; round-3 evidence passed these behaviors before this non-image-affecting alias change. | None. |
+| `BEH-003` | `Confirmed — unchanged in IR-003` | README still identifies Ubuntu 24.04, Python 3.12, Apple Silicon `arm64`, and the same local/no-cache build surface. IR-003 makes the implementation match that documentation. | None. |
 
-## Supported Product Scenario And Reachability Gate (Mandatory)
+### Relevant Data-Flow Spine Inventory
 
-| Scenario ID | Related Behavior / Contract IDs | Kind (`User`/`System`/`Operational`/`Contract`) | Actor / Initiator | Coherent Goal Or Governing Event | Supported Entry Surface / Event | Scenario Shape (`Normal`/`Explicit Edge`) | Forward Production Path / Lifecycle | Expected Outcome / Consequence | Independent Evidence | Scenario Validity | Review Use |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `CR-SCN-001` | `BEH-001`, `SCN-001`, `REQ-001`–`REQ-005`, `AC-003` | `Operational` | Browser-image maintainer | Produce a clean local default image from the approved Ubuntu 24.04 LTS base. | `./build-multi-arch.sh --no-cache` (the API/E2E command is an execution-equivalent direct Dockerfile build because nested Docker could not run). | `Normal` | Build script chooses the local architecture and default/load path, passes `IMAGE_VARIANT=default` and no-cache to the Dockerfile; the Dockerfile resolves Noble and dependencies, then creates the preserved runtime user before later image configuration. | A runnable default image is produced. A failure at identity creation blocks all later image, runtime, browser, persistence, multi-platform, and release validation. | Approved requirements `SCN-001`, `REQ-003`–`REQ-005`, `AC-003`; repository build script and README; implementation handoff; real build log. | `Supported Normal Scenario` | `Use` |
-| `CR-OPS-001` | Official `ubuntu:24.04` base contract used by `REQ-001`/`REQ-002` | `Contract` | Canonical/Docker Official Image platform root selected by the supported build | Supply the official Noble container rootfs used by the approved build. | `FROM ubuntu:24.04` platform resolution for ARM64 or AMD64. | `Normal` | Base resolution supplies `/etc/passwd` and `/etc/group`; Dockerfile identity setup then executes against that state. | Implementation must remain compatible with the selected official base while preserving its own runtime identity contract. | `Dockerfile:2`; approved `REQ-001`/`REQ-002`; both-platform digest and root-file evidence in `base-identity-and-uid-collision.log`. | `Supported Normal Scenario` | `Use` |
-
-### Candidate Finding And Mechanism Gate
-
-| Candidate ID | Observation Or Mechanism | Scenario / Contract ID | Independent Trigger | Forward Path / Lifecycle / Consequence | Evidence | Disposition (`Promote`/`Hold for Evidence`/`Reject`) | Reason / Proportionate Response |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `CR-CAND-001` | The implementation changed the base to official Noble but retained unconditional `groupadd -g ${USER_GID} vncuser`; default GID 1000 is already owned by the Noble base's `ubuntu` group. | `CR-SCN-001`, `CR-OPS-001` | Maintainer's approved clean default build against the required official base. | Supported build reaches `Dockerfile:95`, exits 4, produces no image, and blocks the remainder of the approved validation/release lifecycle. | `Dockerfile:2,4-5,95-96`; `git show bf290fd`; `build-default-arm64.log`; `base-identity-and-uid-collision.log`. | `Promote` | The scenario and base state are independently supported, the failure is direct, and a bounded identity-setup compatibility correction is proportionate. Preserve the `vncuser` name plus configurable/default UID/GID outcome rather than prescribing an unapproved behavior change. |
-| `CR-CAND-002` | Attribute the product-build failure to the API/E2E environment because nested Docker/BuildX could not create containers. | `CR-SCN-001` | The outer read-only cgroup hierarchy prevented nested Docker container execution. | API/E2E used an isolated chroot builder to execute the exact Dockerfile; the failure occurs in standard `groupadd` against base-owned files, and independent roots show the same precondition on both supported platforms. | Execution report sections “Investigation And Execution Basis” and “Dependencies Mocked Or Emulated”; both failure-evidence logs. | `Reject` | The Docker limitation still requires later BuildX coverage, but it does not explain or invalidate the deterministic implementation command failure. It cannot be the accountable origin of `APIE2E-F-001`. |
-
-## Focused Failure-Origin Analysis
-
-- Failing scenario remains approved: `Yes — Supported Normal Scenario` (`CR-SCN-001`).
-- Smallest relevant production path: `./build-multi-arch.sh --no-cache` -> local-platform BuildX invocation -> `Dockerfile` default arguments -> official `ubuntu:24.04` root -> `groupadd -g 1000 vncuser`.
-- Expected behavior: The no-cache default build completes and retains `vncuser` with the established configurable identity, defaulting to UID/GID 1000.
-- Observed behavior: The official current Noble platform root already has `ubuntu` at UID/GID 1000. The unconditional group creation exits status 4 before `vncuser` or an image exists.
-- Confirmed origin: `Implementation defect` in `/home/autobyteus/workspace/browser-docker/Dockerfile:95-96`, exposed by the approved base change in implementation commit `bf290fd`.
-- Earlier review gap: `No`. The approved direct Medium/Low route intentionally did not select normal source review, so there was no prior Code Reviewer result to miss this invariant. Static source inspection combined with official-base identity evidence could detect the incompatibility, but the implementation handoff correctly left clean-build compatibility for downstream executable validation and did not claim that it had passed.
-- Implementation change after review: `No`; no earlier source-review baseline applies. API/E2E test additions at `4e2faea` did not modify the implementation under test.
-- Test, fixture, environment, or execution origin: `No`. The nested Docker limitation prevents claiming full BuildX coverage, but the exact Dockerfile path and cross-platform root evidence are sufficient to classify this collision independently of builder choice.
+| Spine ID | Scope | Start | End | Governing Owner | Why It Matters |
+| --- | --- | --- | --- | --- | --- |
+| `CR-SPINE-001` | Local build/load | Maintainer invokes `build-multi-arch.sh` | Correctly tagged image loaded into the local Docker daemon | Repository build wrapper | This is SCN-001/AC-003 and the exact path previously blocked on Apple Silicon. |
+| `CR-SPINE-002` | Multi-platform publication command composition | Maintainer invokes the wrapper with `--push` | BuildX receives default/`zh` tags and `linux/amd64,linux/arm64` | Repository build wrapper | The local alias fix must not narrow or otherwise change the preserved release path. |
 
 ## Structural / Design Checks
 
-`N/A — failure-origin-only round. No full implementation structural review was selected or reopened.`
+| Check | Result | Evidence | Required Action |
+| --- | --- | --- | --- |
+| Task design health assessment is present, evidence-backed, and preserved by the implementation | `Pass` | The handoff identifies a bounded existing-wrapper Local Fix with no structural impact; the one case-label change matches that assessment. | None. |
+| Implementation matches approved behavior-defining supplemental artifacts | `Pass` | The separate server-adoption follow-up remains untouched and blocked; IR-003 stays within the browser build contract. | None. |
+| Data-flow spine inventory clarity and preservation under shared principles | `Pass` | Local-load and push spines are linear and remain owned by `build-multi-arch.sh`; controlled checks cover both. | None. |
+| Ownership boundary preservation and clarity | `Pass` | Host-to-Docker-platform normalization remains in the wrapper that consumes `uname` and constructs the BuildX command. | None. |
+| Off-spine concern clarity | `Pass` | No new helper, subprocess layer, configuration surface, or competing owner was introduced. | None. |
+| Existing capability/subsystem reuse check | `Pass` | The existing architecture switch is extended rather than duplicated elsewhere. | None. |
+| Reusable owned structures check | `Pass` | Both ARM host spellings share one case arm and one canonical `linux/arm64` assignment. | None. |
+| Shared-structure/data-model tightness check | `Pass` | No data model is affected; the alias normalization is singular and contains no parallel representation. | None. |
+| Repeated coordination ownership check | `Pass` | Platform selection remains centralized in one wrapper switch. | None. |
+| Empty indirection check | `Pass` | IR-003 adds no indirection. | None. |
+| Scope-appropriate separation of concerns and file responsibility clarity | `Pass` | Architecture mapping is a direct responsibility of the existing build orchestration file. | None. |
+| Ownership-driven dependency check | `Pass` | The wrapper depends only on its established host and Docker CLI boundaries; no dependency direction changed. | None. |
+| Authoritative Boundary Rule check | `Pass` | Callers continue to use the wrapper; IR-003 does not expose or require a competing lower-level API. | None. |
+| File placement check | `Pass` | The change is correctly placed in `build-multi-arch.sh`, the owner of platform selection. | None. |
+| Flat-vs-over-split layout judgment | `Pass` | A one-label normalization does not justify a new file or helper. | None. |
+| Interface/API/query/command/service-method boundary clarity | `Pass` | Existing CLI flags and tag semantics are unchanged; supported local host spellings normalize to explicit Docker platforms. | None. |
+| Naming quality and naming-to-responsibility alignment check | `Pass` | `HOST_ARCH` and `PLATFORMS` retain clear distinct meanings; no new names were needed. | None. |
+| No unjustified duplication of code / repeated structures in changed scope | `Pass` | `arm64\|aarch64` shares the existing ARM assignment instead of duplicating a branch. | None. |
+| Patch-on-patch complexity control | `Pass` | The correction directly amends the faulty branch and introduces no fallback or compatibility stack. | None. |
+| Dead/obsolete code cleanup completeness in changed scope | `Pass` | The invalid omission is removed by replacing the case label; no dormant alternative path remains. | None. |
+| Relevant test scenarios and assertions are clear and requirement-aligned | `Pass` | Controlled checks prove arm64, aarch64, x86_64, local no-cache, `zh`, push, tags, and unsupported-host behavior. Exact AC-003 execution remains correctly assigned downstream. | API/E2E should decide whether the alias matrix warrants additional durable coverage while rerunning AC-003. |
+| Test fixtures/helpers are reasonably reusable and test structure remains coherent | `Pass` | Implementation evidence uses one controlled `uname`/Docker command-composition approach across the matrix; no repository test helper changed. | None. |
+| No stale, duplicated, or compatibility-only tests are retained in changed scope | `Pass` | IR-003 changed no durable test file; the two existing API/E2E edits remain separately reviewed as `Pass`. | None. |
+| API/E2E readiness for the next workflow stage | `Pass` | Source, syntax, ShellCheck, source-contract, diff, and independent command-composition checks pass. The exact prior failure is isolated and ready for first recheck. | Rerun `APIE2E-F-002`/AC-003 first. |
 
 ## Source File Size And Structure Audit
 
-`N/A — failure-origin-only round.`
+| Source File | Effective Non-Empty, Non-Comment Lines | `>500` Hard-Limit Check | `>220` Delta Check | SoC / Ownership Check | Placement Check | Preliminary Classification | Required Action |
+| --- | ---: | --- | --- | --- | --- | --- | --- |
+| `build-multi-arch.sh` | `116` (`145` physical lines) | `Pass` | `Pass — IR-003 is one insertion and one deletion in one case label` | `Pass — build orchestration and platform normalization remain coherent` | `Pass` | `Pass` | None. |
 
 ## Legacy / Backward-Compatibility Verdict
 
-`N/A — not implicated by this failure-origin review; the API/E2E source-scope check reported no compatibility-only or legacy-retention behavior.`
+| Check | Result | Notes |
+| --- | --- | --- |
+| No backward-compatibility mechanisms in changed scope | `Pass` | Two current supported host spellings normalize to one current Docker platform; no old-version behavior is retained. |
+| No legacy old-behavior retention in changed scope | `Pass` | The rejecting Apple Silicon behavior is replaced, not retained behind a branch. |
+| Dead/obsolete code cleanup completeness in changed scope | `Pass` | No obsolete alternate mapping, wrapper, or flag was introduced. |
+| Approved persisted-data transition decision is followed without unnecessary migration work | `Pass` | Persisted data is not affected. |
+| No version-specific dual reads/writes or request-time old-shape fallback exists | `Pass` | Not applicable to the host alias change; no such mechanism exists. |
+| Approved transition mechanics match the reviewed design | `Pass` | `Not Affected`; no migration or runtime fallback is present. |
 
 ## Dead / Obsolete / Legacy Items Requiring Removal
 
-None identified within the bounded failure-origin scope.
+None.
 
 ## Docs-Impact Verdict
 
-- Docs impact: `No` for the bounded correction.
-- Why: Approved public identity, commands, and behavior remain unchanged; implementation must make the current documented build succeed.
-- Files or areas likely affected: `/home/autobyteus/workspace/browser-docker/Dockerfile`; implementation handoff/revision evidence for the rework round.
+- Docs impact: `No`
+- Why: README already documents Apple Silicon `arm64` and the supported local build command. IR-003 corrects source to match it without changing usage.
+- Files or areas likely affected: None beyond the already updated implementation/review artifacts.
 
-## Additional Material Premise Validation
+## Material Premise Validation
 
-None. The applicable official-base identity contract and supported operational scenario are fully captured in the mandatory scenario gate.
+### Upstream Material-Premise Decisions
+
+| Premise ID | Current Status | Changed Evidence / Reason |
+| --- | --- | --- |
+| `CR-PREM-002` — Apple Silicon local-load execution reaches the architecture switch | `Confirmed` | The approved README/SCN-001/AC-003 trigger remains unchanged. IR-003 now maps its observed `arm64` value to `linux/arm64`; controlled command evidence confirms the forward source path. |
+
+No new or reclassified material premise is needed. Exact Docker execution is a downstream validation requirement, not missing reachability evidence.
 
 ## Review Scorecard
 
-`N/A — the code-reviewer workflow prohibits repeating the full scorecard for a failure-origin-only round.`
+- Overall score (`/10`): `9.78`
+- Overall score (`/100`): `97.8`
+- Score calculation note: Simple average of the ten categories; the pass decision also requires every category to meet the `9.0` clean threshold and no unresolved finding.
+
+| Priority | Category | Score | Why This Score | What Is Weak / Holding It Down | What Should Improve |
+| --- | --- | ---: | --- | --- | --- |
+| `1` | `Data-Flow Spine Inventory and Clarity` | `9.8` | Local and push spines are short, explicit, and preserved through one wrapper. | Exact post-fix Docker execution remains downstream evidence. | API/E2E should close AC-003 on the normal host path. |
+| `2` | `Ownership Clarity and Boundary Encapsulation` | `9.8` | Host-platform normalization remains with the command owner and is not duplicated. | No material source weakness. | None. |
+| `3` | `API / Interface / Query / Command Clarity` | `9.7` | Existing flags, tags, variants, and platform output remain explicit and stable. | The script retains pre-existing intentional option-word expansion, which ShellCheck requires an explicit exclusion for. It is outside IR-003 and currently behaves as intended. | Consider array-based command assembly only in a separately justified cleanup, not as a blocker for this fix. |
+| `4` | `Separation of Concerns and File Placement` | `9.8` | The one-line mapping belongs directly in the existing build wrapper. | No material weakness. | None. |
+| `5` | `Shared-Structure / Data-Model Tightness and Reusable Owned Structures` | `9.8` | Both ARM spellings share one case arm and canonical platform assignment; no model change exists. | No material weakness. | None. |
+| `6` | `Naming Quality and Local Readability` | `9.8` | The case label and existing variable names make host input versus Docker platform output clear. | No material weakness. | None. |
+| `7` | `API/E2E Readiness` | `9.5` | Focused source and command-composition checks pass, and the exact prior failure has a direct first-rerun command. | The real Apple Silicon BuildX path has not yet been rerun after IR-003. This is an evidence gap, not a source finding. | API/E2E must rerun `./build-multi-arch.sh --no-cache` first and decide proportionate durable coverage. |
+| `8` | `Runtime Correctness And Behavioral Fidelity` | `9.6` | Independent controlled execution proves the corrected mapping and preserved matrix without changing Dockerfile inputs. | AC-003 still needs authoritative real-environment confirmation. | Complete the exact Docker/BuildX recheck. |
+| `9` | `No Backward-Compatibility / No Legacy Retention` | `10.0` | The implementation is a current-platform alias normalization with no version fallback or legacy path. | None. | None. |
+| `10` | `Cleanup Completeness` | `10.0` | The faulty label is directly replaced; no duplicate branch, helper, dead code, or test artifact was introduced. | None. | None. |
 
 ## Findings
 
-### `APIE2E-F-001` — Confirmed implementation-owned Noble default-ID collision (Blocking)
-
-- Status: `Confirmed` by focused failure-origin review.
-- Affected approved behavior: `BEH-001`, the `BEH-002` runtime-identity prerequisite, `REQ-003`–`REQ-005`, `AC-003`, and `SCN-001`.
-- Candidate-gate basis: Promoted `CR-CAND-001` under `CR-SCN-001` and `CR-OPS-001`.
-- Source evidence: `Dockerfile:2,4-5,95-96` combines the required Noble base and default UID/GID 1000 with unconditional creation of a new GID 1000 group. The base/digest evidence shows `ubuntu:x:1000` already owns the UID and GID on both ARM64 and AMD64 roots.
-- Runtime evidence and consequence: The ARM64 no-cache build reaches the identity command and exits 4. No image is produced, so AC-003 fails and all image-dependent validation/publication remains blocked.
-- Required action: Correct the Dockerfile's runtime-identity setup so the required official Noble base can produce `vncuser` with the preserved default and configurable UID/GID contract. Recheck `APIE2E-F-001`/AC-003 first, including default 1000/1000 and representative custom IDs, then return through source review and the complete API/E2E matrix. Do not publish or begin server adoption before the existing AC-011/AC-012 gates pass.
+None. `APIE2E-F-002` is resolved at the implementation-source level by IR-003; authoritative executable resolution remains with the required API/E2E rerun.
 
 ## Classification
 
-- Failure classification: `Local Fix`
-- Accountable origin: `Implementation defect`
-- Why this is local: The correction is bounded to base-compatible runtime identity setup in the existing Dockerfile and does not require a new requirement, architecture pattern, subsystem, or public behavior decision.
+`N/A — implementation review passes; no failure classification applies.`
 
 ## Recommended Recipient
 
-- Recommended owner: `/software_engineering_team/implementation_engineer`
-- Required return path: After the implementation-owned correction, source review and API/E2E must both run again. API/E2E should first recheck `APIE2E-F-001`/AC-003 and then reuse `AE2E-SCN-001` through `AE2E-SCN-005` for the full required matrix.
+- Recommended recipient: `/api_e2e_engineer`
+- Required next action: Recheck `APIE2E-F-002`/AC-003 first using the exact supported Apple Silicon command, then complete the applicable regression gate and update the canonical API/E2E result. Delivery and publication remain blocked until that stage passes.
 
 ## Residual Risks
 
-- Full Docker BuildX behavior remains unverified because nested Docker could not use the outer cgroup hierarchy; this does not reduce confidence in the classified UID/GID collision, but BuildX validation remains mandatory after correction.
-- AC-001 runtime, AC-004–AC-008, AC-010, and pre-publication readiness for AC-011/AC-012 remain untested or not met. No built image, browser/runtime evidence, published manifest, or immutable digest exists.
-- The added durable test files are not proportionally reviewed in a failed API/E2E entry point. They remain part of the cumulative package for later execution/review as required by the selected downstream route.
+- The controlled implementation checks do not satisfy AC-003. Only the exact real Docker/BuildX rerun can replace the current API/E2E `Fail` result.
+- Docker Hub publication, remote multi-platform manifest/digest verification, and the separate server-adoption ticket remain blocked and outside this source-review pass.
+- API/E2E owns the decision whether to promote the controlled host-alias matrix into repository-resident durable coverage.
 
 ## Latest Authoritative Result
 
-- Review Decision: `Fail`
-- Review Entry Point: `API/E2E Failure-Origin Review`
-- Supported Product Scenario Gate (`Pass`/`Fail`/`Blocked`): `Pass`
-- Material-Premise Gate (`Pass`/`Fail`/`Blocked`): `Pass`
-- Score Summary: `N/A — no scorecard for failure-origin-only review`
-- Failure Origin (when applicable): `Implementation defect — Dockerfile identity creation is incompatible with the required official Noble base's existing UID/GID 1000.`
-- Recommended Recipient (when applicable): `/software_engineering_team/implementation_engineer`
-- Notes: `APIE2E-F-001` is confirmed as a bounded `Local Fix`. No publication or server adoption may proceed. This report and `CRR-001` are the initial canonical code-review baseline.
+- Review Decision: `Pass`
+- Review Entry Point: `Implementation Review`
+- Material-Premise Gate: `Pass`
+- Score Summary: `9.78/10` (`97.8/100`); every category is `>=9.0`.
+- Failure Origin: `N/A — APIE2E-F-002 is resolved in source by IR-003; executable confirmation remains pending.`
+- Recommended Recipient: `/api_e2e_engineer`
+- Notes: Commit `6bbe7a9` is source-review ready for API/E2E re-entry. The separate `CRR-003` durable-test review remains `Pass`.

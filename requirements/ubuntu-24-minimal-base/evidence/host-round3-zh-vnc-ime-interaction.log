@@ -1,0 +1,72 @@
+=== navigate real Chromium to input fixture and focus it over DevTools ===
+PASS page focused
+=== interact through X/VNC desktop input path ===
+after-toggle state=2 engine=keyboard-us window=8388612
+=== diagnostic: select Pinyin explicitly after Ctrl+Space retained keyboard-us ===
+manual-select state=2 engine=keyboard-us
+manual observed input=""
+requirements/ubuntu-24-minimal-base/evidence/host-round3-zh-ime-manual-pinyin.png: PNG image data, 1280 x 800, 8-bit/color RGB, non-interlaced
+CLASSIFICATION: Ctrl+Space activates fcitx but retains keyboard-us; explicit Pinyin selection is available. Documented direct Ctrl+Space-to-Pinyin behavior is not observed.
+===remote-help
+Usage: fcitx5-remote [OPTION]
+	-c		inactivate input method
+	-o		activate input method
+	-r		reload fcitx config
+	-t,-T		switch Active/Inactive
+	-e		Ask fcitx to exit
+	-a		print fcitx's dbus address
+	-m <imname>	print corresponding addon name for im
+	-g <group>	set current input method group
+	-q		Get current input method group name
+	-n		Get current input method name
+	-s <imname>	switch to the input method uniquely identified by <imname>
+	-x	Open a new X11 connection with current DISPLAY environment.
+	--check	Check if Fcitx is already running, if not, return 1.
+			Can be used with other options.
+	[no option]	display fcitx state, 0 for close, 1 for inactive, 2 for active
+	-h		display this help and exit
+===profile
+[Groups/0]
+# Group Name
+Name=Default
+# Layout
+Default Layout=us
+# Default Input Method
+DefaultIM=pinyin
+
+[Groups/0/Items/0]
+# Name
+Name=keyboard-us
+# Layout
+Layout=us
+
+[Groups/0/Items/1]
+# Name
+Name=pinyin
+# Layout
+Layout=
+
+[GroupOrder]
+0=Default
+
+===fcitx-log
+===addons
+            Cloud Pinyin 5.1.3
+            Pinyin 5.1.3
+            Extra Pinyin functionality 5.1.3
+===process-env
+sh: 1: cannot open /proc/35/environ: Permission denied
+=== diagnose XTEST delivery without --window ===
+plain observed=""
+Error: XTEST typing failed
+    at [stdin]:1:937
+=== dismiss keyring prompt and prove XTEST path ===
+ZH IME VNC - Chromium
+ZH IME VNC - Chromium
+plain-after-dismiss="abc"
+PASS: X desktop input reached focused Chromium after dismissing first-run keyring prompt.
+=== authoritative Ctrl+Space/Pinyin desktop interaction after prompt dismissal ===
+authoritative-after-toggle state=2 engine=pinyin
+authoritative observed="你好"
+PASS: Ctrl+Space selected Pinyin and desktop input committed 你好
+authoritative_probe_rc=0

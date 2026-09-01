@@ -1,0 +1,92 @@
+=== final durable repository checks after API/E2E-owned harness corrections ===
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+diff --git a/tests/validate-image.sh b/tests/validate-image.sh
+index adf9ace..cc38f1b 100755
+--- a/tests/validate-image.sh
++++ b/tests/validate-image.sh
+@@ -81,7 +81,7 @@ if [[ "$EXPECTED_VARIANT" == "zh" ]]; then
+   locale -a | grep -qi '^zh_CN\.utf8$' || fail "zh_CN.UTF-8 locale is missing"
+   locale -a | grep -qi '^zh_TW\.utf8$' || fail "zh_TW.UTF-8 locale is missing"
+   grep -q '^Default Layout=us$' /home/vncuser/.config/fcitx5/profile || fail "US layout is not configured as the default layout"
+-  grep -A2 '^\[Groups/0/Items/0\]$' /home/vncuser/.config/fcitx5/profile | grep -q '^Default=True$' || fail "English input item is not default"
++  grep -A3 '^\[Groups/0/Items/0\]$' /home/vncuser/.config/fcitx5/profile | grep -q '^Default=True$' || fail "English input item is not default"
+   grep -A1 '^\[Groups/0/Items/1\]$' /home/vncuser/.config/fcitx5/profile | grep -q '^Name=pinyin$' || fail "Pinyin input item is missing"
+ else
+   ! dpkg-query -W -f='${db:Status-Status}' fcitx5 2>/dev/null | grep -q 'installed' || fail "default image unexpectedly contains fcitx5"
+diff --git a/tests/validate-running-container.sh b/tests/validate-running-container.sh
+index 288dab2..6b4b80b 100755
+--- a/tests/validate-running-container.sh
++++ b/tests/validate-running-container.sh
+@@ -23,9 +23,14 @@ docker inspect -f '{{.State.Running}}' "$container" | grep -qx true
+ deadline=$((SECONDS + 120))
+ while (( SECONDS < deadline )); do
+   status="$(docker exec "$container" supervisorctl status 2>&1 || true)"
+-  if for program in dbus tigervnc xfce fcitx copyq chrome socat websockify; do
+-       grep -Eq "^${program}[[:space:]]+RUNNING" <<<"$status" || exit 1
+-     done; then
++  all_running=true
++  for program in dbus tigervnc xfce fcitx copyq chrome socat websockify; do
++    if ! grep -Eq "^${program}[[:space:]]+RUNNING" <<<"$status"; then
++      all_running=false
++      break
++    fi
++  done
++  if "$all_running"; then
+     break
+   fi
+   sleep 2
+@@ -40,7 +45,7 @@ for program in dbus tigervnc xfce fcitx copyq chrome socat websockify; do
+   }
+ done
+ 
+-docker exec -e EXPECTED_VARIANT="$variant" -e EXPECTED_UID="$expected_uid" "$container" /bin/bash -s <<'CONTAINER_CHECKS'
++docker exec -i -e EXPECTED_VARIANT="$variant" -e EXPECTED_UID="$expected_uid" "$container" /bin/bash -s <<'CONTAINER_CHECKS'
+ set -euo pipefail
+ 
+ fail() {
+@@ -99,7 +104,7 @@ CONTAINER_CHECKS
+ 
+ # Drive the existing Chromium instance over its real DevTools WebSocket and
+ # assert semantic DOM state rather than treating a screenshot as the sole proof.
+-docker exec "$container" node <<'NODE'
++docker exec -i "$container" node <<'NODE'
+ const http = require('http');
+ 
+ function getJson(path) {
+PASS: final repository/durable harness syntax and source contracts.
+=== artifact finalization checks ===
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS: canonical artifacts, revision entry, durable scripts, screenshot set, and diff formatting validated.
+=== git status ===
+## requirements/ubuntu-24-minimal-base...origin/requirements/ubuntu-24-minimal-base
+ M requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md
+ M requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md
+ M requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md
+ M tests/validate-image.sh
+ M tests/validate-running-container.sh
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-amd64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-amd64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-arm64-custom-1234.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-arm64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-build-arm64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-cleanup.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-final-repository-checks.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-amd64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-amd64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-arm64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-runtime-arm64-custom-1234.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-image-runtime-arm64-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-multiplatform-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-multiplatform-zh.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-preflight.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-profile-stale-lock-recovery.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-runtime-arm64-default.log
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-zh-ime-authoritative.png
+?? requirements/ubuntu-24-minimal-base/evidence/host-round3-zh-vnc-ime-interaction.log
+=== changed stat ===
+ .../api-e2e-coverage-investigation.md              | 244 ++++++++++--------
+ .../api-e2e-execution-coverage-report.md           | 274 ++++++++++++---------
+ .../api-e2e-revision-record.md                     |  32 +++
+ tests/validate-image.sh                            |   2 +-
+ tests/validate-running-container.sh                |  15 +-
+ 5 files changed, 342 insertions(+), 225 deletions(-)

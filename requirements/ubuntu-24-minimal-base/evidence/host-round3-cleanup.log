@@ -1,0 +1,37 @@
+=== pre-cleanup task resources ===
+brd-ubuntu24-r3-custom brd-ubuntu24-r3:arm64-custom-1234 Up 53 minutes
+brd-ubuntu24-r3-zh brd-ubuntu24-r3:arm64-zh Up 59 minutes
+brd-ubuntu24-r3-default brd-ubuntu24-r3:arm64-default Up About an hour
+brd-ubuntu24-r3-custom-profile
+brd-ubuntu24-r3-profile
+brd-ubuntu24-r3-zh-profile
+brd-ubuntu24-r3:amd64-zh a72343279ac1 5.35GB
+brd-ubuntu24-r3:amd64-default e99332dee0b7 4.64GB
+brd-ubuntu24-r3:arm64-custom-1234 8cd4fdc535ac 4.67GB
+brd-ubuntu24-r3:arm64-zh 6d5962ef4349 5.37GB
+brd-ubuntu24-r3:arm64-default 9fccb6bafd5a 4.67GB
+=== remove task containers ===
+brd-ubuntu24-r3-default
+brd-ubuntu24-r3-zh
+brd-ubuntu24-r3-custom
+=== remove task volumes ===
+brd-ubuntu24-r3-profile
+brd-ubuntu24-r3-zh-profile
+brd-ubuntu24-r3-custom-profile
+=== remove task daemon images ===
+Untagged: brd-ubuntu24-r3:arm64-default
+Deleted: sha256:9fccb6bafd5aef892088fcdfe5c40d47221b3e9a3b8bc108f3bf66ce10837e8b
+Untagged: brd-ubuntu24-r3:arm64-zh
+Deleted: sha256:6d5962ef4349865218c30fa58a2e5681e4f4ffed8cce5ad79da511c3bb807af5
+Untagged: brd-ubuntu24-r3:arm64-custom-1234
+Deleted: sha256:8cd4fdc535ac9a0a33d6a06d907388afaae51c3d2bdc65779737fe59d22a52e7
+Untagged: brd-ubuntu24-r3:amd64-default
+Deleted: sha256:e99332dee0b79bb6a70725ccd2e916f5322250d070143e8abd32d73dc90de872
+Untagged: brd-ubuntu24-r3:amd64-zh
+Deleted: sha256:a72343279ac16b62e14c861acb527acbab3516dcdda7dfe38f749c2742b7ea4e
+=== verify local OCI temp exports absent ===
+PASS OCI temp exports absent
+=== post-cleanup task resources ===
+PASS: task containers, volumes, daemon images, and OCI export tarballs removed.
+NOTE: pre-existing shared multi-platform-builder retained; its cache was not globally pruned to avoid deleting unrelated work.
+NOTE: Docker Hub not mutated; AutoByteus server repository not accessed or modified.

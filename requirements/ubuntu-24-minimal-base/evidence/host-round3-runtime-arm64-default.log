@@ -1,0 +1,56 @@
+=== start default runtime ===
+d94ee3df19ca62fd08352ffbbcb8cec120c9097fed0f43b5c9ab86a116f25adf
+=== durable runtime harness ===
+=== host port probes ===
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+AssertionError: b''
+=== runtime architecture and logs ===
+running=true arch=linux image=sha256:9fccb6bafd5aef892088fcdfe5c40d47221b3e9a3b8bc108f3bf66ce10837e8b
+aarch64
+stat: cannot statx '/home/vncuser/.config/chromium/api-e2e-runtime-marker': No such file or directory
+LANG=en_US.UTF-8
+LANGUAGE=en_US:en
+LC_ADDRESS="en_US.UTF-8"
+LC_ALL=en_US.UTF-8
+LC_COLLATE="en_US.UTF-8"
+LC_CTYPE="en_US.UTF-8"
+LC_IDENTIFICATION="en_US.UTF-8"
+LC_MEASUREMENT="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_NAME="en_US.UTF-8"
+LC_NUMERIC="en_US.UTF-8"
+LC_PAPER="en_US.UTF-8"
+LC_TELEPHONE="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+2026-09-01 12:07:00,138 INFO Included extra file "/etc/supervisor/conf.d/base.conf" during parsing
+2026-09-01 12:07:00,138 INFO Set uid to user 0 succeeded
+2026-09-01 12:07:00,146 INFO RPC interface 'supervisor' initialized
+2026-09-01 12:07:00,146 INFO supervisord started with pid 1
+=== rerun corrected durable runtime harness against ready default ===
+chrome                           RUNNING   pid 67, uptime 0:00:48
+copyq                            RUNNING   pid 61, uptime 0:00:48
+dbus                             RUNNING   pid 55, uptime 0:00:48
+disable_screensaver              EXITED    Sep 01 12:07 PM
+fcitx                            RUNNING   pid 58, uptime 0:00:48
+socat                            RUNNING   pid 70, uptime 0:00:48
+tigervnc                         RUNNING   pid 56, uptime 0:00:48
+websockify                       RUNNING   pid 72, uptime 0:00:48
+xfce                             RUNNING   pid 57, uptime 0:00:48
+PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+harness_rc=0
+=== host port probes ===
+PASS host VNC RFB 003.008
+PASS host websockify HTTP 200
+PASS host DevTools Chrome/151.0.7922.173
+=== profile marker and service details ===
+profile-marker 1000:1000 664
+56 /usr/bin/Xvnc :99 -geometry 1280x800 -depth 24 -rfbport 5900 -SecurityTypes=None -localhost no -AlwaysShared
+67 /usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222
+112 /usr/lib/chromium/chromium --type=zygote --no-zygote-sandbox --crashpad-handler-pid=0 --enable-crash-reporter=,built on Ubuntu 24.04.4 LTS --change-stack-guard-on-fork=enable
+113 /usr/lib/chromium/chromium --type=zygote --crashpad-handler-pid=0 --enable-crash-reporter=,built on Ubuntu 24.04.4 LTS --change-stack-guard-on-fork=enable
+118 /usr/lib/chromium/chromium --type=zygote --crashpad-handler-pid=0 --enable-crash-reporter=,built on Ubuntu 24.04.4 LTS --change-stack-guard-on-fork=enable
+198 /usr/lib/chromium/chromium --type=gpu-process --disable-dev-shm-usage --enable-gpu-rasterization --ozone-platform=x11 --crashpad-handler-pid=0 --enable-crash-reporter=,built on Ubuntu 24.04.4 LTS --change-stack-guard-on-fork=enable --gpu-preferences=YAAAAAAAAAAgAQAEAAAAAAAAAAAAAGAASAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAEAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --use-gl=disabled --shared-files --metrics-shmem-handle=4,i,8213191056021516528,10847915626009974932,262144 --field-trial-handle=3,i,12691464216120921551,8497978183249767928,262144 --variations-seed-version --pseudonymization-salt-handle=7,i,9211083253969885927,12250419022794629398,4 --trace-process-track-uuid=3190708988185955192
+72 /opt/browser-tools/bin/python /usr/local/bin/websockify --web=/usr/local/share/websockify 6080 localhost:5900

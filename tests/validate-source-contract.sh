@@ -48,6 +48,7 @@ assert_contains 'DBUS_SESSION_BUS_ADDRESS="unix:path=%\(ENV_XDG_RUNTIME_DIR\)s/b
 assert_contains 'XDG_RUNTIME_DIR:-/run/user/\$\{USER_UID:-1000\}' entrypoint.sh
 
 assert_contains 'PLATFORMS="linux/amd64,linux/arm64"' build-multi-arch.sh
+assert_contains 'arm64\|aarch64\)' build-multi-arch.sh
 assert_contains 'TAG_PRIMARY="\$IMAGE_NAME:\$VERSION"' build-multi-arch.sh
 assert_contains 'TAG_SECONDARY="\$IMAGE_NAME:latest"' build-multi-arch.sh
 assert_contains 'TAG_PRIMARY="\$IMAGE_NAME:\$\{VERSION\}-\$\{VARIANT\}"' build-multi-arch.sh

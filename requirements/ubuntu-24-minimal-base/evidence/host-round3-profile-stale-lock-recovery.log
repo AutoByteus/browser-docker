@@ -1,0 +1,32 @@
+=== remove first container while retaining task volume ===
+brd-ubuntu24-r3-default
+=== seed explicit stale Chromium lock artifacts into retained volume ===
+PASS seeded stales and retained marker
+=== create replacement container with same profile volume and normal entrypoint ===
+7a16ea534825b2baacd44e60052ca166ac7f4f600b34637b870c1432724a8ecd
+PASS stale X sentinels copied into stopped replacement container (pid sentinel 999999)
+=== start replacement and run full corrected runtime harness ===
+brd-ubuntu24-r3-default
+chrome                           RUNNING   pid 59, uptime 0:00:05
+copyq                            RUNNING   pid 51, uptime 0:00:05
+dbus                             RUNNING   pid 37, uptime 0:00:05
+disable_screensaver              EXITED    Sep 01 12:08 PM
+fcitx                            RUNNING   pid 42, uptime 0:00:05
+socat                            RUNNING   pid 65, uptime 0:00:05
+tigervnc                         RUNNING   pid 38, uptime 0:00:05
+websockify                       RUNNING   pid 69, uptime 0:00:05
+xfce                             RUNNING   pid 39, uptime 0:00:05
+PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+=== persistence/recovery assertions ===
+PASS marker=runtime-write-ok xpid=38 singleton=7a16ea534825-59
+Clearing stale Chromium profile lock artifacts from /home/vncuser/.config/chromium.
+2026-09-01 12:08:48,199 INFO supervisord started with pid 1
+2026-09-01 12:08:50,223 INFO success: chrome entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 12:08:50,223 INFO success: websockify entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 12:08:51,961 INFO success: tigervnc entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+2026-09-01 12:08:54,649 INFO success: dbus entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)
+=== authoritative recovery final assertions ===
+PASS retained-profile-marker=runtime-write-ok replacement-Xvnc-pid=38
+Clearing stale Chromium profile lock artifacts from /home/vncuser/.config/chromium.
+PASS: profile marker persisted and stale Chromium/X artifacts were recovered on normal recreation.

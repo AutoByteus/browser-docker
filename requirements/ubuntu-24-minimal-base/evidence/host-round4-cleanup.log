@@ -1,0 +1,9 @@
+=== remove round-4 live resources ===
+brd-ubuntu24-r4-default
+brd-ubuntu24-r4-profile
+=== restore pre-existing latest tag and remove task-loaded version tag ===
+Untagged: autobyteus/chrome-vnc:1.4.0
+Deleted: sha256:13d9dd530ef09a7f7f91bb3428ce3a1731055d9213f47d91133b64ac0ae60051
+Untagged: brd-ubuntu24-r4:original-latest
+PASS restored pre-existing autobyteus/chrome-vnc:latest=sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029; removed round-4 built image tag, backup tag, container, and volume.
+NOTE: pre-existing shared BuildX builder/cache retained; Docker Hub and server repository untouched.
