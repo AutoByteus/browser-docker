@@ -5,7 +5,7 @@ This repository contains a Docker setup for a browser environment with VNC acces
 ## Features
 - Canonical's official minimal Ubuntu 24.04 LTS OCI base with XFCE4 desktop environment
 - Chromium browser pre-installed and configured
-- Ubuntu-native Python 3.12, Node.js 22, and Yarn
+- Python 3.13 developer runtime, Supervisor 4.3.0, GitHub CLI, Node.js 22, and Yarn
 - TigerVNC (`Xvnc`) server for remote desktop access
 - Screen lock/screensaver disabled for uninterrupted operation
 - Multi-architecture support (AMD64 and ARM64)

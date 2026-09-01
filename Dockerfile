@@ -24,6 +24,7 @@ ENV LC_ALL=en_US.UTF-8
 RUN apt-get update && \
     apt-get install -y software-properties-common ca-certificates curl && \
     add-apt-repository -y universe && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
     add-apt-repository -y ppa:xtradeb/apps && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 
@@ -52,7 +53,6 @@ RUN apt-get update && \
     scrot \
     socat \
     sudo \
-    supervisor \
     unzip \
     vim \
     wget \
@@ -66,10 +66,9 @@ RUN apt-get update && \
     # Runtimes
     nodejs \
     python3 \
-    python3-dev \
-    python3-pip \
-    python3-venv \
-    python-is-python3 \
+    python3.13 \
+    python3.13-dev \
+    python3.13-venv \
     && if [ "${IMAGE_VARIANT}" = "zh" ]; then \
         apt-get install -y \
         # Fonts and locales
@@ -140,12 +139,17 @@ RUN if [ "${IMAGE_VARIANT}" = "zh" ]; then \
     fi
 
 # Layer 3: Post-installation configuration
-# Keep Python-installed image tooling out of Noble's externally managed system
-# environment. The public commands use the isolated environment while python3
-# and python continue to resolve to Ubuntu's native Python 3.12 interpreter.
-RUN python3 -m venv /opt/browser-tools && \
+# Preserve Noble's distribution-owned /usr/bin/python3 while exposing the
+# supported Python 3.13 developer commands through standard /usr/local PATH
+# precedence. Keep every pip-installed operational tool under one Python 3.13
+# owner instead of mixing it with the OS interpreter.
+RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 && \
+    ln -s /usr/bin/python3.13 /usr/local/bin/python && \
+    /usr/bin/python3.13 -m venv /opt/browser-tools && \
     /opt/browser-tools/bin/python -m pip install --upgrade pip wheel setuptools && \
-    /opt/browser-tools/bin/python -m pip install websockify uv && \
+    /opt/browser-tools/bin/python -m pip install supervisor==4.3.0 websockify uv && \
+    ln -s /opt/browser-tools/bin/supervisord /usr/local/bin/supervisord && \
+    ln -s /opt/browser-tools/bin/supervisorctl /usr/local/bin/supervisorctl && \
     ln -s /opt/browser-tools/bin/websockify /usr/local/bin/websockify && \
     ln -s /opt/browser-tools/bin/uv /usr/local/bin/uv && \
     WEBSOCKIFY_PACKAGE_DIR="$(/opt/browser-tools/bin/python -c 'from pathlib import Path; import websockify; print(Path(websockify.__file__).parent)')" && \

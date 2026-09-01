@@ -1,0 +1,91 @@
+IR-005 Python 3.13 on Noble implementation checks
+================================================
+Starting revision: cc30abff0769553c84fb1ebb453c28e6123f4218
+PASS: implementation started from reviewed integrated revision cc30abf
+
+[1] Shell and diff hygiene
+PASS: bash -n production shell scripts
+PASS: shellcheck production scripts (pre-existing intentional SC2086 sites excluded)
+PASS: git diff --check
+
+[2] Noble and Python package-source contract
+    python3 \
+    python3.13 \
+    python3.13-dev \
+    python3.13-venv \
+PASS: Deadsnakes Noble Python 3.13 is selected and stale developer/apt-Supervisor payload is removed
+
+[3] Public Python and OS Python ownership
+RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 && \
+RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 && \
+    ln -s /usr/bin/python3.13 /usr/local/bin/python && \
+PASS: public Python selectors target 3.13 through /usr/local without modifying /usr/bin/python3
+
+[4] Sole operational-tools environment
+    /usr/bin/python3.13 -m venv /opt/browser-tools && \
+    /opt/browser-tools/bin/python -m pip install supervisor==4.3.0 websockify uv && \
+    ln -s /opt/browser-tools/bin/supervisord /usr/local/bin/supervisord && \
+    ln -s /opt/browser-tools/bin/supervisorctl /usr/local/bin/supervisorctl && \
+    ln -s /opt/browser-tools/bin/websockify /usr/local/bin/websockify && \
+    ln -s /opt/browser-tools/bin/uv /usr/local/bin/uv && \
+    ln -s "${WEBSOCKIFY_PACKAGE_DIR}" /usr/local/share/websockify && \
+PASS: Supervisor 4.3.0, websockify, and uv have one Python 3.13 owner and stable public paths
+
+[5] Deterministic runtime handoff and preserved service graph
+command=websockify --web=/usr/local/share/websockify 6080 localhost:5900
+PASS: Supervisor configuration parses and preserves all program sections/stable commands
+PASS: entrypoint has one absolute venv Supervisor path and no fallback
+
+[6] Preserved integrated contracts
+    gh \
+    nodejs \
+    npm install -g yarn
+ENV XDG_RUNTIME_DIR=/run/user/${USER_UID}
+environment=HOME="/home/vncuser",USER="vncuser",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",DBUS_VERBOSE=1
+environment=HOME="/home/vncuser",USER="vncuser",DISPLAY=":99",XAUTHORITY="/home/vncuser/.Xauthority",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",GTK_IM_MODULE="fcitx",QT_IM_MODULE="fcitx",XMODIFIERS="@im=fcitx",SDL_IM_MODULE="fcitx",LANG="en_US.UTF-8",LC_ALL="en_US.UTF-8"
+environment=HOME="/home/vncuser",USER="vncuser",DISPLAY=":99",XAUTHORITY="/home/vncuser/.Xauthority",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",COPYQ_LOG_LEVEL="DEBUG",COPYQ_LOG_FILE="/home/vncuser/copyq.log"
+environment=HOME="/home/vncuser",USER="vncuser",DISPLAY=":99",XAUTHORITY="/home/vncuser/.Xauthority",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",LANG="en_US.UTF-8",LC_ALL="en_US.UTF-8"
+    arm64|aarch64)
+PLATFORMS="linux/amd64,linux/arm64"
+'Name=pinyin' \
+COPY start-chrome.sh /usr/local/bin/start-chrome.sh
+EXPOSE 5900 6080 9223
+Normal Chromium args: <--no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 >
+mobile-safe Chromium args: <--no-sandbox --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 >
+PASS: release, tooling, identity/runtime, platform, variant, Chrome, and port contracts remain intact
+
+[7] Documentation and obsolete active-source scan
+- Python 3.13 developer runtime, Supervisor 4.3.0, GitHub CLI, Node.js 22, and Yarn
+PASS: active documentation and source describe only the clean Python 3.13 target
+
+[8] Feasibility evidence and downstream coverage ownership
+PASS: Noble arm64 Python 3.13 public runtime and isolated Supervisor/websockify/uv design is feasible.
+PASS: Noble amd64 Deadsnakes Python 3.13 package family has install candidates.
+PASS: reviewed AMD64/ARM64 feasibility evidence is present and Implementation changed no durable test
+
+[9] Source-size/change-pressure guardrails
+Dockerfile: 173 effective non-comment lines, 225 total lines
+entrypoint.sh: 77 effective non-comment lines, 104 total lines
+README.md: 102 effective non-comment lines, 169 total lines
+Dockerfile: +14/-10
+README.md: +1/-1
+entrypoint.sh: +2/-2
+PASS: changed implementation sources stay within file and delta guardrails
+
+[10] Upstream artifact preservation
+requirements/ubuntu-24-minimal-base/requirements-doc.md: OK
+requirements/ubuntu-24-minimal-base/requirements-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/investigation-notes.md: OK
+requirements/ubuntu-24-minimal-base/design-spec.md: OK
+requirements/ubuntu-24-minimal-base/solution-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md: OK
+requirements/ubuntu-24-minimal-base/design-review-report.md: OK
+requirements/ubuntu-24-minimal-base/architecture-review-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/delivery-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/docs-sync-report.md: OK
+requirements/ubuntu-24-minimal-base/handoff-summary.md: OK
+requirements/ubuntu-24-minimal-base/release-deployment-report.md: OK
+requirements/ubuntu-24-minimal-base/evidence/delivery-dr003-integration-refresh.log: OK
+requirements/ubuntu-24-minimal-base/evidence/solution-sr001-python313-noble-probe.log: OK
+requirements/ubuntu-24-minimal-base/evidence/solution-sr001-python313-noble-amd64-availability.log: OK
+PASS: reviewed solution and Delivery-owned artifacts remain byte-for-byte unchanged

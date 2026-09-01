@@ -100,5 +100,5 @@ rm -f "/tmp/.X${DISPLAY_NUM}-lock" "/tmp/.X11-unix/X${DISPLAY_NUM}"
 mkdir -p "$(dirname /var/run/supervisor.sock)"
 chown vncuser:vncuser "$(dirname /var/run/supervisor.sock)"
 
-# Start Noble's Python 3.12-compatible distribution Supervisor as root.
-exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+# Start the sole Python 3.13-compatible Supervisor provider as root.
+exec /usr/local/bin/supervisord -n -c /etc/supervisor/supervisord.conf
