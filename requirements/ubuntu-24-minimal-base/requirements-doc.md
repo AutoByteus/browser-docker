@@ -3,11 +3,11 @@
 ## Document Status
 
 - Status: `Ready for Approval`
-- Current requirements revision ID: `RER-001`
+- Current requirements revision ID: `RER-002`
 - Request / ticket: `BRD-UBUNTU24-001`
 - Requirements owner: Requirements Engineer (`/requirements_engineer`)
 - Date: 2026-09-01
-- Approval state and reference: Awaiting explicit user approval of this baseline.
+- Approval state and reference: The user confirmed on 2026-09-01 that “minimal” refers to the base image itself; explicit approval of the complete requirements baseline is still pending.
 
 ## Problem And Desired Outcome
 
@@ -153,14 +153,14 @@
 | Assumption ID | Assumption | Why It Is Necessary | Validation Plan / Owner | Status |
 | --- | --- | --- | --- | --- |
 | ASM-001 | “24 stable version” means Ubuntu 24.04 LTS, not a floating `24`, `latest`, or a newer LTS. | Ubuntu version tags and release cadence make an explicit version necessary. | User approval of this package. | Awaiting approval. |
-| ASM-002 | “the minimal one” refers to Canonical's official minimal OCI base rootfs, not removal of the current browser/desktop/tool feature set. | The final product necessarily installs Chromium, XFCE, runtimes, and utilities, so final-image minimization would be a separate scope decision. | User approval of this package. | Awaiting approval. |
+| ASM-002 | “the minimal one” refers to Canonical's official minimal OCI base rootfs, not removal of the current browser/desktop/tool feature set. | The final product necessarily installs Chromium, XFCE, runtimes, and utilities, so final-image minimization would be a separate scope decision. | Confirmed directly by the user on 2026-09-01. | Validated. |
 | ASM-003 | Python 3.11 and other named runtimes remain intentionally preserved despite Ubuntu 24.04's native Python baseline. | Current source and README establish them as product capabilities; the user requested only the Ubuntu upgrade. | Downstream build/runtime validation. | Evidence-backed. |
 
 ## Open Decisions And Questions
 
 | Decision / Question ID | Question | Why It Matters | Options / Evidence | Decision Owner | Status |
 | --- | --- | --- | --- | --- | --- |
-| DEC-001 | Does the approval basis correctly interpret “minimal” as the official minimal Ubuntu OCI base without pruning installed features? | A different interpretation would materially expand scope and change preserved behavior. | Proposed: yes (ASM-002); alternative: a separate final-image slimming effort with explicit package decisions. | User | Awaiting approval. |
+| DEC-001 | Does the approval basis correctly interpret “minimal” as the official minimal Ubuntu OCI base without pruning installed features? | A different interpretation would materially expand scope and change preserved behavior. | User confirmed that minimal refers to the base image itself. | User | Resolved 2026-09-01. |
 
 ## Traceability
 
@@ -193,7 +193,7 @@
 - Material assumptions and open decisions are visible: `Yes`
 - User approval received: `No`
 - Requirements package ready for downstream route: `No`
-- Remaining blocker: Explicit user approval of the proposed requirements and minimal-base interpretation.
+- Remaining blocker: Explicit user approval of the complete proposed requirements baseline. The minimal-base interpretation is confirmed.
 
 ## Architecture Design Routing Assessment
 

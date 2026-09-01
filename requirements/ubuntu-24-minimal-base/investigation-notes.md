@@ -9,15 +9,15 @@
 - Base or reference revision: `2bc0b4a` (`main` / `origin/main` at intake)
 - Bootstrap result: Clean repository confirmed; dedicated task branch created before deeper investigation.
 - Bootstrap blocker: None.
-- Current requirements revision ID: `RER-001`
+- Current requirements revision ID: `RER-002`
 - Investigation status: Complete for product review; executable Docker build/runtime validation unavailable in this environment and assigned downstream after approval.
 
 ## Initial Request And Clarifications
 
 - Original request: “the base server docker image version uses ubunt 22 something, but its too old. we need to use 24 stable version, of cousrse the mininal one. the browser docker project is here /home/autobyteus/workspace/browser-docker basically current base docker uses too low ubuntu version”
-- Clarifications received: Repository location and desired Ubuntu major/minor family were supplied directly.
+- Clarifications received: Repository location and desired Ubuntu major/minor family were supplied directly. On 2026-09-01 the user confirmed that “minimal” refers specifically to the base image itself, not pruning the browser image's installed feature set.
 - User-supplied facts and constraints: Current base is an Ubuntu 22 release; use a stable Ubuntu 24 minimal base; change applies to the browser Docker project.
-- Initial ambiguity: Whether “minimal” means the official minimal Ubuntu OCI rootfs or a broader pruning of installed application packages. The proposed requirement baseline selects the former and exposes that decision for approval.
+- Initial ambiguity: Whether “minimal” means the official minimal Ubuntu OCI rootfs or a broader pruning of installed application packages. Resolved by the user on 2026-09-01 in favor of the official minimal base image interpretation.
 
 ## Product And Domain Understanding
 
@@ -31,6 +31,7 @@
 | Date | Source Type (`Code`/`Doc`/`Runtime`/`Data`/`Contract`/`Web`/`User`/`Command`/`Other`) | Exact Source / Command / Query | Why Consulted | Relevant Finding | Follow-Up |
 | --- | --- | --- | --- | --- | --- |
 | 2026-09-01 | User | Intake request in current conversation | Establish desired outcome and repository. | Explicit request to replace the too-old Ubuntu 22 base with a stable minimal Ubuntu 24 base. | Present interpretation for approval. |
+| 2026-09-01 | User | Follow-up clarification in current conversation | Resolve the meaning of “minimal.” | User confirmed that “minimal” is a property of the base image itself. | Treat package/feature pruning as out of scope. |
 | 2026-09-01 | Command | `git -C /home/autobyteus/workspace/browser-docker status --short --branch`; `git switch -c requirements/ubuntu-24-minimal-base` | Verify safe task isolation. | Supplied repository was clean on `main`; branch created from `2bc0b4a`. | Preserve branch until downstream route. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/Dockerfile` | Identify current base and compatibility surface. | Line 2 is `FROM ubuntu:22.04`; image installs PPAs, packages, Python 3.11, Node.js 22, browser/desktop/VNC and variant dependencies. | Require a Noble build and runtime smoke test. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/build-multi-arch.sh` | Determine supported build scenarios/contracts. | Default local build/load; `--push`; `--no-cache`; `--variant`; AMD64/ARM64; version and rolling variant tags. | Preserve command and tag behavior. |
@@ -158,7 +159,7 @@
 | ID | Type (`Assumption`/`Unknown`/`Risk`) | Description | Why It Matters | Resolution / Owner | Status |
 | --- | --- | --- | --- | --- | --- |
 | ASM-001 | Assumption | “24 stable” means explicit Ubuntu 24.04 LTS. | Prevents selecting a floating or non-LTS base. | User approval. | Open. |
-| ASM-002 | Assumption | “minimal” applies to the official base rootfs, not feature/package pruning. | Package pruning could break current product behavior and is a larger scope. | User approval. | Open. |
+| ASM-002 | Assumption | “minimal” applies to the official base rootfs, not feature/package pruning. | Package pruning could break current product behavior and is a larger scope. | Confirmed directly by the user on 2026-09-01. | Validated. |
 | RISK-001 | Risk | Noble can change dependency versions, library behavior, or filesystem locations even when packages exist. | A one-line base change may build but still regress runtime services. | Full AC-003–AC-008 validation / downstream engineering. | Open until validated. |
 | RISK-002 | Risk | Deadsnakes, XtraDeb, NodeSource, and PyPI/npm are remote mutable dependencies. | Clean/multi-platform builds can fail independently of repository code. | Downstream validation must distinguish repository defects from external availability. | Existing risk. |
 | UNK-001 | Unknown | Actual clean default/`zh` AMD64/ARM64 build and runtime results on Noble. | Required to claim delivery. | Implementation and API/E2E teams with Docker/BuildX. | Open. |
