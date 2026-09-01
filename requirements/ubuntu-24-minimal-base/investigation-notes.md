@@ -9,13 +9,13 @@
 - Base or reference revision: `2bc0b4a` (`main` / `origin/main` at intake)
 - Bootstrap result: Clean repository confirmed; dedicated task branch created before deeper investigation.
 - Bootstrap blocker: None.
-- Current requirements revision ID: `RER-002`
+- Current requirements revision ID: `RER-003`
 - Investigation status: Complete for product review; executable Docker build/runtime validation unavailable in this environment and assigned downstream after approval.
 
 ## Initial Request And Clarifications
 
 - Original request: “the base server docker image version uses ubunt 22 something, but its too old. we need to use 24 stable version, of cousrse the mininal one. the browser docker project is here /home/autobyteus/workspace/browser-docker basically current base docker uses too low ubuntu version”
-- Clarifications received: Repository location and desired Ubuntu major/minor family were supplied directly. On 2026-09-01 the user confirmed that “minimal” refers specifically to the base image itself, not pruning the browser image's installed feature set.
+- Clarifications received: Repository location and desired Ubuntu major/minor family were supplied directly. On 2026-09-01 the user confirmed that “minimal” refers specifically to the base image itself, not pruning the browser image's installed feature set, and asked whether the current Python 3.11 should move to Python 3.12 or 3.13.
 - User-supplied facts and constraints: Current base is an Ubuntu 22 release; use a stable Ubuntu 24 minimal base; change applies to the browser Docker project.
 - Initial ambiguity: Whether “minimal” means the official minimal Ubuntu OCI rootfs or a broader pruning of installed application packages. Resolved by the user on 2026-09-01 in favor of the official minimal base image interpretation.
 
@@ -32,18 +32,22 @@
 | --- | --- | --- | --- | --- | --- |
 | 2026-09-01 | User | Intake request in current conversation | Establish desired outcome and repository. | Explicit request to replace the too-old Ubuntu 22 base with a stable minimal Ubuntu 24 base. | Present interpretation for approval. |
 | 2026-09-01 | User | Follow-up clarification in current conversation | Resolve the meaning of “minimal.” | User confirmed that “minimal” is a property of the base image itself. | Treat package/feature pruning as out of scope. |
+| 2026-09-01 | User | Python-version follow-up in current conversation | Determine whether Python 3.11 should remain preserved. | User prefers a newer Python and asked for a 3.12-versus-3.13 recommendation. | Recommend Noble-native 3.12 for approval. |
 | 2026-09-01 | Command | `git -C /home/autobyteus/workspace/browser-docker status --short --branch`; `git switch -c requirements/ubuntu-24-minimal-base` | Verify safe task isolation. | Supplied repository was clean on `main`; branch created from `2bc0b4a`. | Preserve branch until downstream route. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/Dockerfile` | Identify current base and compatibility surface. | Line 2 is `FROM ubuntu:22.04`; image installs PPAs, packages, Python 3.11, Node.js 22, browser/desktop/VNC and variant dependencies. | Require a Noble build and runtime smoke test. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/build-multi-arch.sh` | Determine supported build scenarios/contracts. | Default local build/load; `--push`; `--no-cache`; `--variant`; AMD64/ARM64; version and rolling variant tags. | Preserve command and tag behavior. |
 | 2026-09-01 | Code | `base.conf`, `entrypoint.sh`, `start-vnc.sh`, `supervisord.conf`, `docker-compose*.yml`, `run-container.sh`, `disable-screensaver.sh` | Determine runtime behavior to preserve. | Existing service, user, port, persistent profile, recovery, environment, and launch contracts extend beyond the base declaration. | Acceptance criteria cover representative runtime outcomes. |
 | 2026-09-01 | Doc | `/home/autobyteus/workspace/browser-docker/README.md` | Identify documented public/operational behavior. | README calls out Ubuntu 22.04 and documents default/`zh`, multi-arch, VNC/debugging, profile persistence, and recovery. | Require accurate 24.04 documentation while preserving other instructions. |
-| 2026-09-01 | Command | `grep -RInE 'ubuntu:|Ubuntu 22|22\\.04|python3\\.11|dist-packages/websockify' --exclude-dir=.git .` | Find release- and runtime-specific assumptions. | Explicit 22.04 references exist only in Dockerfile and README; Python 3.11 is deliberately installed and its websockify path is explicitly configured. | Preserve Python 3.11; validate path on Noble. |
+| 2026-09-01 | Command | `grep -RInE 'ubuntu:|Ubuntu 22|22\\.04|python3\\.11|dist-packages/websockify' --exclude-dir=.git .` | Find release- and runtime-specific assumptions. | Explicit 22.04 references exist only in Dockerfile and README; Python 3.11 is deliberately installed and its websockify path is explicitly configured. | Initially identified as preserved; superseded by proposed REQ-007 after the user reopened the Python version. |
 | 2026-09-01 | Command | `docker version`; `docker buildx version` | Determine available executable validation. | Docker/BuildX are not installed in the Requirements Engineer environment. | Downstream implementation/API-E2E environment must perform AC-003 through AC-008. |
 | 2026-09-01 | Web | https://documentation.ubuntu.com/oci-registries/oci-reference/oci-image-configuration/ | Verify official image minimal/multi-arch semantics. | Canonical says Ubuntu OCI images use a minimal container-tailored rootfs and a multi-architecture image index; `ubuntu:24.04` resolves by architecture. | Supports REQ-002 and AC-002. |
 | 2026-09-01 | Web | https://hub.docker.com/_/ubuntu and https://hub.docker.com/_/ubuntu/tags?name=24.04 | Verify Docker Official Image tag and platforms. | `ubuntu:24.04` is a maintained Docker Official Image tag with AMD64 and ARM64 entries and a small base layer. | Use explicit 24.04, not a floating `latest`. |
 | 2026-09-01 | Web | https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa | Check Python 3.11 feasibility on Noble. | PPA lists Python 3.11 for Ubuntu 24.04/Noble, with successful AMD64/ARM64 builds. | Validate actual image build. |
 | 2026-09-01 | Web | https://launchpad.net/~xtradeb/+archive/ubuntu/apps | Check current non-Snap Chromium source on Noble. | XtraDeb publishes Chromium packages for Noble as well as Jammy; historical and current Noble builds are shown. | Validate both repository architectures/variants during build. |
 | 2026-09-01 | Web | https://github.com/nodesource/distributions/blob/master/DEV_README.md | Check Node.js 22 support. | NodeSource's matrix lists Ubuntu Noble with Node 22 support and AMD64/ARM64 DEB architectures. | Validate actual setup/install in clean build. |
+| 2026-09-01 | Web | https://documentation.ubuntu.com/ubuntu-for-developers/reference/availability/python/ and https://packages.ubuntu.com/en/noble/python3 | Identify Ubuntu 24.04's supported/default Python. | Canonical lists Python 3.12 as Noble's available and default Python; Ubuntu packages it for AMD64 and ARM64. | Prefer 3.12 to align with the selected OS base. |
+| 2026-09-01 | Web | https://devguide.python.org/versions/ and https://www.python.org/downloads/release/python-3130/ | Distinguish upstream stability from Noble integration. | Python 3.13 is upstream-stable and in bugfix support, while 3.12 is in security support; current newest stable upstream is 3.14, showing that “latest stable” is not the same decision as “Ubuntu 24.04 native.” | Recommend OS-native 3.12 for this base-image task. |
+| 2026-09-01 | Web | https://documentation.ubuntu.com/ubuntu-for-developers/howto/python-setup/ | Check Ubuntu system-Python constraints. | Canonical advises keeping the default system Python and using isolated environments for pip-installed dependencies; `/usr/bin/python3` points to 3.12 on Noble. | Downstream must adapt the current direct `ensurepip`/system-pip setup safely. |
 
 ## Relevant Existing Behavior And Supported Product Paths
 
@@ -57,9 +61,9 @@
 
 | Path / Component / Contract | Current Responsibility Or Behavior | Requirement Implication | Architecture Question Deferred Downstream |
 | --- | --- | --- | --- |
-| `Dockerfile` | Selects Ubuntu 22.04; adds Universe, Deadsnakes, XtraDeb, and NodeSource; installs product dependencies and configures user/runtime. | Base must become official Ubuntu 24.04; Noble compatibility must preserve named outcomes. | If compatibility requires structural runtime/service changes rather than bounded install/path adjustments, downstream must escalate. |
+| `Dockerfile` | Selects Ubuntu 22.04; adds Universe, Deadsnakes, XtraDeb, and NodeSource; installs Python 3.11 and product dependencies, then overrides `python3` to 3.11 and invokes `ensurepip`. | Base must become official Ubuntu 24.04; proposed runtime must become Noble-native Python 3.12; Noble-compatible package installation must preserve Python-installed outcomes. | If compatibility requires structural runtime/service changes rather than bounded install/path adjustments, downstream must escalate. |
 | `build-multi-arch.sh` | Owns AMD64/ARM64 build and tagging for default/variant images. | Both platforms/variants are acceptance requirements. | None expected; preserve existing contract. |
-| `base.conf` | Hard-codes a Python 3.11 websockify data path and supervises runtime services. | Python 3.11/websockify behavior and actual Noble path need validation. | Whether a path adjustment is required is implementation evidence, not a new behavior decision. |
+| `base.conf` | Hard-codes a Python 3.11 websockify data path and supervises runtime services. | Websockify behavior must be preserved while removing the Python 3.11 path assumption. | The production-safe path/install adjustment is downstream implementation evidence, not a new behavior decision. |
 | `README.md` | States Ubuntu 22.04 and documents supported product/operational behavior. | Version statement must be synchronized; surrounding behavior is preservation evidence. | None. |
 | Run/Compose/entrypoint scripts | Define user-visible ports, volume, environment, recovery, and startup behavior. | Representative behavior must be smoke tested after distribution change. | Escalate only if Noble makes current structural surfaces insufficient. |
 
@@ -106,7 +110,8 @@
 | Contract / Dependency | Version / Authority | Relevant Behavior Or Constraint | Evidence | Unknown / Risk |
 | --- | --- | --- | --- | --- |
 | Ubuntu OCI base | 24.04 LTS / Canonical and Docker Official Images | Official minimal rootfs, explicit Noble tag, multi-arch. | Canonical OCI docs; Docker Hub official listing. | Tag is mutable within the 24.04 release stream. |
-| Deadsnakes | Noble Python 3.11 / Launchpad PPA | Preserve Python 3.11 for AMD64/ARM64. | Launchpad PPA/package build pages. | Untrusted third-party PPA disclaimer and remote availability. |
+| Ubuntu Noble Python | Python 3.12 / Canonical | Use Noble's official/default Python on AMD64 and ARM64. | Canonical Python availability/setup docs and Ubuntu package index. | System-Python packaging requires a supported approach for third-party tools. |
+| Deadsnakes | Current Python 3.11 source / Launchpad PPA | No longer needed solely for Python if 3.12 recommendation is approved. | Current Dockerfile and PPA evidence. | Verify no unrelated package depends on retaining the PPA. |
 | XtraDeb | Noble Chromium / Launchpad PPA | Preserve non-Snap `chromium` package currently used by image. | Launchpad Noble build/package evidence. | Must verify both target architectures at build time. |
 | NodeSource | Node.js 22 / NodeSource | Preserve Node.js 22 on Noble and both target architectures. | Official distributions repository matrix. | Remote setup script is mutable. |
 
@@ -160,19 +165,21 @@
 | --- | --- | --- | --- | --- | --- |
 | ASM-001 | Assumption | “24 stable” means explicit Ubuntu 24.04 LTS. | Prevents selecting a floating or non-LTS base. | User approval. | Open. |
 | ASM-002 | Assumption | “minimal” applies to the official base rootfs, not feature/package pruning. | Package pruning could break current product behavior and is a larger scope. | Confirmed directly by the user on 2026-09-01. | Validated. |
-| RISK-001 | Risk | Noble can change dependency versions, library behavior, or filesystem locations even when packages exist. | A one-line base change may build but still regress runtime services. | Full AC-003–AC-008 validation / downstream engineering. | Open until validated. |
-| RISK-002 | Risk | Deadsnakes, XtraDeb, NodeSource, and PyPI/npm are remote mutable dependencies. | Clean/multi-platform builds can fail independently of repository code. | Downstream validation must distinguish repository defects from external availability. | Existing risk. |
+| ASM-003 | Assumption | Python should move to Noble-native 3.12 rather than PPA-sourced 3.13/3.14. | It aligns OS and developer runtime support and reduces external-source complexity while satisfying the request for a newer Python. | User approval. | Open. |
+| RISK-001 | Risk | Noble can change dependency versions, library behavior, or filesystem locations even when packages exist. | A one-line base change may build but still regress runtime services. | Full AC-003–AC-008 and AC-010 validation / downstream engineering. | Open until validated. |
+| RISK-002 | Risk | XtraDeb, NodeSource, PyPI/npm, and any still-required PPA are remote mutable dependencies. | Clean/multi-platform builds can fail independently of repository code. | Downstream validation must distinguish repository defects from external availability. | Existing risk. |
 | UNK-001 | Unknown | Actual clean default/`zh` AMD64/ARM64 build and runtime results on Noble. | Required to claim delivery. | Implementation and API/E2E teams with Docker/BuildX. | Open. |
+| RISK-003 | Risk | Ubuntu's system Python packaging differs from the current Deadsnakes `ensurepip` flow, and `base.conf` embeds a Python 3.11 package path. | A version-only edit can break the build or websockify at runtime. | Downstream implementation and executable validation under REQ-007/AC-010. | Open until validated. |
 
 ## Requirement Implications
 
-The direct request establishes Ubuntu 24.04 LTS as the intended base release. Canonical's official `ubuntu:24.04` OCI image already supplies the requested minimal container rootfs and multi-architecture resolution, so no unofficial “minimal” base is needed. The repository's behavior is much broader than the base line: package sources, Python 3.11/websockify path coupling, two variants, two architectures, and multiple supervised services mean success must include clean builds and runtime smoke tests. Because no feature removal was requested, the package treats current documented capabilities as preservation requirements and excludes final-image package pruning.
+The direct request establishes Ubuntu 24.04 LTS as the intended base release. Canonical's official `ubuntu:24.04` OCI image already supplies the requested minimal container rootfs and multi-architecture resolution, so no unofficial “minimal” base is needed. The later Python question changes the proposed runtime baseline: Python 3.12 is recommended because it is Noble's official/default Python on both target architectures, whereas Python 3.13 is upstream-stable but external to Noble's official Python set (and Python 3.14 is now the newest upstream-stable line). The repository's Python 3.11/websockify path coupling and direct `ensurepip` flow require compatibility work and executable validation. Because no feature removal was requested, the package preserves current capabilities while replacing Python 3.11 with 3.12 and excludes final-image package pruning.
 
 ## Notes For Downstream Architecture Design Or Direct Implementation
 
 - Realize SCN-001 through SCN-004 without changing the approved build, tag, launch, port, user, variant, platform, or profile contracts.
 - Begin from the explicit official `ubuntu:24.04` base semantics; do not substitute a floating or third-party image.
 - Validate every remote package source against Noble and both target architectures. Static availability evidence does not replace clean BuildX validation.
-- Preserve Python 3.11 and verify the websockify asset path rather than assuming Jammy and Noble layouts match.
+- If REQ-007 is approved, use Noble-native Python 3.12; remove Python 3.11 path assumptions; preserve websockify and `uv` behavior; and respect Ubuntu's supported system-Python/pip isolation model.
 - Treat any need to change service lifecycle, external contracts, persistence invariants, security boundaries, deployment topology, or ownership as downstream `Design Impact` or `Requirement Gap`, not as implicit authorization.
 - Docker was unavailable during requirements investigation, so no build/runtime success is claimed here.

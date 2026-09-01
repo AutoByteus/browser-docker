@@ -8,6 +8,7 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 | --- | --- | --- | --- | --- | --- |
 | RER-001 | Initial Ubuntu 24.04 minimal-base requirements baseline | N/A | Ready for Approval | REQ-001–REQ-006; BEH-001–BEH-003 | Evidence-backed baseline created and presented for explicit approval. |
 | RER-002 | User clarification of “minimal” | Ready for Approval | Ready for Approval | ASM-002; DEC-001; scope boundary | Confirmed that minimal applies to the official base image; installed-feature pruning remains out of scope. |
+| RER-003 | Python runtime modernization question | Ready for Approval | Ready for Approval | REQ-004, REQ-007; BEH-002; AC-006, AC-010; SCN-003; ASM-003; DEC-002 | Proposed Ubuntu-native Python 3.12 instead of current Deadsnakes Python 3.11 or a newer PPA-only interpreter. |
 
 ## Revision Entries
 
@@ -42,3 +43,19 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 - Downstream architecture or direct-implementation route impact: No change; post-approval routing assessment remains required.
 - Remaining gaps, assumptions, or blocked decisions: Explicit approval of the complete requirements baseline; executable Docker/BuildX validation remains downstream.
 - Next action or recipient: User explicitly approves or revises the complete baseline.
+
+### RER-003 — Recommend Noble-native Python 3.12
+
+- Triggering user feedback, prototype package, downstream feedback, or investigation evidence: User asked whether current Python 3.11 should move to Python 3.12 or 3.13 because newer libraries increasingly use those versions.
+- Prior authoritative status (`N/A` for `RER-001`): Ready for Approval
+- Current authoritative status: Ready for Approval
+- Requirement, behavior, acceptance-criteria, scenario, or decision IDs affected: REQ-004, new REQ-007, BEH-002, AC-006, new AC-010, SCN-003, ASM-003, and DEC-002.
+- Scenario-basis or scenario-validity changes: SCN-003 now includes using Python 3.12 and preserving Python-installed runtime services/tools.
+- Why this baseline or revision was recorded: Python 3.11 was previously a preservation constraint; the user explicitly reopened it. Canonical evidence shows 3.12 is Ubuntu 24.04's official/default Python, while 3.13 would require a non-default source on Noble.
+- Canonical artifact sections changed: Desired Outcome, behavior/scope/requirements/acceptance/scenario/quality/dependency/assumption/decision/traceability/downstream/readiness sections and corresponding investigation evidence.
+- Supplemental artifacts added, changed, or removed: None.
+- Prototype evidence or product decisions incorporated: N/A — no Product Design request.
+- User approval impact: Explicit approval is required for proposed REQ-007 selecting Python 3.12.
+- Downstream architecture or direct-implementation route impact: Python source, installation, `pip` isolation, and hard-coded websockify path now require validation; routing remains pending approval.
+- Remaining gaps, assumptions, or blocked decisions: User decision on Python 3.12 recommendation and complete-baseline approval; Docker/BuildX validation remains downstream.
+- Next action or recipient: User accepts Python 3.12 and approves the complete baseline, or selects a different version for revision.
