@@ -1,0 +1,14 @@
+== official ubuntu:24.04 base identity involved in failed clean build ==
+ARM64:
+Docker Hub platform digest: sha256:33ceb71981b602c1a7443a53469e4dba065f7503eab3078a2d7a57a2ab987517
+Config ID: sha256:5b8c0c14690ed170da4e663fe0bae0d58efe59661e791296ffab28ed2113b650
+/tmp/brd-podman-build-root/vfs/dir/646eea22414270d74b0c9e9d6d3b9550701ae62e658a099825d4d15045a3630b/etc/passwd:ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+/tmp/brd-podman-build-root/vfs/dir/646eea22414270d74b0c9e9d6d3b9550701ae62e658a099825d4d15045a3630b/etc/group:ubuntu:x:1000:
+
+AMD64:
+Architecture: amd64
+FromImageDigest: sha256:1e0a86e57d247923571b75e0aaf48a1449cf8c543d51fb3e07a4a7d7bfa79316
+/tmp/brd-cross-evidence-root/vfs/dir/6a74eb2672f10db140a6115c11550d3ffbe9e9bb5838d1b4f355357293d9a84c/etc/passwd:ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+/tmp/brd-cross-evidence-root/vfs/dir/6a74eb2672f10db140a6115c11550d3ffbe9e9bb5838d1b4f355357293d9a84c/etc/group:ubuntu:x:1000:
+
+Failure mechanism: Dockerfile defaults USER_UID=1000 and USER_GID=1000, then executes groupadd -g 1000 vncuser. Both official platform roots already own UID/GID 1000 as ubuntu; the ARM64 clean build exited at that groupadd with status 4.

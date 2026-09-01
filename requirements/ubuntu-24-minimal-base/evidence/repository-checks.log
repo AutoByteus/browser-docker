@@ -1,0 +1,11 @@
+== repository checks ==
+$ bash -n build-multi-arch.sh entrypoint.sh start-vnc.sh disable-screensaver.sh run-container.sh tests/*.sh
+PASS
+$ git diff --check
+PASS
+$ tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+$ Supervisor configuration parse/interpolation with XDG_RUNTIME_DIR=/run/user/1234
+PASS: {'dbus': 'unix:path=/run/user/1234/bus', 'xfce': 'unix:path=/run/user/1234/bus', 'fcitx': 'unix:path=/run/user/1234/bus', 'copyq': 'unix:path=/run/user/1234/bus', 'chrome': 'unix:path=/run/user/1234/bus'}
+$ active production/docs obsolete-reference scan
+PASS
