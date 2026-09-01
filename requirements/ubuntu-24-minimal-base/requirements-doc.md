@@ -3,18 +3,18 @@
 ## Document Status
 
 - Status: `Ready for Approval`
-- Current requirements revision ID: `RER-004`
+- Current requirements revision ID: `RER-005`
 - Request / ticket: `BRD-UBUNTU24-001`
 - Requirements owner: Requirements Engineer (`/requirements_engineer`)
 - Date: 2026-09-01
-- Approval state and reference: The user confirmed on 2026-09-01 that “minimal” refers to the base image itself and explicitly agreed with Python 3.12; explicit approval of the complete requirements baseline is still pending.
+- Approval state and reference: The user confirmed on 2026-09-01 that “minimal” refers to the base image itself, explicitly agreed with Python 3.12, and selected a two-ticket sequence: publish the browser base first, then update server consumers. Explicit approval of the complete first-ticket requirements baseline is still pending.
 
 ## Problem And Desired Outcome
 
 - Problem: The browser Docker image is built on Ubuntu 22.04, which the requester considers too old.
 - Affected actors or systems: Maintainers who build and publish `autobyteus/chrome-vnc`; downstream users and images that run the default or `zh` variants on AMD64 or ARM64.
-- Desired outcome: Build the browser image from the official minimal Ubuntu 24.04 LTS OCI base, align its developer Python with Ubuntu 24.04's supported Python 3.12, and preserve the image's other browser/VNC, runtime, locale-variant, and launch contracts.
-- Observable definition of success: Built default and `zh` images report Ubuntu 24.04 and Python 3.12, build successfully for the supported architectures, and retain the documented services, other tools, ports, user, and runtime behavior.
+- Desired outcome: In the first, independently deliverable browser-image ticket, build the browser image from the official minimal Ubuntu 24.04 LTS OCI base, align its developer Python with Ubuntu 24.04's supported Python 3.12, preserve its other contracts, and publish a new version to Docker Hub. Only after that release is verified will a separate server-adoption ticket update and validate AutoByteus server images against the published base.
+- Observable definition of success: New default and `zh` browser image versions are available on Docker Hub for AMD64 and ARM64, report Ubuntu 24.04 and Python 3.12, and retain the documented browser-image behavior. The release identity and evidence are sufficient to start the separate server-adoption ticket.
 
 ## Relevant Current And Desired Behavior
 
@@ -41,6 +41,7 @@
 - `UC-003`: Start an upgraded image and use its existing browser, desktop, VNC, remote-debugging, websockify, locale, and persistent-profile capabilities.
 - `UC-004`: Read accurate repository documentation about the Ubuntu base release.
 - `UC-005`: Use Python 3.12 as the image's `python3`/`python` developer runtime while retaining Python-installed runtime services.
+- `UC-006`: Publish a new immutable browser-image version and the existing applicable rolling tags to Docker Hub for the default and `zh` variants after validation.
 
 ### Out Of Scope
 
@@ -48,13 +49,15 @@
 - Broad package/runtime upgrades unrelated to Ubuntu 24.04 alignment, including Python 3.13 or 3.14.
 - Removing existing installed utilities or desktop/browser features to shrink the final application image.
 - Changing registry/repository names, image-tag policy, supported architectures, exposed ports, runtime user, security options, or container orchestration behavior.
-- Publishing, deployment, release-version selection, or downstream-image migration unless separately authorized.
+- Changes to AutoByteus server/all-in-one Dockerfiles, build scripts, Compose configuration, release workflow, or published server images; these belong to a separate follow-up ticket after the browser base release is verified.
+- Migration or forced recreation of already-deployed downstream containers.
 
 ### Non-Goals
 
 - Producing the smallest possible final Chromium/XFCE image.
 - Replacing third-party package sources solely because they are third-party.
 - Redesigning the image, service supervision, or startup lifecycle.
+- Combining the browser-base release and downstream server adoption into one implementation/delivery ticket.
 
 ### Preserved Behavior Boundary
 
@@ -78,6 +81,8 @@
 | REQ-005 | Any compatibility adjustments required by Ubuntu 24.04 shall remain limited to realizing REQ-001 through REQ-004 and shall not intentionally change unrelated public or operational behavior. | BEH-001, BEH-002 | Must | Prevents scope drift during distribution compatibility work. | Scope decision in RER-001. |
 | REQ-006 | Repository documentation shall state Ubuntu 24.04 LTS and shall not continue to claim Ubuntu 22.04 for the built image. | BEH-003 | Must | Published usage documentation must match the image. | `README.md:6`. |
 | REQ-007 | The upgraded image shall use Python 3.12 as its supported `python3` and `python` developer runtime, sourced from Ubuntu 24.04's official repositories, instead of the current Deadsnakes Python 3.11 runtime. | BEH-002 | Must | Python 3.12 is Ubuntu 24.04's native/default supported Python and avoids selecting a newer PPA-only interpreter that is outside Noble's official Python set. | User agreement on 2026-09-01; Ubuntu Noble Python availability documentation. |
+| REQ-008 | After all browser-image validation passes, the first ticket shall publish new default and `zh` image versions to Docker Hub for both AMD64 and ARM64, retaining the repository's immutable-version and rolling-tag conventions. | BEH-001 | Must | The separate server ticket requires a verified, remotely available base artifact before it can safely adopt the upgrade. | User sequencing decision on 2026-09-01; current build script and README release contract. |
+| REQ-009 | AutoByteus server and all-in-one consumer changes shall be handled in a separate follow-up ticket that begins only after the new browser-image version and manifests are verified on Docker Hub. | BEH-001, BEH-002 | Must | Preserves dependency order, independent validation, and rollback clarity across repositories. | User sequencing decision on 2026-09-01; consumer-source investigation. |
 
 ## Acceptance Criteria
 
@@ -93,6 +98,8 @@
 | AC-008 | REQ-004, REQ-005 | BEH-002 / SCN-003 | Recreate a container using the same Chromium profile volume. | Existing profile state persists and stale-profile-lock recovery remains effective. | Profile data loss or regression of the supported recovery behavior fails. | Existing documented restart/recreate scenario with a test profile. |
 | AC-009 | REQ-006 | BEH-003 / SCN-004 | Review repository-facing documentation after the change. | Ubuntu references consistently identify 24.04 LTS; build/run instructions remain accurate. | Any active claim that the resulting image is Ubuntu 22.04 fails. | Repository text search and documentation review. |
 | AC-010 | REQ-007 | BEH-002 / SCN-003 | Inspect Python origin and exercise Python-installed services/tools in the built image. | Python 3.12 resolves from Ubuntu Noble's official packages; websockify starts and serves its web assets; `pip`/`uv`-managed tooling is installed in a Noble-compatible manner. | Retaining Deadsnakes solely to supply Python, a broken hard-coded Python 3.11 path, or failed externally-managed-environment handling fails. | APT policy/source inspection, interpreter checks, and websockify/`uv` smoke tests. |
+| AC-011 | REQ-008 | BEH-001 / SCN-002 | Browser-image default and `zh` builds and runtime checks have passed. | Docker Hub exposes a new immutable version for each variant plus the applicable `latest` and `zh` rolling tags; each published manifest contains `linux/amd64` and `linux/arm64`; runtime identity from the published artifacts reports Ubuntu 24.04 and Python 3.12. | Missing platform/variant, mismatched tag contents, or publication before validation fails. | Docker Hub/BuildX manifest inspection and pull/run verification by immutable tag or digest. |
+| AC-012 | REQ-009 | BEH-001, BEH-002 / SCN-005 | The published browser-image artifacts satisfy AC-011. | The browser ticket records exact immutable tags/digests and release evidence, and the separate server-adoption ticket can use that identity as its dependency input without changing server source in this ticket. | Starting server adoption against an unverified local-only or floating-only base fails the sequencing requirement. | Delivery artifact review and follow-up ticket intake check. |
 
 ## Relevant Scenarios And Journeys
 
@@ -102,6 +109,7 @@
 | SCN-002 | Operational | Image maintainer | Produce release-equivalent images for every supported platform and variant. | `./build-multi-arch.sh --push` and `--variant zh --push`, or a non-publishing equivalent validation. | Registry/build environment supports AMD64 and ARM64. | Maintainer builds default and `zh`; BuildX assembles both platforms; image manifests are inspected. | Both variants support AMD64 and ARM64 using existing tag semantics. | Any platform/variant failure blocks publication. | Supported Normal Scenario | `build-multi-arch.sh`; multi-architecture README contract. | REQ-003–REQ-005; AC-004, AC-007. |
 | SCN-003 | System | Container runtime initiated by a downstream user/Compose | Run the existing browser/VNC and developer-runtime environment on the upgraded image. | `run-container.sh`, repository Compose configuration, or a shell in the started container. | An upgraded image is available; existing ports/profile volume are configured. | Runtime starts the container; supervisor starts services; user connects through existing VNC/debugging surfaces; Python commands resolve to 3.12; Python-installed services/tools, optional `zh` behavior, and profile lifecycle operate as documented. | Current product-visible and operational capabilities remain available on Ubuntu 24.04 with Python 3.12. | Existing startup/recovery logic handles supported stale VNC and Chromium lock conditions; other failures are observable in logs/exit state. | Supported Normal Scenario | `entrypoint.sh`; `start-vnc.sh`; `base.conf`; Compose/run scripts; README; user Python follow-up; Ubuntu Noble Python contract. | REQ-004–REQ-005, REQ-007; AC-005–AC-008, AC-010. |
 | SCN-004 | Contract | Repository documentation contract | Identify the OS baseline accurately to maintainers and users. | Reading `README.md` and inspecting the image. | Upgrade is implemented. | Reader sees Ubuntu 24.04 LTS; runtime inspection agrees. | Documentation and runtime identify the same base release. | A stale 22.04 claim is rejected. | Supported Normal Scenario | Current README feature statement and user request. | REQ-006; AC-009. |
+| SCN-005 | Operational | Browser-image maintainer, then server-image maintainer | Release the dependency before adopting it downstream. | Browser-image validation completes and the maintainer invokes the supported Docker Hub publication flow. | Browser image changes are ready; server consumer source remains unchanged in this ticket. | Maintainer publishes and verifies new default/`zh` multi-arch browser tags; records immutable identities; closes the browser ticket; a separate server ticket then uses those identities to update/rebuild its consumers. | Server adoption starts from a verified, recoverable upstream artifact. | If browser publication or verification fails, the server ticket does not begin adoption. | Supported Normal Scenario | User sequencing decision; `browser-docker/build-multi-arch.sh`; AutoByteus consumer Dockerfiles/build workflow. | REQ-008–REQ-009; AC-011–AC-012. |
 
 ## UI, Interaction, And Experience Requirements
 
@@ -145,13 +153,16 @@
 | XtraDeb applications PPA | A real Debian-packaged `chromium` must remain available for Noble on supported architectures. | XtraDeb Launchpad package/build records show Noble Chromium publication. | Third-party PPA availability and package regressions remain existing dependency risks. |
 | NodeSource 22.x repository | Node.js 22 packages must remain available for Ubuntu Noble and AMD64/ARM64. | NodeSource distribution support matrix. | Setup script and repository are remote mutable inputs. |
 | Docker BuildX / OCI registry | Build/load or publish the existing supported image platforms and tags. | Repository build script and README. | Docker is unavailable in the Requirements Engineer environment, so executable validation is downstream. |
+| Docker Hub `autobyteus/chrome-vnc` repository | Publish and make verifiable a new immutable default/`zh` release plus current rolling tags before downstream adoption. | Current image name/tag behavior in `build-multi-arch.sh`; user sequencing decision. | Exact release version remains DEC-003 until approved. Registry credentials and publication are Delivery-owned operations. |
+| AutoByteus server consumer repository | Treat the published browser release as an external input to a separate follow-up ticket. | `/home/autobyteus/workspace/autobyteus-workspace/autobyteus-server-ts/docker/Dockerfile.monorepo`; `/home/autobyteus/workspace/autobyteus-workspace/docker/Dockerfile.allinone`; build scripts, Compose, and release workflow. | Current consumers use moving `latest`/`zh` defaults; the follow-up ticket must decide deterministic adoption/pinning without being pre-implemented here. |
 
 ## Supplemental Artifacts
 
 | Artifact Path | Purpose | Related Requirement / AC IDs | Status | Approval Applicability / State |
 | --- | --- | --- | --- | --- |
 | `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/investigation-notes.md` | Canonical source, code, compatibility, and environment evidence. | All | Current | Informational evidence supporting this approval basis. |
-| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements-round history. | All | Current | RER-001 awaiting approval. |
+| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements-round history. | All | Current | RER-005 awaiting complete-package approval. |
+| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md` | Durable brief for the separate server-adoption ticket that starts after browser-image publication. | REQ-008–REQ-009; AC-011–AC-012 | Current | User-requested sequencing context; not authorization to modify server source in this ticket. |
 
 ## Assumptions
 
@@ -167,6 +178,7 @@
 | --- | --- | --- | --- | --- | --- |
 | DEC-001 | Does the approval basis correctly interpret “minimal” as the official minimal Ubuntu OCI base without pruning installed features? | A different interpretation would materially expand scope and change preserved behavior. | User confirmed that minimal refers to the base image itself. | User | Resolved 2026-09-01. |
 | DEC-002 | Should the image select Python 3.12 or a newer Python 3.13/3.14? | This determines repository origin, compatibility risk, and whether the runtime aligns with Ubuntu 24.04's supported package set. | Selected: 3.12, the only/default Python in official Noble repositories. The user explicitly agreed on 2026-09-01. | User | Resolved 2026-09-01. |
+| DEC-003 | What immutable semantic version should identify the new browser-image release? | The first ticket must publish an exact dependency identity for the later server ticket. | Recommended: `1.4.0` and `1.4.0-zh`, advancing current `1.3.6` for the Ubuntu/Python baseline change while retaining `latest`/`zh` rolling tags. | User | Awaiting approval with the complete first-ticket package. |
 
 ## Traceability
 
@@ -179,14 +191,16 @@
 | REQ-005 | BEH-001, BEH-002 | AC-003–AC-008 | SCN-001–SCN-003 | Scope/preservation evidence. |
 | REQ-006 | BEH-003 | AC-009 | SCN-004 | README evidence. |
 | REQ-007 | BEH-002 | AC-006, AC-010 | SCN-003 | User follow-up and Canonical Noble Python availability evidence in investigation notes. |
+| REQ-008 | BEH-001 | AC-004, AC-011 | SCN-002, SCN-005 | Build/release sources and user sequencing decision. |
+| REQ-009 | BEH-001, BEH-002 | AC-012 | SCN-005 | Server consumer inventory and follow-up brief. |
 
 ## Downstream Architecture Input
 
-- Approved scenario IDs and product-level behavior paths architecture must map: Pending approval; SCN-001 through SCN-004 form the proposed scenario basis.
+- Approved scenario IDs and product-level behavior paths architecture must map: Pending approval; SCN-001 through SCN-005 form the proposed scenario basis.
 - Product and system constraints architecture must preserve: Explicit Ubuntu 24.04 LTS official minimal OCI base; Ubuntu-native Python 3.12; default and `zh`; AMD64/ARM64; current browser/VNC/other-runtime/user/port/profile behavior.
 - Decisions intentionally deferred to architecture design: None currently apparent; only implementation-level Noble compatibility corrections are anticipated.
 - Technical facts architecture should verify: Noble package availability and filesystem/runtime path differences for all dependencies; Ubuntu system-Python/pip packaging behavior; whether any required compatibility correction crosses an approved structural boundary.
-- Known feasibility or integration risks: No Docker executable is installed in the requirements environment; package sources are mutable third-party dependencies; build/runtime validation must cover both variants and architectures.
+- Known feasibility or integration risks: No Docker executable is installed in the requirements environment; package sources are mutable third-party dependencies; build/runtime validation must cover both variants and architectures; Docker Hub publication must precede and identify the separate server adoption.
 
 ## Readiness Check
 
@@ -200,7 +214,7 @@
 - Material assumptions and open decisions are visible: `Yes`
 - User approval received: `No`
 - Requirements package ready for downstream route: `No`
-- Remaining blocker: Explicit user approval of the complete proposed requirements baseline. The minimal-base interpretation and Python 3.12 selection are confirmed.
+- Remaining blocker: Explicit user approval of the complete first-ticket requirements baseline, including the recommended `1.4.0`/`1.4.0-zh` immutable release identity. Minimal-base interpretation, Python 3.12, and two-ticket sequencing are confirmed.
 
 ## Architecture Design Routing Assessment
 

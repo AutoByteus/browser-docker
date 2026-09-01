@@ -9,13 +9,13 @@
 - Base or reference revision: `2bc0b4a` (`main` / `origin/main` at intake)
 - Bootstrap result: Clean repository confirmed; dedicated task branch created before deeper investigation.
 - Bootstrap blocker: None.
-- Current requirements revision ID: `RER-004`
+- Current requirements revision ID: `RER-005`
 - Investigation status: Complete for product review; executable Docker build/runtime validation unavailable in this environment and assigned downstream after approval.
 
 ## Initial Request And Clarifications
 
 - Original request: “the base server docker image version uses ubunt 22 something, but its too old. we need to use 24 stable version, of cousrse the mininal one. the browser docker project is here /home/autobyteus/workspace/browser-docker basically current base docker uses too low ubuntu version”
-- Clarifications received: Repository location and desired Ubuntu major/minor family were supplied directly. On 2026-09-01 the user confirmed that “minimal” refers specifically to the base image itself, not pruning the browser image's installed feature set, asked whether the current Python 3.11 should move to Python 3.12 or 3.13, and then explicitly agreed with Python 3.12.
+- Clarifications received: Repository location and desired Ubuntu major/minor family were supplied directly. On 2026-09-01 the user confirmed that “minimal” refers specifically to the base image itself, explicitly agreed with Python 3.12, and selected a two-ticket sequence: update/build/publish the browser base first, then update the AutoByteus server consumers in a separate ticket.
 - User-supplied facts and constraints: Current base is an Ubuntu 22 release; use a stable Ubuntu 24 minimal base; change applies to the browser Docker project.
 - Initial ambiguity: Whether “minimal” means the official minimal Ubuntu OCI rootfs or a broader pruning of installed application packages. Resolved by the user on 2026-09-01 in favor of the official minimal base image interpretation.
 
@@ -34,6 +34,7 @@
 | 2026-09-01 | User | Follow-up clarification in current conversation | Resolve the meaning of “minimal.” | User confirmed that “minimal” is a property of the base image itself. | Treat package/feature pruning as out of scope. |
 | 2026-09-01 | User | Python-version follow-up in current conversation | Determine whether Python 3.11 should remain preserved. | User prefers a newer Python and asked for a 3.12-versus-3.13 recommendation. | Recommend Noble-native 3.12 for approval. |
 | 2026-09-01 | User | Python-version decision in current conversation | Resolve DEC-002. | User explicitly agreed with Python 3.12. | Make REQ-007 a Must requirement; complete-package approval remains pending. |
+| 2026-09-01 | User | Delivery-sequencing proposal in current conversation | Decide whether upstream browser and downstream server work should be coupled. | User proposed a separate browser-image ticket that publishes a verified Docker Hub version before server updates begin. | Make publication part of this ticket and preserve server changes for a follow-up ticket. |
 | 2026-09-01 | Command | `git -C /home/autobyteus/workspace/browser-docker status --short --branch`; `git switch -c requirements/ubuntu-24-minimal-base` | Verify safe task isolation. | Supplied repository was clean on `main`; branch created from `2bc0b4a`. | Preserve branch until downstream route. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/Dockerfile` | Identify current base and compatibility surface. | Line 2 is `FROM ubuntu:22.04`; image installs PPAs, packages, Python 3.11, Node.js 22, browser/desktop/VNC and variant dependencies. | Require a Noble build and runtime smoke test. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/build-multi-arch.sh` | Determine supported build scenarios/contracts. | Default local build/load; `--push`; `--no-cache`; `--variant`; AMD64/ARM64; version and rolling variant tags. | Preserve command and tag behavior. |
@@ -49,6 +50,9 @@
 | 2026-09-01 | Web | https://documentation.ubuntu.com/ubuntu-for-developers/reference/availability/python/ and https://packages.ubuntu.com/en/noble/python3 | Identify Ubuntu 24.04's supported/default Python. | Canonical lists Python 3.12 as Noble's available and default Python; Ubuntu packages it for AMD64 and ARM64. | Prefer 3.12 to align with the selected OS base. |
 | 2026-09-01 | Web | https://devguide.python.org/versions/ and https://www.python.org/downloads/release/python-3130/ | Distinguish upstream stability from Noble integration. | Python 3.13 is upstream-stable and in bugfix support, while 3.12 is in security support; current newest stable upstream is 3.14, showing that “latest stable” is not the same decision as “Ubuntu 24.04 native.” | Recommend OS-native 3.12 for this base-image task. |
 | 2026-09-01 | Web | https://documentation.ubuntu.com/ubuntu-for-developers/howto/python-setup/ | Check Ubuntu system-Python constraints. | Canonical advises keeping the default system Python and using isolated environments for pip-installed dependencies; `/usr/bin/python3` points to 3.12 on Noble. | Downstream must adapt the current direct `ensurepip`/system-pip setup safely. |
+| 2026-09-01 | Code | `/home/autobyteus/workspace/autobyteus-workspace/autobyteus-server-ts/docker/Dockerfile.monorepo`; `/home/autobyteus/workspace/autobyteus-workspace/docker/Dockerfile.allinone` | Identify downstream server consumers for ticket sequencing. | Server runtime uses `autobyteus/chrome-vnc:${BASE_IMAGE_TAG}` defaulting to `latest`; all-in-one uses `${CHROME_VNC_TAG}` defaulting to `zh`. Neither directly declares Ubuntu/Python. | Do not edit in this ticket; later adoption must consume a verified published browser release. |
+| 2026-09-01 | Code | AutoByteus server build scripts, Compose, `.github/workflows/release-server-docker.yml`, and browser bridge source test | Determine downstream configuration/update surface. | Local/multi-arch and CI flows propagate default/`zh` base tags; a source test currently asserts the `latest` default. | Follow-up ticket must decide whether to pin the new immutable version or retain moving defaults, then update tests and validate both consumers. |
+| 2026-09-01 | Command | `git status --short --branch` in `/home/autobyteus/workspace/autobyteus-workspace` | Confirm reference-repository state before read-only investigation. | Reference repository is clean on `personal` at `80e2bd195c42ea3ced778dbc051d4d00edaef16f`; no changes were made. | A dedicated task workspace/branch will be required when the separate server ticket begins. |
 
 ## Relevant Existing Behavior And Supported Product Paths
 
@@ -67,6 +71,7 @@
 | `base.conf` | Hard-codes a Python 3.11 websockify data path and supervises runtime services. | Websockify behavior must be preserved while removing the Python 3.11 path assumption. | The production-safe path/install adjustment is downstream implementation evidence, not a new behavior decision. |
 | `README.md` | States Ubuntu 22.04 and documents supported product/operational behavior. | Version statement must be synchronized; surrounding behavior is preservation evidence. | None. |
 | Run/Compose/entrypoint scripts | Define user-visible ports, volume, environment, recovery, and startup behavior. | Representative behavior must be smoke tested after distribution change. | Escalate only if Noble makes current structural surfaces insufficient. |
+| AutoByteus `Dockerfile.monorepo` and `Dockerfile.allinone` (read-only reference repo) | Consume `autobyteus/chrome-vnc` through `latest`/`zh`-oriented build args. | Demonstrates why the browser artifact must be published before server adoption and why server work is a separate dependent ticket. | The later ticket owns the exact pin/moving-tag decision and consumer implementation. |
 
 ## Structural And Payload Surface Inventory
 
@@ -80,7 +85,7 @@
 
 - Runtime modules, shared interfaces, routes, APIs, persistence boundaries, security/concurrency controls, deployment configuration, or ownership boundaries: Dockerfile base/dependency configuration; BuildX multi-platform script; supervisor service graph; entrypoint; run/Compose configuration; Chromium profile volume contract.
 - Existing structural surfaces that can support the approved behavior: The single existing Dockerfile already centralizes the base image and dependency install for both variants and platforms. Build and runtime contracts do not require a new subsystem or interface merely to select Noble.
-- Evidence paths: `Dockerfile`, `build-multi-arch.sh`, `base.conf`, `entrypoint.sh`, `start-vnc.sh`, `docker-compose.yml`, `docker-compose.chrome-vnc.yml`, `run-container.sh`.
+- Evidence paths: `Dockerfile`, `build-multi-arch.sh`, `base.conf`, `entrypoint.sh`, `start-vnc.sh`, `docker-compose.yml`, `docker-compose.chrome-vnc.yml`, `run-container.sh`; read-only consumer evidence at `/home/autobyteus/workspace/autobyteus-workspace/autobyteus-server-ts/docker/Dockerfile.monorepo` and `/home/autobyteus/workspace/autobyteus-workspace/docker/Dockerfile.allinone`.
 
 ### Potential Architecture-Design Triggers
 
@@ -159,6 +164,7 @@
 | Artifact Path | Owner | Purpose | Scope | Related Requirement / AC IDs | Status | Approval Applicability / State |
 | --- | --- | --- | --- | --- | --- | --- |
 | `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements Engineer | Durable requirements-round history. | RER-001 baseline. | All | Current | Awaiting user approval. |
+| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md` | Requirements Engineer | Preserve the separate server-ticket trigger, observed consumer surfaces, and intake questions. | Follow-up only; no server source changes in this package. | REQ-008–REQ-009; AC-011–AC-012 | Current | User requested the sequence; later ticket requires its own approval package. |
 
 ## Assumptions, Unknowns, And Risks
 
@@ -171,10 +177,11 @@
 | RISK-002 | Risk | XtraDeb, NodeSource, PyPI/npm, and any still-required PPA are remote mutable dependencies. | Clean/multi-platform builds can fail independently of repository code. | Downstream validation must distinguish repository defects from external availability. | Existing risk. |
 | UNK-001 | Unknown | Actual clean default/`zh` AMD64/ARM64 build and runtime results on Noble. | Required to claim delivery. | Implementation and API/E2E teams with Docker/BuildX. | Open. |
 | RISK-003 | Risk | Ubuntu's system Python packaging differs from the current Deadsnakes `ensurepip` flow, and `base.conf` embeds a Python 3.11 package path. | A version-only edit can break the build or websockify at runtime. | Downstream implementation and executable validation under REQ-007/AC-010. | Open until validated. |
+| RISK-004 | Risk | AutoByteus server consumers currently default to moving `latest`/`zh` browser tags. | Rebuilding at different times can consume different base contents, complicating reproducibility and rollback. | Separate server-adoption ticket decides exact pinning/adoption policy using the published immutable release identity. | Deferred to follow-up ticket. |
 
 ## Requirement Implications
 
-The direct request establishes Ubuntu 24.04 LTS as the intended base release. Canonical's official `ubuntu:24.04` OCI image already supplies the requested minimal container rootfs and multi-architecture resolution, so no unofficial “minimal” base is needed. The later Python question changes the proposed runtime baseline: Python 3.12 is recommended because it is Noble's official/default Python on both target architectures, whereas Python 3.13 is upstream-stable but external to Noble's official Python set (and Python 3.14 is now the newest upstream-stable line). The repository's Python 3.11/websockify path coupling and direct `ensurepip` flow require compatibility work and executable validation. Because no feature removal was requested, the package preserves current capabilities while replacing Python 3.11 with 3.12 and excludes final-image package pruning.
+The direct request establishes Ubuntu 24.04 LTS as the intended base release. Canonical's official `ubuntu:24.04` OCI image already supplies the requested minimal container rootfs and multi-architecture resolution, so no unofficial “minimal” base is needed. Python 3.12 is selected because it is Noble's official/default Python on both target architectures. The repository's Python 3.11/websockify path coupling and direct `ensurepip` flow require compatibility work and executable validation. The user then selected a dependency-ordered delivery strategy: the browser repository is the first independent ticket and must publish a verified new multi-arch version; AutoByteus server/all-in-one adoption is a separate later ticket using the published identity. Current consumer source already inherits the browser image through moving `latest`/`zh` defaults, but it does not itself declare Ubuntu/Python, so its later work is dependency adoption, rebuild, testing, and any approved tag-policy update—not duplication of the base implementation.
 
 ## Notes For Downstream Architecture Design Or Direct Implementation
 
@@ -184,3 +191,5 @@ The direct request establishes Ubuntu 24.04 LTS as the intended base release. Ca
 - If REQ-007 is approved, use Noble-native Python 3.12; remove Python 3.11 path assumptions; preserve websockify and `uv` behavior; and respect Ubuntu's supported system-Python/pip isolation model.
 - Treat any need to change service lifecycle, external contracts, persistence invariants, security boundaries, deployment topology, or ownership as downstream `Design Impact` or `Requirement Gap`, not as implicit authorization.
 - Docker was unavailable during requirements investigation, so no build/runtime success is claimed here.
+- Publish and record the exact immutable default/`zh` tags and per-platform manifest identities before the server-adoption ticket begins.
+- Do not change `/home/autobyteus/workspace/autobyteus-workspace` source in this browser ticket. The follow-up brief records the dependency trigger and observed consumer surfaces.

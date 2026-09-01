@@ -10,6 +10,7 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 | RER-002 | User clarification of “minimal” | Ready for Approval | Ready for Approval | ASM-002; DEC-001; scope boundary | Confirmed that minimal applies to the official base image; installed-feature pruning remains out of scope. |
 | RER-003 | Python runtime modernization question | Ready for Approval | Ready for Approval | REQ-004, REQ-007; BEH-002; AC-006, AC-010; SCN-003; ASM-003; DEC-002 | Proposed Ubuntu-native Python 3.12 instead of current Deadsnakes Python 3.11 or a newer PPA-only interpreter. |
 | RER-004 | User agreement on Python 3.12 | Ready for Approval | Ready for Approval | REQ-007; ASM-003; DEC-002 | Python 3.12 selection confirmed; complete-package approval remains pending. |
+| RER-005 | Two-ticket upstream-first delivery sequence | Ready for Approval | Ready for Approval | REQ-008–REQ-009; AC-011–AC-012; SCN-005; DEC-003; scope boundary | Browser image publication is the first ticket; server/all-in-one adoption is a separate dependent follow-up. |
 
 ## Revision Entries
 
@@ -44,6 +45,22 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 - Downstream architecture or direct-implementation route impact: No change; post-approval routing assessment remains required.
 - Remaining gaps, assumptions, or blocked decisions: Explicit approval of the complete requirements baseline; executable Docker/BuildX validation remains downstream.
 - Next action or recipient: User explicitly approves or revises the complete baseline.
+
+### RER-005 — Separate browser release from server adoption
+
+- Triggering user feedback, prototype package, downstream feedback, or investigation evidence: User proposed creating a separate browser Docker ticket, building and publishing its new base version to Docker Hub, and only then working on server updates.
+- Prior authoritative status (`N/A` for `RER-001`): Ready for Approval
+- Current authoritative status: Ready for Approval
+- Requirement, behavior, acceptance-criteria, scenario, or decision IDs affected: New REQ-008–REQ-009, AC-011–AC-012, SCN-005, DEC-003, and scope/release/dependency boundaries.
+- Scenario-basis or scenario-validity changes: Added the supported upstream-release-before-downstream-adoption operational scenario.
+- Why this baseline or revision was recorded: Establish independent repository ownership, validation, publication, rollback evidence, and a stable dependency identity before server adoption.
+- Canonical artifact sections changed: Desired Outcome, scope/non-goals, Requirements, Acceptance Criteria, Scenarios, Dependencies, Supplemental Artifacts, Open Decisions, Traceability, Downstream Input, Readiness Check, and corresponding investigation evidence.
+- Supplemental artifacts added, changed, or removed: Added `server-base-image-adoption-follow-up.md`.
+- Prototype evidence or product decisions incorporated: N/A — no Product Design request.
+- User approval impact: Two-ticket sequencing is confirmed. Complete first-ticket approval and its proposed `1.4.0`/`1.4.0-zh` version identity remain pending.
+- Downstream architecture or direct-implementation route impact: First ticket routes only browser repository work and publication. Server repository work must enter through a new requirements package after AC-011 is satisfied.
+- Remaining gaps, assumptions, or blocked decisions: Explicit complete-package approval, including DEC-003; Docker/BuildX and Docker Hub validation remain downstream.
+- Next action or recipient: User approves or revises the browser-image ticket package and recommended release identity.
 
 ### RER-003 — Recommend Noble-native Python 3.12
 
