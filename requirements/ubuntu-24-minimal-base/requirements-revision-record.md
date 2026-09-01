@@ -11,6 +11,7 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 | RER-003 | Python runtime modernization question | Ready for Approval | Ready for Approval | REQ-004, REQ-007; BEH-002; AC-006, AC-010; SCN-003; ASM-003; DEC-002 | Proposed Ubuntu-native Python 3.12 instead of current Deadsnakes Python 3.11 or a newer PPA-only interpreter. |
 | RER-004 | User agreement on Python 3.12 | Ready for Approval | Ready for Approval | REQ-007; ASM-003; DEC-002 | Python 3.12 selection confirmed; complete-package approval remains pending. |
 | RER-005 | Two-ticket upstream-first delivery sequence | Ready for Approval | Ready for Approval | REQ-008–REQ-009; AC-011–AC-012; SCN-005; DEC-003; scope boundary | Browser image publication is the first ticket; server/all-in-one adoption is a separate dependent follow-up. |
+| RER-006 | Explicit approval of ticket one | Ready for Approval | Approved | All first-ticket requirements and scenarios; DEC-003; routing assessment | Browser-image `1.4.0` package approved and classified Approved Direct-Implementation; ticket two remains deferred. |
 
 ## Revision Entries
 
@@ -61,6 +62,22 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 - Downstream architecture or direct-implementation route impact: First ticket routes only browser repository work and publication. Server repository work must enter through a new requirements package after AC-011 is satisfied.
 - Remaining gaps, assumptions, or blocked decisions: Explicit complete-package approval, including DEC-003; Docker/BuildX and Docker Hub validation remain downstream.
 - Next action or recipient: User approves or revises the browser-image ticket package and recommended release identity.
+
+### RER-006 — Browser-image ticket approved and routed
+
+- Triggering user feedback, prototype package, downstream feedback, or investigation evidence: User stated, “Great, let's work on the first ticket. Yeah, ticket one first. Only after ticket one is finished, we can work on ticket two.”
+- Prior authoritative status (`N/A` for `RER-001`): Ready for Approval
+- Current authoritative status: Approved
+- Requirement, behavior, acceptance-criteria, scenario, or decision IDs affected: All approved first-ticket REQ/BEH/AC/SCN IDs; DEC-003 resolved; Architecture Design Routing Assessment completed.
+- Scenario-basis or scenario-validity changes: None; SCN-001 through SCN-005 are approved.
+- Why this baseline or revision was recorded: Capture explicit user approval, close all material first-ticket decisions, pass the readiness gate, and select the downstream route.
+- Canonical artifact sections changed: Document Status, Open Decisions, Downstream Architecture Input, Readiness Check, Architecture Design Routing Assessment, investigation meta/source/supplement/downstream notes.
+- Supplemental artifacts added, changed, or removed: No new artifact; the server-adoption follow-up remains deferred and non-authorizing.
+- Prototype evidence or product decisions incorporated: N/A — no Product Design request.
+- User approval impact: Complete first browser-image ticket approved, including official minimal Ubuntu 24.04, Ubuntu-native Python 3.12, `1.4.0`/`1.4.0-zh` publication, preserved behavior, and upstream-first sequencing.
+- Downstream architecture or direct-implementation route impact: Preliminary Medium/Low; no structural trigger found; route is Direct Requirements-to-Implementation with architecture artifacts N/A.
+- Remaining gaps, assumptions, or blocked decisions: None at requirements level for ticket one. Docker/BuildX/runtime/Docker Hub evidence remains delivery work. Ticket two is intentionally blocked on AC-011 and requires a new requirements package.
+- Next action or recipient: Apply dynamic handoff rules for `Approved Direct-Implementation` and stop after successful handoff.
 
 ### RER-003 — Recommend Noble-native Python 3.12
 

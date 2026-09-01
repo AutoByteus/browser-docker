@@ -9,8 +9,8 @@
 - Base or reference revision: `2bc0b4a` (`main` / `origin/main` at intake)
 - Bootstrap result: Clean repository confirmed; dedicated task branch created before deeper investigation.
 - Bootstrap blocker: None.
-- Current requirements revision ID: `RER-005`
-- Investigation status: Complete for product review; executable Docker build/runtime validation unavailable in this environment and assigned downstream after approval.
+- Current requirements revision ID: `RER-006`
+- Investigation status: Complete; approved direct-implementation package. Executable Docker build/runtime/publication validation is assigned downstream because Docker is unavailable in this environment.
 
 ## Initial Request And Clarifications
 
@@ -33,8 +33,9 @@
 | 2026-09-01 | User | Intake request in current conversation | Establish desired outcome and repository. | Explicit request to replace the too-old Ubuntu 22 base with a stable minimal Ubuntu 24 base. | Present interpretation for approval. |
 | 2026-09-01 | User | Follow-up clarification in current conversation | Resolve the meaning of “minimal.” | User confirmed that “minimal” is a property of the base image itself. | Treat package/feature pruning as out of scope. |
 | 2026-09-01 | User | Python-version follow-up in current conversation | Determine whether Python 3.11 should remain preserved. | User prefers a newer Python and asked for a 3.12-versus-3.13 recommendation. | Recommend Noble-native 3.12 for approval. |
-| 2026-09-01 | User | Python-version decision in current conversation | Resolve DEC-002. | User explicitly agreed with Python 3.12. | Make REQ-007 a Must requirement; complete-package approval remains pending. |
+| 2026-09-01 | User | Python-version decision in current conversation | Resolve DEC-002. | User explicitly agreed with Python 3.12. | Make REQ-007 a Must requirement; complete-package approval was still pending at that round and was later received in RER-006. |
 | 2026-09-01 | User | Delivery-sequencing proposal in current conversation | Decide whether upstream browser and downstream server work should be coupled. | User proposed a separate browser-image ticket that publishes a verified Docker Hub version before server updates begin. | Make publication part of this ticket and preserve server changes for a follow-up ticket. |
+| 2026-09-01 | User | Explicit first-ticket approval in current conversation | Close the requirements approval gate. | User directed the department to work on ticket one first and not begin ticket two until ticket one finishes, approving the presented first-ticket package and sequence. | Complete routing assessment and hand off only the browser-image package. |
 | 2026-09-01 | Command | `git -C /home/autobyteus/workspace/browser-docker status --short --branch`; `git switch -c requirements/ubuntu-24-minimal-base` | Verify safe task isolation. | Supplied repository was clean on `main`; branch created from `2bc0b4a`. | Preserve branch until downstream route. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/Dockerfile` | Identify current base and compatibility surface. | Line 2 is `FROM ubuntu:22.04`; image installs PPAs, packages, Python 3.11, Node.js 22, browser/desktop/VNC and variant dependencies. | Require a Noble build and runtime smoke test. |
 | 2026-09-01 | Code | `/home/autobyteus/workspace/browser-docker/build-multi-arch.sh` | Determine supported build scenarios/contracts. | Default local build/load; `--push`; `--no-cache`; `--variant`; AMD64/ARM64; version and rolling variant tags. | Preserve command and tag behavior. |
@@ -163,7 +164,7 @@
 
 | Artifact Path | Owner | Purpose | Scope | Related Requirement / AC IDs | Status | Approval Applicability / State |
 | --- | --- | --- | --- | --- | --- | --- |
-| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements Engineer | Durable requirements-round history. | RER-001 baseline. | All | Current | Awaiting user approval. |
+| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements Engineer | Durable requirements-round history. | RER-001 through RER-006. | All | Current | Approved first-ticket package. |
 | `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md` | Requirements Engineer | Preserve the separate server-ticket trigger, observed consumer surfaces, and intake questions. | Follow-up only; no server source changes in this package. | REQ-008–REQ-009; AC-011–AC-012 | Current | User requested the sequence; later ticket requires its own approval package. |
 
 ## Assumptions, Unknowns, And Risks
@@ -193,3 +194,4 @@ The direct request establishes Ubuntu 24.04 LTS as the intended base release. Ca
 - Docker was unavailable during requirements investigation, so no build/runtime success is claimed here.
 - Publish and record the exact immutable default/`zh` tags and per-platform manifest identities before the server-adoption ticket begins.
 - Do not change `/home/autobyteus/workspace/autobyteus-workspace` source in this browser ticket. The follow-up brief records the dependency trigger and observed consumer surfaces.
+- Route: `Direct Requirements-to-Implementation`; preliminary size `Medium`, risk `Low`, with no structural-impact trigger found. Architecture design artifacts are not applicable unless implementation returns evidence of design impact.

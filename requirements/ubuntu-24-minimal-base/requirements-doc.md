@@ -2,12 +2,12 @@
 
 ## Document Status
 
-- Status: `Ready for Approval`
-- Current requirements revision ID: `RER-005`
+- Status: `Approved`
+- Current requirements revision ID: `RER-006`
 - Request / ticket: `BRD-UBUNTU24-001`
 - Requirements owner: Requirements Engineer (`/requirements_engineer`)
 - Date: 2026-09-01
-- Approval state and reference: The user confirmed on 2026-09-01 that “minimal” refers to the base image itself, explicitly agreed with Python 3.12, and selected a two-ticket sequence: publish the browser base first, then update server consumers. Explicit approval of the complete first-ticket requirements baseline is still pending.
+- Approval state and reference: Explicitly approved by the user on 2026-09-01: “Great, let's work on the first ticket. Yeah, ticket one first. Only after ticket one is finished, we can work on ticket two.” This approves the first browser-image ticket as presented, including release `1.4.0`/`1.4.0-zh`; server adoption remains deferred.
 
 ## Problem And Desired Outcome
 
@@ -161,14 +161,14 @@
 | Artifact Path | Purpose | Related Requirement / AC IDs | Status | Approval Applicability / State |
 | --- | --- | --- | --- | --- |
 | `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/investigation-notes.md` | Canonical source, code, compatibility, and environment evidence. | All | Current | Informational evidence supporting this approval basis. |
-| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements-round history. | All | Current | RER-005 awaiting complete-package approval. |
+| `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` | Requirements-round history. | All | Current | RER-006 approved first-ticket package. |
 | `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md` | Durable brief for the separate server-adoption ticket that starts after browser-image publication. | REQ-008–REQ-009; AC-011–AC-012 | Current | User-requested sequencing context; not authorization to modify server source in this ticket. |
 
 ## Assumptions
 
 | Assumption ID | Assumption | Why It Is Necessary | Validation Plan / Owner | Status |
 | --- | --- | --- | --- | --- |
-| ASM-001 | “24 stable version” means Ubuntu 24.04 LTS, not a floating `24`, `latest`, or a newer LTS. | Ubuntu version tags and release cadence make an explicit version necessary. | User approval of this package. | Awaiting approval. |
+| ASM-001 | “24 stable version” means Ubuntu 24.04 LTS, not a floating `24`, `latest`, or a newer LTS. | Ubuntu version tags and release cadence make an explicit version necessary. | Approved as part of the complete first-ticket package on 2026-09-01. | Validated. |
 | ASM-002 | “the minimal one” refers to Canonical's official minimal OCI base rootfs, not removal of the current browser/desktop/tool feature set. | The final product necessarily installs Chromium, XFCE, runtimes, and utilities, so final-image minimization would be a separate scope decision. | Confirmed directly by the user on 2026-09-01. | Validated. |
 | ASM-003 | Other named runtimes remain preserved, but Python is intentionally upgraded from 3.11 to Ubuntu 24.04's native 3.12. | User asked to modernize Python alongside the base; 3.12 maximizes Noble integration while avoiding a PPA-only newer interpreter. | User explicitly agreed with Python 3.12 on 2026-09-01; downstream build/runtime validation remains required. | Validated. |
 
@@ -178,7 +178,7 @@
 | --- | --- | --- | --- | --- | --- |
 | DEC-001 | Does the approval basis correctly interpret “minimal” as the official minimal Ubuntu OCI base without pruning installed features? | A different interpretation would materially expand scope and change preserved behavior. | User confirmed that minimal refers to the base image itself. | User | Resolved 2026-09-01. |
 | DEC-002 | Should the image select Python 3.12 or a newer Python 3.13/3.14? | This determines repository origin, compatibility risk, and whether the runtime aligns with Ubuntu 24.04's supported package set. | Selected: 3.12, the only/default Python in official Noble repositories. The user explicitly agreed on 2026-09-01. | User | Resolved 2026-09-01. |
-| DEC-003 | What immutable semantic version should identify the new browser-image release? | The first ticket must publish an exact dependency identity for the later server ticket. | Recommended: `1.4.0` and `1.4.0-zh`, advancing current `1.3.6` for the Ubuntu/Python baseline change while retaining `latest`/`zh` rolling tags. | User | Awaiting approval with the complete first-ticket package. |
+| DEC-003 | What immutable semantic version should identify the new browser-image release? | The first ticket must publish an exact dependency identity for the later server ticket. | Selected: `1.4.0` and `1.4.0-zh`, advancing current `1.3.6` for the Ubuntu/Python baseline change while retaining `latest`/`zh` rolling tags. Approved as part of the first-ticket package on 2026-09-01. | User | Resolved 2026-09-01. |
 
 ## Traceability
 
@@ -196,7 +196,7 @@
 
 ## Downstream Architecture Input
 
-- Approved scenario IDs and product-level behavior paths architecture must map: Pending approval; SCN-001 through SCN-005 form the proposed scenario basis.
+- Approved scenario IDs and product-level behavior paths architecture must map: SCN-001 through SCN-005.
 - Product and system constraints architecture must preserve: Explicit Ubuntu 24.04 LTS official minimal OCI base; Ubuntu-native Python 3.12; default and `zh`; AMD64/ARM64; current browser/VNC/other-runtime/user/port/profile behavior.
 - Decisions intentionally deferred to architecture design: None currently apparent; only implementation-level Noble compatibility corrections are anticipated.
 - Technical facts architecture should verify: Noble package availability and filesystem/runtime path differences for all dependencies; Ubuntu system-Python/pip packaging behavior; whether any required compatibility correction crosses an approved structural boundary.
@@ -209,26 +209,26 @@
 - Scope and non-goals are clear: `Yes`
 - Requirements and acceptance criteria are testable and traceable: `Yes`
 - Applicable scenarios are covered with validity and evidence: `Yes`
-- Prototype and supplemental evidence is integrated consistently: `N/A`
+- Prototype and supplemental evidence is integrated consistently: `Yes` — no prototype applies; investigation, revision, and follow-up brief are linked.
 - Applicable UI/UX approval and final visual-reference basis are recorded: `N/A`
 - Material assumptions and open decisions are visible: `Yes`
-- User approval received: `No`
-- Requirements package ready for downstream route: `No`
-- Remaining blocker: Explicit user approval of the complete first-ticket requirements baseline, including the recommended `1.4.0`/`1.4.0-zh` immutable release identity. Minimal-base interpretation, Python 3.12, and two-ticket sequencing are confirmed.
+- User approval received: `Yes` — explicit first-ticket approval on 2026-09-01.
+- Requirements package ready for downstream route: `Yes`
+- Remaining blocker: None for the first browser-image ticket. Server adoption remains a separately gated follow-up and is not part of this route.
 
 ## Architecture Design Routing Assessment
 
-- Assessment status: `Blocked` pending requirements approval; assessment must run only after approval.
-- Assessment owner and date: Requirements Engineer; pending.
-- Preliminary task size: Pending post-approval assessment.
-- Preliminary architectural risk: Pending post-approval assessment.
+- Assessment status: `Complete`
+- Assessment owner and date: Requirements Engineer; 2026-09-01.
+- Preliminary task size: `Medium`
+- Preliminary architectural risk: `Low`
 - Structural surfaces reviewed: Docker base/dependency installation, multi-architecture build path, supervisor/runtime launch configuration, Compose/run contracts, profile volume contract.
 - Payload/content surfaces reviewed: README OS-version statement.
-- Structural-impact triggers: Pending post-approval assessment; no target architecture is proposed in this baseline.
-- Evidence paths: Investigation notes and current repository paths listed above.
-- Decision rationale: Not yet selectable before explicit approval under the requirements workflow.
-- Selected route: `Department Coordinator` pending approval.
-- Outcome classification: `Blocked` pending approval only.
-- Direct-route conditions all satisfied: `N/A — not applicable` before approval.
-- Architecture design, review, and design-revision artifacts: `N/A — not yet assessed`
-- Downstream re-entry trigger: User explicitly approves or revises this requirements baseline.
+- Structural-impact triggers: `None`. No API/external product contract, persistence schema/invariant, security/privacy boundary, concurrency/lifecycle behavior, deployment topology, subsystem/ownership boundary, migration, new architectural pattern, or structural refactor is approved. Existing build, variant, platform, runtime-service, tag, and publication surfaces remain in place.
+- Evidence paths: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/investigation-notes.md`; `/home/autobyteus/workspace/browser-docker/Dockerfile`; `/home/autobyteus/workspace/browser-docker/base.conf`; `/home/autobyteus/workspace/browser-docker/build-multi-arch.sh`; `/home/autobyteus/workspace/browser-docker/README.md`; runtime/Compose scripts listed in the investigation notes.
+- Decision rationale: The approved work changes OS/runtime payloads and bounded compatibility configuration inside the existing single-image build and release structure. It uses established dependency, variant, multi-architecture, supervisor, and Docker Hub publication surfaces without requiring an architecture-owned structural decision. Breadth of build/runtime validation and release work makes the task Medium, but no structural trigger was found.
+- Selected route: `Implementation Engineer`
+- Outcome classification: `Approved Direct-Implementation`
+- Direct-route conditions all satisfied: `Yes`
+- Architecture design, review, and design-revision artifacts: `N/A — not applicable`
+- Downstream re-entry trigger: Implementation must return `Design Impact` if Noble/Python compatibility requires a structural change or `Requirement Gap` if a new behavior/policy decision is needed. After delivery of ticket one and AC-011 verification, ticket two re-enters as a new Requirements Engineering package using the follow-up brief.
