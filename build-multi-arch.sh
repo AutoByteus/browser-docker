@@ -78,7 +78,7 @@ if [ -n "$LOAD" ]; then
     x86_64)
       PLATFORMS="linux/amd64"
       ;;
-    aarch64)
+    arm64|aarch64)
       PLATFORMS="linux/arm64"
       ;;
     *)

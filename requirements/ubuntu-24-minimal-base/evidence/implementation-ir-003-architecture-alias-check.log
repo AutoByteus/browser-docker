@@ -1,0 +1,32 @@
+IR-003 focused architecture-alias implementation checks
+=======================================================
+
+[1] Static shell checks
+PASS: bash -n build-multi-arch.sh
+PASS: shellcheck -e SC2086 build-multi-arch.sh (pre-existing intentional option-word expansion excluded)
+
+[2] Apple Silicon arm64 local clean-build mapping
+buildx build --load --no-cache --platform linux/arm64 --tag autobyteus/chrome-vnc:1.4.0 --tag autobyteus/chrome-vnc:latest --build-arg IMAGE_VARIANT=default .
+Building for local architecture (linux/arm64) and loading into Docker daemon.
+PASS: arm64 maps to linux/arm64 and preserves load/no-cache/default tags
+
+[3] Linux aarch64 local zh mapping
+buildx build --load --platform linux/arm64 --tag autobyteus/chrome-vnc:1.4.0-zh --tag autobyteus/chrome-vnc:zh --build-arg IMAGE_VARIANT=zh .
+PASS: aarch64 remains linux/arm64 and preserves zh tags/variant/load
+
+[4] x86_64 local mapping
+buildx build --load --platform linux/amd64 --tag autobyteus/chrome-vnc:1.4.0 --tag autobyteus/chrome-vnc:latest --build-arg IMAGE_VARIANT=default .
+PASS: x86_64 remains linux/amd64 with default load/tags
+
+[5] Push flow remains multi-platform
+buildx build --push --platform linux/amd64,linux/arm64 --tag autobyteus/chrome-vnc:1.4.0-zh --tag autobyteus/chrome-vnc:zh --build-arg IMAGE_VARIANT=zh .
+PASS: push remains linux/amd64,linux/arm64 with no local load
+
+[6] Existing unsupported-local-architecture failure remains explicit
+Error: Unsupported architecture for --load: riscv64
+PASS: unsupported host spelling still fails before build
+
+[7] Existing source contract and diff hygiene
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS: tests/validate-source-contract.sh
+PASS: git diff --check
