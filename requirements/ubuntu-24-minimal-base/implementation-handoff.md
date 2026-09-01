@@ -2,134 +2,132 @@
 
 ## Upstream Artifact Package
 
-- Upstream route: `Direct Requirements-to-Implementation`; current re-entry is a code-review-confirmed implementation-owned Local Fix.
-- Requirements doc: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-doc.md`
+- Requirements doc: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-doc.md` (`RER-006`)
 - Investigation notes: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/investigation-notes.md`
-- Design spec: `N/A — approved direct route`
+- Design spec: `N/A — approved direct requirements-to-implementation route`
 - Supplemental task artifact: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
-- Solution revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` (`RER-006`)
+- Solution revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-revision-record.md`
 - Design review report: `N/A — approved direct route`
 - Architecture review revision record: `N/A — approved direct route`
-- Triggering implementation-failure review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` (`CRR-002`, `APIE2E-F-002`)
-- Code review revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-002`, `CRR-003`)
-- Triggering API/E2E coverage investigation: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
-- Triggering API/E2E execution report: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md` (`Fail`, `APIE2E-F-002`)
-- API/E2E revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md` (`API-REV-003`)
-- Proportional durable-test review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-003`, `Pass`)
-- Primary failure evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/host-round3-preflight.log`
+- Pre-integration source review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` (`CRR-004`, `Pass`)
+- Code review revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-004`, `CRR-005`)
+- Pre-integration API/E2E coverage investigation: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+- Pre-integration API/E2E execution report: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md` (`API-REV-004`, `Pass`, 96%)
+- API/E2E revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Durable-test review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-005`, `Pass`)
+- Triggering delivery reroute: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md` (`DR-003`, `Blocked`)
+- Delivery conflict evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr003-integration-refresh.log`
 
 ## Current Implementation Summary
 
-The current implementation builds the browser image from Canonical's official `ubuntu:24.04` base, uses Ubuntu Noble's native Python 3.12 packages, isolates Python-installed browser tools in `/opt/browser-tools`, preserves the configured `vncuser` identity and runtime/service paths, publishes release identity `1.4.0`, and documents Ubuntu 24.04/Python 3.12. The earlier Noble default UID/GID collision remains resolved.
+The ticket branch now integrates latest tracked `origin/main` at `fb0f59372254b853e85c69046aa921f1d59d96c7` into protected candidate `ffda31a1edaf1d67c45310474aee465886f1b3e2`. The four conflicts in `Dockerfile`, `README.md`, `VERSION`, and `base.conf` were resolved against the approved ticket behavior rather than by selecting one parent wholesale.
 
-`IR-003` corrects the supported Apple Silicon local-build path in `build-multi-arch.sh`: the existing local-load architecture switch now maps both `arm64` (macOS) and `aarch64` (Linux) to `linux/arm64`. The `x86_64` mapping, default `--load`, `--no-cache`, variant and tag semantics, and multi-platform `--push` behavior are unchanged. No API/E2E-owned test, report, or round-3 evidence file was changed by this implementation round.
+The effective image remains Canonical `ubuntu:24.04`, uses Noble-native Python 3.12 and distribution Supervisor, isolates `websockify`/`uv` under `/opt/browser-tools`, retains the stable websockify asset link, keeps version `1.4.0`, preserves default/`zh`, AMD64/ARM64, Apple Silicon aliases, configured UID/GID runtime paths, ports, profiles, locales/input, tags, load, and push behavior, and retains the earlier Noble identity and Apple Silicon fixes. Applicable current-base work is incorporated: `gh` remains installed, the executable `start-chrome.sh` wrapper is copied into the image and used by Supervisor, normal Chromium arguments remain unchanged, and `AUTOBYTEUS_NODE_PROFILE=mobile-safe` adds `--no-sandbox`. Current-base historical ticket artifacts are also present through the merge.
+
+The base's Ubuntu 22.04, Python 3.13, pip-installed Supervisor 4.3.0, fixed UID 1000 runtime paths, Python-version-specific websockify path, and `1.3.8` release identity were not carried into active source because they contradict the approved Noble/Python 3.12/`1.4.0` requirements or are unnecessary under Noble's compatible distribution Supervisor.
 
 - Implementation cycle: `Rework`
 - Implementation revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md`
-- Current implementation revision ID: `IR-003`
+- Current implementation revision ID: `IR-004`
 - Related solution revision IDs: `RER-006`
 - Related architecture-review revision IDs: `N/A — approved direct route`
-- Related code-review revision IDs: `CRR-002`; `CRR-003` is the independent durable-test review pass
-- Related API/E2E revision IDs: `API-REV-003`
-- Related delivery revision IDs: `N/A`
-- Triggering finding IDs: `APIE2E-F-002`
-
-## Routing Classification
-
-- Task size: `Medium` cumulative ticket; `Small` bounded IR-003 delta.
-- Architecture risk: `Low`
-- Current route: `Code Review`
-- Design or requirement impact: `None`
-- Rationale: `CRR-002` confirmed an isolated alias omission in the existing build-wrapper boundary. The one-branch correction realizes the already approved Apple Silicon behavior and introduces no new contract, owner, dependency, persistence, security, concurrency, deployment, or migration decision.
+- Related code-review revision IDs: `CRR-004`, `CRR-005` (pre-integration passes)
+- Related API/E2E revision IDs: `API-REV-004` (pre-integration pass)
+- Related delivery revision IDs: `DR-003`
+- Triggering finding IDs: `DR-003` latest-base integration blocker
 
 ## Reviewed Behavior Implementation Trace
 
 | Behavior ID | Approved Change / Preserved Outcome | Implemented Production Path / Key Files | Result / Notes |
 | --- | --- | --- | --- |
-| `BEH-001` | Build from official minimal Ubuntu 24.04 while preserving default/`zh`, AMD64/ARM64, local-load, multi-platform push, and tag behavior. | `Dockerfile` selects `ubuntu:24.04`; `build-multi-arch.sh` reads `VERSION`, selects the local platform from `uname -m`, passes `IMAGE_VARIANT`, and retains immutable/rolling tags and `linux/amd64,linux/arm64` push targets. The local ARM case is now `arm64\|aarch64 -> linux/arm64`. | Source correction complete. Focused simulated invocations prove command composition for Apple Silicon, Linux ARM64, AMD64, and push flows. The exact Docker/BuildX AC-003 command must be rerun by API/E2E after source review. |
-| `BEH-002` | Preserve browser/XFCE/TigerVNC/websockify/remote-debugging/tooling/user/port/profile behavior while using Noble-native Python 3.12. | `Dockerfile`, `base.conf`, and `entrypoint.sh` retain the implemented Noble-compatible package, identity, runtime-path, and service topology. | Unchanged in IR-003. Round-3 API/E2E evidence passed these image/runtime/identity/input/persistence behaviors; no new claim is made for the post-fix state until downstream re-entry. |
-| `BEH-003` | Document Ubuntu 24.04 LTS and the official minimal OCI-base identity. | `README.md` identifies Canonical's official minimal Ubuntu 24.04 LTS OCI base, Python 3.12, Apple Silicon `arm64`, and the supported local/no-cache build commands. | Complete and unchanged. IR-003 makes the documented Apple Silicon command reachable rather than changing documentation. |
+| `BEH-001` | Official minimal Ubuntu 24.04; default/`zh`; AMD64/ARM64; local-load, push, version and tags preserved. | `Dockerfile` keeps `ubuntu:24.04`; `VERSION` remains `1.4.0`; `build-multi-arch.sh` retains default/variant tags, `linux/amd64,linux/arm64`, and `arm64\|aarch64 -> linux/arm64`. | Preserved across integration. Base `1.3.8`/Ubuntu 22.04/Python 3.13 content is not active. Exact integrated builds remain downstream. |
+| `BEH-002` | Preserve desktop/browser/VNC/websockify/debugging/tooling/user/port/profile/locale/input behavior with developer Python 3.12. | `Dockerfile` keeps Noble Python and `/opt/browser-tools`, adds current-base `gh`, and installs `start-chrome.sh`; `base.conf` uses the wrapper plus dynamic UID paths and stable websockify assets; `entrypoint.sh` starts Noble's `/usr/bin/supervisord`; profile-lock and VNC recovery remain. | Integrated source is coherent. The wrapper retains normal Chromium flags and adds only `--no-sandbox` for `mobile-safe`; API/E2E must validate the changed runtime state. |
+| `BEH-003` | Documentation states the effective Ubuntu 24.04 official minimal base and Python 3.12. | `README.md` retains Canonical Ubuntu 24.04 and Ubuntu-native Python 3.12 while current-base historical release records remain under `tickets/`. | Preserved; no active README regression to the base's 22.04/Python 3.13 wording. |
 
 ## Key Files Or Areas
 
-- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/build-multi-arch.sh` — IR-003 architecture-alias correction.
-- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/Dockerfile` — Ubuntu 24.04, Noble Python/tooling, and `vncuser` identity implementation from IR-001/IR-002.
-- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/base.conf` and `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/entrypoint.sh` — stable service/runtime paths.
-- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/VERSION` and `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/README.md` — release and documented contracts.
-- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-003-architecture-alias-check.log` — focused implementation-check evidence.
-- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-image.sh` and `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-running-container.sh` — API/E2E-owned round-3 edits preserved unchanged by IR-003; proportionally reviewed as `Pass` in `CRR-003`.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/Dockerfile` — integrated packages, Noble/Python/tool isolation, current-base `gh`, and wrapper installation.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/start-chrome.sh` — current-base Chromium startup wrapper and `mobile-safe` argument.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/base.conf` — wrapper wiring, dynamic configured-UID runtime paths, and stable websockify assets.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/entrypoint.sh` — dynamic UID runtime/profile recovery and Noble distribution Supervisor entrypoint.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/README.md` and `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/VERSION` — approved documentation and `1.4.0` identity retained through conflict resolution.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/build-multi-arch.sh` — prior Apple/Linux ARM mapping and release flow retained.
+- `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-004-latest-base-integration-check.log` — focused integration evidence.
 
 ## Important Assumptions
 
-- `uname -m` returns `arm64` on the approved Apple Silicon surface and `aarch64` on the already supported Linux ARM64 surface, as established by `CR-PREM-002` and round-3 evidence.
-- Registry authentication, publication, remote manifest verification, and server adoption remain outside implementation scope and blocked until the downstream gates pass.
-- The round-3 passing image/runtime evidence remains valid context, but only API/E2E may decide what must be rerun and may replace the overall `Fail` result.
+- Noble's repository `supervisor` package is compatible with Noble's native Python 3.12 and remains authoritative at `/usr/bin/supervisord`; this exact state already passed API/E2E before integration. The base's pip-installed Supervisor fix was specific to forcing Python 3.13 on Ubuntu 22.04 and is not applicable to the approved target.
+- Supervisor-launched programs inherit the container environment, allowing `AUTOBYTEUS_NODE_PROFILE` to reach `start-chrome.sh` as it did on current `origin/main`.
+- The current-base `gh` package and Chromium wrapper are additive preserved-base changes and do not replace the approved Python/runtime/release identity.
 
 ## Known Risks
 
-- The focused IR-003 check uses controlled `uname` and `docker` command doubles to inspect the exact BuildX command assembled by the script. It does not execute Docker or satisfy AC-003.
-- `APIE2E-F-002` remains unresolved at the API/E2E authority level until the exact supported Apple Silicon command `./build-multi-arch.sh --no-cache` is rerun successfully after code review.
-- Docker Hub publication, remote manifests/digests, published-artifact identity, and deferred server adoption remain blocked.
+- The integrated image was not rebuilt or run by Implementation. The current-base wrapper changes the Chromium process entry command and adds a `mobile-safe` branch, so the pre-integration `API-REV-004` pass cannot authorize Delivery for this new tree.
+- Ubuntu, XtraDeb, NodeSource, PyPI, and GitHub CLI package availability remain remote build inputs whose integrated compatibility must be exercised downstream.
+- Docker Hub publication, remote manifest/runtime verification, explicit user verification, repository finalization, and server adoption remain blocked.
 
 ## Task Design Health Assessment Implementation Check
 
-- Reviewed change posture: Bounded Local Fix within the existing operational build wrapper.
-- Reviewed root-cause classification: Implementation defect; the local-load architecture switch omitted macOS's supported `arm64` spelling.
+- Reviewed change posture: Delivery-requested latest-base integration Local Fix.
+- Reviewed root-cause classification: Source/packaging overlap between the approved ticket and later base releases; no requirement or architecture gap.
 - Reviewed refactor decision: `No Refactor Needed`
 - Implementation matched the reviewed assessment: `Yes`
 - If challenged, routed as `Design Impact`: `N/A`
-- Evidence / notes: The existing wrapper remains the correct owner. A second ARM branch or compatibility layer was not added; the two valid host spellings are normalized in one case arm to the existing canonical Docker platform value.
+- Evidence / notes: Existing owners remain intact. Runtime/tool selection stays in `Dockerfile`/`entrypoint.sh`, Supervisor program wiring stays in `base.conf`, and Chromium argument policy stays in the current-base wrapper. The integration does not add a compatibility layer or bypass an owner.
 
 ## Legacy / Compatibility Removal Check
 
 - Backward-compatibility mechanisms introduced: `None`
 - Legacy old-behavior retained in scope: `No`
-- Dead/obsolete code, obsolete files, unused helpers/tests/flags/adapters, and dormant replaced paths removed in scope: `Yes — none were created or exposed by this one-line correction`
+- Dead/obsolete code or dormant replaced paths removed in scope: `Yes — the direct Chromium command is replaced by the current-base wrapper; rejected Python 3.13/pip-Supervisor paths are absent from active source`
 - Shared structures remain tight: `Yes`
-- Canonical shared design guidance was reapplied during implementation: `Yes`
-- Changed source implementation files stayed within proactive size-pressure guardrails: `Yes — build-multi-arch.sh has 116 effective non-empty, non-comment lines and IR-003 changes one case label`
-- Notes: `arm64` and `aarch64` are supported host aliases for one Docker platform, so a combined case label is the smallest coherent normalization without duplicated policy.
+- Canonical shared design guidance reapplied: `Yes`
+- Changed source implementation files stayed within guardrails: `Yes — Dockerfile 170, base.conf 77, entrypoint.sh 77, and start-chrome.sh 11 effective non-empty/non-comment lines; no integrated source file exceeds 500 lines`
+- Notes: The wrapper owns one focused Chromium argument policy and does not broaden another shared structure.
 
 ## Persisted Data Transition Check
 
 - Approved decision: `Not Affected`
 - Design-spec decision reference: `N/A — approved direct route`; requirements data-continuity decision.
-- Implementation follows the approved decision without an unapproved migration or version-specific runtime fallback: `Yes`
-- Direct-use evidence: Chromium profile paths and stale-lock recovery are untouched in IR-003 and passed the existing round-3 lifecycle journey.
+- Implementation follows the approved decision without migration or version-specific runtime fallback: `Yes`
+- Direct-use evidence: Profile path, ownership preparation, profile-lock detection/cleanup, and recreation contract are unchanged. The wrapper does not alter the profile directory or data shape.
 - Migration implementation: `N/A`
-- Deviation from the reviewed transition decision: `None`
+- Deviation: `None`
 
 ## Environment Or Dependency Notes
 
-- Focused command-composition checks used PATH-injected `uname` and `docker` doubles, so they exercised argument parsing, load/push selection, platform mapping, tags, variants, and failure behavior without starting the broader Docker/API/E2E environment.
-- The existing host-round3 package records Docker Desktop/BuildX execution on Apple Silicon. IR-003 did not alter or overwrite any of those reports, evidence files, or the two API/E2E-owned durable test edits.
+- Merge parents: ticket checkpoint `ffda31a1edaf1d67c45310474aee465886f1b3e2`; latest tracked base `fb0f59372254b853e85c69046aa921f1d59d96c7`.
+- Delivery-owned `DR-003` artifacts and its evidence log remain intentionally uncommitted and were hash-verified byte-for-byte unchanged during IR-004.
+- Repository-resident durable tests were not changed by IR-004. The pre-integration test edits remain covered by `CRR-003`/`CRR-005`; API/E2E owns any integration-driven durable coverage decision.
 
 ## Local Implementation Checks Run
 
-Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-003-architecture-alias-check.log`.
+Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-004-latest-base-integration-check.log`.
 
-- `bash -n build-multi-arch.sh` — passed.
-- `shellcheck -e SC2086 build-multi-arch.sh` — passed; the pre-existing intentional option-word expansions were excluded.
-- Controlled `arm64` + `--no-cache` invocation — passed; assembled `--load --no-cache --platform linux/arm64` with default `1.4.0`/`latest` tags.
-- Controlled `aarch64` + `--variant zh` invocation — passed; retained local `linux/arm64`, `1.4.0-zh`/`zh` tags, and variant build argument.
-- Controlled `x86_64` invocation — passed; retained local `linux/amd64`, load behavior, and default tags.
-- Controlled `arm64` + `--push --variant zh` invocation — passed; retained `linux/amd64,linux/arm64`, push behavior, and no `--load`.
-- Controlled unsupported `riscv64` invocation — passed; retained the explicit pre-build failure.
-- `tests/validate-source-contract.sh` — passed as a narrow source-contract check; no API/E2E execution claim is made.
-- `git diff --check` — passed.
-- Full Docker/BuildX clean build — not run by implementation; required downstream for `APIE2E-F-002`/AC-003.
+- Confirmed the merge parent is exact latest tracked `origin/main` `fb0f59372254b853e85c69046aa921f1d59d96c7`.
+- Confirmed no unmerged path, conflict marker, staged/unstaged whitespace error, or patch error remains.
+- `bash -n` over production shell scripts — passed.
+- ShellCheck over production shell scripts — passed, excluding only pre-existing intentional SC2086 option/filter expansion sites.
+- `tests/validate-source-contract.sh` — passed as a narrow source-contract check; no API/E2E claim is made.
+- Active-source scan rejected Ubuntu 22.04, Python 3.13, Deadsnakes, pip Supervisor 4.3.0, `/usr/local/bin/supervisord`, the Python 3.13 websockify path, and wrong release identity — passed.
+- Asserted Noble/Python 3.12 packages, `/opt/browser-tools`, stable websockify path, `/usr/bin/supervisord`, dynamic UID runtime paths, ARM aliases, multi-platform targets, `zh` configuration, ports, and `1.4.0` — passed.
+- Asserted `gh`, wrapper copy/mode/wiring, normal Chromium arguments, and `mobile-safe` addition of only `--no-sandbox` — passed.
+- Changed-source size guardrails — passed.
+- Delivery artifact hash preservation and no durable-test delta — passed.
+- Full Docker/BuildX image/runtime checks — not run by Implementation; downstream API/E2E required.
 
 ## Frontend Rendered-Result Check
 
-Not Applicable — IR-003 changes a shell build-wrapper architecture alias and has no rendered frontend or user-interaction implementation surface.
+Not Applicable — the change integrates container packaging and process-startup shell configuration, not a rendered implementation surface. Browser/VNC behavior remains downstream executable coverage.
 
 ## Downstream Coverage Hints / Suggested Scenarios
 
-1. Source review the exact `arm64|aarch64 -> linux/arm64` delta and confirm the API/E2E-owned test/report/evidence edits remain untouched.
-2. API/E2E must first rerun the exact Apple Silicon failure command `./build-multi-arch.sh --no-cache` and confirm it reaches BuildX, builds `linux/arm64`, applies the existing tags, and loads successfully.
-3. Preserve the established `aarch64`, `x86_64`, default/`zh`, load/push, tag, and multi-platform behavior; API/E2E owns the proportionate post-fix rerun decision and authoritative result.
-4. Do not begin Docker Hub publication or server adoption unless code review and API/E2E pass.
+1. Review the merge against both parents, especially the deliberate Noble/Python 3.12/distribution-Supervisor selections and the incorporated `gh`/Chromium wrapper.
+2. API/E2E should perform an integrated clean `--no-cache` default build first, then run applicable default/`zh`, AMD64/ARM64, loaded-image, service, browser/DevTools/VNC/websockify, custom UID, profile persistence/recovery, and local publication-equivalent checks.
+3. Exercise `start-chrome.sh` through Supervisor with the normal environment and with `AUTOBYTEUS_NODE_PROFILE=mobile-safe`; assert the existing flags remain and only the latter adds `--no-sandbox`.
+4. Confirm the built image provides `gh`, Python 3.12, distribution Supervisor, `websockify`, and `uv` on their intended paths.
+5. Do not publish, finalize, or begin server adoption unless integrated source review and API/E2E pass.
 
 ## API / E2E / Executable Coverage Investigation And Execution Still Required
 
-Source review is required before API/E2E resumes. API/E2E must recheck `APIE2E-F-002`/AC-003 first and then complete its applicable regression gate. The current overall API/E2E result remains `Fail`; this implementation handoff does not authorize Delivery, Docker Hub publication, remote-manifest verification, or server adoption.
+The integrated state changes production packaging and Chromium startup after the prior passes. Source review must pass before API/E2E investigates and executes the applicable regression gate. Delivery, Docker Hub publication, remote manifest/runtime verification, explicit user verification, repository finalization, and the separate server-adoption ticket remain blocked.

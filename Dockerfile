@@ -38,6 +38,7 @@ RUN apt-get update && \
     dnsutils \
     dos2unix \
     git \
+    gh \
     golang \
     htop \
     iputils-ping \
@@ -208,11 +209,12 @@ COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY base.conf /etc/supervisor/conf.d/base.conf
 COPY entrypoint.sh /entrypoint.sh
 COPY start-vnc.sh /usr/local/bin/start-vnc.sh
+COPY start-chrome.sh /usr/local/bin/start-chrome.sh
 COPY disable-screensaver.sh /home/vncuser/disable-screensaver.sh
 
-RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /home/vncuser/disable-screensaver.sh && \
-    chmod +x /entrypoint.sh /usr/local/bin/start-vnc.sh /home/vncuser/disable-screensaver.sh && \
-    chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /home/vncuser/disable-screensaver.sh
+RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+    chmod +x /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+    chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh
 
 EXPOSE 5900 6080 9223
 

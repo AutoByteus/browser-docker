@@ -1,0 +1,58 @@
+IR-004 latest-base integration implementation checks
+===================================================
+Ticket parent: ffda31a1edaf1d67c45310474aee465886f1b3e2
+Merge parent: fb0f59372254b853e85c69046aa921f1d59d96c7
+Expected origin/main: fb0f59372254b853e85c69046aa921f1d59d96c7
+PASS: merge is integrating the recorded latest origin/main
+
+[1] Conflict and diff hygiene
+PASS: no unmerged path, merge marker, whitespace error, or patch error
+
+[2] Shell syntax and lint
+PASS: bash -n production shell scripts
+PASS: shellcheck production shell scripts (pre-existing intentional option/filter expansion SC2086 excluded)
+
+[3] Approved active source contracts
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+RUN python3 -m venv /opt/browser-tools && \
+    /opt/browser-tools/bin/python -m pip install websockify uv && \
+command=websockify --web=/usr/local/share/websockify 6080 localhost:5900
+exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+PASS: Noble/Python 3.12/1.4.0, isolated tooling, stable websockify, and distribution Supervisor contracts retained
+
+[4] Applicable current-base contributions
+COPY start-chrome.sh /usr/local/bin/start-chrome.sh
+command=/usr/local/bin/start-chrome.sh
+Normal Chromium args: <--no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 >
+mobile-safe Chromium args: <--no-sandbox --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 >
+PASS: gh and the current-base Chromium startup wrapper are integrated; mobile-safe adds only --no-sandbox
+
+[5] Preserved runtime/platform/variant boundaries
+environment=HOME="/home/vncuser",USER="vncuser",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",DBUS_VERBOSE=1
+environment=HOME="/home/vncuser",USER="vncuser",DISPLAY=":99",XAUTHORITY="/home/vncuser/.Xauthority",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",GTK_IM_MODULE="fcitx",QT_IM_MODULE="fcitx",XMODIFIERS="@im=fcitx",SDL_IM_MODULE="fcitx",LANG="en_US.UTF-8",LC_ALL="en_US.UTF-8"
+environment=HOME="/home/vncuser",USER="vncuser",DISPLAY=":99",XAUTHORITY="/home/vncuser/.Xauthority",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",COPYQ_LOG_LEVEL="DEBUG",COPYQ_LOG_FILE="/home/vncuser/copyq.log"
+environment=HOME="/home/vncuser",USER="vncuser",DISPLAY=":99",XAUTHORITY="/home/vncuser/.Xauthority",DBUS_SESSION_BUS_ADDRESS="unix:path=%(ENV_XDG_RUNTIME_DIR)s/bus",XDG_RUNTIME_DIR="%(ENV_XDG_RUNTIME_DIR)s",LANG="en_US.UTF-8",LC_ALL="en_US.UTF-8"
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/${USER_UID:-1000}}"
+    arm64|aarch64)
+PLATFORMS="linux/amd64,linux/arm64"
+'Name=pinyin' \
+EXPOSE 5900 6080 9223
+PASS: dynamic UID runtime, Apple/Linux ARM aliases, multi-platform targets, zh configuration, and ports retained
+
+[6] Source size guardrails
+Dockerfile: 170 effective non-comment lines, 221 total lines
+base.conf: 77 effective non-comment lines, 85 total lines
+entrypoint.sh: 77 effective non-comment lines, 104 total lines
+start-chrome.sh: 11 effective non-comment lines, 15 total lines
+PASS: integrated changed source files remain below the 500-line guardrail
+
+[7] Delivery-owned blocker artifact preservation
+requirements/ubuntu-24-minimal-base/delivery-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/docs-sync-report.md: OK
+requirements/ubuntu-24-minimal-base/handoff-summary.md: OK
+requirements/ubuntu-24-minimal-base/release-deployment-report.md: OK
+requirements/ubuntu-24-minimal-base/evidence/delivery-dr003-integration-refresh.log: OK
+PASS: all delivery-owned DR-003 blocker artifacts remain byte-for-byte unchanged
+
+[8] Durable coverage ownership boundary
+PASS: integration did not modify repository-resident durable tests
