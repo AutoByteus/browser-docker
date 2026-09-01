@@ -16,17 +16,17 @@
 
 ## Current Implementation Summary
 
-The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Noble's native Python package family (Python 3.12), and no longer adds Deadsnakes or names Python 3.11. Python-installed image tools are kept in `/opt/browser-tools` so Noble's externally managed system Python is not mutated; stable `/usr/local/bin` commands expose `websockify` and `uv`, and a version-independent `/usr/local/share/websockify` link replaces the former Python 3.11 package path. The configured runtime UID path now flows through entrypoint and supervised desktop services. `VERSION` is `1.4.0`, and README identity claims match Ubuntu 24.04/Python 3.12. Existing build variants, platform list, tags, ports, launch surfaces, profile paths, and service topology are unchanged.
+The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Noble's native Python package family (Python 3.12), and no longer adds Deadsnakes or names Python 3.11. Python-installed image tools are kept in `/opt/browser-tools` so Noble's externally managed system Python is not mutated; stable `/usr/local/bin` commands expose `websockify` and `uv`, and a version-independent `/usr/local/share/websockify` link replaces the former Python 3.11 package path. The configured runtime UID path now flows through entrypoint and supervised desktop services. IR-002 also resolves the official Noble base's pre-existing UID/GID 1000: the superseded `ubuntu` account/group is removed before the public `vncuser` identity is created with the configured default or custom IDs. `VERSION` is `1.4.0`, and README identity claims match Ubuntu 24.04/Python 3.12. Existing build variants, platform list, tags, ports, launch surfaces, profile paths, and service topology are unchanged.
 
-- Implementation cycle: `Initial`
+- Implementation cycle: `Rework`
 - Implementation revision record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/implementation-revision-record.md`
-- Current implementation revision ID: `IR-001`
+- Current implementation revision ID: `IR-002`
 - Related architecture design revision IDs: `N/A`
 - Related architecture-review revision IDs: `N/A`
-- Related code-review revision IDs: `N/A`
-- Related API/E2E revision IDs: `N/A`
+- Related code-review revision IDs: `CRR-001`
+- Related API/E2E revision IDs: `API-REV-001`
 - Related delivery revision IDs: `N/A`
-- Triggering finding IDs: `N/A`
+- Triggering finding IDs: `APIE2E-F-001`
 
 ## Routing Classification (Mandatory)
 
@@ -34,7 +34,7 @@ The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Nob
 - Architecture risk (`Low`/`High`): `Low`
 - Requirements routing assessment path: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/requirements-doc.md` → `Architecture Design Routing Assessment`
 - Classification confirmed or changed: `Confirmed`
-- Evidence and rationale for confirmation or change: The completed delta remains within five existing image payload/configuration/documentation files plus the two required handoff artifacts. It reuses the established single Dockerfile, Supervisor lifecycle, variant argument, build script, public ports, profile volume, and tag scheme. No contract, persistence model, security boundary, concurrency model, deployment topology, ownership boundary, migration, new pattern, or structural refactor was introduced.
+- Evidence and rationale for confirmation or change: The cumulative implementation remains within existing image payload/configuration/documentation surfaces plus required handoff artifacts. IR-002 is a bounded correction in the Dockerfile identity-creation step and preserves the established `vncuser` name and default/configurable IDs. It reuses the single Dockerfile, Supervisor lifecycle, variant argument, build script, public ports, profile volume, and tag scheme. No contract, persistence model, security boundary, concurrency model, deployment topology, ownership boundary, migration, new pattern, or structural refactor was introduced.
 - Selected route (`Direct API/E2E`/`Code Review`/`Architecture Designer`): `Direct API/E2E`
 - Lightweight implementation self-review completed for the direct route: `Yes`
 - New design impact or escalation trigger: `None`
@@ -44,7 +44,7 @@ The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Nob
 | Behavior ID | Approved Change / Preserved Outcome | Implemented Production Path / Key Files | Result / Notes |
 | --- | --- | --- | --- |
 | BEH-001 | Build from official minimal Ubuntu 24.04 while preserving default/`zh`, AMD64/ARM64, and tag semantics. | `Dockerfile` selects `ubuntu:24.04`; unchanged `build-multi-arch.sh` reads `VERSION`, passes `IMAGE_VARIANT`, and retains `linux/amd64,linux/arm64` plus immutable/rolling tags; `VERSION` is `1.4.0`. | Source implementation complete. Clean builds and manifest checks remain executable-validation/delivery work. |
-| BEH-002 | Preserve browser/XFCE/TigerVNC/websockify/remote-debugging/tooling/user/port/profile outcomes while moving developer Python to Noble-native 3.12. | `Dockerfile` installs Noble `python3`, development, pip, venv, and `python-is-python3` packages; `/opt/browser-tools` isolates `websockify`/`uv`; `base.conf` uses stable websockify assets and dynamic runtime paths; `entrypoint.sh` respects configured UID runtime state. Existing runtime, ports, and profile paths remain intact. | Source implementation complete. Both variants/platforms and full runtime/persistence behavior require downstream execution. |
+| BEH-002 | Preserve browser/XFCE/TigerVNC/websockify/remote-debugging/tooling/user/port/profile outcomes while moving developer Python to Noble-native 3.12. | `Dockerfile` installs Noble `python3`, development, pip, venv, and `python-is-python3` packages; `/opt/browser-tools` isolates `websockify`/`uv`; Noble's superseded `ubuntu` identity is removed before configured `vncuser` creation; `base.conf` uses stable websockify assets and dynamic runtime paths; `entrypoint.sh` respects configured UID runtime state. Existing runtime, ports, and profile paths remain intact. | Default `1000:1000` and representative custom `1234:1234` identity builds pass locally. Both variants/platforms and full runtime/persistence behavior require downstream execution. |
 | BEH-003 | Document Ubuntu 24.04 LTS and official minimal OCI-base identity. | `README.md` feature list identifies Canonical's official minimal Ubuntu 24.04 LTS OCI base and Ubuntu-native Python 3.12. | Complete; active product source/docs contain no Ubuntu 22.04, Python 3.11, or Deadsnakes assumption. Historical approved artifacts intentionally retain before-state evidence. |
 
 ## Key Files Or Areas
@@ -54,6 +54,9 @@ The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Nob
 - `/home/autobyteus/workspace/browser-docker/entrypoint.sh` — runtime directory setup for configured UID.
 - `/home/autobyteus/workspace/browser-docker/VERSION` — release identity `1.4.0`.
 - `/home/autobyteus/workspace/browser-docker/README.md` — Ubuntu/Python identity documentation.
+- `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/code-review-report.md` and `code-review-revision-record.md` — `APIE2E-F-001` failure origin and `CRR-001` local-fix direction.
+- `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md` and `api-e2e-revision-record.md` — failed AC-003 execution baseline (`API-REV-001`).
+- `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-002-identity-check.log` — focused default/custom identity-build evidence for the local fix.
 
 ## Important Assumptions
 
@@ -64,18 +67,18 @@ The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Nob
 
 ## Known Risks
 
-- Docker and BuildX are not installed in this implementation environment. Noble package resolution, both BuildX platforms, desktop/browser/VNC behavior, persistence/recovery, and published-image identity remain unverified here.
+- The focused chroot builder can execute bounded image steps, but nested Docker/BuildX remains unavailable because of the outer cgroup limitation. Complete Noble package resolution, both BuildX platforms, desktop/browser/VNC behavior, persistence/recovery, and published-image identity remain unverified here.
 - Ubuntu, XtraDeb, NodeSource, and PyPI are remote mutable build inputs. The downstream clean/no-cache build is the release gate for package availability and architecture parity.
 - Websockify retains the prior behavior of serving its installed Python package directory, now via a stable link. Downstream validation must confirm the HTTP/WebSocket surface remains usable.
 
 ## Task Design Health Assessment Implementation Check
 
 - Reviewed change posture: Direct, bounded OS/runtime payload modernization in existing image build and service surfaces.
-- Reviewed root-cause classification: The incompatibility was the old Ubuntu/Python selection plus direct system-pip and versioned websockify-path assumptions.
+- Reviewed root-cause classification: The initial modernization addressed old Ubuntu/Python and Python-path assumptions; `CRR-001` additionally proved that official Noble reserves the default UID/GID 1000, contradicting the formerly unconditional `vncuser` creation step.
 - Reviewed refactor decision (`Refactor Needed Now`/`No Refactor Needed`/`Deferred`): `No Refactor Needed`
 - Implementation matched the reviewed assessment (`Yes`/`No`): `Yes`
 - If challenged, routed as `Design Impact` (`Yes`/`No`/`N/A`): `N/A`
-- Evidence / notes: Existing owners and service lifecycle were retained; Noble compatibility was addressed only in dependency installation and runtime path configuration.
+- Evidence / notes: Existing owners and service lifecycle were retained; Noble compatibility was addressed in dependency installation, runtime path configuration, and the existing identity-creation boundary. The approved public identity contract did not change.
 
 ## Legacy / Compatibility Removal Check
 
@@ -98,7 +101,7 @@ The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Nob
 
 ## Environment Or Dependency Notes
 
-- Local host provides neither `docker`, `podman`, nor `buildah`; no image build claim is made.
+- Docker client, Podman, and Buildah are present after API/E2E investigation, but the Docker daemon/nested BuildX cannot run under the outer read-only cgroup hierarchy. Only the bounded identity step was revalidated with Podman chroot isolation; no full-image claim is made.
 - Python image tools install into `/opt/browser-tools`, while `/usr/bin/python3` and `/usr/bin/python` remain Ubuntu package-owned developer-runtime commands.
 - `base.conf` resolves `XDG_RUNTIME_DIR` from the image environment, so builds using non-default `USER_UID` no longer reintroduce `/run/user/1000` into supervised services.
 
@@ -111,7 +114,10 @@ The image now declares Canonical's official `ubuntu:24.04` base, uses Ubuntu Nob
 - Supervisor config parse using the repository `base.conf`, with `XDG_RUNTIME_DIR=/run/user/1234`, asserted DBus/runtime interpolation for `dbus`, `xfce`, `fcitx`, `copyq`, and `chrome` — passed.
 - `git diff --numstat` and `wc -l` guardrail review — passed; no changed implementation file exceeds 500 lines and no file has more than 220 changed lines.
 - Manual implementation self-review of the complete source diff against BEH-001–BEH-003 and the preserved build/runtime/publication contracts — passed at source level.
-- Docker/BuildX image build and runtime checks — not run because the commands are unavailable locally; these remain explicitly assigned to downstream API/E2E and Delivery stages.
+- `tests/validate-source-contract.sh` — passed after IR-002.
+- Task-isolated Podman/chroot focused builds from the real official ARM64 `ubuntu:24.04` base executed the production account-removal and identity-creation mechanism for `1000:1000` and `1234:1234`; both asserted `vncuser` UID/GID and numeric passwd/group ownership and passed. The harmless `userdel` warning that `/var/mail/ubuntu` is absent did not affect exit status. Durable evidence: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-002-identity-check.log`.
+- `bash -n` over production and durable validation scripts plus `git diff --check` — passed after IR-002.
+- Full Docker/BuildX image build and runtime checks — not run locally because the outer cgroup limitation prevents the supported builder; these remain explicitly assigned to downstream API/E2E and Delivery stages.
 
 ## Frontend Rendered-Result Check (When Applicable)
 

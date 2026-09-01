@@ -1,0 +1,41 @@
+IR-002 focused implementation validation
+Repository commit under test: pre-commit working tree based on 0136fcbedcfbfcd747cfe35a6d7635d4e13a32ff
+
+== durable source and syntax checks ==
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS: Bash syntax and git diff hygiene
+
+== official ubuntu:24.04 focused identity builds ==
+CASE USER_UID=1000 USER_GID=1000
+STEP 1/5: FROM ubuntu:24.04
+Resolved "ubuntu" as an alias (/etc/containers/registries.conf.d/shortnames.conf)
+Trying to pull docker.io/library/ubuntu:24.04...
+Getting image source signatures
+Copying blob sha256:0b613318ea879878918380aa3aeb220dfe824e311b83bc955cb8a1d4319650ab
+Copying blob sha256:0b613318ea879878918380aa3aeb220dfe824e311b83bc955cb8a1d4319650ab
+Copying config sha256:5b8c0c14690ed170da4e663fe0bae0d58efe59661e791296ffab28ed2113b650
+Writing manifest to image destination
+Storing signatures
+STEP 2/5: ARG USER_UID=1000
+STEP 3/5: ARG USER_GID=1000
+STEP 4/5: RUN if getent passwd ubuntu >/dev/null; then userdel --remove ubuntu; fi &&     if getent group ubuntu >/dev/null; then groupdel ubuntu; fi &&     groupadd -g ${USER_GID} vncuser &&     useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash vncuser
+userdel: ubuntu mail spool (/var/mail/ubuntu) not found
+STEP 5/5: RUN test "$(id -u vncuser)" = "${USER_UID}" &&     test "$(id -g vncuser)" = "${USER_GID}" &&     test "$(getent passwd "${USER_UID}" | cut -d: -f1)" = vncuser &&     test "$(getent group "${USER_GID}" | cut -d: -f1)" = vncuser
+COMMIT localhost/brd-ir002:1000-1000
+--> 797f59790ca
+Successfully tagged localhost/brd-ir002:1000-1000
+797f59790caad9bfa22c7ea362a0275ab9d1e98962da1a7d80bda17f2f9797b7
+PASS: vncuser resolves to UID/GID 1000:1000
+CASE USER_UID=1234 USER_GID=1234
+STEP 1/5: FROM ubuntu:24.04
+STEP 2/5: ARG USER_UID=1000
+STEP 3/5: ARG USER_GID=1000
+STEP 4/5: RUN if getent passwd ubuntu >/dev/null; then userdel --remove ubuntu; fi &&     if getent group ubuntu >/dev/null; then groupdel ubuntu; fi &&     groupadd -g ${USER_GID} vncuser &&     useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash vncuser
+userdel: ubuntu mail spool (/var/mail/ubuntu) not found
+STEP 5/5: RUN test "$(id -u vncuser)" = "${USER_UID}" &&     test "$(id -g vncuser)" = "${USER_GID}" &&     test "$(getent passwd "${USER_UID}" | cut -d: -f1)" = vncuser &&     test "$(getent group "${USER_GID}" | cut -d: -f1)" = vncuser
+COMMIT localhost/brd-ir002:1234-1234
+--> 68d965befd5
+Successfully tagged localhost/brd-ir002:1234-1234
+68d965befd5a14b5c45d991afd226aa3ca0c682b2fc5176487f16bea4232e85b
+PASS: vncuser resolves to UID/GID 1234:1234
+PASS: APIE2E-F-001 focused identity boundary recheck

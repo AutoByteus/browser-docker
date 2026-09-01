@@ -91,8 +91,12 @@ RUN apt-get update && \
 # Ensure en_US locale exists for all variants
 RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 
-# Create non-root user with explicit UID/GID and add to sudo group (needed before variant-specific setup)
-RUN groupadd -g ${USER_GID} vncuser && \
+# Noble's official base reserves UID/GID 1000 for its ubuntu account. This
+# image's public runtime identity is vncuser, so remove the superseded base
+# account before applying the configured vncuser UID/GID.
+RUN if getent passwd ubuntu >/dev/null; then userdel --remove ubuntu; fi && \
+    if getent group ubuntu >/dev/null; then groupdel ubuntu; fi && \
+    groupadd -g ${USER_GID} vncuser && \
     useradd -u ${USER_UID} -g ${USER_GID} -m -s /bin/bash vncuser && \
     usermod -aG sudo vncuser && \
     echo "vncuser:vncuser" | chpasswd && \
