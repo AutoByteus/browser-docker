@@ -1,0 +1,22 @@
+BRD-UBUNTU24-001 DR-006 local publication-verification cleanup
+Date: 2026-09-02T04:24:28Z
+Only exact digest references pulled for DR-006 verification are removed; pre-existing rolling tags are not targeted.
++ docker image rm autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+Untagged: autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+Deleted: sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
++ docker image rm autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+Untagged: autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+Deleted: sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
++ docker image rm autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+Untagged: autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+Deleted: sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
++ docker image rm autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+Untagged: autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+Deleted: sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+
+Remaining exact digest references (expected absent):
+ABSENT: autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+ABSENT: autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+ABSENT: autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+ABSENT: autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+PASS: task-created exact-digest image references removed.

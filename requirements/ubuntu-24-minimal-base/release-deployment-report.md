@@ -1,142 +1,110 @@
 # Delivery / Release / Deployment Report
 
-## Release / Publication / Deployment Scope
+## Release Scope And Result
 
-Finalize the explicitly user-verified `BRD-UBUNTU24-001` release into `main`, then publish and remotely verify Docker Hub tags `1.4.0`, `latest`, `1.4.0-zh`, and `zh`. Repository finalization completed. The first documented publication command failed before BuildX or registry mutation because its Docker login preflight is incompatible with the current Docker Desktop output. Release completion is blocked and rerouted; already-completed repository finalization is not undone.
-
-## Handoff Summary
-
-- Handoff summary artifact: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/handoff-summary.md`
-- Handoff summary status: `Blocked for publication`
-- Delivery revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md`
-- Current delivery revision ID: `DR-005`
-- Notes: DR-004's pre-verification handoff was explicitly accepted. DR-005 records successful repository finalization and the subsequent no-mutation publication blocker.
-
-## Initial Delivery Integration Refresh
-
-- Bootstrap base reference: `2bc0b4a26c87bdf6903e4977679849e5f7ee0bef`
-- Latest tracked remote base reference checked: `origin/main` `fb0f59372254b853e85c69046aa921f1d59d96c7`
-- Base advanced since the verified handoff: `No`
-- New base commits integrated into the ticket branch: `No`
-- Local checkpoint commit result: `Not needed`
-- Integration method: `Already current`
-- Integration result: `Completed`
-- Post-integration executable checks rerun: `No new-base rerun required`; focused source/documentation checks were run.
-- Post-integration verification result: `Passed`
-- No-rerun rationale: The verified IR-005/API-REV-005/API-REV-006 state already contains `origin/main`; the target remained unchanged through finalization.
-- Delivery edits started only after integrated state was current: `Yes`
-- Handoff state current with latest tracked remote base: `Yes`
-- Blocker: None at integration or repository finalization.
+- Ticket: `BRD-UBUNTU24-001`
+- Version: `1.4.0` / `1.4.0-zh`
+- Registry: `docker.io/autobyteus/chrome-vnc`
+- Final result: `Completed`
+- Current delivery revision: `DR-006`
+- Source/release input commit: `18bb92e2c9784a4222ff734ffd47d89d877b5c59`
+- Git tag: not part of this repository's documented release method; none created.
 
 ## User Verification
 
-- Initial explicit user completion/verification received: `Yes`
-- Initial verification / acceptance reference: User message on 2026-09-02 — “verified. fianlze and release”.
-- Renewed verification required after later re-integration: `No`; the target did not advance.
-- Renewed verification received: `Not needed`
-- Renewed verification / acceptance reference: `N/A`
+- Explicit verification/finalization authorization: received on 2026-09-02 — “verified. fianlze and release”.
+- Renewed verification after IR-006/IR-007: not required. The reviewed correction only removed an obsolete Docker-output authentication heuristic and added fixture cleanup; it did not materially change the previously verified image/runtime contract.
+- Continuation confirmation: user instructed Delivery to continue after the default publication completed.
 
-## Docs Sync Result
+## Delivery Re-entry Integration Refresh
 
-- Docs sync artifact: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/docs-sync-report.md`
-- Docs sync result: `Updated and committed`
-- Docs updated: `README.md`; archived `tickets/done/ubuntu-24-minimal-base/release-notes.md`.
-- No-impact rationale: `N/A`
+- Initial re-entry HEAD: `14fb215b1ad0b48dd486658ca7fd7757ceb06d16`.
+- Latest tracked `origin/main` and remote ticket branch before finalization continuation: `01a07b203472049695e870b2865fcd5df9ec5844`.
+- Ahead/behind: 2 ahead / 0 behind; `origin/main` was already an ancestor.
+- Integration method: already current; no merge or rebase required.
+- Focused checks: Bash syntax, `tests/validate-build-wrapper.sh`, `tests/validate-source-contract.sh`, and repository diff checks passed.
+- Evidence: `requirements/ubuntu-24-minimal-base/evidence/delivery-dr006-integration-refresh.log`.
 
-## Ticket State Transition
+## Repository Finalization Continuation
 
-- Ticket moved to `tickets/done/<ticket-name>`: `Yes`
-- Archived ticket path: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tickets/done/ubuntu-24-minimal-base`
+- Cumulative fix/review/API-E2E/evidence commit: `18bb92e2c9784a4222ff734ffd47d89d877b5c59` (`test: validate Docker push wrapper fix`).
+- Ticket branch push: completed and remote-ref verified at `18bb92e`.
+- `main` refresh: current at `01a07b2`; no new conflicting target commit.
+- `main` update: fast-forwarded through `24a61a8`, `14fb215`, and `18bb92e`.
+- Target checks: build-wrapper and source-contract suites passed.
+- `main` push: completed and remote-ref verified at `18bb92e` before publication.
+- Repository finalization result: `Completed`.
 
-## Version / Tag / Release Commit
+## Publication Steps
 
-- Version: `1.4.0`.
-- Ticket/finalization commit: `01a07b203472049695e870b2865fcd5df9ec5844`.
-- Planned Docker tags: `1.4.0`, `latest`, `1.4.0-zh`, `zh`.
-- Docker tags created in DR-005: `None`.
-- Git tag: Not part of the repository's documented release method; none created.
+1. `./build-multi-arch.sh --push` — passed; published `1.4.0` and `latest`.
+2. `./build-multi-arch.sh --variant zh --push` — passed; published `1.4.0-zh` and `zh`.
+3. `docker buildx imagetools inspect` plus raw-index assertions — passed for every tag.
+4. Pull and run each exact platform child digest — passed for all four platform/variant combinations.
 
-## Repository Finalization
+The corrected wrapper reached real BuildX in both authorized push paths, let BuildX perform registry authentication/authorization, propagated status correctly, and emitted success only after both tag manifests were pushed.
 
-- Bootstrap context source: recorded finalization target `origin/main` and ticket branch history.
-- Ticket branch: `requirements/ubuntu-24-minimal-base`
-- Ticket branch commit result: `Completed` — `01a07b203472049695e870b2865fcd5df9ec5844`
-- Ticket branch push result: `Completed` and remote-ref verified at `01a07b2`.
-- Finalization target remote: `origin` (`git@github.com-ryan:AutoByteus/browser-docker.git`)
-- Finalization target branch: `main`
-- Target advanced after verification / acceptance: `No`
-- Delivery-owned edits protected before re-integration: `Not needed`; the target remained current.
-- Re-integration before final merge result: `Not needed`
-- Target branch update result: Refreshed from remote at `fb0f593`.
-- Merge into target result: `Completed` by fast-forward to `01a07b2`.
-- Push target branch result: `Completed`; remote `main` verified at `01a07b2`.
-- Repository finalization status: `Completed`
-- Blocker: None. Do not undo this completed finalization because the later publication step failed.
+## Published Manifest Identities
 
-## Release / Publication / Deployment
+| Variant | Immutable tag | Rolling tag | Index digest | linux/amd64 child | linux/arm64 child |
+| --- | --- | --- | --- | --- | --- |
+| default | `1.4.0` | `latest` | `sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1` | `sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1` | `sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345` |
+| `zh` | `1.4.0-zh` | `zh` | `sha256:597c8702e0a2418078aca64a7f4bc19e2a26af277af119a893d51a9215837c48` | `sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f` | `sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6` |
 
-- Applicable: `Yes`
-- Method: `Documented Command`
-- Method reference / command: `./build-multi-arch.sh --push`; then `./build-multi-arch.sh --variant zh --push`.
-- Release/publication/deployment result: `Blocked before mutation`
-- Release notes handoff result: `Used — archived release notes entered the release path`
-- Blocker: `build-multi-arch.sh:114` requires `docker info` to contain `Username`. Docker Desktop 29.0.1 omits this field even after `docker login` succeeds, so the wrapper exits before invoking BuildX.
+- Immutable/rolling equality: `Pass` for both variants.
+- Required runtime platform cardinality: exactly one `linux/amd64` and one `linux/arm64` descriptor per tag.
+- Auxiliary `unknown/unknown` descriptors: expected BuildX provenance attestations referencing the two runtime manifests.
 
-## Post-Finalization Cleanup
+## Published Runtime Verification
 
-- Dedicated ticket worktree path: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base`
-- Worktree cleanup result: `Blocked`
-- Worktree prune result: `Blocked`
-- Local ticket branch cleanup result: `Blocked`
-- Remote branch cleanup result: `Blocked`
-- Blocker: The ticket branch/worktree must remain available for the focused wrapper correction and publication re-entry.
+Every exact child digest was pulled and run independently. All four checks passed:
 
-## Escalation / Reroute
+| Variant | Platform | Ubuntu | Public Python | OS Python | Supervisor | Variant/architecture |
+| --- | --- | --- | --- | --- | --- | --- |
+| default | `linux/amd64` | 24.04 Noble | 3.13.15 | 3.12.3 | 4.3.0 | pass |
+| default | `linux/arm64` | 24.04 Noble | 3.13.15 | 3.12.3 | 4.3.0 | pass |
+| `zh` | `linux/amd64` | 24.04 Noble | 3.13.15 | 3.12.3 | 4.3.0 | pass |
+| `zh` | `linux/arm64` | 24.04 Noble | 3.13.15 | 3.12.3 | 4.3.0 | pass |
 
-- Classification: `Local Fix`
-- Recommended recipient: `/implementation_engineer`
-- Why final handoff could not complete: The repository-resident publication wrapper uses an obsolete authentication heuristic. This is a bounded code/packaging defect with no requirement or design ambiguity. It must be corrected and reviewed before the supported publication path is retried.
+The checks also confirmed the public and OS Python selectors, `/opt/browser-tools` ownership for Supervisor/websockify/`uv`, exact `IMAGE_VARIANT`, native container architecture reporting, and `fcitx5` presence only in `zh`.
 
-## Release Notes Summary
+## Acceptance And Rollout
 
-- Release notes artifact created before verification / acceptance: `Yes`
-- Archived release notes artifact used for release/publication: `Yes`
-- Release notes status: `Blocked publication; update after the corrected release completes`
+- AC-011: `Pass`.
+- AC-012: `Pass` as a delivery-record condition; the exact dependency identities are recorded and the separate server ticket can now begin.
+- Server deployment/adoption: `Not in scope`; no AutoByteus server repository or environment was accessed or mutated.
+- Persisted data/profile transition: none.
 
-## Deployment Steps
+## Evidence
 
-1. `./build-multi-arch.sh --push` — failed before BuildX/push.
-2. `./build-multi-arch.sh --variant zh --push` — not attempted because the default publication prerequisite failed.
-3. Remote manifest/runtime verification — not attempted because no new immutable tag exists.
+- `requirements/ubuntu-24-minimal-base/evidence/delivery-dr006-publish-default.log`
+- `requirements/ubuntu-24-minimal-base/evidence/delivery-dr006-publish-zh.log`
+- `requirements/ubuntu-24-minimal-base/evidence/delivery-dr006-remote-manifests.log`
+- `requirements/ubuntu-24-minimal-base/evidence/delivery-dr006-published-runtime-identities.log`
+- `requirements/ubuntu-24-minimal-base/evidence/delivery-dr006-cleanup.log`
 
-## Environment Or Persisted-Data Transition Notes
+## Rollback
 
-- Approved persisted-data decision: `Not Affected`
-- Delivery action required: `None`
-- Result and evidence: No container deployment, profile volume, server environment, or persisted data changed.
+Rollback is not required. The recorded pre-release rolling baselines remain available through immutable `1.3.8`/`1.3.8-zh` identities:
 
-## Verification Checks
+- default index: `sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029`
+- `zh` index: `sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071`
 
-- Final target refresh — `origin/main` remained `fb0f593` before merge.
-- `bash tests/validate-source-contract.sh` — passed on final ticket state and updated `main`.
-- Ticket push — remote `requirements/ubuntu-24-minimal-base` verified at `01a07b2`.
-- Main push — remote `main` verified at `01a07b2`.
-- `./build-multi-arch.sh --push` — failed at the login preflight before `docker buildx build`.
-- `docker login` — succeeded using existing credentials for username `autobyteus`.
-- `docker info | grep -E 'Username|Registry'` — no matching line on Docker Desktop 29.0.1, reproducing the false negative.
-- Remote mutation check — `1.4.0` and `1.4.0-zh` remain absent.
-- Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr005-publish-default.log`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr005-publication-preflight-failure.log`.
+If post-release evidence later requires rollback, restore `latest` and `zh` from those retained immutable releases and verify their remote indexes before downstream adoption.
 
-## Rollback Criteria
+## Cleanup
 
-No production rollback is required because the failing wrapper exited before BuildX or registry mutation. `latest` remains `1.3.8` at `sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029`; `zh` remains `1.3.8-zh` at `sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071`.
+- Exact digest image references pulled solely for DR-006 verification: removed; evidence passed.
+- Pre-existing rolling local tags: not targeted or altered by cleanup.
+- Ticket worktree/local and remote ticket branches: pending safe cleanup after this final delivery record is committed and pushed to `main`.
 
 ## Final Status
 
-- Explicit user testing/verification complete: `Yes`
-- Repository finalization complete: `Yes`
-- Applicable release/deployment/rollout complete or not required: `No`
-- Applicable safe cleanup complete or not required: `No`
-- Unresolved blocker: Supported publication wrapper rejects a valid Docker login on current Docker Desktop.
-- Successful terminal package eligible for return: `No`
-- Reroute recipient: `/implementation_engineer`
+- Explicit user verification: `Complete`
+- Repository finalization: `Complete`
+- Docker Hub publication: `Complete`
+- Remote manifest verification: `Complete`
+- Published runtime identity verification: `Complete`
+- Final release-record push: pending this report commit
+- Safe ticket cleanup: pending the final release-record push
+- Unresolved release blocker: `None`

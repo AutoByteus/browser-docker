@@ -1,0 +1,140 @@
+BRD-UBUNTU24-001 DR-006 remote manifest verification
+Date: 2026-09-02T04:12:34Z
+Repository: autobyteus/chrome-vnc
+Expected platforms: linux/amd64, linux/arm64
+
+===== autobyteus/chrome-vnc:1.4.0 =====
+Name:      docker.io/autobyteus/chrome-vnc:1.4.0
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1
+
+Manifests:
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0@sha256:a00254ee962144779009b01863e7a98d9a5e9b9568a28ed17a04bc84caea8534
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+    vnd.docker.reference.type:   attestation-manifest
+
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0@sha256:e100c2a986666d4f7f882f9dd96016a6a3e28a9ebf9327eccb7819567e4ff14b
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+    vnd.docker.reference.type:   attestation-manifest
+----- raw platform descriptors -----
+{"digest":"sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1","platform":{"architecture":"amd64","os":"linux"}}
+{"digest":"sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345","platform":{"architecture":"arm64","os":"linux"}}
+{"digest":"sha256:a00254ee962144779009b01863e7a98d9a5e9b9568a28ed17a04bc84caea8534","platform":{"architecture":"unknown","os":"unknown"}}
+{"digest":"sha256:e100c2a986666d4f7f882f9dd96016a6a3e28a9ebf9327eccb7819567e4ff14b","platform":{"architecture":"unknown","os":"unknown"}}
+
+===== autobyteus/chrome-vnc:latest =====
+Name:      docker.io/autobyteus/chrome-vnc:latest
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1
+
+Manifests:
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:a00254ee962144779009b01863e7a98d9a5e9b9568a28ed17a04bc84caea8534
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+    vnd.docker.reference.type:   attestation-manifest
+
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:e100c2a986666d4f7f882f9dd96016a6a3e28a9ebf9327eccb7819567e4ff14b
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+    vnd.docker.reference.type:   attestation-manifest
+----- raw platform descriptors -----
+{"digest":"sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1","platform":{"architecture":"amd64","os":"linux"}}
+{"digest":"sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345","platform":{"architecture":"arm64","os":"linux"}}
+{"digest":"sha256:a00254ee962144779009b01863e7a98d9a5e9b9568a28ed17a04bc84caea8534","platform":{"architecture":"unknown","os":"unknown"}}
+{"digest":"sha256:e100c2a986666d4f7f882f9dd96016a6a3e28a9ebf9327eccb7819567e4ff14b","platform":{"architecture":"unknown","os":"unknown"}}
+
+===== autobyteus/chrome-vnc:1.4.0-zh =====
+Name:      docker.io/autobyteus/chrome-vnc:1.4.0-zh
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:597c8702e0a2418078aca64a7f4bc19e2a26af277af119a893d51a9215837c48
+
+Manifests:
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0-zh@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0-zh@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0-zh@sha256:fba1f899ac7a2f770e069a5f485e53cbea7468978973a62c10d79cae9e374a82
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+    vnd.docker.reference.type:   attestation-manifest
+
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.0-zh@sha256:9956baf439482d4a77d7bc0d6d5812a08878662546e43f1f15d66f33ecba9972
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+    vnd.docker.reference.type:   attestation-manifest
+----- raw platform descriptors -----
+{"digest":"sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f","platform":{"architecture":"amd64","os":"linux"}}
+{"digest":"sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6","platform":{"architecture":"arm64","os":"linux"}}
+{"digest":"sha256:fba1f899ac7a2f770e069a5f485e53cbea7468978973a62c10d79cae9e374a82","platform":{"architecture":"unknown","os":"unknown"}}
+{"digest":"sha256:9956baf439482d4a77d7bc0d6d5812a08878662546e43f1f15d66f33ecba9972","platform":{"architecture":"unknown","os":"unknown"}}
+
+===== autobyteus/chrome-vnc:zh =====
+Name:      docker.io/autobyteus/chrome-vnc:zh
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:597c8702e0a2418078aca64a7f4bc19e2a26af277af119a893d51a9215837c48
+
+Manifests:
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:fba1f899ac7a2f770e069a5f485e53cbea7468978973a62c10d79cae9e374a82
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+    vnd.docker.reference.type:   attestation-manifest
+
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:9956baf439482d4a77d7bc0d6d5812a08878662546e43f1f15d66f33ecba9972
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations:
+    vnd.docker.reference.digest: sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+    vnd.docker.reference.type:   attestation-manifest
+----- raw platform descriptors -----
+{"digest":"sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f","platform":{"architecture":"amd64","os":"linux"}}
+{"digest":"sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6","platform":{"architecture":"arm64","os":"linux"}}
+{"digest":"sha256:fba1f899ac7a2f770e069a5f485e53cbea7468978973a62c10d79cae9e374a82","platform":{"architecture":"unknown","os":"unknown"}}
+{"digest":"sha256:9956baf439482d4a77d7bc0d6d5812a08878662546e43f1f15d66f33ecba9972","platform":{"architecture":"unknown","os":"unknown"}}
+
+ASSERT default immutable == rolling: PASS (sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1)
+ASSERT zh immutable == rolling: PASS (sha256:597c8702e0a2418078aca64a7f4bc19e2a26af277af119a893d51a9215837c48)
+ASSERT every tag has exactly one linux/amd64 and one linux/arm64 runtime manifest: PASS

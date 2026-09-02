@@ -1,0 +1,129 @@
+BRD-UBUNTU24-001 DR-006 published runtime identity verification
+Date: 2026-09-02T04:21:28Z
+Source: exact per-platform child digests discovered through immutable published indexes
+
+===== variant=default platform=linux/amd64 ref=autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1 =====
++ docker pull --platform linux/amd64 autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+docker.io/autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1: Pulling from autobyteus/chrome-vnc
+Digest: sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+Status: Image is up to date for autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+docker.io/autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
++ docker image inspect autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1
+Id=sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1 Architecture=amd64 Os=linux RepoDigests=["autobyteus/chrome-vnc@sha256:9cf057cce95cf6624eff5142424754135aac2298af3a70146807f941ed0b4ba1"]
++ docker run --platform linux/amd64 --entrypoint /bin/bash ... identity assertions
+IDENTITY OS=ubuntu VERSION_ID=24.04 CODENAME=noble ARCH=amd64 UNAME=x86_64 VARIANT=default PUBLIC_PYTHON=Python 3.13.15 OS_PYTHON=Python 3.12.3 SUPERVISOR=4.3.0
+PASS: published platform/variant runtime identity
+
+===== variant=default platform=linux/arm64 ref=autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345 =====
++ docker pull --platform linux/arm64 autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+docker.io/autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345: Pulling from autobyteus/chrome-vnc
+Digest: sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+Status: Image is up to date for autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+docker.io/autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
++ docker image inspect autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345
+Id=sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345 Architecture=arm64 Os=linux RepoDigests=["autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56a071a7a03d7578685a345"]
++ docker run --platform linux/arm64 --entrypoint /bin/bash ... identity assertions
+IDENTITY OS=ubuntu VERSION_ID=24.04 CODENAME=noble ARCH=arm64 UNAME=aarch64 VARIANT=default PUBLIC_PYTHON=Python 3.13.15 OS_PYTHON=Python 3.12.3 SUPERVISOR=4.3.0
+PASS: published platform/variant runtime identity
+
+===== variant=zh platform=linux/amd64 ref=autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f =====
++ docker pull --platform linux/amd64 autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+docker.io/autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f: Pulling from autobyteus/chrome-vnc
+Digest: sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+Status: Image is up to date for autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+docker.io/autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
++ docker image inspect autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
+Id=sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f Architecture=amd64 Os=linux RepoDigests=["autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f"]
++ docker run --platform linux/amd64 --entrypoint /bin/bash ... identity assertions
+IDENTITY OS=ubuntu VERSION_ID=24.04 CODENAME=noble ARCH=amd64 UNAME=x86_64 VARIANT=zh PUBLIC_PYTHON=Python 3.13.15 OS_PYTHON=Python 3.12.3 SUPERVISOR=4.3.0
+PASS: published platform/variant runtime identity
+
+===== variant=zh platform=linux/arm64 ref=autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6 =====
++ docker pull --platform linux/arm64 autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+docker.io/autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6: Pulling from autobyteus/chrome-vnc
+d551bfd7aad2: Pulling fs layer
+29dbb588d14a: Pulling fs layer
+14f57a1a2484: Pulling fs layer
+c404169358bd: Pulling fs layer
+e99e0c2f23d4: Pulling fs layer
+867a9cd61f9e: Pulling fs layer
+64de80491ec9: Pulling fs layer
+191ecf9979e9: Pulling fs layer
+8c73b7123e36: Pulling fs layer
+3b8d054cc8a4: Pulling fs layer
+dc1aaacc318d: Pulling fs layer
+ab3d5b38a42c: Pulling fs layer
+de88bd238348: Pulling fs layer
+8de5dcd6552f: Pulling fs layer
+1b2c4fad9f03: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+1bb3373c0c5f: Pulling fs layer
+50c640e901c7: Pulling fs layer
+48e6e90daffd: Pulling fs layer
+9eef85d3a30b: Pulling fs layer
+7b01befca216: Pulling fs layer
+900e456fc878: Pulling fs layer
+d430544ea6e9: Pulling fs layer
+4f4fb700ef54: Already exists
+9eef85d3a30b: Already exists
+867a9cd61f9e: Download complete
+8de5dcd6552f: Download complete
+3b8d054cc8a4: Download complete
+1bb3373c0c5f: Download complete
+d551bfd7aad2: Download complete
+e99e0c2f23d4: Download complete
+8c73b7123e36: Download complete
+48e6e90daffd: Download complete
+7b01befca216: Download complete
+900e456fc878: Download complete
+dc1aaacc318d: Download complete
+ab3d5b38a42c: Download complete
+de88bd238348: Download complete
+1b2c4fad9f03: Download complete
+50c640e901c7: Download complete
+191ecf9979e9: Download complete
+d430544ea6e9: Download complete
+c404169358bd: Download complete
+29dbb588d14a: Download complete
+29dbb588d14a: Pull complete
+64de80491ec9: Download complete
+14f57a1a2484: Download complete
+d430544ea6e9: Pull complete
+c404169358bd: Pull complete
+14f57a1a2484: Pull complete
+e99e0c2f23d4: Pull complete
+64de80491ec9: Pull complete
+3b8d054cc8a4: Pull complete
+8c73b7123e36: Pull complete
+dc1aaacc318d: Pull complete
+ab3d5b38a42c: Pull complete
+de88bd238348: Pull complete
+1b2c4fad9f03: Pull complete
+50c640e901c7: Pull complete
+4f4fb700ef54: Pull complete
+9eef85d3a30b: Pull complete
+867a9cd61f9e: Pull complete
+8de5dcd6552f: Pull complete
+3b8d054cc8a4: Pull complete
+1bb3373c0c5f: Pull complete
+d551bfd7aad2: Pull complete
+8c73b7123e36: Pull complete
+48e6e90daffd: Pull complete
+7b01befca216: Pull complete
+900e456fc878: Pull complete
+dc1aaacc318d: Pull complete
+ab3d5b38a42c: Pull complete
+de88bd238348: Pull complete
+1b2c4fad9f03: Pull complete
+50c640e901c7: Pull complete
+191ecf9979e9: Pull complete
+Digest: sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+Status: Downloaded newer image for autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+docker.io/autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
++ docker image inspect autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
+Id=sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6 Architecture=arm64 Os=linux RepoDigests=["autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6"]
++ docker run --platform linux/arm64 --entrypoint /bin/bash ... identity assertions
+IDENTITY OS=ubuntu VERSION_ID=24.04 CODENAME=noble ARCH=arm64 UNAME=aarch64 VARIANT=zh PUBLIC_PYTHON=Python 3.13.15 OS_PYTHON=Python 3.12.3 SUPERVISOR=4.3.0
+PASS: published platform/variant runtime identity
+
+OVERALL PASS: all four published platform/variant identities verified by exact child digest.
