@@ -20,3 +20,20 @@ ABSENT: autobyteus/chrome-vnc@sha256:2ee3f7665f8bc663f29474e1c211fd9080149f83e56
 ABSENT: autobyteus/chrome-vnc@sha256:7e35ac854ea8609a033222ce552a4ebe956a781926af2f1fd50c77acfd972e4f
 ABSENT: autobyteus/chrome-vnc@sha256:7cba7bf2be52a4c613c74237a1774244c7feced9637785882025975fd83d38f6
 PASS: task-created exact-digest image references removed.
+
+===== repository cleanup =====
+BRD-UBUNTU24-001 DR-006 post-finalization repository cleanup
+Date: 2026-09-02T04:28:12Z
+Final release-record commit before cleanup: 01e28788566e636896d6ee7c51fc44711e711dd9
++ git worktree remove /Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base
++ git branch -d requirements/ubuntu-24-minimal-base
+Deleted branch requirements/ubuntu-24-minimal-base (was 18bb92e).
++ git push origin --delete requirements/ubuntu-24-minimal-base
+To github.com-ryan:AutoByteus/browser-docker.git
+ - [deleted]         requirements/ubuntu-24-minimal-base
++ git worktree prune
+
+PASS: ticket worktree removed
+PASS: local ticket branch removed
+PASS: remote ticket branch removed
+PASS: worktree metadata pruned

@@ -96,7 +96,11 @@ If post-release evidence later requires rollback, restore `latest` and `zh` from
 
 - Exact digest image references pulled solely for DR-006 verification: removed; evidence passed.
 - Pre-existing rolling local tags: not targeted or altered by cleanup.
-- Ticket worktree/local and remote ticket branches: pending safe cleanup after this final delivery record is committed and pushed to `main`.
+- Dedicated ticket worktree: removed after the release-record commit was pushed.
+- Local ticket branch `requirements/ubuntu-24-minimal-base`: deleted after confirming it was merged.
+- Remote ticket branch: deleted.
+- Worktree metadata: pruned.
+- Finalization-target `main` worktree: retained as the authoritative local checkout for the completed delivery artifacts.
 
 ## Final Status
 
@@ -105,6 +109,6 @@ If post-release evidence later requires rollback, restore `latest` and `zh` from
 - Docker Hub publication: `Complete`
 - Remote manifest verification: `Complete`
 - Published runtime identity verification: `Complete`
-- Final release-record push: pending this report commit
-- Safe ticket cleanup: pending the final release-record push
+- Final release-record push: `Complete` at `01e28788566e636896d6ee7c51fc44711e711dd9`; this cleanup-state update follows on `main`
+- Safe ticket cleanup: `Complete`
 - Unresolved release blocker: `None`

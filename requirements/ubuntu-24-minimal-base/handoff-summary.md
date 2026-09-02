@@ -10,6 +10,7 @@
 - Docker Hub publication: completed and remotely verified.
 - Acceptance: `AC-001` through `AC-013` pass for this ticket; `AC-012` records the now-verified dependency identity without changing server source.
 - Terminal classification: `Delivered`.
+- Post-finalization cleanup: completed; the dedicated ticket worktree and local/remote ticket branches were removed after the release record reached `main`.
 
 ## Authoritative Gate Package
 
