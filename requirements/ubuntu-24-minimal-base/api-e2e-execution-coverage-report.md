@@ -3,247 +3,170 @@
 ## Execution Round Meta
 
 - Ticket: `BRD-UBUNTU24-001`
-- Current API/E2E revision / round: `API-REV-006` / focused round 6 CRR-007 Local Fix re-entry
+- Current API/E2E revision / round: `API-REV-007` / focused round 7 IR-006/IR-007 re-entry
 - Requirements / revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-doc.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-revision-record.md` (`RER-007`)
-- Investigation / design: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/investigation-notes.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-spec.md` (`SR-002`)
-- Design review / revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-review-report.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/architecture-review-revision-record.md` (`ARCH-REV-002`, Pass)
+- Investigation / design / review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/investigation-notes.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-spec.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-review-report.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/architecture-review-revision-record.md` (`ARCH-REV-002`)
 - Supplemental artifact: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
-- Implementation / revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md` (`IR-005`)
-- Source review / revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-006`, Pass / 95.8%)
-- Triggering test review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-007`, Fail — `APIE2E-TEST-F-001` bounded API/E2E Local Fix; image/runtime test changes Pass)
+- Implementation / revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md` (`IR-006`, `IR-007`)
+- Source review / revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-010`, Pass / 97.0%; `CR-F-001` resolved)
+- Prior durable review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-008`, Pass; pre-IR-006 state)
+- Triggering Delivery state: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md` (`DR-005`; repository finalized, publication stopped before BuildX/registry mutation)
 - Coverage investigation: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
 - API/E2E revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
-- Implementation under test / worktree HEAD: `f902e80771b304916858314fa9484cab8f6f1843` (reviewed parent `cc30abff0769553c84fb1ebb453c28e6123f4218`)
-- Prior completed API/E2E result: `API-REV-005 — Pass / 97%`; broader Docker/runtime evidence retained
-- Execution environment: macOS Apple Silicon; Docker Engine `29.0.1`; Docker Desktop `4.52.0`; BuildX `v0.29.1-desktop.1`; BuildKit `v0.26.2`; builder `multi-platform-builder`
+- Implementation under test: `14fb215b1ad0b48dd486658ca7fd7757ceb06d16` (IR-007; parent IR-006 `24a61a8542a220c32d1d88b600fde5b7a33d8a06`; finalized base `01a07b203472049695e870b2865fcd5df9ec5844`)
+- Prior completed API/E2E result: `API-REV-006 — Pass / 97%`; API-REV-005 broader real-Docker evidence reviewed for continued validity
 - Latest authoritative execution report: this file
 
 ## Latest Authoritative Result
 
 - Result: `Pass`.
-- Final validation confidence: `97%` (97.1% simple average, rounded).
+- Final validation confidence: `97%` (97.6% simple average, conservatively reported as 97%).
 - Default 95% target met: `Yes`.
 - Final applicable category below 90%: `None`.
-- Broader validation decision: `Not Required` for the focused assertion-discrimination fix; API-REV-005 broader validation was Required/completed and remains authoritative.
-- Critical API/E2E/pre-publication-local acceptance criterion lacking direct proof: `None`.
-- New or remaining implementation failure IDs: `None`; `APIE2E-TEST-F-001` is corrected in durable state and awaits proportional re-review.
-- Required next recipient: `/code_reviewer` for focused proportional re-review of `tests/validate-source-contract.sh`; the other two durable files already passed CRR-007.
-- Publication/server boundary: no Docker Hub push or remote verification; no AutoByteus server-repository access or modification.
+- Broader validation decision: `Required and completed` through a current deterministic/non-publishing executable wrapper and fixture-lifecycle matrix.
+- Critical local/pre-publication acceptance criterion lacking direct proof: `None`.
+- New or remaining failure IDs: `None`; prior `CR-F-001` remains resolved.
+- Repository-resident durable coverage changed by API/E2E: `None`.
+- Required next recipient: `/code_reviewer` to record the proportional test-code review as `Not Applicable` because API/E2E changed no durable test code; Delivery follows that review result.
+- Publication/server boundary: no real Docker Hub request or mutation; no AutoByteus server-repository access or modification.
 
-This result proves local pre-publication readiness. It does not claim AC-011 remote Docker Hub publication/manifest/runtime verification or AC-012 server adoption; those remain deliberately sequenced after proportional test review.
+This result proves the corrected local publication wrapper reaches the BuildX boundary with exact commands and propagates failures truthfully. It does not claim actual credential-helper acceptance, registry authorization, Docker Hub publication, remote manifests, or published-image runtime identity; Delivery owns those remaining AC-011 actions.
 
-## API-REV-006 Focused Local-Fix Delta
+## Current Change And Coverage Investigation
 
-- Trigger: CRR-007 demonstrated that three round-5 source regexes could pass against prefix/suffix-confounding declarations, finding `APIE2E-TEST-F-001`. This was a durable-test correctness defect, not an implementation or API-REV-005 execution failure.
-- Correction: added `assert_literal_line`, then changed the explicit `python3.13`, `python3.13-dev`, `python3.13-venv`, public `python3`, and public `python` declarations to complete literal-line assertions.
-- Positive execution: the corrected source harness passes against the current reviewed Dockerfile.
-- Negative discrimination: five isolated fixtures each remove or replace one exact declaration while retaining the relevant longer/adjacent confounder. Every fixture is rejected with the expected missing-literal diagnostic.
-- Focused checks: `bash -n` Pass; `shellcheck -e SC2016` Pass with no diagnostics; current source contract Pass; five negative fixtures Pass; `git diff --check` Pass.
-- Evidence: `requirements/ubuntu-24-minimal-base/evidence/host-round6-source-contract-fix.log`, final authoritative section.
-- Source mismatch exposed: `No`; the tightened assertions all match the current Dockerfile exactly.
-- Broader rerun rationale: `Not Required`. No product source changed, CRR-006 remains Pass, CRR-007 explicitly accepted the image/runtime harnesses, and API-REV-005's successful real Docker matrix remains current.
-- Result/confidence: `Pass / 97%`; confidence is unchanged because this round repairs regression-test discrimination rather than adding product-boundary evidence.
+### Changed production boundary
 
-## Investigation And Coverage Decisions
+IR-006 removes the false authentication preflight that interpreted the absence of a `Username` line from `docker info` as “not logged in.” A `--push` request now reaches the existing `docker buildx build --push`; BuildX/registry status is authoritative, and the wrapper's existing `set -e` behavior must stop before success output on failure. IR-007 does not alter production source.
 
-- Mandatory coverage investigation completed before durable edits and execution: `Yes`.
-- Upstream package reviewed: RER-007, SR-001/SR-002, ARCH-REV-002, IR-005, CRR-006, persistence/legacy decisions, and prior API/E2E context.
-- Existing coverage validity:
-  - `tests/validate-source-contract.sh`: CRR-007 `Needs Update` -> API-REV-006 `Updated / Pass`; exact literal lines and five discrimination fixtures now protect the intended declarations.
-  - `tests/validate-image.sh`: `Needs Update` -> `Updated / Pass`.
-  - `tests/validate-running-container.sh`: `Needs Update` -> `Updated / Pass`.
-  - build alias scenario: `Still Valid / Pass`, rerun through controlled and exact real-host execution.
-  - pre-IR-005 runtime evidence: context only, not counted as current proof.
-- Durable coverage files added: none.
-- Durable coverage files removed: none.
-- Requirement/design ambiguity: none; no requirement or design reroute was needed.
-- Invalid compatibility/legacy retention observed or protected: none. Public Python is strictly 3.13; Noble's separate `/usr/bin/python3` remains distribution-owned 3.12 and is not a compatibility selector.
-- Approved persisted-data decision: `Not Affected`; direct profile reuse and supported stale-lock recovery were rerun.
+### Changed durable boundary
 
-## Durable Coverage Changed
+IR-006 adds `tests/validate-build-wrapper.sh`. It executes the real wrapper behind a fake Docker boundary and proves a no-Username presentation does not block the default push, the default/`zh` commands and tags are exact, a BuildX failure propagates unchanged, and false success is absent. IR-007 adds an immediate quoted EXIT trap so normal and reachable error exits clean the harness-owned `mktemp` directory.
 
-| Path | Current-Round Update | Requirement / Boundary | Final Result |
-| --- | --- | --- | --- |
-| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-source-contract.sh` | Round 5 replaced stale provider assertions; round 6 adds a literal-line helper and exact package/public-selector declarations resolving `APIE2E-TEST-F-001` | AC-001–004, AC-006, AC-009/010/013 | Pass; focused proportional re-review required |
-| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-image.sh` | Requires public `/usr/local` Python 3.13 versus Noble `/usr/bin/python3` 3.12 ownership, actual Deadsnakes Noble package/source layout, isolated Supervisor/websockify/`uv`, stable assets, `gh`, utilities, locale/variant and identity | AC-001, AC-006/007/010/013 | Pass on five images |
-| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-running-container.sh` | Requires real Supervisor 4.3.0 control/PID1, isolated Python 3.13 provider in full process command vectors, no prior traceback, stable websockify/`uv`, services/protocol/DOM/profile behavior; valid on native and Docker Desktop Rosetta | AC-005–008, AC-013 | Pass across ARM64/AMD64 default/`zh`, mobile-safe and custom identity |
+### Validity decisions
 
-Focused proportional re-review of `tests/validate-source-contract.sh` is mandatory. CRR-007 already passed the image/runtime test changes, so those paths require no repeat review unless changed again.
-
-## Changed Boundary And Evidence Matrix
-
-| Scenario | Requirement / AC | Execution Surface | Result | Authoritative Evidence |
-| --- | --- | --- | --- | --- |
-| AE2E-SCN-001 | AC-001–003/009/010/013 | Bash/ShellCheck/source contract; exact Apple ARM64 clean wrapper | Pass | `host-round5-final-repository-checks.log`; `host-round5-build-arm64-default-retry1.log` |
-| AE2E-SCN-002 | AC-001/002/006/007/010/013 | Five clean built images and final durable image harness | Pass, 5/5 | `host-round5-image-matrix.log`; clean build logs |
-| AE2E-SCN-003 | AC-005–008/013 | Normal entrypoint, Supervisor services, VNC/websockify/DevTools, semantic Chromium, profile write | Pass | four runtime logs; `host-round5-runtime-final-native-rerun.log` |
-| AE2E-SCN-006 | AC-003/004 | Exact real Apple ARM64 wrapper plus controlled aliases/tags/load/push/errors | Pass | `host-round5-build-wrapper-regression.log`; exact build retry log |
-| AE2E-SCN-007 | AC-010 | Target-architecture APT policy/source/package and isolated-tool metadata | Pass, AMD64+ARM64 | `host-round5-python-origin-and-tools.log` corrected authoritative sections |
-| AE2E-SCN-008 | AC-007 | Real X/Chromium/VNC/fcitx5 Pinyin interaction | Pass; DOM value `你好` | `host-round5-zh-vnc-ime-interaction.log`; `host-round5-zh-ime-authoritative.png` |
-| AE2E-SCN-009 | AC-004 | Local no-push OCI indexes for both variants | Pass; AMD64+ARM64 manifests in both | `host-round5-multiplatform-default.log`; `host-round5-multiplatform-zh.log` |
-| Lifecycle/recovery | AC-008 | Recreate on retained profile plus known stale Chromium/X locks | Pass | `host-round5-profile-stale-lock-recovery.log` |
-| Identity/mobile-safe | AC-005/006 | Custom 1234:1234 XDG/DBus/profile; normal versus mobile-safe Chrome | Pass | `host-round5-runtime-custom-1234.log`; `host-round5-mobile-safe.log` |
-
-## Acceptance-Criteria Results
-
-| AC | Result | Direct Evidence / Scope Note |
+| Coverage / Evidence | Decision | Reason |
 | --- | --- | --- |
-| AC-001 | Pass | Dockerfile and every tested image use official `ubuntu:24.04`; image OS identity is Ubuntu Noble 24.04. |
-| AC-002 | Pass | Source/base inspection and real Docker Official Ubuntu base resolution; no alternative base introduced. |
-| AC-003 | Pass | Exact `./build-multi-arch.sh --no-cache` on real `uname -m=arm64` reached BuildX, selected `linux/arm64`, clean-built, tagged and loaded. Initial unrelated Ubuntu mirror 404 passed on controlled exact retry. |
-| AC-004 | Pass for local pre-publication gate | Clean default/`zh` images pass separately for ARM64/AMD64; local no-push OCI outputs each contain both platform manifests with correct variant/identity config. |
-| AC-005 | Pass | ARM64 and AMD64 default/`zh` normal-entrypoint containers remained running; Supervisor services, VNC, websockify HTTP, DevTools and semantic Chromium render passed. |
-| AC-006 | Pass | Default/custom identity, UID/GID, XDG/DBus/profile ownership, public Python 3.13, `gh`, Node 22, Yarn, `uv`, documented utilities and `en_US.UTF-8` passed; normal/mobile-safe Chrome behavior preserved. |
-| AC-007 | Pass | `zh` package/locale/fcitx configuration, English default, Pinyin availability and real committed `你好` input passed. |
-| AC-008 | Pass | Existing marker survived recreation; known stale Singleton/X artifacts were cleared; fresh live locks and normal services recovered. |
-| AC-009 | Pass | Source contract and active documentation identify Ubuntu 24.04 and current build/run/tool contracts. |
-| AC-010 | Pass | AMD64/ARM64 resolve Python `3.13.15-1+noble1` from Deadsnakes Noble; public commands resolve through `/usr/local` to `/usr/bin/python3.13`; OS `/usr/bin/python3` remains 3.12; `/opt/browser-tools` is Python 3.13 and owns tools. |
-| AC-011 | Ready for Delivery; not executed here | Local release-equivalent gate passes. Docker Hub publication, remote manifests and published-image runtime identity were explicitly prohibited for this handoff. |
-| AC-012 | Deferred as designed | Server adoption remains a separate ticket after verified publication; server repository was not touched. |
-| AC-013 | Pass | Stable commands resolve to one Python 3.13 `/opt/browser-tools` owner; Supervisor/control report 4.3.0 and real config/services run without prior traceback; web assets, VNC/websockify/DevTools pass. |
+| `tests/validate-build-wrapper.sh` | `Still Valid / Pass` | Directly exercises the IR-006/IR-007 boundary and passed unchanged. |
+| `tests/validate-source-contract.sh` | `Still Valid / Pass` | Current platform/alias/tag/release source contract passed; API-REV-006 exactness remains valid. |
+| `tests/validate-image.sh` / `tests/validate-running-container.sh` | `Still Valid / Not Rerun` | Dockerfile, entrypoint, configs and runtime sources are unchanged. |
+| API-REV-005 clean build/image/runtime/browser/input/profile/local-index evidence | `Still Valid current proof` | The only production delta is post-option release-wrapper orchestration before BuildX. |
+| Prior temporary wrapper matrix | `Replaced by current round-7 matrix` | API-REV-007 reran and expanded it against the changed current source. |
 
-## Commands And Results
+- Investigation completed before execution: `Yes`.
+- Durable coverage added/updated/removed by API/E2E: `None`.
+- Invalid legacy/compatibility behavior retained: `No`; the obsolete presentation parser is removed rather than bypassed by a second credential path.
+- Persisted-data decision: `Not Affected`; profile/runtime sources are unchanged.
 
-| Order | Exact Command / Mode | Result | Evidence |
+## Executed Checks And Results
+
+| Order | Command / Mode | Result | Evidence |
 | --- | --- | --- | --- |
-| 1 | Docker/BuildX/builder preflight; Bash syntax; initial source contract; `git diff --check` | Pass | `host-round5-source-and-preflight.log` |
-| 2 | Real `build-multi-arch.sh` with controlled `uname`/`docker` boundaries for `arm64`, `aarch64`, `x86_64`, default/`zh`, load/no-cache/push/tag/error composition; no registry operation | Pass | `host-round5-build-wrapper-regression.log` |
-| 3 | `./build-multi-arch.sh --no-cache` | Initial unrelated Ubuntu mirror/index 404; exact controlled retry Pass, ARM64, loaded/tagged | `host-round5-build-arm64-default.log`; `host-round5-build-arm64-default-retry1.log` |
-| 4 | `./build-multi-arch.sh --variant zh --no-cache` | Pass, ARM64 `zh`, loaded/tagged | `host-round5-build-arm64-zh.log` |
-| 5 | Direct `docker buildx build --no-cache --platform linux/amd64 --load` for default and `zh` task tags | Pass, both | `host-round5-build-amd64-default.log`; `host-round5-build-amd64-zh.log` |
-| 6 | Direct clean ARM64 custom build with `USER_UID=1234`, `USER_GID=1234` | Pass | `host-round5-build-arm64-custom-1234.log` |
-| 7 | Final `tests/validate-image.sh` matrix: ARM64/AMD64 default/`zh`, custom 1234 | Pass, 5/5 | `host-round5-image-matrix.log` |
-| 8 | Corrected target-origin/tool probes on ARM64 and AMD64 | Pass, 2/2 | `host-round5-python-origin-and-tools.log` |
-| 9 | `tests/validate-running-container.sh` through normal entrypoint on default/`zh` ARM64/AMD64, plus host port/protocol checks | Pass | per-runtime logs; final native rerun log |
-| 10 | Normal/mobile-safe Chromium parent-argument checks and full mobile-safe runtime harness | Pass | `host-round5-mobile-safe.log` |
-| 11 | Real zh Chromium/X/VNC/fcitx input automation | Pass | interaction log and screenshot |
-| 12 | Profile marker/recreate/stale-lock recovery | Pass | profile recovery log |
-| 13 | `docker buildx build --builder multi-platform-builder --platform linux/amd64,linux/arm64 --output type=oci,...` for default and `zh`; recursive OCI manifest/config inspection | Pass; no push | both multi-platform logs |
-| 14 | Final Bash syntax, ShellCheck excluding only documented SC2086/SC2016 cases, source contract, `git diff --check` | Pass | `host-round5-final-repository-checks.log` |
-| 15 | Remove task resources and restore original official local tags by full image ID | Pass | `host-round5-cleanup.log` |
+| 1 | `bash -n build-multi-arch.sh tests/validate-build-wrapper.sh tests/validate-source-contract.sh` | Pass | `host-round7-build-wrapper-matrix.log` |
+| 2 | `shellcheck -e SC2086,SC2016` for the same scripts | Pass | Same log |
+| 3 | `tests/validate-source-contract.sh` | Pass | Same log |
+| 4 | `tests/validate-build-wrapper.sh` | Pass | Same log |
+| 5 | Negative scan for `docker info`, `Username`, and the former “Not logged in” parser in production wrapper | Pass; absent | Same log |
+| 6 | `git diff --check` before and after matrix | Pass | Same log |
+| 7 | Real current wrapper with deterministic fake `docker`/`uname` boundaries across local/push/variant/platform/error matrix | Pass, 12/12 cases | Same log |
+| 8 | Isolated-TMPDIR durable-harness lifecycle: normal, controlled assertion error, controlled command error | Pass; statuses 0/1/44 and fixtures 0→0 each | Corrected authoritative lifecycle section of same log |
+| 9 | Host fixture and mutation boundary checks | Pass; zero `/tmp/build-wrapper-test.*`; no real Docker/registry/server action | Same log |
 
-## Observed Failures And Corrections
+## Deterministic Wrapper Matrix
 
-No final product failure remains.
+| Case | Expected / Observed Result |
+| --- | --- |
+| Apple `arm64`, default implicit load | `linux/arm64`; `1.4.0` + `latest`; exact `--load` BuildX call; Pass |
+| Linux `aarch64`, explicit load + no-cache | `linux/arm64`; exact `--load --no-cache`; Pass |
+| `x86_64`, `zh` load | `linux/amd64`; `1.4.0-zh` + `zh`; Pass |
+| Default multi-platform push, Docker presentation without Username, existing builder | Reached exact fake BuildX `--push`; AMD64+ARM64; no `docker info`; builder `use`; Pass |
+| `zh` multi-platform push + no-cache, missing builder | Exact tags/platforms; builder `create --use`; Pass |
+| Push BuildX failure | Status `37` propagated; no build/push success output; Pass |
+| Local BuildX failure | Status `38` propagated; no load success output; Pass |
+| BuildX unavailable | Status `1`, explicit availability error, no build; Pass |
+| Unsupported local architecture | Status `1`, explicit architecture error, no build; Pass |
+| `--push --load` | Status `1`, mutual-exclusion error, no build; Pass |
+| Unknown option | Status `1`, explicit unknown-option error, no build; Pass |
+| Empty variant | Status `1`, explicit empty-variant error, no build; Pass |
 
-1. **External mirror synchronization:** the first exact ARM64 default build failed while downloading unrelated Noble `ncurses` archives that the Ubuntu ports index referenced but returned HTTP 404. The exact no-cache command passed on the controlled retry with fresh repository metadata. Classification: transient external repository state, not an implementation failure.
-2. **Image-harness package split:** the first image matrix assumed a nonexistent Noble `python3.13-minimal` package. The actual Deadsnakes layout provides `/usr/bin/python3.13` from `python3.13`. The durable test was corrected to the approved package/ownership behavior and all five final cases passed. Classification: API/E2E-owned coverage correction.
-3. **Runtime procfs portability:** initial new process assertions relied on `/proc/<pid>/exe`; native non-root ptrace restrictions and Docker Desktop Rosetta (`/run/rosetta/rosetta`) make that host-kernel view unsuitable. The durable assertion now requires the exact isolated interpreter anywhere in the full NUL-delimited process command vector and resolves it to `/usr/bin/python3.13`. Native and emulated final reruns passed. Classification: API/E2E-owned coverage correction, not a mixed provider.
-4. **Temporary origin probe quoting:** the first evidence-only probe had a shell quoting error. Corrected target probes passed on both architectures. Classification: temporary evidence harness correction.
-5. **`gh` trace gap:** a final AC trace found that the existing image/source harnesses did not explicitly protect the documented GitHub CLI. Exact source/docs/command/version assertions were added and final source/image reruns passed. Classification: missing durable assertion closed before result.
+Every push case used a PATH-injected fake `docker` executable. No call could reach Docker Desktop or Docker Hub.
 
-All superseded failure output remains in the evidence logs for auditability and is explicitly separated from the final authoritative reruns.
+## Fixture Lifecycle Results
 
-## Prior Failure Resolution
+| Execution | Exit | Fixture Count | Result |
+| --- | ---: | ---: | --- |
+| Current durable harness normal completion | 0 | 0 → 0 | Pass |
+| Controlled assertion failure after trap installation | 1 | 0 → 0 | Pass |
+| Controlled command error after trap installation | 44 | 0 → 0 | Pass |
+| Final shared `/tmp` scan | N/A | 0 | Pass |
 
-| Failure | Prior State | Round-5 Result |
+The first temporary controlled-assertion probe in the evidence log referenced `success_output` before it was defined, so `nounset` fired before the intended assertion. That temporary probe construction produced a traceback and is explicitly superseded by the `CORRECTED AUTHORITATIVE LIFECYCLE SECTION`, which uses a defined-value assertion and proves the intended exit `1` plus 0→0 cleanup. It is not a durable harness or implementation failure.
+
+## Acceptance-Criteria Status
+
+| AC | Result | Current Evidence / Scope Note |
 | --- | --- | --- |
-| `APIE2E-F-001` — Noble default UID/GID collision | Resolved in IR-002 and prior API/E2E | Remains resolved across both architectures, both variants and custom 1234:1234 build/runtime. |
-| `APIE2E-F-002` — Apple Silicon `arm64` wrapper rejection | Resolved in IR-003/API-REV-004 | Remains resolved: exact real-host command reaches BuildX, selects ARM64, clean-builds, tags, loads and passes current image/runtime gates. |
+| AC-001–AC-003 | Pass / retained | API-REV-005 current image/base/build evidence; relevant wrapper local-load platform/tag cases rerun. |
+| AC-004 | Pass for local pre-publication readiness | API-REV-005 AMD64+ARM64 default/`zh` OCI/build evidence retained; current exact multi-platform command composition passes. |
+| AC-005–AC-010, AC-013 | Pass / retained | Image/runtime/browser/input/profile sources unchanged; API-REV-005/006 evidence remains current. |
+| AC-011 | Ready for Delivery execution; not executed by API/E2E | Wrapper blocker is locally resolved. Actual default then `zh` publication, manifests and four platform/variant runtime identities remain Delivery-owned. |
+| AC-012 | Deferred as designed | Separate server adoption remains blocked until AC-011 remote verification completes. |
 
-## Built-Target And Runtime Identity
+## Prior Finding Resolution
 
-- Clean local image IDs:
-  - ARM64 default: `sha256:4f8b0cbd1cd11f0d36f1e53600b5388a89b9522c9e95995cb06344dae29b8997`
-  - ARM64 `zh`: `sha256:56fbe31767162618582e6e1b77381382dbe1ba2ea4377ba5572f709b61e157de`
-  - AMD64 default: `sha256:4f5deb58580f0f461d048e9228816c183ace34a1120cf6a6fb1eedde7aad0d14`
-  - AMD64 `zh`: `sha256:1231fe673fc12d845353f1af5f4b43412c55a56c8b2b1360298e62dc244d3026`
-  - ARM64 custom 1234:1234: `sha256:3dab483b4f7ce7b406ef1eb3a7ea8cb21c5270342ada8240d89d48b444469cf4`
-- Target identity on AMD64 and ARM64: Ubuntu `24.04` Noble; public Python `3.13.15`; OS Python `3.12.3`; Python package `3.13.15-1+noble1` from `ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main`.
-- Isolated tool owner/version: `/opt/browser-tools` Python `3.13.15`; Supervisor `4.3.0`; websockify `0.13.0`; `uv` `0.12.8`.
-- Live Chromium evidence: `Chrome/151.0.7922.173`; VNC RFB `003.008`; websockify HTTP and DevTools semantic DOM pass.
-- Local OCI indexes:
-  - default index `sha256:974668c479d352718c684ac6fdce41bdeed07705afcb7ede7c82cdf361b5612d`
-  - `zh` index `sha256:80a8662dc5f0de285587bb3248090491e3e7f93f9d849a79e539c749919e5995`
-  - each recursively inspected index contained exact `linux/amd64` and `linux/arm64` image manifests with variant and 1000:1000 config.
-
-These are local validation identities, not published immutable Docker Hub digests.
+| Finding / Blocker | Prior State | Current State |
+| --- | --- | --- |
+| DR-005 publication wrapper blocker | Valid Docker Desktop credential-helper session falsely rejected because `docker info` lacked `Username` | Resolved locally: no presentation parser; default/`zh` push cases reach exact fake BuildX boundary. Real registry outcome remains Delivery-owned. |
+| `CR-F-001` | Durable wrapper harness leaked `build-wrapper-test.*` directories | Remains resolved: independent API/E2E normal/assertion/command executions each leave 0→0 fixtures. |
+| `APIE2E-TEST-F-001` | Non-discriminating Python source-contract assertions | Remains resolved; source contract passes unchanged and CRR-008 remains authoritative. |
+| `APIE2E-F-001` / `APIE2E-F-002` | Historical UID collision / Apple ARM alias failures | Remain resolved; current local alias matrix passes and image sources are unchanged. |
 
 ## Confidence Scorecard
 
-| Category | Post-Repository | Final | Final Evidence / Residual |
-| --- | ---: | ---: | --- |
-| Requirement and acceptance-criteria proof | 90% | 96% | AC-001–010/013 directly pass; AC-011 remote and AC-012 sequencing remain outside this gate. |
-| Changed-boundary execution directness | 95% | 100% | Real clean images, exact wrapper, public/OS Python ownership, isolated Supervisor and normal entrypoint executed. |
-| Cross-boundary integration realism and mock gap | 88% | 97% | Real repositories, BuildX, containers, services, protocols and browser; only non-host wrapper aliases used controlled doubles. |
-| Environment/configuration/identity/fixture fidelity | 92% | 98% | Both targets/variants, default/custom identity, XDG/DBus, profiles and host ports exercised. |
-| Failure/edge/lifecycle/recovery evidence | 88% | 97% | Mirror retry, wrapper errors, native/Rosetta boundaries, mobile-safe, stale locks and recreation pass. |
-| User-surface/browser/desktop confidence | 70% | 97% | Semantic DevTools render and real X/VNC Pinyin commit close the initial live gap. |
-| Durable regression coverage quality/relevance | 94% | 95% | Three requirement-linked harnesses pass final reruns; proportional Code Review remains pending. |
+| Category | Final | Evidence / Residual |
+| --- | ---: | --- |
+| Requirement and acceptance-criteria proof | 96% | Current local wrapper/alternate outcomes pass; AC-011 remote state remains Delivery-owned. |
+| Changed-boundary execution directness | 100% | The real current wrapper executes every changed push path against a controlled Docker boundary. |
+| Cross-boundary integration realism and mock gap | 95% | BuildX command/status boundary is direct; actual credential-helper/registry authorization is intentionally excluded. |
+| Environment/configuration/identity/fixture fidelity | 98% | Real shell/source, host process semantics, isolated TMPDIR, exact arguments/statuses. |
+| Failure/edge/lifecycle/recovery evidence | 100% | Option/platform/BuildX failures and all reachable cleanup outcomes directly pass. |
+| User-surface/browser/desktop confidence | 97% | Unchanged API-REV-005 browser/desktop evidence remains current. |
+| Durable regression coverage quality/relevance | 97% | CRR-010-reviewed wrapper harness passes unchanged; API/E2E added no test code. |
 
-- Overall post-repository confidence: `88%` (simple average, rounded).
-- Overall final confidence: `97%` (97.1%, rounded).
-- Confidence gain: real target builds, provider/runtime execution, both platform/variant indexes, lifecycle, browser and desktop-input evidence closed the initial IR-005 gaps.
-- Applicable final category below 90%: `None`.
-- Default clean target met: `Yes`.
+- Overall final confidence: `97%` (97.6% simple average, conservatively reported as 97%).
+- Applicable category below 90%: `None`.
+- Critical local/pre-publication criterion missing or failing: `None`.
+- Full image/runtime rerun decision: `Not Required`; no image/runtime source or wrapper command mismatch was exposed.
 
-## Dependencies Mocked Or Emulated
+## Dependencies Mocked Or Deferred
 
-- Critical native Apple ARM64 path: real Docker/BuildX, repositories, image, normal entrypoint and browser; not mocked.
-- AMD64: real AMD64 images/build manifests executed through Docker Desktop's supported emulation/Rosetta boundary on Apple Silicon. The image/provider contract was asserted from guest paths and full process command vectors rather than the host emulator's `/proc/exe` link.
-- Controlled `uname`/`docker` doubles: used only for non-host alias and command-composition regression, including multi-platform `--push` composition. They never contacted a registry and do not substitute for the real ARM64 or local multi-platform builds.
-- External package services: real Ubuntu, Deadsnakes, XtraDeb, NodeSource and PyPI endpoints were used by clean builds; no package mock was used.
-
-## Broader Validation And User-Surface Evidence
-
-- Decision/mode: `Required and completed`; real CLI/BuildX, image/runtime lifecycle, protocols, semantic Chromium, and X/VNC desktop input.
-- Service readiness: Supervisor real config/control plus XFCE, TigerVNC, Chromium, socat, websockify and fcitx5 where applicable.
-- Browser: semantic DOM was asserted through the real Chromium DevTools WebSocket, not by screenshot alone.
-- Desktop input: the task-owned zh desktop dismissed the first-run keyring prompt, focused Chromium, toggled Pinyin with Ctrl+Space and committed `你好` into the DOM. The screenshot is supporting evidence.
-- Persistence/recovery: a normal runtime-written profile marker remained after recreation; stale supported Chromium/X lock artifacts were replaced by fresh live locks without migration or profile deletion.
+- Deterministic fake boundaries: `docker` and `uname` only, for non-publishing command/status/platform control. The production wrapper itself is real.
+- Real Docker Desktop build/load: not invoked because the changed push-only branch cannot be exercised by a non-publishing real load, and API-REV-005 already proves current image construction/runtime.
+- Real Docker credential helper and Docker Hub registry: not invoked; Delivery owns the authorized push and is the only stage that can truthfully close that integration.
+- Server adoption: not started and no server repository was accessed.
 
 ## Cleanup And Mutation Boundaries
 
-| Resource / Boundary | Result |
-| --- | --- |
-| Six task containers and six task profile volumes | Stopped and removed |
-| Five task image aliases plus backup aliases | Removed without force |
-| Temporary default/`zh` OCI archives and parser | Removed after manifest/config evidence capture |
-| Pre-existing local `latest` | Restored to `sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029` |
-| Pre-existing local `zh` | Restored to `sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071` |
-| Task-created `1.4.0` and `1.4.0-zh` | Removed because both were absent at baseline |
-| Shared BuildX builder/cache | Retained; no global prune |
-| Docker Hub | No authentication/push/remote mutation |
-| AutoByteus server repository | No access or modification |
+- Task-owned deterministic fixtures: removed automatically or by `TemporaryDirectory`; final count zero.
+- Real Docker images, containers, volumes, builder/cache: untouched by this round.
+- Docker Hub: no request, push, tag mutation, or remote verification.
+- DR-005 remote state: not re-queried or mutated; Delivery remains authoritative.
+- Worktree: upstream uncommitted Delivery/Code Review artifacts preserved; no reset, clean, commit, or unrelated edit.
 
-## Evidence Inventory
+## Evidence
 
-All paths are under `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/`:
-
-- `host-round5-source-and-preflight.log`
-- `host-round5-build-wrapper-regression.log`
-- `host-round5-tag-baseline.log`
-- `host-round5-build-arm64-default.log` (initial transient mirror failure retained)
-- `host-round5-build-arm64-default-retry1.log` (authoritative exact retry Pass)
-- `host-round5-build-arm64-zh.log`
-- `host-round5-build-amd64-default.log`
-- `host-round5-build-amd64-zh.log`
-- `host-round5-build-arm64-custom-1234.log`
-- `host-round5-image-matrix-part1.log` (superseded harness assumption retained)
-- `host-round5-image-matrix.log` (authoritative final 5/5 Pass)
-- `host-round5-python-origin-and-tools.log` (corrected authoritative sections identified in log)
-- `host-round5-runtime-arm64-default.log`
-- `host-round5-runtime-arm64-zh.log`
-- `host-round5-runtime-amd64-default.log`
-- `host-round5-runtime-amd64-zh.log`
-- `host-round5-runtime-custom-1234.log`
-- `host-round5-runtime-final-native-rerun.log`
-- `host-round5-mobile-safe.log`
-- `host-round5-profile-stale-lock-recovery.log`
-- `host-round5-zh-vnc-ime-interaction.log`
-- `host-round5-zh-ime-authoritative.png`
-- `host-round5-multiplatform-default.log`
-- `host-round5-multiplatform-zh.log`
-- `host-round5-final-repository-checks.log`
-- `host-round5-cleanup.log`
-- `host-round6-source-contract-fix.log` (API-REV-006 authoritative focused validation)
+- Current authoritative execution: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/host-round7-build-wrapper-matrix.log`
+- Triggering Delivery evidence: `delivery-dr005-publish-default.log`; `delivery-dr005-publication-preflight-failure.log`
+- Implementation evidence: `implementation-ir-006-push-readiness-check.log`; `implementation-ir-007-test-cleanup-check.log`
+- Retained broader API/E2E evidence: API-REV-005 evidence inventory in this directory, especially `host-round5-build-wrapper-regression.log`, `host-round5-final-repository-checks.log`, and the complete build/image/runtime/index logs recorded by API-REV-005.
+- Retained focused source evidence: `host-round6-source-contract-fix.log`.
 
 ## Result Summary And Route
 
-| Result | Scenario / Scope | Summary |
+| Result | Scope | Summary |
 | --- | --- | --- |
-| Pass | AE2E-SCN-001/002/003/006/007/008/009; AC-001–010/013 | All current local build, image, provider, runtime, browser, desktop-input, persistence/recovery and no-push multi-platform gates passed. |
-| Ready for Delivery, not executed | AC-011 | Local pre-publication evidence is complete; remote publication/verification must wait for proportional test review. |
-| Deferred as designed | AC-012 | Separate server adoption begins only after verified publication. |
+| Pass | API-REV-007 / AE2E-SCN-010 / AC-004 local, AC-011 pre-publication wrapper | Current wrapper reaches exact BuildX commands without Username parsing, propagates failures, emits no false success, and cleans fixtures. |
+| Still Valid / Pass | API-REV-005/006 product and source boundaries | Image/runtime/browser/profile behavior unchanged and directly proven. |
+| Delivery-owned / Not Executed | AC-011 remote | Actual publication, manifest inspection and published runtime identity. |
+| Deferred | AC-012 | Separate server-adoption ticket after verified publication. |
 
-Required next recipient: `/code_reviewer`. Requested action: focused proportional re-review of the `tests/validate-source-contract.sh` literal-line correction and negative-discrimination evidence for `APIE2E-TEST-F-001`. `tests/validate-image.sh` and `tests/validate-running-container.sh` already passed CRR-007 and were not changed in API-REV-006. No implementation-source rework, failure-origin review, or full Docker rerun is requested. Delivery remains blocked until this focused review passes.
+Required next recipient: `/code_reviewer`. No repository-resident durable coverage was changed by API/E2E, so the proportional test-code review should be recorded as `Not Applicable` rather than reopening source review. After that record, Delivery may integrate/push IR-006/IR-007 as appropriate, retry the authorized default then `zh` publication, and complete remote verification. No release success is claimed until Delivery records those outcomes.

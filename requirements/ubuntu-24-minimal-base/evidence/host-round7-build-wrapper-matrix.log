@@ -1,0 +1,66 @@
+=== BRD-UBUNTU24-001 API-REV-007 IR-006/IR-007 non-publishing wrapper matrix ===
+start_utc=2026-09-02T03:19:04Z
+head=14fb215b1ad0b48dd486658ca7fd7757ceb06d16 branch=requirements/ubuntu-24-minimal-base
+scope=no Docker Hub request or mutation; real wrapper executed only behind PATH-injected deterministic docker/uname boundaries
+--- static/durable checks ---
+PASS: Bash syntax
+PASS: ShellCheck (intentional SC2086/SC2016 exclusions only)
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+PASS: repository durable wrapper harness
+PASS: production wrapper contains no docker-info/Username authentication parser
+PASS: git diff --check
+--- extended current-source deterministic matrix and cleanup probes ---
+PASS case=arm64-default-implicit-load status=0 build=CALL	buildx	build	--load	--platform	linux/arm64	--tag	autobyteus/chrome-vnc:1.4.0	--tag	autobyteus/chrome-vnc:latest	--build-arg	IMAGE_VARIANT=default	.
+PASS case=aarch64-default-explicit-load-no-cache status=0 build=CALL	buildx	build	--load	--no-cache	--platform	linux/arm64	--tag	autobyteus/chrome-vnc:1.4.0	--tag	autobyteus/chrome-vnc:latest	--build-arg	IMAGE_VARIANT=default	.
+PASS case=x86_64-zh-load status=0 build=CALL	buildx	build	--load	--platform	linux/amd64	--tag	autobyteus/chrome-vnc:1.4.0-zh	--tag	autobyteus/chrome-vnc:zh	--build-arg	IMAGE_VARIANT=zh	.
+PASS case=push-default-no-username-builder-use status=0 build=CALL	buildx	build	--push	--platform	linux/amd64,linux/arm64	--tag	autobyteus/chrome-vnc:1.4.0	--tag	autobyteus/chrome-vnc:latest	--build-arg	IMAGE_VARIANT=default	.
+PASS case=push-zh-no-cache-builder-create status=0 build=CALL	buildx	build	--push	--no-cache	--platform	linux/amd64,linux/arm64	--tag	autobyteus/chrome-vnc:1.4.0-zh	--tag	autobyteus/chrome-vnc:zh	--build-arg	IMAGE_VARIANT=zh	.
+PASS case=push-buildx-failure-propagates status=37 build=CALL	buildx	build	--push	--platform	linux/amd64,linux/arm64	--tag	autobyteus/chrome-vnc:1.4.0-zh	--tag	autobyteus/chrome-vnc:zh	--build-arg	IMAGE_VARIANT=zh	.
+PASS case=local-buildx-failure-propagates status=38 build=CALL	buildx	build	--load	--no-cache	--platform	linux/arm64	--tag	autobyteus/chrome-vnc:1.4.0	--tag	autobyteus/chrome-vnc:latest	--build-arg	IMAGE_VARIANT=default	.
+PASS case=buildx-unavailable status=1 build=none
+PASS case=unsupported-load-architecture status=1 build=none
+PASS case=push-load-mutually-exclusive status=1 build=none
+PASS case=unknown-option status=1 build=none
+PASS case=empty-variant status=1 build=none
+PASS: extended matrix used only fake docker/uname boundaries; no registry or real Docker command was reachable.
+PASS lifecycle=normal status=0 fixtures=0->0
+Traceback (most recent call last):
+  File "<stdin>", line 145, in <module>
+  File "<stdin>", line 131, in run_harness
+AssertionError: controlled-assertion-error: expected status=1 0->0, got status=0 0->0; output='/var/folders/7w/9r4_s1_s42z3f7c136bpjf0r0000gn/T/brd-r7-lifecycle-9nfekh_c/controlled-assertion-error/tests/validate-build-wrapper.sh: line 26: success_output: unbound variable\n'
+--- post-execution mutation/resource checks ---
+PASS: final git diff --check
+host_fixture_root=/tmp matching_count=0 names=[]
+PASS: no task-owned persistent fixture was created by the authoritative matrix; every matrix fixture used TemporaryDirectory or the durable EXIT trap.
+Docker Hub action: none (fake docker boundary only).
+Real Docker image/container/volume action: none.
+AutoByteus server repository action: none.
+end_utc=2026-09-02T03:19:09Z result=PASS
+
+=== CORRECTED AUTHORITATIVE LIFECYCLE SECTION ===
+The prior temporary controlled-assertion probe referenced success_output before its definition, so nounset fired before the intended assertion. That probe construction and its traceback are superseded; the completed extended wrapper cases above remain valid.
+start_utc=2026-09-02T03:19:49Z
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+PASS authoritative_lifecycle=normal status=0 fixtures=0->0 output=PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+PASS authoritative_lifecycle=controlled-assertion-error status=1 fixtures=0->0 output=FAIL: output does not contain expected text: forced-unreachable-output
+PASS authoritative_lifecycle=controlled-command-error status=44 fixtures=0->0 output=
+PASS: corrected authoritative normal/assertion/command lifecycle matrix leaves zero fixtures.
+host_fixture_root=/tmp matching_count=0 names=[]
+PASS: API-REV-007 authoritative deterministic wrapper matrix and corrected fixture lifecycle checks complete.
+Docker Hub action: none (all push scenarios used fake docker; no real registry command was reachable).
+Real Docker image/container/volume action: none.
+end_utc=2026-09-02T03:19:50Z authoritative_result=PASS
+
+=== HANDOFF-TIME INTEGRITY CHECK 2026-09-02T03:23:38Z ===
+bash_syntax=PASS
+shellcheck=PASS
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+source_contract=PASS
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+build_wrapper=PASS
+diff_check=PASS
+canonical_markers=PASS
+fixture_count=0
+handoff_integrity=PASS

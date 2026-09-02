@@ -1,0 +1,25 @@
+BRD-UBUNTU24-001 DR-005 Docker Hub publication preflight failure
+Date: 2026-09-02
+Repository finalization commit: 01a07b203472049695e870b2865fcd5df9ec5844
+Attempted command: ./build-multi-arch.sh --push
+Result: exit 1 before docker buildx build or registry mutation.
+Failure: build-multi-arch.sh requires docker info output to contain Username; Docker Desktop 29.0.1 omits that field.
+
+$ docker login
+Authenticating with existing credentials... [Username: autobyteus]
+
+ Info -> To login with a different account, run 'docker logout' followed by 'docker login'
+
+
+Login Succeeded
+
+$ docker info | grep -E "Username|Registry"
+No Username/Registry line returned (grep exit nonzero).
+
+Credential metadata (no secrets):
+{'auth_keys': ['https://index.docker.io/v1/', 'https://index.docker.io/v1/access-token', 'https://index.docker.io/v1/refresh-token'], 'credsStore': 'desktop', 'credHelpers': []}
+
+Remote mutation check:
+ABSENT: 1.4.0
+ABSENT: 1.4.0-zh
+Classification: code/packaging Local Fix; route to /implementation_engineer.

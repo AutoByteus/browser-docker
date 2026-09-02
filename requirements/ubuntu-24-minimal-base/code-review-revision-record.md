@@ -14,6 +14,9 @@ The latest `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minim
 | `CRR-006` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` | Implementation review / `RER-007`, `ARCH-REV-002`, `IR-005` | `Pass` | `Pass` | `APIE2E-F-002` remains resolved |
 | `CRR-007` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Proportional durable-test review / `API-REV-005` | `Pass` | `Fail — Local Fix / API/E2E` | `APIE2E-TEST-F-001` |
 | `CRR-008` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Focused proportional re-review / `API-REV-006` | `Fail — Local Fix / API/E2E` | `Pass` | `APIE2E-TEST-F-001` resolved |
+| `CRR-009` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` | Implementation review / `DR-005`, `IR-006` | `Pass` | `Fail — Local Fix / implementation` | `CR-F-001` |
+| `CRR-010` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` | Focused implementation re-review / `CRR-009`, `IR-007` | `Fail — Local Fix / implementation` | `Pass` | `CR-F-001` resolved |
+| `CRR-011` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Proportional durable-test review / `API-REV-007` | `Pass` | `Not Applicable` | `None` |
 
 ## Revision Entries
 
@@ -209,3 +212,79 @@ None.
 - Material score or classification changes: No implementation scorecard applies. Proportional durable-test review advances from `Fail — Local Fix / API/E2E` to `Pass`; no current failure classification remains.
 - Recommended recipient: `/delivery_engineer`
 - Remaining risks or uncertainty: No local implementation, API/E2E, or durable-test review blocker remains. Docker Hub publication and remote manifest/runtime verification remain Delivery-owned; server adoption remains the separate verified-publication follow-up ticket.
+
+### CRR-009 — Return leaked deterministic wrapper fixtures
+
+- Canonical review report updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`
+- Review entry point and round: `Implementation Review`, round 5.
+- Triggering role, report path, and finding or scenario IDs: Implementation Engineer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `IR-006`; DR-005 publication blocker; `SCN-002`; AC-011; new `CR-F-001`.
+- Relevant solution revision IDs: `SR-001`, `SR-002`
+- Relevant architecture-review revision IDs: `ARCH-REV-002`
+- Relevant implementation revision IDs: `IR-006`
+- Relevant API/E2E revision IDs: `API-REV-005`, `API-REV-006` as pre-IR-006 context
+- Relevant delivery revision IDs: `DR-005`
+- Prior authoritative result: `Pass` (`CRR-006`) for implementation source and `Pass` (`CRR-008`) for current pre-IR-006 durable coverage at finalized parent `01a07b2`.
+- Current authoritative result: `Fail — Local Fix / implementation`; IR-006 must not advance to API/E2E or Delivery yet.
+- What changed in the review result and why: The production delta correctly removes unstable `docker info`/Username presentation parsing and leaves BuildX as the sole push/authentication/authorization authority. Exact default and zh/no-cache multi-platform command composition, BuildX status propagation, and no false success pass. The implementation-added durable harness creates a `mktemp -d` fixture tree but has no EXIT cleanup. Independent execution returned Pass while increasing matching temp directories from 3 to 4, proving a repeatable fixture leak.
+
+#### Prior Finding Resolution
+
+| Finding ID | Prior Status | Current Status | Related Revision References | Verification Evidence |
+| --- | --- | --- | --- | --- |
+| `APIE2E-TEST-F-001` | Resolved by API-REV-006/CRR-008 | `Remains resolved — unaffected` | `API-REV-006`, `CRR-008`, `IR-006` | IR-006 does not modify `tests/validate-source-contract.sh`; the current harness still passes. |
+
+- New or remaining finding IDs: `CR-F-001`
+- Material score or classification changes: Full source score is `9.52/10` (`95.2/100`), but `API/E2E Readiness` is 8.8 and `Cleanup Completeness` is 8.7, so the review fails regardless of the high average. Classification is a bounded implementation-owned Local Fix.
+- Recommended recipient: `/implementation_engineer`
+- Remaining risks or uncertainty: After fixture cleanup passes focused review, API/E2E must investigate applicable non-publishing wrapper coverage before Delivery retries the authorized Docker Hub release. Remote IR-006 integration, AC-011, release record completion, cleanup, and server adoption remain blocked.
+
+### CRR-010 — Pass deterministic wrapper fixture cleanup
+
+- Canonical review report updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`
+- Review entry point and round: `Implementation Review`, round 6 focused re-review.
+- Triggering role, report path, and finding or scenario IDs: Implementation Engineer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `IR-007`; `CR-F-001`; prior DR-005 publication wrapper blocker; `SCN-002`; AC-011.
+- Relevant solution revision IDs: `SR-001`, `SR-002`
+- Relevant architecture-review revision IDs: `ARCH-REV-002`
+- Relevant implementation revision IDs: `IR-006`, `IR-007`
+- Relevant API/E2E revision IDs: `API-REV-005`, `API-REV-006` as pre-IR-006 context
+- Relevant delivery revision IDs: `DR-005`
+- Prior authoritative result: `Fail — Local Fix / implementation` (`CRR-009`) because the IR-006 deterministic wrapper harness leaked its `mktemp` fixture tree.
+- Current authoritative result: `Pass`; IR-006/IR-007 is ready for `/api_e2e_engineer` coverage investigation and applicable non-publishing executable validation.
+- What changed in the review result and why: IR-007 adds one immediate quoted EXIT trap after successful fixture creation and leaves IR-006 production source byte-for-byte unchanged. Independent review confirmed the exact commit parent, focused one-line diff, Bash syntax, ShellCheck, existing deterministic wrapper assertions, current source contract, and diff hygiene. Under an isolated `TMPDIR`, the normal run, a controlled assertion-error exit 1, and a controlled command-error exit 44 each left matching fixture count `0 -> 0`.
+
+#### Prior Finding Resolution
+
+| Finding ID | Prior Status | Current Status | Related Revision References | Verification Evidence |
+| --- | --- | --- | --- | --- |
+| `CR-F-001` | Open — every deterministic wrapper-test run left its fake executable and call logs under `${TMPDIR}/build-wrapper-test.*` | `Resolved` | `CRR-009`, `IR-007`, `CRR-010` | `tests/validate-build-wrapper.sh:24-27`; `evidence/implementation-ir-007-test-cleanup-check.log`; independent normal/assertion-error/command-error isolated-`TMPDIR` count checks all `0 -> 0`. |
+
+- New or remaining finding IDs: `None`
+- Material score or classification changes: Full source score advances from `9.52/10` (`95.2/100`) to `9.70/10` (`97.0/100`). API/E2E Readiness advances from 8.8 to 9.4 and Cleanup Completeness from 8.7 to 9.8; every category is now `>=9.0`. The Local Fix classification is closed.
+- Recommended recipient: `/api_e2e_engineer`
+- Remaining risks or uncertainty: Actual credential-helper/registry interoperability remains downstream; API/E2E owns applicable non-publishing validation and Delivery owns authorized publication and remote verification. Docker Hub state is unchanged, remote main/ticket remain at `01a07b2`, and AC-011, release completion, cleanup, and separate server adoption remain blocked.
+
+### CRR-011 — Record no API/E2E durable test-code delta
+
+- Canonical review report updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md`
+- Review entry point and round: `Proportional API/E2E Test-Code Review`, round 5.
+- Triggering role, report path, and finding or scenario IDs: API/E2E Engineer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`; `API-REV-007`; AE2E-SCN-010; no new finding ID.
+- Relevant solution revision IDs: `SR-001`, `SR-002`
+- Relevant architecture-review revision IDs: `ARCH-REV-002`
+- Relevant implementation revision IDs: `IR-006`, `IR-007`
+- Relevant API/E2E revision IDs: `API-REV-007`
+- Relevant delivery revision IDs: `DR-005`
+- Prior authoritative result: `Pass` (`CRR-008`) for the last API/E2E-owned durable test-code change; `CRR-010` separately passed current implementation source and its implementation-added deterministic harness.
+- Current authoritative result: `Not Applicable`; the complete passed package is ready for `/delivery_engineer`.
+- What changed in the review result and why: API-REV-007 passed its current non-publishing wrapper/lifecycle matrix at 97% confidence but added, updated, or removed no repository-resident durable test. Independent worktree/index comparison against HEAD `14fb215b1ad0b48dd486658ca7fd7757ceb06d16` confirms no diff in the four durable harness paths. Temporary wrapper probes and the round-7 log are execution evidence, not durable test code.
+
+#### Prior Finding Resolution
+
+| Finding ID | Prior Status | Current Status | Related Revision References | Verification Evidence |
+| --- | --- | --- | --- | --- |
+| `APIE2E-TEST-F-001` | Resolved by API-REV-006/CRR-008 | `Remains resolved — unaffected` | `API-REV-006`, `CRR-008`, `API-REV-007` | Current source-contract harness passes unchanged; API-REV-007 contains no durable test diff. |
+| `CR-F-001` | Resolved by IR-007/CRR-010 | `Remains resolved — executable-confirmed` | `IR-007`, `CRR-010`, `API-REV-007` | API-REV-007 independently records normal/assertion/command exits 0/1/44 with matching fixture counts `0 -> 0`; no test code was changed. |
+
+- New or remaining finding IDs: `None`
+- Material score or classification changes: No implementation scorecard applies and CRR-010 is not reopened. The proportional test result is `Not Applicable`, not a failure, because no API/E2E-owned durable test-code delta exists.
+- Recommended recipient: `/delivery_engineer`
+- Remaining risks or uncertainty: No local source, test-code, or API/E2E blocker remains. Actual credential-helper/registry authorization, immutable/rolling default and zh publication, remote manifest/runtime verification, release completion, and cleanup remain Delivery-owned. Server adoption stays deferred until AC-011 is verified.

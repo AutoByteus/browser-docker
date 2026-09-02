@@ -12,6 +12,7 @@ The latest `api-e2e-coverage-investigation.md` and `api-e2e-execution-coverage-r
 | API-REV-004 | Code Reviewer / `IR-003` + `CRR-004` re-entry / round 4 | `RER-006`; `IR-003`; `CRR-003`; `CRR-004`; `API-REV-003` | `Fail` / `89%` | `Pass` / `96%` |
 | API-REV-005 | Code Reviewer / `IR-005` + `CRR-006` re-entry / round 5 | `RER-007`; `SR-001/002`; `ARCH-REV-002`; `IR-005`; `CRR-006`; `API-REV-004` | `Pass` / `96%` | `Pass` / `97%` |
 | API-REV-006 | Code Reviewer / `CRR-007` bounded Local Fix / focused round 6 | `RER-007`; `IR-005`; `CRR-006/007`; `API-REV-005` | `Pass` / `97%` | `Pass` / `97%` |
+| API-REV-007 | Code Reviewer / `IR-006/IR-007` + `CRR-010` / focused round 7 | `RER-007`; `IR-006/007`; `CRR-010`; `DR-005`; `API-REV-006` | `Pass` / `97%` | `Pass` / `97%` |
 
 ## Revision Entries
 
@@ -181,3 +182,37 @@ None — this is the initial baseline.
 - New or remaining implementation failure IDs: `None`.
 - Recommended recipient: `/code_reviewer` for focused proportional re-review of `tests/validate-source-contract.sh` and the negative-discrimination evidence.
 - Delivery/publication: still blocked pending review Pass; no Docker Hub or server-repository mutation.
+
+### API-REV-007 — BuildX owns push authority; wrapper matrix passes without publication
+
+- Triggering role, report path, and round: Code Reviewer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` (`CRR-010`); focused API/E2E round 7 at `14fb215b1ad0b48dd486658ca7fd7757ceb06d16`.
+- Triggering behavior/scenario: DR-005 publication wrapper blocker; IR-006/IR-007; AE2E-SCN-010; SCN-002/SCN-005; REQ-003/005/008; AC-004 and AC-011 pre-publication wrapper boundary.
+- Related revisions: requirements `RER-007`; solution `SR-001/SR-002`; architecture `ARCH-REV-002`; implementation `IR-006`, `IR-007`; code review `CRR-009`, `CRR-010`; prior API/E2E `API-REV-006`; delivery `DR-005`.
+- Why recorded: replace the pre-IR-006 API/E2E wrapper conclusion with current non-publishing evidence for the removed Docker-info Username gate, exact BuildX command/status authority, and deterministic fixture lifecycle.
+- Coverage investigation decision: `tests/validate-build-wrapper.sh` and `tests/validate-source-contract.sh` were `Still Valid / Execute`; image/runtime coverage and API-REV-005 product evidence were `Still Valid / Do Not Rerun` because production image/runtime sources did not change.
+- Durable coverage changed by API/E2E: `None`. The implementation-added `tests/validate-build-wrapper.sh` passed unchanged after CRR-010; no file was added, updated, or removed by this round.
+- Executed matrix: Bash/ShellCheck/source/durable harness/diff hygiene; obsolete-parser negative scan; arm64/aarch64/x86_64 load paths; default/zh; no-cache; immutable/rolling tags; default/zh multi-platform push composition; builder use/create; BuildX unavailable; unsupported architecture; mutually exclusive/unknown/empty inputs; local/push BuildX failure propagation; no false success; normal/assertion/command fixture cleanup.
+- Result: all authoritative cases passed. No current push case called `docker info`; no real Docker or registry command was reachable; BuildX failure statuses 37/38 propagated; cleanup statuses 0/1/44 each left fixture count 0→0.
+- Broader-validation decision: `Required and completed` through the real current wrapper with deterministic fake Docker/uname boundaries. A real registry push is prohibited in API/E2E and remains Delivery-owned.
+- Full image/runtime rerun decision: `Not Required`; the wrapper-only delta exposed no command mismatch and all image/runtime sources are unchanged from API-REV-005.
+
+#### Prior Finding / Blocker Resolution
+
+| Finding / Blocker | Prior State | Current Resolution | Evidence |
+| --- | --- | --- | --- |
+| DR-005 publication wrapper blocker | Missing `docker info` Username falsely stopped a valid Docker Desktop credential-helper session before BuildX | `Resolved locally`; a no-Username presentation cannot block either fake push, and exact BuildX commands are reached. Real registry acceptance remains Delivery-owned. | `evidence/host-round7-build-wrapper-matrix.log` |
+| `CR-F-001` | New deterministic wrapper harness leaked fixture directories | `Remains resolved`; normal 0, controlled assertion 1, and controlled command 44 each leave 0→0 fixtures. | Corrected authoritative lifecycle section of round-7 log |
+| `APIE2E-TEST-F-001` | Python source assertions accepted confounders | `Remains resolved — unaffected`; current source contract passes. | API-REV-006/CRR-008; round-7 log |
+| `APIE2E-F-001` / `APIE2E-F-002` | Historical identity/Apple alias failures | `Remain resolved`; current alias matrix passes and image source is unchanged. | API-REV-005 plus round-7 log |
+
+- Temporary probe observation: the first round-7 controlled-assertion probe referenced an undefined variable before the intended assertion. Its traceback is superseded in the same log by the corrected authoritative lifecycle section using defined values. Corrected status/cleanup evidence passes; no durable or product finding was opened.
+- Canonical artifacts updated:
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Prior result and confidence: `Pass` / `97%` (`API-REV-006`, pre-IR-006).
+- Current result and confidence: `Pass` / `97%`.
+- New or remaining failure IDs: `None`.
+- Recommended recipient: `/code_reviewer` to record the proportional test-code review as `Not Applicable` because API/E2E made no durable coverage change; Delivery follows that recorded result.
+- Remaining scope: Delivery integrates/pushes IR-006/IR-007 as appropriate, performs the authorized default then zh Docker Hub publication, verifies all manifests/platform/variant runtime identities, completes release records and cleanup. Server adoption remains separate until AC-011 passes.
+- Mutation/cleanup: zero task fixtures; no real Docker image/container/volume action; no Docker Hub request/mutation; no server-repository access.

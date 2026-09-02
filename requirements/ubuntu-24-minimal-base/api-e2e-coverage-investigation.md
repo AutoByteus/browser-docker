@@ -10,18 +10,18 @@
 - Solution Revision Record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/solution-revision-record.md` (`SR-001`, `SR-002`)
 - Design Review Report: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-review-report.md` (`Pass`)
 - Architecture Review Revision Record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/architecture-review-revision-record.md` (`ARCH-REV-002`)
-- Implementation Handoff / Revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md` (`IR-005`)
-- Code Review / Revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-006`, source `Pass`, 95.8/100)
-- Current API/E2E test review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-007`, Fail — bounded API/E2E Local Fix `APIE2E-TEST-F-001`)
-- Delivery re-entry context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md` (`DR-003`)
+- Implementation Handoff / Revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md` (`IR-006`, `IR-007`)
+- Code Review / Revision: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md` (`CRR-010`, Pass, 97.0/100; `CR-F-001` resolved)
+- Prior API/E2E test review: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-008`, Pass; pre-IR-006 coverage state)
+- Delivery re-entry context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md` (`DR-005`, repository finalized; publication blocked before mutation)
 - API/E2E Revision Record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
-- Current API/E2E Revision ID / Round: `API-REV-006` / focused round 6 re-entry; prior complete `API-REV-005` broader evidence retained
-- Trigger: Code Reviewer CRR-007 return after API-REV-005; bounded source-contract assertion discrimination fix `APIE2E-TEST-F-001`
-- Prior Investigation Reviewed: `API-REV-005 — Pass / 97%`; its broader Docker/runtime evidence remains current, while its source-harness exactness conclusion is reopened by CRR-007
+- Current API/E2E Revision ID / Round: `API-REV-007` / focused round 7 IR-006/IR-007 re-entry; API-REV-005/006 evidence retained where unchanged
+- Trigger: Code Reviewer CRR-010 Pass after IR-006 removed the false Docker-info Username gate and IR-007 resolved deterministic fixture leak `CR-F-001`
+- Prior Investigation Reviewed: `API-REV-006 — Pass / 97%`; API-REV-005 broader Docker/runtime evidence remains current because IR-006/IR-007 change only wrapper orchestration and its deterministic harness
 - Assigned worktree / branch: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base`; `requirements/ubuntu-24-minimal-base`
-- Implementation under test: `f902e80771b304916858314fa9484cab8f6f1843` (reviewed parent `cc30abff0769553c84fb1ebb453c28e6123f4218`)
+- Implementation under test: `14fb215b1ad0b48dd486658ca7fd7757ceb06d16` (IR-007; parent IR-006 `24a61a8542a220c32d1d88b600fde5b7a33d8a06`; finalized base `01a07b203472049695e870b2865fcd5df9ec5844`)
 - Latest Authoritative Investigation: this file
-- Investigation state: `Complete — CRR-007 Local Fix corrected and focused validation Pass / 97%; proportional re-review pending`
+- Investigation state: `Complete — focused non-publishing wrapper/lifecycle matrix Pass / 97%`
 
 ## Current Requirement And Design Basis
 
@@ -31,12 +31,16 @@ This is a clean provider replacement, not a 3.12/3.13 compatibility promise. Dur
 
 The approved persisted-data decision remains `Not Affected`: Chromium profile data must be directly reusable through the unchanged profile volume, and stale Chromium/X recovery must still work without migration or version-specific fallback.
 
-Docker Hub publication, remote manifest/pull/run verification, repository finalization, explicit user verification, and AutoByteus server adoption are outside this API/E2E execution. No registry push and no server-repository write are authorized.
+IR-006/IR-007 is a bounded release-wrapper correction after DR-005. The wrapper must not interpret the optional `docker info` `Username` presentation as authentication authority; a requested push must reach `docker buildx build --push`, whose nonzero status must propagate before any success output. The deterministic harness must remove its own fixture directory on normal and reachable error exits. Image construction/runtime sources are byte-for-byte unchanged from the API-REV-005 validated candidate.
+
+Docker Hub publication, remote manifest/pull/run verification, and AutoByteus server adoption are outside this API/E2E execution. Repository finalization is already complete under DR-005. No registry push and no server-repository write are authorized.
 
 ## Changed Behavior Summary
 
 | Behavior / Boundary | Change Type | Upstream Evidence | Coverage Consequence |
 | --- | --- | --- | --- |
+| Push-readiness authority and failure propagation | Changed | DR-005; IR-006; CRR-010 | Prove a no-`Username` Docker presentation cannot block the push branch; exact BuildX commands/tags reach the fake boundary; BuildX failure status propagates with no false success; no real push. |
+| Deterministic wrapper fixture lifecycle | Changed in durable harness | CR-F-001; IR-007; CRR-010 | Prove normal, assertion-error and command-error executions leave zero task fixture directories. |
 | Public developer Python | Changed | RER-007 REQ-007; AC-006/010; SR-001/SR-002; ARCH-REV-002; IR-005 | Replace exact public 3.12 assertions with exact `/usr/local` Python 3.13 resolution in source and built images on both architectures. |
 | Noble OS Python ownership | Preserved but now explicitly separated | AC-010; design DS-004; IR-005 | Prove `/usr/bin/python3` remains Noble's distribution 3.12 interpreter and is not repointed by `update-alternatives`. This is OS ownership evidence, not public-version compatibility. |
 | Python package origin | Changed | REQ-007; AC-010; IR-005 | Prove the stable Deadsnakes Noble source and resolved Python 3.13 package origin/version for AMD64 and ARM64. Remove the obsolete no-Deadsnakes assertion. |
@@ -94,6 +98,75 @@ Docker Hub publication, remote manifest/pull/run verification, repository finali
 - Evidence: `evidence/host-round6-source-contract-fix.log`, final authoritative section beginning `FINAL AUTHORITATIVE FOCUSED VALIDATION`.
 - Successful route: append API-REV-006 and return the revised durable state plus cumulative evidence to `/code_reviewer`; do not route Delivery or publish before review Pass.
 
+## IR-006 / IR-007 Coverage Re-entry Investigation
+
+### Changed Boundary And Prior-Evidence Validity
+
+- Production delta: only `build-multi-arch.sh` push messaging/preflight changed. The unreliable `docker info | grep Username` gate is removed; BuildX remains the sole registry/authentication/authorization authority.
+- Durable delta: new `tests/validate-build-wrapper.sh`; IR-007 adds immediate EXIT cleanup after successful `mktemp`.
+- Unchanged product boundary: Dockerfile, entrypoint, Supervisor configuration, browser/VNC/runtime/profile sources, version, variants, platforms, aliases, tags and build arguments. API-REV-005's clean builds, image/runtime/browser/input/profile and local OCI-index evidence therefore remains `Still Valid` for those unchanged boundaries.
+- API-REV-006 exact source-contract evidence and CRR-008 remain `Still Valid`; neither file changed.
+- DR-005 Docker Hub state is context only: `1.4.0`/`1.4.0-zh` absent and rolling tags unchanged when publication stopped before BuildX. API/E2E will not query or mutate remote state.
+
+### Current Durable Coverage Decisions
+
+| Path / Scenario | Decision | Rationale / Planned Action |
+| --- | --- | --- |
+| `tests/validate-build-wrapper.sh` / AE2E-SCN-010 | `Still Valid / Pass` | Directly targets the changed push boundary and passed unchanged: no Username dependency, default multi-platform push tags, zh/no-cache failure, exact status propagation, no false success, fixture cleanup. |
+| `tests/validate-source-contract.sh` / AE2E-SCN-001 | `Still Valid / Pass` | Preserved platform/alias/tag and current release source contract passed; API-REV-006/CRR-008 exactness remains valid. |
+| `tests/validate-image.sh` and `tests/validate-running-container.sh` | `Still Valid / Do Not Rerun` | Image/runtime sources are unchanged; these harnesses passed API-REV-005 and are outside the wrapper-only delta. |
+| API-REV-005 clean build/image/runtime/desktop/profile/OCI matrix | `Still Valid current proof` | The changed code executes only after argument/platform/tag selection and before BuildX invocation; no image content or build definition changed. |
+| Round-5 temporary wrapper alias matrix | `Replaced by current focused Pass` | API-REV-007 re-executed and expanded the matrix against current source, including the changed push branch. |
+
+### Coverage And Execution Result
+
+No repository-resident durable coverage change was required or made by API/E2E. The implementation-added harness was coherent, already reviewed under CRR-010, and passed unchanged.
+
+Executed results:
+
+1. Bash syntax, ShellCheck, source contract, durable wrapper harness, obsolete-parser negative scan, and `git diff --check`: `Pass`.
+2. Current real wrapper behind deterministic non-publishing `docker`/`uname` boundaries: `Pass` for arm64, aarch64 and x86_64; implicit/explicit load; default/zh; no-cache; immutable/rolling tags; default and zh multi-platform push composition; builder use/create; BuildX unavailable; unsupported architecture; push/load mutual exclusion; unknown option; empty variant; local/push BuildX failure propagation; no false success; no `docker info` call.
+3. Fixture lifecycle in isolated TMPDIR: normal `0`, controlled assertion `1`, and controlled command error `44` each left `0 -> 0` matching fixture directories.
+4. Mutation/cleanup: no real Docker or registry command was reachable, no task fixture remained, no image/container/volume changed, no server repository was accessed.
+
+Evidence: `requirements/ubuntu-24-minimal-base/evidence/host-round7-build-wrapper-matrix.log`. The first temporary controlled-assertion probe in that log referenced an undefined variable before the intended assertion and is explicitly superseded by the corrected authoritative lifecycle section. The corrected normal/assertion/command cases all pass with exact statuses and zero fixtures; this was a temporary probe-construction issue, not a durable harness or product failure.
+
+### Initial Focused Confidence And Broader Gate
+
+| Category | Initial Focused Score | Basis / Gap |
+| --- | ---: | --- |
+| Requirement and AC proof | 90% | API-REV-005 proves local release candidate; current push-gate delta not yet executed. |
+| Changed-boundary directness | 75% | CRR-010/implementation evidence is strong but independent API/E2E execution is pending. |
+| Cross-boundary realism/mock gap | 90% | Real wrapper plus fake Docker is the highest safe non-publishing boundary; real registry remains Delivery-owned. |
+| Environment/configuration/identity/fixture fidelity | 90% | Actual shell/source and isolated host temp roots; registry intentionally excluded. |
+| Failure/edge/lifecycle/recovery evidence | 80% | Planned matrix must independently prove statuses, false-success rejection and cleanup exits. |
+| User-surface/browser/desktop confidence | 97% | Unchanged and directly proven by API-REV-005. |
+| Durable regression coverage quality | 90% | New harness passed CRR-010; API/E2E validity/execution pending. |
+
+- Initial focused average: `87%` (rounded).
+- Broader-validation decision before execution: `Required` — the focused deterministic/executable wrapper and lifecycle matrix is the broader surface for this shell boundary.
+- Real Docker Hub execution: `Prohibited in API/E2E`; only Delivery can close credential-helper/registry interoperability and AC-011.
+- Full image/runtime rebuild: `Not Required` unless focused execution reveals altered command composition or a source mismatch.
+
+## API-REV-007 Final Focused Confidence
+
+| Category | Final Score | Evidence / Residual |
+| --- | ---: | --- |
+| Requirement and acceptance-criteria proof | 96% | Current wrapper proves local pre-publication command/alternate outcomes; AC-011 remote state remains Delivery-owned. |
+| Changed-boundary execution directness | 100% | The real current wrapper executed every changed push path against a controlled Docker boundary. |
+| Cross-boundary integration realism/mock gap | 95% | BuildX command/status boundary is direct; actual credential-helper/registry authorization is intentionally reserved for Delivery. |
+| Environment/configuration/identity/fixture fidelity | 98% | Real shell/source, actual host process semantics, isolated TMPDIR and exact argument/status logs. |
+| Failure/edge/lifecycle/recovery evidence | 100% | All option/platform/BuildX failures plus normal/assertion/command cleanup outcomes directly pass. |
+| User-surface/browser/desktop confidence | 97% | Unchanged API-REV-005 browser/desktop evidence remains current. |
+| Durable regression coverage quality | 97% | CRR-010-reviewed wrapper harness passes unchanged; API/E2E added no test code. |
+
+- Final overall confidence: `97%` (97.6% simple average, conservatively reported as 97%).
+- Applicable category below 90%: `None`.
+- Critical local/pre-publication acceptance criterion missing/failing: `None`.
+- Broader-validation result: `Required and completed` through the deterministic/non-publishing executable matrix.
+- Full image/runtime rerun: `Not Required`; no wrapper mismatch or product-source change was exposed.
+- Real registry interoperability: intentionally deferred to Delivery and does not reduce the local API/E2E Pass below threshold.
+
 ## Existing Durable Coverage Inventory And Validity Decisions
 
 | Path / Scenario | Current Assertion / Intent | Related Requirement / AC | Validity Decision | Evidence | Action |
@@ -101,7 +174,7 @@ Docker Hub publication, remote manifest/pull/run verification, repository finali
 | `tests/validate-source-contract.sh` / AE2E-SCN-001 | Source/base/build/identity/tool/docs contract | AC-001–004/006/009/010/013 | `Updated / Pass — API-REV-006 focused correction` | `APIE2E-TEST-F-001`; `host-round6-source-contract-fix.log` | Literal-line helper now discriminates all explicit Python packages and both public selectors; current positive source and five negative prefix/suffix fixtures pass. |
 | `tests/validate-image.sh` / AE2E-SCN-002 | Built-image OS, public/OS Python ownership, isolated tools, utilities, locale/variant/identity | AC-001/006/007/010/013 | `Updated / Pass` | Five final round-5 image-harness cases pass | Requires exact public/local selectors, Noble OS path, Deadsnakes source/package evidence, Supervisor 4.3.0, stable tools/assets, `gh`, and no apt provider. |
 | `tests/validate-running-container.sh` / AE2E-SCN-003 | Normal service/process/protocol/browser/profile and isolated-provider checks | AC-005/006/007/008/013 | `Updated / Pass` | Native ARM64, Rosetta-emulated AMD64, `zh`, mobile-safe, and custom-identity live reruns pass | Requires daemon/control/provider/version/interpreter/cmdline/log evidence while preserving readiness, protocols, DOM and profile behavior. |
-| Prior alias assertion and controlled alias probe / AE2E-SCN-006 | Apple/Linux ARM aliases, tags/load/push composition and unsupported host | AC-003/004 | `Still Valid`, rerun integrated source/probe | `build-multi-arch.sh` unchanged, but integrated regression requested | Retain one-line durable alias assertion; rerun controlled matrix and real ARM wrapper path. |
+| Prior alias assertion and controlled alias probe / AE2E-SCN-006 | Apple/Linux ARM aliases, tags/load/push composition and unsupported host | AC-003/004/011 | `Still Valid as baseline; Needs Current Focused Rerun` | IR-006 changed the push branch only | Retain durable alias assertion and rerun the real current wrapper through deterministic non-publishing boundaries. |
 | Prior round-3/4 platform/runtime/IME/profile/index evidence | Pre-IR-005 behavior | AC-001–010 | `Out Of Scope as current proof; useful regression baseline` | IR-005 materially changes Dockerfile/entrypoint/tool owner | Do not claim it as current executable proof; use commands/journey shape to create round-5 evidence. |
 
 ## Stale Or Obsolete Coverage Decisions
@@ -238,10 +311,11 @@ The implementation has passed source review but no IR-005 image has yet been bui
 
 ## Investigation Decision
 
-- Coverage investigation completed before durable edits/execution and maintained through observed corrections: `Yes`.
-- Durable coverage outcome: `Updated / Pass` for all three existing harnesses; no file added or removed.
-- Broader validation: API-REV-005 `Required and completed`; API-REV-006 focused rerun `Not Required` because no source mismatch was exposed.
-- Final result: `Pass / 97%`; APIE2E-TEST-F-001 is corrected in the returned durable state; no final category below 90%; all critical local/pre-publication criteria remain directly proven.
-- Residual risk: mutable external Ubuntu/Deadsnakes/PyPI/XtraDeb/NodeSource inputs and the observed transient Ubuntu mirror synchronization window; Docker Hub remote manifests/runtime identity are intentionally untested until Delivery.
-- Successful-result route: `/code_reviewer` for focused proportional re-review of the corrected `tests/validate-source-contract.sh`; image/runtime test changes already passed CRR-007. Delivery remains blocked until review Pass.
-- Publication/server boundary: no push performed and no server-repository write performed.
+- Coverage investigation refreshed before IR-006/IR-007 execution and kept current: `Yes`.
+- Existing coverage outcome: wrapper harness and source contract `Still Valid / Pass`; image/runtime harnesses and API-REV-005 product evidence `Still Valid / Not Rerun`.
+- Repository-resident durable coverage change by API/E2E: `None`; Code Review should record the proportional test-code review as `Not Applicable` before routing to Delivery.
+- Broader validation: `Required and completed` — current non-publishing deterministic wrapper and fixture-lifecycle matrix.
+- Final result/confidence: `Pass / 97%`; no category below 90%; no local blocker.
+- Residual: only real credential-helper/registry authorization and AC-011 remote publication/runtime verification, explicitly owned by Delivery.
+- Publication/server boundary observed: no Docker Hub request/mutation and no AutoByteus server access.
+- Successful-result route: `/code_reviewer` with the cumulative package and API-REV-007 evidence for a `Not Applicable` proportional test-code review; Delivery follows that recorded result.

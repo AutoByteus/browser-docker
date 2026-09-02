@@ -1,0 +1,45 @@
+Building version: 1.4.0
+Name:          multi-platform-builder
+Driver:        docker-container
+Last Activity: 2026-09-01 16:24:22 +0000 UTC
+
+Nodes:
+Name:                  multi-platform-builder0
+Endpoint:              desktop-linux
+Status:                running
+BuildKit daemon flags: --allow-insecure-entitlement=network.host
+BuildKit version:      v0.26.2
+Platforms:             linux/arm64, linux/amd64, linux/amd64/v2, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6
+Labels:
+ org.mobyproject.buildkit.worker.executor:         oci
+ org.mobyproject.buildkit.worker.hostname:         f2ce6963d486
+ org.mobyproject.buildkit.worker.network:          host
+ org.mobyproject.buildkit.worker.oci.process-mode: sandbox
+ org.mobyproject.buildkit.worker.selinux.enabled:  false
+ org.mobyproject.buildkit.worker.snapshotter:      overlayfs
+GC Policy rule#0:
+ All:            false
+ Filters:        type==source.local,type==exec.cachemount,type==source.git.checkout
+ Keep Duration:  48h0m0s
+ Max Used Space: 488.3MiB
+GC Policy rule#1:
+ All:            false
+ Keep Duration:  1440h0m0s
+ Reserved Space: 9.313GiB
+ Max Used Space: 93.13GiB
+ Min Free Space: 340.9GiB
+GC Policy rule#2:
+ All:            false
+ Reserved Space: 9.313GiB
+ Max Used Space: 93.13GiB
+ Min Free Space: 340.9GiB
+GC Policy rule#3:
+ All:            true
+ Reserved Space: 9.313GiB
+ Max Used Space: 93.13GiB
+ Min Free Space: 340.9GiB
+Building multi-architecture image for platforms: linux/amd64,linux/arm64
+Image will be tagged as: autobyteus/chrome-vnc:1.4.0 and autobyteus/chrome-vnc:latest
+Image will be pushed to Docker Hub
+Ensure you are logged in with 'docker login' before proceeding
+Error: Not logged in to Docker Hub. Please run 'docker login' first.
