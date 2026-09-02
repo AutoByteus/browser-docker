@@ -108,13 +108,7 @@ echo "Image will be tagged as: $TAG_PRIMARY and $TAG_SECONDARY"
 
 if [ -n "$PUSH" ]; then
   echo "Image will be pushed to Docker Hub"
-  echo "Ensure you are logged in with 'docker login' before proceeding"
-  
-  # Verify login status
-  if ! docker info | grep -q "Username"; then
-    echo "Error: Not logged in to Docker Hub. Please run 'docker login' first."
-    exit 1
-  fi
+  echo "Docker BuildX will report any registry authentication or authorization error."
 elif [ -n "$LOAD" ]; then
   echo "Image will be built and loaded into the local Docker daemon."
 else

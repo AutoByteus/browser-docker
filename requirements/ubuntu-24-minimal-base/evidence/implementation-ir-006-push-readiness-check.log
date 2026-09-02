@@ -1,0 +1,41 @@
+BRD-UBUNTU24-001 implementation IR-006 focused checks
+UTC 2026-09-02T02:54:29Z
+--- starting revision and refs ---
+01a07b203472049695e870b2865fcd5df9ec5844
+01a07b203472049695e870b2865fcd5df9ec5844
+01a07b203472049695e870b2865fcd5df9ec5844
+--- Bash syntax ---
+PASS: Bash syntax
+--- ShellCheck ---
+PASS: ShellCheck (known intentional SC2016/SC2086 exclusions)
+--- deterministic push wrapper check ---
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+--- current source contract ---
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+--- brittle presentation parsing absent ---
+PASS: no docker info/Username/Registry parsing
+--- diff hygiene ---
+PASS: git diff --check
+--- changed source guardrails ---
+build-multi-arch.sh effective lines: 112
+1	7	build-multi-arch.sh
+--- real Docker/registry safety boundary ---
+NOT RUN: no real Docker build or push; deterministic docker command double only.
+PASS: IR-006 focused implementation checks
+--- DR-005 upstream artifact preservation ---
+requirements/ubuntu-24-minimal-base/delivery-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/docs-sync-report.md: OK
+requirements/ubuntu-24-minimal-base/handoff-summary.md: OK
+requirements/ubuntu-24-minimal-base/release-deployment-report.md: OK
+tickets/done/ubuntu-24-minimal-base/release-notes.md: OK
+requirements/ubuntu-24-minimal-base/evidence/delivery-dr005-publication-preflight-failure.log: OK
+requirements/ubuntu-24-minimal-base/evidence/delivery-dr005-publish-default.log: OK
+PASS: all Delivery-owned uncommitted artifacts remain byte-for-byte unchanged
+--- focused test size ---
+     108 tests/validate-build-wrapper.sh
+--- intended implementation-owned paths ---
+build-multi-arch.sh
+tests/validate-build-wrapper.sh
+requirements/ubuntu-24-minimal-base/implementation-handoff.md
+requirements/ubuntu-24-minimal-base/implementation-revision-record.md
+requirements/ubuntu-24-minimal-base/evidence/implementation-ir-006-push-readiness-check.log
