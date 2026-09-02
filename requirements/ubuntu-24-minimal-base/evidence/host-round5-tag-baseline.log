@@ -1,0 +1,14 @@
+=== relevant local tag baseline before round 5 builds ===
+utc=2026-09-01T15:22:33Z
+autobyteus/chrome-vnc:latest=sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029
+backup=autobyteus/chrome-vnc:api-e2e-r5-backup-latest
+autobyteus/chrome-vnc:1.4.0=ABSENT
+autobyteus/chrome-vnc:zh=sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071
+backup=autobyteus/chrome-vnc:api-e2e-r5-backup-zh
+autobyteus/chrome-vnc:1.4.0-zh=ABSENT
+=== task namespace must be unused ===
+autobyteus/chrome-vnc:api-e2e-r5-amd64-default=available
+autobyteus/chrome-vnc:api-e2e-r5-amd64-zh=available
+autobyteus/chrome-vnc:api-e2e-r5-custom-1234=available
+autobyteus/chrome-vnc:api-e2e-r5-arm64-default=available
+autobyteus/chrome-vnc:api-e2e-r5-arm64-zh=available

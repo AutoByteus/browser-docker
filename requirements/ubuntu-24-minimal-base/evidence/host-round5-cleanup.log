@@ -1,0 +1,45 @@
+=== BRD-UBUNTU24-001 API-REV-005 task resource cleanup and tag restoration ===
+start_utc=2026-09-01T16:44:26Z
+--- stop task containers ---
+brd-ubuntu24-r5-arm64-default
+brd-ubuntu24-r5-arm64-zh
+brd-ubuntu24-r5-mobile-safe
+brd-ubuntu24-r5-amd64-default
+brd-ubuntu24-r5-amd64-zh
+brd-ubuntu24-r5-custom-1234
+--- remove task containers ---
+brd-ubuntu24-r5-arm64-default
+brd-ubuntu24-r5-arm64-zh
+brd-ubuntu24-r5-mobile-safe
+brd-ubuntu24-r5-amd64-default
+brd-ubuntu24-r5-amd64-zh
+brd-ubuntu24-r5-custom-1234
+--- remove task volumes ---
+brd-ubuntu24-r5-arm64-default-profile
+brd-ubuntu24-r5-arm64-zh-profile
+brd-ubuntu24-r5-mobile-safe-profile
+brd-ubuntu24-r5-amd64-default-profile
+brd-ubuntu24-r5-amd64-zh-profile
+brd-ubuntu24-r5-custom-1234-profile
+--- restore pre-existing official tags from recorded backup aliases ---
+--- remove task-created version and image aliases (no force) ---
+Untagged: autobyteus/chrome-vnc:1.4.0
+Untagged: autobyteus/chrome-vnc:1.4.0-zh
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-arm64-default
+Deleted: sha256:4f8b0cbd1cd11f0d36f1e53600b5388a89b9522c9e95995cb06344dae29b8997
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-arm64-zh
+Deleted: sha256:56fbe31767162618582e6e1b77381382dbe1ba2ea4377ba5572f709b61e157de
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-amd64-default
+Deleted: sha256:4f5deb58580f0f461d048e9228816c183ace34a1120cf6a6fb1eedde7aad0d14
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-amd64-zh
+Deleted: sha256:1231fe673fc12d845353f1af5f4b43412c55a56c8b2b1360298e62dc244d3026
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-custom-1234
+Deleted: sha256:3dab483b4f7ce7b406ef1eb3a7ea8cb21c5270342ada8240d89d48b444469cf4
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-backup-latest
+Untagged: autobyteus/chrome-vnc:api-e2e-r5-backup-zh
+--- authoritative cleanup verification ---
+latest_id=sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029
+zh_id=sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071
+PASS: all task containers/volumes/tags removed; pre-existing latest/zh image IDs restored; shared builder/cache retained; no prune used.
+Docker Hub mutation: none. AutoByteus server repository mutation: none.
+end_utc=2026-09-01T16:44:55Z

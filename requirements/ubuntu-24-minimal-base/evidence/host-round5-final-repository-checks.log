@@ -1,0 +1,96 @@
+start_utc=2026-09-01T16:12:05Z
+head=f902e80771b304916858314fa9484cab8f6f1843 branch=requirements/ubuntu-24-minimal-base
+=== bash syntax ===
+PASS bash -n build-multi-arch.sh
+PASS bash -n run-container.sh
+PASS bash -n entrypoint.sh
+PASS bash -n start-chrome.sh
+PASS bash -n start-vnc.sh
+PASS bash -n tests/validate-source-contract.sh
+PASS bash -n tests/validate-image.sh
+PASS bash -n tests/validate-running-container.sh
+=== shellcheck ===
+
+In tests/validate-source-contract.sh line 63:
+assert_contains 'TAG_PRIMARY="\$IMAGE_NAME:\$VERSION"' build-multi-arch.sh
+                ^-- SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
+
+
+In tests/validate-source-contract.sh line 64:
+assert_contains 'TAG_SECONDARY="\$IMAGE_NAME:latest"' build-multi-arch.sh
+                ^-- SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
+
+
+In tests/validate-source-contract.sh line 65:
+assert_contains 'TAG_PRIMARY="\$IMAGE_NAME:\$\{VERSION\}-\$\{VARIANT\}"' build-multi-arch.sh
+                ^-- SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
+
+
+In tests/validate-source-contract.sh line 66:
+assert_contains 'TAG_SECONDARY="\$IMAGE_NAME:\$VARIANT"' build-multi-arch.sh
+                ^-- SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
+
+
+In tests/validate-source-contract.sh line 71:
+assert_contains 'default \(English\) image and a `zh` variant' README.md
+                ^-- SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2016 -- Expressions don't expand in singl...
+PASS ShellCheck (intentional SC2086 expansions excluded)
+=== durable source contract ===
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+=== git diff check ===
+PASS git diff --check
+=== changed durable coverage summary ===
+ tests/validate-image.sh             | 37 +++++++++++++++++++++++++++++--------
+ tests/validate-running-container.sh | 32 +++++++++++++++++++++++++++++++-
+ tests/validate-source-contract.sh   | 27 +++++++++++++++++++--------
+ 3 files changed, 79 insertions(+), 17 deletions(-)
+29	8	tests/validate-image.sh
+31	1	tests/validate-running-container.sh
+19	8	tests/validate-source-contract.sh
+=== forbidden current-provider source scan ===
+Dockerfile:149:    /opt/browser-tools/bin/python -m pip install --upgrade pip wheel setuptools && \
+Dockerfile:150:    /opt/browser-tools/bin/python -m pip install supervisor==4.3.0 websockify uv && \
+PASS rejected old-provider paths absent from active runtime source
+end_utc=2026-09-01T16:12:06Z
+=== authoritative corrected static-analysis/negative-scan rerun ===
+PASS ShellCheck (intentional SC2086 expansions and literal-regex SC2016 cases excluded)
+PASS rejected old-provider and bare-global-pip paths absent from active runtime source
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+authoritative_static_rc=0 end_utc=2026-09-01T16:12:20Z
+=== final AC-006 GitHub CLI durable-coverage correction checks ===
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+final_ac006_static_rc=0 end_utc=2026-09-01T16:13:49Z
+
+=== FINAL AUTHORITATIVE REPOSITORY CHECKS AFTER ALL DURABLE TEST CORRECTIONS ===
+start_utc=2026-09-01T16:43:48Z
+command=bash -n build-multi-arch.sh entrypoint.sh start-chrome.sh start-vnc.sh run-container.sh disable-screensaver.sh tests/validate-source-contract.sh tests/validate-image.sh tests/validate-running-container.sh
+PASS: Bash syntax
+command=shellcheck -e SC2086,SC2016 build-multi-arch.sh entrypoint.sh start-chrome.sh start-vnc.sh run-container.sh disable-screensaver.sh tests/validate-source-contract.sh tests/validate-image.sh tests/validate-running-container.sh
+PASS: ShellCheck (intentional SC2086 and literal-regex SC2016 excluded)
+command=tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+command=git diff --check
+PASS: git diff --check
+head=f902e80771b304916858314fa9484cab8f6f1843 branch=requirements/ubuntu-24-minimal-base
+end_utc=2026-09-01T16:43:48Z result=PASS
+
+=== FINAL CANONICAL REPORT INTEGRITY AFTER API-REV-005 PERSISTENCE ===
+start_utc=2026-09-01T16:49:21Z
+present path=requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md bytes=33096
+present path=requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md bytes=23657
+present path=requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md bytes=20340
+present path=tests/validate-source-contract.sh bytes=3866
+present path=tests/validate-image.sh bytes=7967
+present path=tests/validate-running-container.sh bytes=8933
+PASS: canonical API-REV-005 investigation, execution report, revision record, durable coverage and diff integrity are present and internally aligned.
+end_utc=2026-09-01T16:49:21Z result=PASS
+
+=== HANDOFF-TIME FINAL INTEGRITY ===
+start_utc=2026-09-01T16:50:30Z
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+head=f902e80771b304916858314fa9484cab8f6f1843 branch=requirements/ubuntu-24-minimal-base
+PASS: handoff-time durable coverage, canonical reports, screenshot, archive removal, resource cleanup and tag restoration remain valid.
+end_utc=2026-09-01T16:50:31Z result=PASS

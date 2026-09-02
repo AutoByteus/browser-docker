@@ -1,0 +1,47 @@
+start_utc=2026-09-01T15:57:13Z
+=== preserve normal-profile marker and remove first container ===
+marker=/home/vncuser/.config/chromium/api-e2e-runtime-marker owner=1000:1000 content=
+runtime-write-okbrd-ubuntu24-r5-arm64-default
+brd-ubuntu24-r5-arm64-default
+=== seed explicit stale Chromium profile artifacts ===
+ln: failed to create symbolic link '/profile/SingletonLock': File exists
+=== corrected seeding after stopped Chromium left its normal SingletonLock ===
+bash: line 6: /profile/SingletonSocket: No such file or directory
+=== authoritative corrected stale seeding: unlink normal/dangling lock artifacts first ===
+/profile/SingletonCookie
+-rw-r--r-- 1 vncuser vncuser 5 Sep  1 15:58 /profile/SingletonCookie
+/profile/Default/LOCK
+-rw-r--r-- 1 vncuser vncuser 5 Sep  1 15:58 /profile/Default/LOCK
+/profile/Default/.org.chromium.Chromium.YEovtM
+-rw------- 1 vncuser vncuser 804 Sep  1 15:57 /profile/Default/.org.chromium.Chromium.YEovtM
+/profile/Default/.org.chromium.Chromium.stale
+-rw-r--r-- 1 vncuser vncuser 5 Sep  1 15:58 /profile/Default/.org.chromium.Chromium.stale
+/profile/SingletonLock
+lrwxrwxrwx 1 vncuser vncuser 23 Sep  1 15:58 /profile/SingletonLock -> brd-r5-stalehost-999999
+/profile/SingletonSocket
+-rw-r--r-- 1 vncuser vncuser 5 Sep  1 15:58 /profile/SingletonSocket
+=== create stopped replacement and seed stale X display artifacts ===
+3027bdeffd82fe2c960a8504ad34ab0f5a627e857d6eb3e98f632da7b3c8a022
+=== normal replacement startup and durable runtime harness ===
+brd-ubuntu24-r5-arm64-default
+chrome                           RUNNING   pid 45, uptime 0:00:05
+copyq                            RUNNING   pid 42, uptime 0:00:05
+dbus                             RUNNING   pid 36, uptime 0:00:05
+disable_screensaver              EXITED    Sep 01 03:58 PM
+fcitx                            RUNNING   pid 39, uptime 0:00:05
+socat                            RUNNING   pid 46, uptime 0:00:05
+tigervnc                         RUNNING   pid 37, uptime 0:00:05
+websockify                       RUNNING   pid 48, uptime 0:00:05
+xfce                             RUNNING   pid 38, uptime 0:00:05
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+=== authoritative persistence/recovery assertions ===
+=== corrected authoritative persistence/recovery assertions: live services recreate fresh lock artifacts ===
+PASS retained-marker=runtime-write-ok replacement-singleton=3027bdeffd82-45 replacement-Xvnc-pid=37
+Clearing stale Chromium profile lock artifacts from /home/vncuser/.config/chromium.
+2026-09-01 15:58:09,393 INFO supervisord started with pid 1
+2026-09-01 15:58:11,404 INFO success: chrome entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 15:58:11,432 INFO success: websockify entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 15:58:12,436 INFO success: tigervnc entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+PASS: profile marker persisted; stale lock payloads were removed, fresh live locks were recreated, and normal services recovered.
+end_utc=2026-09-01T15:58:41Z

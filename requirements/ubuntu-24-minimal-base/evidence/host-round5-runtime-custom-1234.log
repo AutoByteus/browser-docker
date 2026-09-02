@@ -1,0 +1,16 @@
+start_utc=2026-09-01T16:10:38Z
+035d2aee909b346deeaa81cedd399aadfede427c6bea5fe2a7927711f82f57d2
+chrome                           RUNNING   pid 39, uptime 0:00:06
+copyq                            RUNNING   pid 38, uptime 0:00:06
+dbus                             RUNNING   pid 33, uptime 0:00:06
+disable_screensaver              EXITED    Sep 01 04:10 PM
+fcitx                            RUNNING   pid 36, uptime 0:00:06
+socat                            RUNNING   pid 43, uptime 0:00:06
+tigervnc                         RUNNING   pid 34, uptime 0:00:06
+websockify                       RUNNING   pid 47, uptime 0:00:06
+xfce                             RUNNING   pid 35, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS custom identity uid=1234 gid=1234 xdg=/run/user/1234 runtime-owner=1234:1234 profile-owner=1234:1234
+PASS host custom VNC/websockify/DevTools
+end_utc=2026-09-01T16:10:47Z

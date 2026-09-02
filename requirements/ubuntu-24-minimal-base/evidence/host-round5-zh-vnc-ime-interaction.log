@@ -1,0 +1,14 @@
+start_utc=2026-09-01T15:59:45Z
+=== navigate real Chromium to a semantic input fixture ===
+PASS page focused
+=== dismiss first-run keyring prompt and prove XTEST delivery ===
+PASS X desktop input reached focused Chromium after prompt dismissal
+=== authoritative Ctrl+Space to Pinyin and Chinese text commit ===
+1
+state=2 engine=pinyin
+=== semantic DOM assertion ===
+observed={"title":"ZH IME VNC - Chromium","value":"你好","observed":"你好"}
+PASS: Ctrl+Space selected Pinyin and X/VNC desktop input committed 你好 into real Chromium DOM
+=== supporting screenshot ===
+requirements/ubuntu-24-minimal-base/evidence/host-round5-zh-ime-authoritative.png: PNG image data, 1280 x 800, 8-bit/color RGB, non-interlaced
+end_utc=2026-09-01T15:59:53Z

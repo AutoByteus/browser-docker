@@ -1,0 +1,26 @@
+=== 2026-09-01T16:06:14Z final durable runtime harness brd-ubuntu24-r5-arm64-default default 1000 ===
+chrome                           RUNNING   pid 45, uptime 0:08:04
+copyq                            RUNNING   pid 42, uptime 0:08:04
+dbus                             RUNNING   pid 36, uptime 0:08:04
+disable_screensaver              EXITED    Sep 01 03:58 PM
+fcitx                            RUNNING   pid 39, uptime 0:08:04
+socat                            RUNNING   pid 46, uptime 0:08:04
+tigervnc                         RUNNING   pid 37, uptime 0:08:04
+websockify                       RUNNING   pid 48, uptime 0:08:04
+xfce                             RUNNING   pid 38, uptime 0:08:04
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+scenario_rc=0
+=== 2026-09-01T16:06:16Z final durable runtime harness brd-ubuntu24-r5-arm64-zh zh 1000 ===
+chrome                           RUNNING   pid 40, uptime 0:07:22
+copyq                            RUNNING   pid 38, uptime 0:07:22
+dbus                             RUNNING   pid 33, uptime 0:07:22
+disable_screensaver              EXITED    Sep 01 03:58 PM
+fcitx                            RUNNING   pid 36, uptime 0:07:22
+socat                            RUNNING   pid 44, uptime 0:07:22
+tigervnc                         RUNNING   pid 34, uptime 0:07:22
+websockify                       RUNNING   pid 45, uptime 0:07:22
+xfce                             RUNNING   pid 35, uptime 0:07:22
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+scenario_rc=0

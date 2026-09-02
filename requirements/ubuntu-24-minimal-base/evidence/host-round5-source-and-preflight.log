@@ -1,0 +1,232 @@
+=== round 5 source/preflight ===
+utc=2026-09-01T15:21:22Z
+head=f902e80771b304916858314fa9484cab8f6f1843
+branch=requirements/ubuntu-24-minimal-base
+Darwin MacBookPro 25.5.0 Darwin Kernel Version 25.5.0: Tue Jun  9 22:18:58 PDT 2026; root:xnu-12377.121.10~1/RELEASE_ARM64_T6000 arm64
+=== docker versions ===
+Client:
+ Version:           29.0.1
+ API version:       1.52
+ Go version:        go1.25.4
+ Git commit:        eedd969
+ Built:             Fri Nov 14 16:16:57 2025
+ OS/Arch:           darwin/arm64
+ Context:           desktop-linux
+
+Server: Docker Desktop 4.52.0 (210994)
+ Engine:
+  Version:          29.0.1
+  API version:      1.52 (minimum version 1.44)
+  Go version:       go1.25.4
+  Git commit:       198b5e3
+  Built:            Fri Nov 14 16:18:20 2025
+  OS/Arch:          linux/arm64
+  Experimental:     false
+ containerd:
+  Version:          v2.1.5
+  GitCommit:        fcd43222d6b07379a4be9786bda52438f0dd16a1
+ runc:
+  Version:          1.3.3
+  GitCommit:        v1.3.3-0-gd842d771
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+github.com/docker/buildx v0.29.1-desktop.1 28f6246ff24e2c05095e8741e48c48dcb2d3b4bc
+Name:          multi-platform-builder
+Driver:        docker-container
+Last Activity: 2026-09-01 13:46:50 +0000 UTC
+
+Nodes:
+Name:                  multi-platform-builder0
+Endpoint:              desktop-linux
+Status:                running
+BuildKit daemon flags: --allow-insecure-entitlement=network.host
+BuildKit version:      v0.26.2
+Platforms:             linux/arm64, linux/amd64, linux/amd64/v2, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6
+Labels:
+ org.mobyproject.buildkit.worker.executor:         oci
+ org.mobyproject.buildkit.worker.hostname:         f2ce6963d486
+ org.mobyproject.buildkit.worker.network:          host
+ org.mobyproject.buildkit.worker.oci.process-mode: sandbox
+ org.mobyproject.buildkit.worker.selinux.enabled:  false
+ org.mobyproject.buildkit.worker.snapshotter:      overlayfs
+GC Policy rule#0:
+ All:            false
+ Filters:        type==source.local,type==exec.cachemount,type==source.git.checkout
+ Keep Duration:  48h0m0s
+ Max Used Space: 488.3MiB
+GC Policy rule#1:
+ All:            false
+ Keep Duration:  1440h0m0s
+ Reserved Space: 9.313GiB
+ Max Used Space: 93.13GiB
+ Min Free Space: 340.9GiB
+GC Policy rule#2:
+ All:            false
+ Reserved Space: 9.313GiB
+ Max Used Space: 93.13GiB
+ Min Free Space: 340.9GiB
+GC Policy rule#3:
+ All:            true
+ Reserved Space: 9.313GiB
+ Max Used Space: 93.13GiB
+ Min Free Space: 340.9GiB
+=== durable harness syntax ===
+PASS bash -n
+=== source contract ===
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+=== diff check ===
+PASS git diff --check
+=== durable test diff ===
+diff --git a/tests/validate-image.sh b/tests/validate-image.sh
+index cc38f1b..768895f 100755
+--- a/tests/validate-image.sh
++++ b/tests/validate-image.sh
+@@ -50,20 +50,41 @@ fail() {
+ 
+ python3_version="$(python3 --version 2>&1)"
+ python_version="$(python --version 2>&1)"
+-[[ "$python3_version" == Python\ 3.12.* ]] || fail "python3 is '$python3_version'"
+-[[ "$python_version" == Python\ 3.12.* ]] || fail "python is '$python_version'"
+-[[ "$(readlink -f /usr/bin/python3)" == "/usr/bin/python3.12" ]] || fail "/usr/bin/python3 does not resolve to Ubuntu Python 3.12"
+-[[ "$(readlink -f /usr/bin/python)" == "/usr/bin/python3.12" ]] || fail "/usr/bin/python does not resolve to Ubuntu Python 3.12"
+-dpkg-query -W -f='${db:Status-Status}\n' python3 python3.12 python3-dev python3-pip python3-venv python-is-python3 | grep -qv '^$'
++[[ "$python3_version" == Python\ 3.13.* ]] || fail "public python3 is '$python3_version', expected Python 3.13"
++[[ "$python_version" == Python\ 3.13.* ]] || fail "public python is '$python_version', expected Python 3.13"
++[[ "$(command -v python3)" == "/usr/local/bin/python3" ]] || fail "public python3 command is '$(command -v python3)'"
++[[ "$(command -v python)" == "/usr/local/bin/python" ]] || fail "public python command is '$(command -v python)'"
++[[ "$(readlink -f /usr/local/bin/python3)" == "/usr/bin/python3.13" ]] || fail "public python3 does not resolve to /usr/bin/python3.13"
++[[ "$(readlink -f /usr/local/bin/python)" == "/usr/bin/python3.13" ]] || fail "public python does not resolve to /usr/bin/python3.13"
++
++os_python_version="$(/usr/bin/python3 --version 2>&1)"
++[[ "$os_python_version" == Python\ 3.12.* ]] || fail "Noble OS /usr/bin/python3 is '$os_python_version'"
++[[ "$(readlink -f /usr/bin/python3)" == "/usr/bin/python3.12" ]] || fail "/usr/bin/python3 no longer resolves to Noble's distribution Python 3.12"
++[[ ! -e /usr/bin/python ]] || fail "unexpected /usr/bin/python selector exists"
++
++dpkg-query -W -f='${db:Status-Status}\n' \
++  python3 python3.12 python3.13 python3.13-minimal python3.13-dev python3.13-venv | grep -qv '^$'
+ dpkg-query -S /usr/bin/python3.12 | grep -q '^python3.12-minimal:'
+-! grep -Rqi 'deadsnakes' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Deadsnakes APT source is present"
++dpkg-query -S /usr/bin/python3.13 | grep -q '^python3.13-minimal:'
++python313_package_version="$(dpkg-query -W -f='${Version}' python3.13)"
++[[ "$python313_package_version" == *noble* ]] || fail "python3.13 package version '$python313_package_version' does not identify Noble"
++grep -Rqi 'ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Deadsnakes APT source is missing"
++grep -RqiE 'Suites:[[:space:]]+noble|[[:space:]]noble([[:space:]-]|$)' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Deadsnakes source is not configured for Noble"
+ grep -RqiE 'Suites:[[:space:]]+noble|[[:space:]]noble([[:space:]-]|$)' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Noble Ubuntu APT source not found"
+ 
+ [[ -x /opt/browser-tools/bin/python ]] || fail "isolated browser-tools Python is missing"
++[[ "$(/opt/browser-tools/bin/python --version 2>&1)" == Python\ 3.13.* ]] || fail "browser-tools does not use Python 3.13"
++[[ "$(command -v supervisord)" == "/usr/local/bin/supervisord" ]] || fail "supervisord public command is not /usr/local/bin/supervisord"
++[[ "$(command -v supervisorctl)" == "/usr/local/bin/supervisorctl" ]] || fail "supervisorctl public command is not /usr/local/bin/supervisorctl"
++[[ "$(readlink -f /usr/local/bin/supervisord)" == "/opt/browser-tools/bin/supervisord" ]] || fail "supervisord public command is not isolated"
++[[ "$(readlink -f /usr/local/bin/supervisorctl)" == "/opt/browser-tools/bin/supervisorctl" ]] || fail "supervisorctl public command is not isolated"
+ [[ "$(readlink -f /usr/local/bin/websockify)" == "/opt/browser-tools/bin/websockify" ]] || fail "websockify public command is not isolated"
+ [[ "$(readlink -f /usr/local/bin/uv)" == "/opt/browser-tools/bin/uv" ]] || fail "uv public command is not isolated"
+ [[ -d "$(readlink -f /usr/local/share/websockify)" ]] || fail "stable websockify data link is broken"
+-/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, uv, websockify; assert sys.prefix == "/opt/browser-tools"; assert importlib.metadata.version("websockify")'
++/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, supervisor, uv, websockify; assert sys.prefix == "/opt/browser-tools"; assert sys.version_info[:2] == (3, 13); assert importlib.metadata.version("supervisor") == "4.3.0"; assert importlib.metadata.version("websockify"); assert importlib.metadata.version("uv")'
++[[ "$(supervisord --version)" == "4.3.0" ]] || fail "Supervisor is not 4.3.0"
++! dpkg-query -W -f='${db:Status-Status}' supervisor 2>/dev/null | grep -q 'installed' || fail "apt Supervisor provider is installed"
++! dpkg-query -S /usr/bin/supervisord >/dev/null 2>&1 || fail "/usr/bin/supervisord has a distribution package owner"
+ websockify --help >/dev/null
+ uv --version | grep -Eq '^uv [0-9]'
+ 
+@@ -87,5 +108,5 @@ else
+   ! dpkg-query -W -f='${db:Status-Status}' fcitx5 2>/dev/null | grep -q 'installed' || fail "default image unexpectedly contains fcitx5"
+ fi
+ 
+-printf 'PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.\n'
++printf 'PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.\n'
+ CONTAINER_CHECKS
+diff --git a/tests/validate-running-container.sh b/tests/validate-running-container.sh
+index 6b4b80b..05a39ee 100755
+--- a/tests/validate-running-container.sh
++++ b/tests/validate-running-container.sh
+@@ -58,11 +58,27 @@ fail() {
+ [[ -S "/run/user/$EXPECTED_UID/bus" ]] || fail "DBus session socket missing from configured UID path"
+ [[ "$(stat -c %u "/run/user/$EXPECTED_UID")" == "$EXPECTED_UID" ]] || fail "runtime path ownership mismatch"
+ 
++[[ "$(command -v supervisord)" == "/usr/local/bin/supervisord" ]] || fail "runtime supervisord command is not /usr/local/bin/supervisord"
++[[ "$(command -v supervisorctl)" == "/usr/local/bin/supervisorctl" ]] || fail "runtime supervisorctl command is not /usr/local/bin/supervisorctl"
++[[ "$(readlink -f /usr/local/bin/supervisord)" == "/opt/browser-tools/bin/supervisord" ]] || fail "runtime supervisord provider is not /opt/browser-tools"
++[[ "$(readlink -f /usr/local/bin/supervisorctl)" == "/opt/browser-tools/bin/supervisorctl" ]] || fail "runtime supervisorctl provider is not /opt/browser-tools"
++[[ "$(supervisord --version)" == "4.3.0" ]] || fail "runtime Supervisor is not 4.3.0"
++[[ "$(supervisorctl version)" == "4.3.0" ]] || fail "running Supervisor control API is not 4.3.0"
++[[ "$(supervisorctl pid)" == "1" ]] || fail "Supervisor is not container PID 1"
++[[ "$(readlink -f /proc/1/exe)" == "/usr/bin/python3.13" ]] || fail "PID 1 does not execute Python 3.13"
++tr '\0' ' ' < /proc/1/cmdline | grep -Fq '/usr/local/bin/supervisord' || fail "PID 1 command line does not contain the sole public Supervisor path"
++/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, supervisor; assert sys.prefix == "/opt/browser-tools"; assert sys.version_info[:2] == (3, 13); assert importlib.metadata.version("supervisor") == "4.3.0"'
++! grep -RqiE 'pkgutil\.ImpImporter|AttributeError.*ImpImporter' /var/log/supervisor /var/log/supervisor* 2>/dev/null || fail "prior Python compatibility traceback is present"
++
+ pgrep -u vncuser -x Xvnc >/dev/null || fail "Xvnc process missing"
+ pgrep -u vncuser -x dbus-daemon >/dev/null || fail "session DBus process missing"
+ pgrep -u vncuser -f '/usr/lib/chromium/chromium.*--remote-debugging-port=9222' >/dev/null || fail "Chromium process missing"
+ pgrep -u vncuser -f 'socat TCP-LISTEN:9223' >/dev/null || fail "socat debugging proxy missing"
+ pgrep -u vncuser -f 'websockify.*6080 localhost:5900' >/dev/null || fail "websockify process missing"
++[[ "$(readlink -f /usr/local/bin/websockify)" == "/opt/browser-tools/bin/websockify" ]] || fail "runtime websockify provider is not /opt/browser-tools"
++[[ "$(readlink -f /usr/local/bin/uv)" == "/opt/browser-tools/bin/uv" ]] || fail "runtime uv provider is not /opt/browser-tools"
++websockify_pid="$(pgrep -u vncuser -f 'websockify.*6080 localhost:5900' | head -n 1)"
++[[ "$(readlink -f "/proc/$websockify_pid/exe")" == "/usr/bin/python3.13" ]] || fail "websockify process does not execute Python 3.13"
+ if [[ "$EXPECTED_VARIANT" == "zh" ]]; then
+   pgrep -u vncuser -x fcitx5 >/dev/null || fail "fcitx5 process missing in zh image"
+ else
+@@ -99,7 +115,7 @@ PY
+ su -s /bin/bash vncuser -c 'test -w /home/vncuser/.config/chromium && printf runtime-write-ok > /home/vncuser/.config/chromium/api-e2e-runtime-marker'
+ [[ "$(stat -c %u /home/vncuser/.config/chromium/api-e2e-runtime-marker)" == "$EXPECTED_UID" ]] || fail "profile write ownership mismatch"
+ 
+-printf 'PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.\n'
++printf 'PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.\n'
+ CONTAINER_CHECKS
+ 
+ # Drive the existing Chromium instance over its real DevTools WebSocket and
+diff --git a/tests/validate-source-contract.sh b/tests/validate-source-contract.sh
+index b183457..8590112 100755
+--- a/tests/validate-source-contract.sh
++++ b/tests/validate-source-contract.sh
+@@ -28,19 +28,30 @@ first_from="$(awk 'toupper($1) == "FROM" { print $2; exit }' Dockerfile)"
+ 
+ [[ "$(tr -d '\r\n' < VERSION)" == "1.4.0" ]] || fail "VERSION must be 1.4.0"
+ 
+-assert_not_contains 'ubuntu:22\.04|Ubuntu 22\.04|python3\.11|deadsnakes' \
++assert_not_contains 'ubuntu:22\.04|Ubuntu 22\.04|python3\.11' \
+   Dockerfile base.conf entrypoint.sh README.md build-multi-arch.sh
+ 
+-assert_contains 'python3-dev' Dockerfile
+-assert_contains 'python3-pip' Dockerfile
+-assert_contains 'python3-venv' Dockerfile
+-assert_contains 'python-is-python3' Dockerfile
+-assert_contains 'python3 -m venv /opt/browser-tools' Dockerfile
+-assert_contains '/opt/browser-tools/bin/python -m pip install websockify uv' Dockerfile
++assert_contains 'add-apt-repository -y ppa:deadsnakes/ppa' Dockerfile
++assert_contains 'python3\.13' Dockerfile
++assert_contains 'python3\.13-dev' Dockerfile
++assert_contains 'python3\.13-venv' Dockerfile
++assert_contains 'ln -s /usr/bin/python3\.13 /usr/local/bin/python3' Dockerfile
++assert_contains 'ln -s /usr/bin/python3\.13 /usr/local/bin/python' Dockerfile
++assert_contains '/usr/bin/python3\.13 -m venv /opt/browser-tools' Dockerfile
++assert_contains '/opt/browser-tools/bin/python -m pip install supervisor==4\.3\.0 websockify uv' Dockerfile
++assert_contains 'ln -s /opt/browser-tools/bin/supervisord /usr/local/bin/supervisord' Dockerfile
++assert_contains 'ln -s /opt/browser-tools/bin/supervisorctl /usr/local/bin/supervisorctl' Dockerfile
+ assert_contains 'ln -s /opt/browser-tools/bin/websockify /usr/local/bin/websockify' Dockerfile
+ assert_contains 'ln -s /opt/browser-tools/bin/uv /usr/local/bin/uv' Dockerfile
+ assert_contains '/usr/local/share/websockify' Dockerfile
+ assert_contains 'websockify --web=/usr/local/share/websockify 6080 localhost:5900' base.conf
++assert_contains 'exec /usr/local/bin/supervisord -n -c /etc/supervisor/supervisord\.conf' entrypoint.sh
++
++assert_not_contains 'python3\.12-dev|python3\.12-venv|python3-pip|python3-dev|python3-venv|python-is-python3' Dockerfile
++assert_not_contains 'update-alternatives|/usr/bin/supervisord|python3 -m pip|pip3 install' \
++  Dockerfile entrypoint.sh base.conf
++assert_not_contains '^[[:space:]]+supervisor([[:space:]\\]|$)' Dockerfile
++assert_not_contains '/usr/local/(lib|share)/python3\.[0-9]+' Dockerfile base.conf entrypoint.sh
+ 
+ assert_contains 'ENV XDG_RUNTIME_DIR=/run/user/\$\{USER_UID\}' Dockerfile
+ assert_contains 'XDG_RUNTIME_DIR="%\(ENV_XDG_RUNTIME_DIR\)s"' base.conf
+@@ -56,7 +67,7 @@ assert_contains 'TAG_SECONDARY="\$IMAGE_NAME:\$VARIANT"' build-multi-arch.sh
+ assert_contains 'EXPOSE 5900 6080 9223' Dockerfile
+ 
+ assert_contains "Canonical's official minimal Ubuntu 24\.04 LTS OCI base" README.md
+-assert_contains 'Ubuntu-native Python 3\.12, Node\.js 22, and Yarn' README.md
++assert_contains 'Python 3\.13 developer runtime, Supervisor 4\.3\.0' README.md
+ assert_contains 'default \(English\) image and a `zh` variant' README.md
+ assert_contains 'linux/amd64' build-multi-arch.sh
+ assert_contains 'linux/arm64' build-multi-arch.sh

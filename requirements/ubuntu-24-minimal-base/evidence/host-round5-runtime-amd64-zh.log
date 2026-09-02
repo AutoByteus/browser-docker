@@ -1,0 +1,37 @@
+start_utc=2026-09-01T16:05:05Z
+dd11882e51acc2d9cedd1fc91d89ce2f8c2613d649ddc5fdc1379d9f2ffb3f25
+chrome                           RUNNING   pid 39, uptime 0:00:06
+copyq                            RUNNING   pid 38, uptime 0:00:06
+dbus                             RUNNING   pid 33, uptime 0:00:06
+disable_screensaver              EXITED    Sep 01 04:05 PM
+fcitx                            RUNNING   pid 36, uptime 0:00:06
+socat                            RUNNING   pid 40, uptime 0:00:06
+tigervnc                         RUNNING   pid 34, uptime 0:00:06
+websockify                       RUNNING   pid 41, uptime 0:00:06
+xfce                             RUNNING   pid 35, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS host VNC RFB 003.008
+PASS host websockify HTTP 200
+PASS host DevTools Chrome/151.0.7922.173
+x86_64
+4.3.0
+     1	/opt/browser-tools/bin/python
+     2	/usr/local/bin/supervisord
+     3	-n
+     4	-c
+     5	/etc/supervisor/supervisord.conf
+     1	/run/rosetta/rosetta
+     2	/opt/browser-tools/bin/python
+     3	/opt/browser-tools/bin/python
+     4	/usr/local/bin/websockify
+     5	--web=/usr/local/share/websockify
+     6	6080
+     7	localhost:5900
+/usr/bin/python3.13
+2026-09-01 16:05:07,196 INFO supervisord started with pid 1
+2026-09-01 16:05:09,238 INFO success: fcitx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 16:05:09,239 INFO success: chrome entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 16:05:09,239 INFO success: websockify entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 16:05:10,294 INFO success: tigervnc entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+end_utc=2026-09-01T16:05:23Z

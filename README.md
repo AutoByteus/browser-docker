@@ -11,6 +11,14 @@ This repository contains a Docker setup for a browser environment with VNC acces
 - Multi-architecture support (AMD64 and ARM64)
 - Optional `zh` locale tag with Chinese fonts installed and fcitx5 enabled (English keyboard stays default; toggle Chinese with `Ctrl+Space`).
 
+### Python and service runtime ownership
+
+The public `python3` and `python` commands resolve through `/usr/local/bin` to
+Python 3.13. Ubuntu Noble's distribution-owned `/usr/bin/python3` remains on
+Python 3.12 for operating-system tools and is not replaced. Supervisor 4.3.0,
+websockify, and `uv` share the isolated Python 3.13 environment at
+`/opt/browser-tools`, with stable commands exposed through `/usr/local/bin`.
+
 ## Prerequisites
 
 This project uses Docker BuildX to create images that run on both Intel/AMD (amd64) and Apple Silicon (arm64) architectures.

@@ -1,0 +1,71 @@
+=== controlled real-script build wrapper regression ===
+utc=2026-09-01T15:22:20Z
+=== case arm64_default_no_cache arch=arm64 args=--no-cache ===
+Building version: 1.4.0
+No --push flag detected. Defaulting to build and load for local architecture.
+Building for local architecture (linux/arm64) and loading into Docker daemon.
+Image will be tagged as: autobyteus/chrome-vnc:1.4.0 and autobyteus/chrome-vnc:latest
+Image will be built and loaded into the local Docker daemon.
+Build completed successfully!
+Image loaded into local Docker daemon with tags autobyteus/chrome-vnc:1.4.0 and autobyteus/chrome-vnc:latest.
+You can check with 'docker images' and run it locally.
+docker <buildx> <version>
+docker <buildx> <inspect> <multi-platform-builder>
+docker <buildx> <use> <multi-platform-builder>
+docker <buildx> <inspect> <--bootstrap>
+docker <buildx> <build> <--load> <--no-cache> <--platform> <linux/arm64> <--tag> <autobyteus/chrome-vnc:1.4.0> <--tag> <autobyteus/chrome-vnc:latest> <--build-arg> <IMAGE_VARIANT=default> <.>
+=== case aarch64_zh arch=aarch64 args=--variant zh ===
+Building version: 1.4.0
+No --push flag detected. Defaulting to build and load for local architecture.
+Building for local architecture (linux/arm64) and loading into Docker daemon.
+Image will be tagged as: autobyteus/chrome-vnc:1.4.0-zh and autobyteus/chrome-vnc:zh
+Image will be built and loaded into the local Docker daemon.
+Build completed successfully!
+Image loaded into local Docker daemon with tags autobyteus/chrome-vnc:1.4.0-zh and autobyteus/chrome-vnc:zh.
+You can check with 'docker images' and run it locally.
+docker <buildx> <version>
+docker <buildx> <inspect> <multi-platform-builder>
+docker <buildx> <use> <multi-platform-builder>
+docker <buildx> <inspect> <--bootstrap>
+docker <buildx> <build> <--load> <--platform> <linux/arm64> <--tag> <autobyteus/chrome-vnc:1.4.0-zh> <--tag> <autobyteus/chrome-vnc:zh> <--build-arg> <IMAGE_VARIANT=zh> <.>
+=== case x86_64_default arch=x86_64 args= ===
+Building version: 1.4.0
+No --push flag detected. Defaulting to build and load for local architecture.
+Building for local architecture (linux/amd64) and loading into Docker daemon.
+Image will be tagged as: autobyteus/chrome-vnc:1.4.0 and autobyteus/chrome-vnc:latest
+Image will be built and loaded into the local Docker daemon.
+Build completed successfully!
+Image loaded into local Docker daemon with tags autobyteus/chrome-vnc:1.4.0 and autobyteus/chrome-vnc:latest.
+You can check with 'docker images' and run it locally.
+docker <buildx> <version>
+docker <buildx> <inspect> <multi-platform-builder>
+docker <buildx> <use> <multi-platform-builder>
+docker <buildx> <inspect> <--bootstrap>
+docker <buildx> <build> <--load> <--platform> <linux/amd64> <--tag> <autobyteus/chrome-vnc:1.4.0> <--tag> <autobyteus/chrome-vnc:latest> <--build-arg> <IMAGE_VARIANT=default> <.>
+=== case arm64_push_zh arch=arm64 args=--variant zh --push --no-cache ===
+Building version: 1.4.0
+Building multi-architecture image for platforms: linux/amd64,linux/arm64
+Image will be tagged as: autobyteus/chrome-vnc:1.4.0-zh and autobyteus/chrome-vnc:zh
+Image will be pushed to Docker Hub
+Ensure you are logged in with 'docker login' before proceeding
+Build completed successfully!
+Multi-architecture image pushed to Docker Hub with tags autobyteus/chrome-vnc:1.4.0-zh and autobyteus/chrome-vnc:zh.
+Users can now pull this image on any supported platform.
+docker <buildx> <version>
+docker <buildx> <inspect> <multi-platform-builder>
+docker <buildx> <use> <multi-platform-builder>
+docker <buildx> <inspect> <--bootstrap>
+docker <info>
+docker <buildx> <build> <--push> <--no-cache> <--platform> <linux/amd64,linux/arm64> <--tag> <autobyteus/chrome-vnc:1.4.0-zh> <--tag> <autobyteus/chrome-vnc:zh> <--build-arg> <IMAGE_VARIANT=zh> <.>
+=== case unsupported_local arch=riscv64 args= ===
+Building version: 1.4.0
+No --push flag detected. Defaulting to build and load for local architecture.
+Error: Unsupported architecture for --load: riscv64
+docker <buildx> <version>
+docker <buildx> <inspect> <multi-platform-builder>
+docker <buildx> <use> <multi-platform-builder>
+docker <buildx> <inspect> <--bootstrap>
+=== case mutually_exclusive arch=arm64 args=--push --load ===
+Building version: 1.4.0
+Error: --push and --load are mutually exclusive options.
+PASS: arm64/aarch64/x86_64 aliases, local load, no-cache, default/zh tags, multi-platform push composition, and error paths are preserved.

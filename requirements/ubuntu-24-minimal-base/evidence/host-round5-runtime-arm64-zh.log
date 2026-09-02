@@ -1,0 +1,42 @@
+start_utc=2026-09-01T15:58:54Z
+476346404a588fda3c513a65909327d167a0b0321c7b62e92dd0b7c9fbab3ee3
+chrome                           RUNNING   pid 40, uptime 0:00:06
+copyq                            RUNNING   pid 38, uptime 0:00:06
+dbus                             RUNNING   pid 33, uptime 0:00:06
+disable_screensaver              EXITED    Sep 01 03:58 PM
+fcitx                            RUNNING   pid 36, uptime 0:00:06
+socat                            RUNNING   pid 44, uptime 0:00:06
+tigervnc                         RUNNING   pid 34, uptime 0:00:06
+websockify                       RUNNING   pid 45, uptime 0:00:06
+xfce                             RUNNING   pid 35, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS host VNC RFB 003.008
+PASS host websockify HTTP 200
+PASS host DevTools Chrome/151.0.7922.173
+aarch64
+LANG=en_US.UTF-8
+LANGUAGE=en_US:en
+LC_CTYPE="en_US.UTF-8"
+LC_NUMERIC="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+LC_COLLATE="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_PAPER="en_US.UTF-8"
+LC_NAME="en_US.UTF-8"
+LC_ADDRESS="en_US.UTF-8"
+LC_TELEPHONE="en_US.UTF-8"
+LC_MEASUREMENT="en_US.UTF-8"
+LC_IDENTIFICATION="en_US.UTF-8"
+LC_ALL=en_US.UTF-8
+Failed to get reply.
+Failed to get reply.
+4.3.0
+/usr/bin/python3.13
+2026-09-01 15:58:54,805 INFO supervisord started with pid 1
+2026-09-01 15:58:56,881 INFO success: fcitx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 15:58:56,881 INFO success: chrome entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 15:58:56,881 INFO success: websockify entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 15:58:57,810 INFO success: tigervnc entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+end_utc=2026-09-01T15:59:03Z

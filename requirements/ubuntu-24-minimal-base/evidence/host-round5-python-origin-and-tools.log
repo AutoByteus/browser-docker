@@ -1,0 +1,193 @@
+=== 2026-09-01T15:53:46Z target origin/tool probe linux/arm64 autobyteus/chrome-vnc:api-e2e-r5-arm64-default ===
+aarch64
+os=ubuntu codename=noble version=24.04
+--- configured source ---
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble noble-updates noble-backports
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble-security
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:URIs: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:Suites: noble
+/etc/apt/sources.list.d/xtradeb-ubuntu-apps-noble.sources:Suites: noble
+--- apt policy ---
+python3.13:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+        100 /var/lib/dpkg/status
+python3.13-dev:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+        100 /var/lib/dpkg/status
+python3.13-venv:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+        100 /var/lib/dpkg/status
+bash: line 15: binary: unbound variable
+--- installed ownership ---
+scenario_rc=1
+=== 2026-09-01T15:54:09Z target origin/tool probe linux/amd64 autobyteus/chrome-vnc:api-e2e-r5-amd64-default ===
+x86_64
+os=ubuntu codename=noble version=24.04
+--- configured source ---
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble noble-updates noble-backports
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble-security
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:URIs: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:Suites: noble
+/etc/apt/sources.list.d/xtradeb-ubuntu-apps-noble.sources:Suites: noble
+--- apt policy ---
+python3.13:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main amd64 Packages
+        100 /var/lib/dpkg/status
+python3.13-dev:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main amd64 Packages
+        100 /var/lib/dpkg/status
+python3.13-venv:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main amd64 Packages
+        100 /var/lib/dpkg/status
+--- installed ownership ---
+bash: line 15: binary: unbound variable
+scenario_rc=1
+=== corrected probe rerun: quote-safe dpkg output ===
+=== 2026-09-01T15:54:41Z corrected target origin/tool probe linux/arm64 autobyteus/chrome-vnc:api-e2e-r5-arm64-default ===
+aarch64
+os=ubuntu codename=noble version=24.04
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble noble-updates noble-backports
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble-security
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:URIs: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:Suites: noble
+/etc/apt/sources.list.d/xtradeb-ubuntu-apps-noble.sources:Suites: noble
+python3.13:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+        100 /var/lib/dpkg/status
+python3.13-dev:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+        100 /var/lib/dpkg/status
+python3.13-venv:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+        100 /var/lib/dpkg/status
+--- installed ownership ---
+libpython3.13-dev:arm64	3.13.15-1+noble1
+libpython3.13-stdlib:arm64	3.13.15-1+noble1
+python3	3.12.3-0ubuntu2.1
+python3.12	3.12.3-1ubuntu0.16
+python3.13	3.13.15-1+noble1
+python3.13-dev	3.13.15-1+noble1
+python3.13-venv	3.13.15-1+noble1
+python3-minimal: /usr/bin/python3
+python3.12-minimal: /usr/bin/python3.12
+python3.13: /usr/bin/python3.13
+libpython3.13-dev:arm64: /usr/include/python3.13/Python.h
+--- public versus OS paths ---
+/usr/local/bin/python
+/usr/local/bin/python3
+/usr/local/bin/supervisord
+/usr/local/bin/supervisorctl
+/usr/local/bin/websockify
+/usr/local/bin/uv
+/usr/bin/python3.13
+/usr/bin/python3.13
+/usr/bin/python3.12
+/opt/browser-tools/bin/supervisord
+/opt/browser-tools/bin/websockify
+/opt/browser-tools/bin/uv
+Python 3.13.15
+Python 3.13.15
+Python 3.12.3
+tool-python=3.13.15 prefix=/opt/browser-tools
+supervisor=4.3.0
+websockify=0.13.0
+uv=0.12.8
+scenario_rc=0
+=== 2026-09-01T15:55:24Z corrected target origin/tool probe linux/amd64 autobyteus/chrome-vnc:api-e2e-r5-amd64-default ===
+x86_64
+os=ubuntu codename=noble version=24.04
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble noble-updates noble-backports
+/etc/apt/sources.list.d/ubuntu.sources:Suites: noble-security
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:URIs: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/
+/etc/apt/sources.list.d/deadsnakes-ubuntu-ppa-noble.sources:Suites: noble
+/etc/apt/sources.list.d/xtradeb-ubuntu-apps-noble.sources:Suites: noble
+python3.13:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main amd64 Packages
+        100 /var/lib/dpkg/status
+python3.13-dev:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main amd64 Packages
+        100 /var/lib/dpkg/status
+python3.13-venv:
+  Installed: 3.13.15-1+noble1
+  Candidate: 3.13.15-1+noble1
+  Version table:
+ *** 3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main amd64 Packages
+        100 /var/lib/dpkg/status
+--- installed ownership ---
+libpython3.13-dev:amd64	3.13.15-1+noble1
+libpython3.13-stdlib:amd64	3.13.15-1+noble1
+python3	3.12.3-0ubuntu2.1
+python3.12	3.12.3-1ubuntu0.16
+python3.13	3.13.15-1+noble1
+python3.13-dev	3.13.15-1+noble1
+python3.13-venv	3.13.15-1+noble1
+python3-minimal: /usr/bin/python3
+python3.12-minimal: /usr/bin/python3.12
+python3.13: /usr/bin/python3.13
+libpython3.13-dev:amd64: /usr/include/python3.13/Python.h
+--- public versus OS paths ---
+/usr/local/bin/python
+/usr/local/bin/python3
+/usr/local/bin/supervisord
+/usr/local/bin/supervisorctl
+/usr/local/bin/websockify
+/usr/local/bin/uv
+/usr/bin/python3.13
+/usr/bin/python3.13
+/usr/bin/python3.12
+/opt/browser-tools/bin/supervisord
+/opt/browser-tools/bin/websockify
+/opt/browser-tools/bin/uv
+Python 3.13.15
+Python 3.13.15
+Python 3.12.3
+tool-python=3.13.15 prefix=/opt/browser-tools
+supervisor=4.3.0
+websockify=0.13.0
+uv=0.12.8
+scenario_rc=0

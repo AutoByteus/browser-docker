@@ -1,0 +1,14 @@
+BRD-UBUNTU24-001 Delivery integration refresh DR-004
+Date: 2026-09-01
+Fetch command: git fetch --prune origin main requirements/ubuntu-24-minimal-base
+Fetch result: PASS
+Ticket branch: requirements/ubuntu-24-minimal-base
+Current HEAD: f902e80771b304916858314fa9484cab8f6f1843
+Latest tracked origin/main: fb0f59372254b853e85c69046aa921f1d59d96c7
+Merge base: fb0f59372254b853e85c69046aa921f1d59d96c7
+Ahead/behind HEAD...origin/main: 15	0
+Ancestor check: PASS — origin/main is already an ancestor of HEAD.
+Integration method/result: Already current; no merge or rebase required.
+New base commits since DR-003 refresh: none.
+Post-integration rerun decision: no new-base rerun required; IR-005/CRR-006/API-REV-005/API-REV-006/CRR-008 validate the current post-merge state at or after f902e80771b304916858314fa9484cab8f6f1843.
+Remote mutation: none.

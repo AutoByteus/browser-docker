@@ -1,0 +1,10 @@
+=== 2026-09-01T15:51:07Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-default default 1000 1000 ===
+dpkg-query: no packages found matching python3.13-minimal
+scenario_rc=1
+=== 2026-09-01T15:51:08Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-zh zh 1000 1000 ===
+dpkg-query: no packages found matching python3.13-minimal
+scenario_rc=1
+=== 2026-09-01T15:51:08Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-default default 1000 1000 ===
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+dpkg-query: no packages found matching python3.13-minimal
+scenario_rc=1

@@ -12,6 +12,7 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 | RER-004 | User agreement on Python 3.12 | Ready for Approval | Ready for Approval | REQ-007; ASM-003; DEC-002 | Python 3.12 selection confirmed; complete-package approval remains pending. |
 | RER-005 | Two-ticket upstream-first delivery sequence | Ready for Approval | Ready for Approval | REQ-008–REQ-009; AC-011–AC-012; SCN-005; DEC-003; scope boundary | Browser image publication is the first ticket; server/all-in-one adoption is a separate dependent follow-up. |
 | RER-006 | Explicit approval of ticket one | Ready for Approval | Approved | All first-ticket requirements and scenarios; DEC-003; routing assessment | Browser-image `1.4.0` package approved and classified Approved Direct-Implementation; ticket two remains deferred. |
+| RER-007 | User supersedes Python 3.12 after IR-004 latest-base integration | Approved | Approved — revised | REQ-007; BEH-001–BEH-002; AC-006, AC-010–AC-011, AC-013; SCN-003; QR-005; ASM-003; DEC-002; routing assessment | Python 3.13 is now authoritative; stale Python 3.12 implementation cannot advance; explicit design and architecture review are required. |
 
 ## Revision Entries
 
@@ -110,3 +111,20 @@ The latest `requirements-doc.md` and `investigation-notes.md` remain authoritati
 - Downstream architecture or direct-implementation route impact: No change from RER-003; Python 3.12 is now the required selection once the package is approved.
 - Remaining gaps, assumptions, or blocked decisions: Explicit approval of the complete requirements baseline; Docker/BuildX validation remains downstream.
 - Next action or recipient: User explicitly approves or revises the complete baseline.
+
+
+### RER-007 — Python 3.13 supersedes the integrated Python 3.12 target
+
+- Triggering user feedback, prototype package, downstream feedback, or investigation evidence: After `IR-004` merged latest `origin/main`, the user stated, “i would still use 3.13, because main branch has already tested so i believe they have a reason why they use 3.13”. Implementation Engineer rerouted the contradiction as a `Requirement Gap / Design Impact`; integrated commit `cc30abff0769553c84fb1ebb453c28e6123f4218` still implements the superseded 3.12 target.
+- Prior authoritative status (`N/A` for `RER-001`): Approved (`RER-006`), Python 3.12, direct implementation route.
+- Current authoritative status: Approved — revised (`RER-007`), Python 3.13, explicit solution design and architecture review required.
+- Requirement, behavior, acceptance-criteria, scenario, or decision IDs affected: REQ-007; BEH-001–BEH-002; AC-006, AC-010–AC-011; new AC-013; SCN-003; QR-005; ASM-003; DEC-002; downstream routing assessment.
+- Scenario-basis or scenario-validity changes: SCN-003 retains the same supported container startup and browser/VNC journey, but its developer runtime is now Python 3.13 and its normal entrypoint must use compatible isolated Supervisor 4.3.0. SCN-001/SCN-002 retain Ubuntu 24.04, both variants, both architectures, build flags, and release tags.
+- Why this baseline or revision was recorded: The user explicitly superseded the only changed product/runtime decision. Advancing the integrated 3.12 candidate would contradict current approved intent. The main-branch Python 3.13 and Supervisor fix are relevant evidence, but their Ubuntu 22.04 global-pip/update-alternatives shape cannot be copied blindly into Noble.
+- Canonical artifact sections changed: Status/approval, problem/outcome, behavior table, scope, REQ-007, AC-006/AC-010/AC-011/new AC-013, SCN-003, quality/dependency/supplement/assumption/decision/traceability/downstream/readiness/routing sections, and the corresponding investigation notes.
+- Supplemental artifacts added, changed, or removed: Added retained Noble ARM64 toolchain probe and AMD64 package-availability probe under `requirements/ubuntu-24-minimal-base/evidence/`; the server-adoption follow-up remains unchanged and deferred.
+- Prototype evidence or product decisions incorporated: No product prototype applies. Evidence incorporated from main commits `6aa8421` and `410b1f4`, the Python 3.13/Supervisor ticket records, the published 1.3.7/1.3.8 evidence, `IR-004`, `DR-003`, and current Noble Docker probes.
+- User approval impact: The version choice is explicitly approved by the user. All other RER-006-approved behavior remains authoritative. The selected package/path design is a technical solution decision that preserves the approved public runtime and does not add product scope.
+- Downstream architecture or direct-implementation route impact: The former direct route is revoked. `design-spec.md` and `solution-revision-record.md` are now mandatory; `/architecture_reviewer` must pass the revised design before `/implementation_engineer` resumes.
+- Remaining gaps, assumptions, or blocked decisions: Full final Docker matrix remains downstream: default/zh × AMD64/ARM64, public/distro interpreter ownership, Supervisor 4.3.0 startup/config, websockify/uv paths, configured UID/GID, dynamic XDG/DBus, browser/VNC/DevTools, locale/input, mobile-safe Chrome, persistence/recovery, build/load/push tags, and pre-publication identities. Publication, finalization, and server adoption remain blocked.
+- Next action or recipient: Solution Designer completes `design-spec.md` and `solution-revision-record.md`, then sends the cumulative solution package and reroute evidence to `/architecture_reviewer`.

@@ -2,130 +2,149 @@
 
 ## Release / Publication / Deployment Scope
 
-Limited operational action only: publish the ticket branch to GitHub so the user can test the implementation commit in a host environment. This is not repository finalization, Docker Hub publication, deployment, or API/E2E approval.
+Prepare the integrated `BRD-UBUNTU24-001` browser-image release for explicit user verification, repository finalization, and the approved sequenced Docker Hub publication. DR-004 performs the mandatory latest-base refresh, docs sync, release-note preparation, read-only remote tag/rollback baseline inspection, and final handoff. It does not cross the explicit verification gate: no commit/push/merge, tag publication, or deployment is performed in this round.
 
 ## Handoff Summary
 
-- Handoff summary artifact: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/handoff-summary.md`
+- Handoff summary artifact: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/handoff-summary.md`
 - Handoff summary status: `Updated`
-- Delivery revision record: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/delivery-revision-record.md`
-- Current delivery revision ID: `DR-002`
-- Notes: The initial exact implementation push and the later stopped/partial validation-package checkpoint push are complete; the overall delivery remains blocked pending user testing, latest-base integration, and remaining finalization gates.
+- Delivery revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md`
+- Current delivery revision ID: `DR-004`
+- Notes: The candidate is integrated, documented, locally release-ready, and held for explicit user verification. Historical DR-001 through DR-003 remain preserved as non-terminal context.
 
 ## Initial Delivery Integration Refresh
 
 - Bootstrap base reference: `2bc0b4a26c87bdf6903e4977679849e5f7ee0bef`
-- Latest tracked remote base reference checked: `origin/main` at `fb0f59372254b853e85c69046aa921f1d59d96c7`
-- Base advanced since bootstrap or previous refresh: `Yes`
+- Latest tracked remote base reference checked: `origin/main` `fb0f59372254b853e85c69046aa921f1d59d96c7`
+- Base advanced since bootstrap or previous refresh: `No since DR-003`; the four commits that had advanced since bootstrap were integrated previously by `cc30abff0769553c84fb1ebb453c28e6123f4218`.
 - New base commits integrated into the ticket branch: `No`
-- Local checkpoint commit result: `Not needed` — committed test candidate already existed at `e604ffa`.
-- Integration method: `Already current` is not claimed; integration was deliberately deferred for the pre-verification test push.
-- Integration result: `Blocked` for terminal delivery; not required for the limited exact-commit test push.
-- Post-integration executable checks rerun: `No`
-- Post-integration verification result: `Blocked`
-- No-rerun rationale: No integration occurred, and the user explicitly stopped further Podman matrix execution.
-- Delivery edits started only after integrated state was current: `No — these artifacts describe a limited non-final test push, not integrated delivery state.`
-- Handoff state current with latest tracked remote base: `No`
-- Blocker: Later overlapping `origin/main` commits and incomplete API/E2E validation prevent final delivery.
+- Local checkpoint commit result: `Not needed` — current `origin/main` is already an ancestor of committed implementation HEAD and no integration operation could endanger the cumulative worktree.
+- Integration method: `Already current`
+- Integration result: `Completed`
+- Post-integration executable checks rerun: `No new-base rerun required`
+- Post-integration verification result: `Passed`
+- No-rerun rationale: `origin/main` remains at the base integrated by `cc30abf`; current implementation `f902e80` and the complete CRR-006/API-REV-005/API-REV-006/CRR-008 package all postdate that merge. Delivery separately reran Bash syntax and the durable source/documentation contract after docs sync.
+- Delivery edits started only after integrated state was current: `Yes`
+- Handoff state current with latest tracked remote base: `Yes`
+- Blocker: None at the integration/docs stage.
+- Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr004-integration-refresh.log`
 
 ## User Verification
 
-- Initial explicit user completion/verification received: `No`
-- Initial verification / acceptance reference: The user requested the branch push on 2026-09-01 so testing can occur in their host environment; this is authorization for the test push, not a passing verification result.
-- Renewed verification required after later re-integration: `Yes`, if integration materially changes the tested state.
-- Renewed verification received: `No`
+- Initial explicit user completion/verification received: `Yes`
+- Initial verification / acceptance reference: User message on 2026-09-02: “verified. fianlze and release”.
+- Renewed verification required after later re-integration: `Only if origin/main advances and the refreshed state materially changes the user-facing candidate.`
+- Renewed verification received: `Not needed yet`
 - Renewed verification / acceptance reference: `N/A`
 
 ## Docs Sync Result
 
-- Docs sync artifact: `/home/autobyteus/workspace/browser-docker/requirements/ubuntu-24-minimal-base/docs-sync-report.md`
-- Docs sync result: `No impact` for this limited push; final docs sync remains blocked.
-- Docs updated: None.
-- No-impact rationale: No implementation or long-lived documentation was changed during the push action.
+- Docs sync artifact: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/docs-sync-report.md`
+- Docs sync result: `Updated`
+- Docs updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/README.md`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tickets/done/ubuntu-24-minimal-base/release-notes.md`
+- No-impact rationale: `N/A`
 
 ## Ticket State Transition
 
-- Ticket moved to `tickets/done/<ticket-name>`: `No`
-- Archived ticket path: `N/A`
+- Ticket moved to `tickets/done/<ticket-name>`: `Yes`
+- Archived ticket path: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tickets/done/ubuntu-24-minimal-base`
 
 ## Version / Tag / Release Commit
 
-No delivery-owned version bump, tag, or release commit was created. The tested commit already contains implementation version `1.4.0`; no release readiness is claimed.
+- Source version: `1.4.0`.
+- Planned default tags: `autobyteus/chrome-vnc:1.4.0`, `autobyteus/chrome-vnc:latest`.
+- Planned Chinese-variant tags: `autobyteus/chrome-vnc:1.4.0-zh`, `autobyteus/chrome-vnc:zh`.
+- Git tag: Not required by the repository's prior release method; no Git tag exists or was created.
+- Release commit: Not created before explicit verification.
 
 ## Repository Finalization
 
-- Bootstrap context source: Ticket branch point and fetched `origin/main` history.
+- Bootstrap context source: ticket branch history and recorded finalization target `origin/main`.
 - Ticket branch: `requirements/ubuntu-24-minimal-base`
-- Ticket branch commit result: `Completed` — existing implementation commit `e604ffa1ee8d3e33aa83a4960b48e434647e965b` plus a later checkpoint containing API/E2E `API-REV-002`, corrected test harness, retained evidence, and delivery artifacts.
-- Ticket branch push result: `Completed` — initial remote ref verified at `e604ffa1ee8d3e33aa83a4960b48e434647e965b`; the later checkpoint ref is verified and reported externally after push because it identifies the commit containing this report.
-- Finalization target remote: `origin` (`https://github.com/AutoByteus/browser-docker.git`)
+- Ticket branch commit result: `Not performed — explicit user verification pending`
+- Ticket branch push result: `Not performed`
+- Finalization target remote: `origin` (`git@github.com-ryan:AutoByteus/browser-docker.git`)
 - Finalization target branch: `main`
-- Target advanced after verification / acceptance: `Yes — before host verification, to fb0f59372254b853e85c69046aa921f1d59d96c7`.
-- Delivery-owned edits protected before re-integration: `Not needed` for the push; no re-integration attempted.
-- Re-integration before final merge result: `Blocked`
-- Target branch update result: Fetched only; not modified.
+- Target advanced after verification / acceptance: `N/A — verification pending`
+- Delivery-owned edits protected before re-integration: `Not needed at current already-integrated state`; they must be protected if a later target refresh requires integration.
+- Re-integration before final merge result: `Not needed at DR-004 refresh`; must be rechecked after user verification.
+- Target branch update result: Fetched/read-only check only.
 - Merge into target result: Not performed.
 - Push target branch result: Not performed.
-- Repository finalization status: `Blocked`
-- Blocker: User host verification, complete API/E2E disposition, and safe integration of advanced `origin/main` remain outstanding.
+- Repository finalization status: `In progress after explicit user verification`
+- Blocker: None; completion details will be recorded after the branch/target sequence finishes.
 
 ## Release / Publication / Deployment
 
-- Applicable: `Yes`, later, because approved requirements call for Docker Hub publication after validation.
+- Applicable: `Yes`
 - Method: `Documented Command`
-- Method reference / command: Repository `build-multi-arch.sh --push` path; not run.
-- Release/publication/deployment result: `Blocked`
-- Release notes handoff result: `Blocked`
-- Blocker: Pre-publication validation has not completed; user-directed testing is pending.
+- Method reference / command: `./build-multi-arch.sh --push`, followed by `./build-multi-arch.sh --variant zh --push`.
+- Release/publication/deployment result: `Authorized; pending repository-finalization completion`
+- Release notes handoff result: `Used — archived release notes supplied to the release path`
+- Blocker: Publication remains sequenced after the repository finalization push.
+
+### Planned Remote Verification
+
+After publication, Delivery must:
+
+1. Inspect `1.4.0`, `latest`, `1.4.0-zh`, and `zh` with `docker buildx imagetools inspect` and record exact index and platform-manifest digests.
+2. Require exact `linux/amd64` and `linux/arm64` on every tag and require each rolling tag to resolve to the same index digest as its immutable counterpart.
+3. Pull/run each immutable platform/variant and verify Ubuntu `24.04`, public Python `3.13`, OS `/usr/bin/python3` `3.12`, Supervisor `4.3.0`, the correct default/`zh` variant, and the isolated operational-tool paths.
+4. Mark AC-011 complete only when all remote manifest and runtime identity checks pass. AC-012/server adoption remains deferred until then.
 
 ## Post-Finalization Cleanup
 
-- Dedicated ticket worktree path: `N/A — shared repository worktree`
-- Worktree cleanup result: `Not required`
-- Worktree prune result: `Not required`
-- Local ticket branch cleanup result: `Blocked` — branch is required for user testing.
-- Remote branch cleanup result: `Not required`
-- Blocker: Ticket is active.
+- Dedicated ticket worktree path: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base`
+- Worktree cleanup result: `Blocked — finalization not started`
+- Worktree prune result: `Blocked — finalization not started`
+- Local ticket branch cleanup result: `Blocked — finalization not started`
+- Remote branch cleanup result: `Not required before finalization`
+- Blocker: Explicit verification, finalization, publication, and rollout verification must complete first.
 
 ## Escalation / Reroute
 
-No new `Local Fix`, `Design Impact`, `Requirement Gap`, or `Unclear` issue is classified by this limited action. The requested branch push is only a pre-verification action. Partial round-2 changes are uncommitted and excluded from the tested commit; substantial coverage and latest-base integration remain incomplete.
+None. No implementation, design, requirement, or deployment-local failure remains; Delivery is intentionally holding at the user-verification gate.
 
 ## Release Notes Summary
 
-- Release notes artifact created before verification / acceptance: `No`
-- Archived release notes artifact used for release/publication: `No`
-- Release notes status: `Blocked`
+- Release notes artifact created before verification / acceptance: `Yes` — `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tickets/done/ubuntu-24-minimal-base/release-notes.md`
+- Archived release notes artifact used for release/publication: `Yes — handed into the authorized publication sequence`
+- Release notes status: `Updated`
 
 ## Deployment Steps
 
-None performed.
+No service deployment is in scope. Docker Hub image publication and remote verification are the only release operations. AutoByteus server adoption remains a separate post-publication ticket.
 
 ## Environment Or Persisted-Data Transition Notes
 
 - Approved persisted-data decision: `Not Affected`
 - Delivery action required: `None`
-- Result and evidence: No persisted-data operation occurred during the branch push.
+- Result and evidence: Image validation preserved Chromium profile data, recreation, and stale-lock recovery. No profile volume, server environment, or deployed container is mutated by DR-004.
 
 ## Verification Checks
 
-- `git fetch --prune origin` — passed; discovered `origin/main` at `fb0f593`.
-- `git push --set-upstream origin HEAD:refs/heads/requirements/ubuntu-24-minimal-base` — passed.
-- `git ls-remote --heads origin refs/heads/requirements/ubuntu-24-minimal-base` — returned `e604ffa1ee8d3e33aa83a4960b48e434647e965b`.
-- A later checkpoint commit/push packages the truthful stopped/partial API/E2E state and delivery artifacts at the user's explicit request; its exact remote SHA is verified after push and reported to the user.
-- No image build, runtime, release, or deployment command was run by Delivery.
+- `git fetch --prune origin main requirements/ubuntu-24-minimal-base` — passed.
+- `git merge-base --is-ancestor origin/main HEAD` — passed; HEAD is 15 ahead/0 behind.
+- Current post-integration gate package — RER-007, ARCH-REV-002, IR-005, CRR-006, API-REV-005, API-REV-006, CRR-008 all pass.
+- Bash syntax for source and durable test scripts — passed.
+- `bash tests/validate-source-contract.sh` — passed after README docs sync.
+- `git diff --check` excluding retained raw evidence logs — passed.
+- Active source/docs obsolete Ubuntu 22.04/Python 3.11 scan — passed.
+- Read-only Docker Hub baseline — `1.4.0` and `1.4.0-zh` absent; `latest` and `1.3.8` share `sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029`; `zh` and `1.3.8-zh` share `sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071`; both indexes contain AMD64 and ARM64.
+- Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr004-docs-handoff-check.log`; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr004-remote-tag-baseline.log`.
 
 ## Rollback Criteria
 
-The remote ticket branch can be deleted or reset only on explicit instruction. No `main`, Docker Hub, tag, server repository, or deployed runtime state was changed, so no production rollback is currently required.
+- Pre-publication rollback is unnecessary because DR-004 made no remote mutation.
+- After publication, any missing architecture/variant, immutable-versus-rolling digest mismatch, wrong Ubuntu/Python/Supervisor identity, or failed published runtime check blocks completion.
+- The immutable `1.3.8` and `1.3.8-zh` baselines remain available. If a new rolling tag must be reverted, restore `latest` from `autobyteus/chrome-vnc:1.3.8` and/or `zh` from `autobyteus/chrome-vnc:1.3.8-zh`, then re-inspect the expected baseline digests above. Do not delete immutable `1.4.0` tags as a substitute for rolling-tag rollback; retain evidence and report any partially completed publication truthfully.
 
 ## Final Status
 
-- Explicit user testing/verification complete: `No`
+- Integrated and documented user-verification candidate ready: `Yes`
+- Explicit user testing/verification complete: `Yes`
 - Repository finalization complete: `No`
 - Applicable release/deployment/rollout complete or not required: `No`
 - Applicable safe cleanup complete or not required: `No`
-- Unresolved blocker: User host testing, API/E2E final disposition, latest-base integration, and publication gates.
-- Successful terminal package eligible for return: `No`
-- Terminal package sent to `/requirements_engineer`: `No`
-- Terminal message/reference: `N/A`
+- Current hold: Repository finalization and publication are in progress; terminal completion is not yet claimed.
+- Successful terminal package eligible for return: `No — finalization/publication remain pending`

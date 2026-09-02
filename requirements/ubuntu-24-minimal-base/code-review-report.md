@@ -3,149 +3,142 @@
 ## Review Round Meta
 
 - Review Entry Point: `Implementation Review`
-- Requirements Doc Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-doc.md` (`Approved`, `RER-006`)
+- Requirements Doc Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-doc.md` (`RER-007`)
 - Investigation Notes Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/investigation-notes.md`
-- Design Spec Reviewed As Context: `N/A — approved direct requirements-to-implementation route`
-- Supplemental Task Artifacts Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md`
-- Solution Revision Record Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/requirements-revision-record.md`
-- Relevant Solution Revision IDs: `RER-006`
-- Design Review Report Reviewed As Context: `N/A — approved direct route`
-- Architecture Review Revision Record Reviewed As Context: `N/A — approved direct route`
-- Relevant Architecture Review Revision IDs: `N/A`
+- Design Spec Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-spec.md`
+- Supplemental Task Artifacts Reviewed As Context: `server-base-image-adoption-follow-up.md`; the SR-001 Noble/Deadsnakes feasibility logs; the prior-main Python 3.13/Supervisor compatibility records; DR-003 integration evidence
+- Solution Revision Record Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/solution-revision-record.md`
+- Relevant Solution Revision IDs: `SR-001`, `SR-002`
+- Design Review Report Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/design-review-report.md` (`Pass`)
+- Architecture Review Revision Record Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/architecture-review-revision-record.md`
+- Relevant Architecture Review Revision IDs: `ARCH-REV-002`; `ARCH-F-001` resolved
 - Implementation Handoff Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`
 - Implementation Revision Record Reviewed As Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-revision-record.md`
-- Relevant Implementation Revision IDs: `IR-003`
+- Relevant Implementation Revision IDs: `IR-005`; starting parent `cc30abff0769553c84fb1ebb453c28e6123f4218`; implementation commit `f902e80771b304916858314fa9484cab8f6f1843`
 - Code Review Revision Record: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-revision-record.md`
-- Current Code Review Revision ID: `CRR-004`
-- Current Review Round: `3`
-- Trigger: Implementation-owned Local Fix `IR-003` at commit `6bbe7a9edab3d19a320ef53e2a99df0fb59b8eef`, resolving the source cause of `APIE2E-F-002` / AC-003.
-- Prior Review Round Reviewed: Round 2 / `CRR-002` / `Fail — Local Fix / implementation`; separate durable-test result `CRR-003` remains `Pass` and authoritative in `api-e2e-test-review-report.md`.
-- Latest Authoritative Round: This file, round 3.
-- Coverage Investigation Reviewed As Re-entry Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
-- Execution Coverage Report Reviewed As Re-entry Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
-- API/E2E Revision Record Reviewed As Re-entry Context: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
-- Relevant API/E2E Revision IDs: `API-REV-003`
-- Delivery Revision Record Reviewed: `N/A for this re-entry`; historical pre-verification records remain in the cumulative package.
-- Relevant Delivery Revision IDs: `N/A`
-- Triggering Finding IDs: `APIE2E-F-002`
-- Implementation Evidence: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-003-architecture-alias-check.log`
+- Current Code Review Revision ID: `CRR-006`
+- Current Review Round: `4`
+- Trigger: The user-approved `RER-007` Python 3.13 supersession, reviewed design `ARCH-REV-002`, and implementation re-entry `IR-005`
+- Prior Review Round Reviewed: `CRR-004` implementation Pass and separate `CRR-005` durable-test Pass. IR-004 did not receive a completed review result because its Python 3.12 basis was superseded before review completion.
+- Latest Authoritative Round: `CRR-006`
+- Coverage Investigation Reviewed (failure-origin entry point): `N/A`
+- Execution Coverage Report Reviewed (failure-origin entry point): `N/A`
+- API/E2E Revision Record Reviewed (failure-origin entry point): `API-REV-004` as pre-IR-005 context only
+- Relevant API/E2E Revision IDs: `API-REV-004` as stale execution context, not current validation
+- Delivery Revision Record Reviewed (delivery re-entry only): `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/delivery-revision-record.md`
+- Relevant Delivery Revision IDs: `DR-003`
+- Failing Scenario IDs: `N/A`
+- Exact Failing Commands / Execution Mode: `N/A`
+- Failure Evidence Paths: `N/A`
 
 ## Review Scope
 
-- Changed implementation and behavior reviewed: IR-003's correction of the documented Apple Silicon local-build/load path, plus preservation of Linux ARM64, AMD64, variant, tag, load, push, and explicit unsupported-host behavior in the same wrapper.
-- Files / areas reviewed: `build-multi-arch.sh`; its CLI/build path in `README.md`; `tests/validate-source-contract.sh`; implementation commit `6bbe7a9`; current implementation handoff and `IR-003`; prior `CRR-002`/`CR-PREM-002`; API/E2E round-3 failure and isolation evidence.
-- Explicit exclusions: No API/E2E result is replaced by this source review. The exact Apple Silicon Docker/BuildX command, publication, remote manifest verification, and server adoption remain downstream. API/E2E-owned dirty test/report/evidence changes are not implementation source and were confirmed absent from commit `6bbe7a9`; their completed proportional review remains in `CRR-003`.
+- Changed implementation and behavior reviewed: IR-005's Python 3.13-on-Noble package source and payload, OS/public interpreter separation, isolated operational-tool provider, stable command/assets boundary, deterministic Supervisor handoff, and README identity; preservation of the integrated Ubuntu 24.04 runtime/build contracts was also traced.
+- Files / areas reviewed: `Dockerfile`, `entrypoint.sh`, `README.md`, preserved `base.conf`, `supervisord.conf`, `build-multi-arch.sh`, `VERSION`, `start-chrome.sh`, `start-vnc.sh`, run/Compose surfaces, implementation artifacts, and the relevant historical/feasibility evidence.
+- Explicit exclusions: Full Docker/BuildX builds, live service/browser journeys, cross-platform image execution, durable-test corrections, Docker Hub publication, and server adoption. Those remain API/E2E or Delivery responsibilities. The durable harness package is not yet RER-007-current: source/image checks retain superseded Python 3.12 assertions and the runtime harness lacks the new Supervisor-provider checks. IR-005 intentionally changed no test.
 
 ## Upstream Behavior And Production-Path Basis Confirmation
 
-- Approved requirements basis understood: `Yes`. The wrapper is the approved operational entry surface for local builds, and Apple Silicon `arm64` plus AMD64/ARM64 support are explicit existing contracts.
-- Design-spec behavior map verified against the implementation: `N/A — direct route`; the approved requirements map was verified directly against the current wrapper, README, and implementation evidence.
-- Design review report and round confirmed: `N/A — direct route`.
+- Approved requirements basis understood: `RER-007` supersedes public Python 3.12 with Python 3.13 while preserving Ubuntu 24.04, release 1.4.0, build/platform/variant contracts, runtime services, configured identity, profile behavior, and the deferred server-adoption boundary.
+- Design-spec behavior map verified against the implementation: Yes. DS-001/DS-003 retain the existing build/release wrapper; DS-004 is implemented by the Dockerfile's Deadsnakes/public-selector/isolated-tool composition; DS-002/DS-005 retain entrypoint preparation and hand off to the sole `/usr/local/bin/supervisord`; DS-006 is reflected in README and the corrected deferred intake artifact.
+- Design review report and round confirmed: `ARCH-REV-002` Pass; the only architecture finding, `ARCH-F-001`, was resolved before IR-005.
 - Behavior-basis status: `Confirmed`
-- Changed or newly discovered behavior, if any: None. IR-003 implements the already approved/documented host spelling; it adds no new product behavior.
-- Remaining material ambiguity, if any: None.
+- Changed or newly discovered behavior, if any: None beyond the approved RER-007/SR-001/SR-002 change.
+- Remaining material ambiguity, if any: None for source review. Current combined Noble/Python 3.13 executable behavior remains an explicit downstream evidence gate rather than a behavior ambiguity.
 
 | Behavior ID | Current Status | Current Implementation Path And Lifecycle Evidence | Contradicting Or Newly Discovered Supported Behavior Evidence |
 | --- | --- | --- | --- |
-| `BEH-001` / `SCN-001` | `Confirmed` | Maintainer invokes the documented local command; argument parsing retains `--no-cache`; absence of `--push` selects `--load`; Docker/BuildX is checked and bootstrapped; `uname -m` enters `arm64\|aarch64 -> linux/arm64` or `x86_64 -> linux/amd64`; the existing tag/variant policy is applied; `docker buildx build` receives the normalized platform. Independent controlled executions confirmed each command shape. | None. Exact post-fix Apple Silicon Docker/BuildX execution remains API/E2E evidence, not a source-basis ambiguity. |
-| `BEH-002` | `Confirmed — unchanged in IR-003` | The build wrapper still sends the existing Dockerfile and `IMAGE_VARIANT` into BuildX. Dockerfile, runtime identities, services, ports, tooling, input, and profile paths are untouched; round-3 evidence passed these behaviors before this non-image-affecting alias change. | None. |
-| `BEH-003` | `Confirmed — unchanged in IR-003` | README still identifies Ubuntu 24.04, Python 3.12, Apple Silicon `arm64`, and the same local/no-cache build surface. IR-003 makes the implementation match that documentation. | None. |
-
-### Relevant Data-Flow Spine Inventory
-
-| Spine ID | Scope | Start | End | Governing Owner | Why It Matters |
-| --- | --- | --- | --- | --- | --- |
-| `CR-SPINE-001` | Local build/load | Maintainer invokes `build-multi-arch.sh` | Correctly tagged image loaded into the local Docker daemon | Repository build wrapper | This is SCN-001/AC-003 and the exact path previously blocked on Apple Silicon. |
-| `CR-SPINE-002` | Multi-platform publication command composition | Maintainer invokes the wrapper with `--push` | BuildX receives default/`zh` tags and `linux/amd64,linux/arm64` | Repository build wrapper | The local alias fix must not narrow or otherwise change the preserved release path. |
+| `BEH-001` | `Confirmed` | Maintainer invokes `build-multi-arch.sh`; its preserved host/platform/variant/tag/load/push contract reaches BuildX and the Dockerfile. The Dockerfile retains `ubuntu:24.04` and composes the approved Python 3.13 provider for the resulting 1.4.0 image. `VERSION`, Apple/Linux ARM normalization, AMD64/ARM64, and default/zh logic are unchanged from the prior validated candidate. | None. |
+| `BEH-002` | `Confirmed` | Supported container start reaches `/entrypoint.sh`, preserved UID/XDG/DBus/profile preparation, the absolute `/usr/local/bin/supervisord` handoff, the unchanged Supervisor program graph, and existing VNC/websockify/DevTools/browser surfaces. `Dockerfile` supplies public Python 3.13 plus one Python 3.13 `/opt/browser-tools` owner for Supervisor 4.3.0, websockify, and `uv`. | None. |
+| `BEH-003` | `Confirmed` | README now identifies Ubuntu 24.04, Python 3.13, and Supervisor 4.3.0. `VERSION` remains 1.4.0, and the reviewed follow-up brief consumes only later AC-011-verified artifacts without authorizing server work here. | None. |
 
 ## Structural / Design Checks
 
 | Check | Result | Evidence | Required Action |
 | --- | --- | --- | --- |
-| Task design health assessment is present, evidence-backed, and preserved by the implementation | `Pass` | The handoff identifies a bounded existing-wrapper Local Fix with no structural impact; the one case-label change matches that assessment. | None. |
-| Implementation matches approved behavior-defining supplemental artifacts | `Pass` | The separate server-adoption follow-up remains untouched and blocked; IR-003 stays within the browser build contract. | None. |
-| Data-flow spine inventory clarity and preservation under shared principles | `Pass` | Local-load and push spines are linear and remain owned by `build-multi-arch.sh`; controlled checks cover both. | None. |
-| Ownership boundary preservation and clarity | `Pass` | Host-to-Docker-platform normalization remains in the wrapper that consumes `uname` and constructs the BuildX command. | None. |
-| Off-spine concern clarity | `Pass` | No new helper, subprocess layer, configuration surface, or competing owner was introduced. | None. |
-| Existing capability/subsystem reuse check | `Pass` | The existing architecture switch is extended rather than duplicated elsewhere. | None. |
-| Reusable owned structures check | `Pass` | Both ARM host spellings share one case arm and one canonical `linux/arm64` assignment. | None. |
-| Shared-structure/data-model tightness check | `Pass` | No data model is affected; the alias normalization is singular and contains no parallel representation. | None. |
-| Repeated coordination ownership check | `Pass` | Platform selection remains centralized in one wrapper switch. | None. |
-| Empty indirection check | `Pass` | IR-003 adds no indirection. | None. |
-| Scope-appropriate separation of concerns and file responsibility clarity | `Pass` | Architecture mapping is a direct responsibility of the existing build orchestration file. | None. |
-| Ownership-driven dependency check | `Pass` | The wrapper depends only on its established host and Docker CLI boundaries; no dependency direction changed. | None. |
-| Authoritative Boundary Rule check | `Pass` | Callers continue to use the wrapper; IR-003 does not expose or require a competing lower-level API. | None. |
-| File placement check | `Pass` | The change is correctly placed in `build-multi-arch.sh`, the owner of platform selection. | None. |
-| Flat-vs-over-split layout judgment | `Pass` | A one-label normalization does not justify a new file or helper. | None. |
-| Interface/API/query/command/service-method boundary clarity | `Pass` | Existing CLI flags and tag semantics are unchanged; supported local host spellings normalize to explicit Docker platforms. | None. |
-| Naming quality and naming-to-responsibility alignment check | `Pass` | `HOST_ARCH` and `PLATFORMS` retain clear distinct meanings; no new names were needed. | None. |
-| No unjustified duplication of code / repeated structures in changed scope | `Pass` | `arm64\|aarch64` shares the existing ARM assignment instead of duplicating a branch. | None. |
-| Patch-on-patch complexity control | `Pass` | The correction directly amends the faulty branch and introduces no fallback or compatibility stack. | None. |
-| Dead/obsolete code cleanup completeness in changed scope | `Pass` | The invalid omission is removed by replacing the case label; no dormant alternative path remains. | None. |
-| Relevant test scenarios and assertions are clear and requirement-aligned | `Pass` | Controlled checks prove arm64, aarch64, x86_64, local no-cache, `zh`, push, tags, and unsupported-host behavior. Exact AC-003 execution remains correctly assigned downstream. | API/E2E should decide whether the alias matrix warrants additional durable coverage while rerunning AC-003. |
-| Test fixtures/helpers are reasonably reusable and test structure remains coherent | `Pass` | Implementation evidence uses one controlled `uname`/Docker command-composition approach across the matrix; no repository test helper changed. | None. |
-| No stale, duplicated, or compatibility-only tests are retained in changed scope | `Pass` | IR-003 changed no durable test file; the two existing API/E2E edits remain separately reviewed as `Pass`. | None. |
-| API/E2E readiness for the next workflow stage | `Pass` | Source, syntax, ShellCheck, source-contract, diff, and independent command-composition checks pass. The exact prior failure is isolated and ready for first recheck. | Rerun `APIE2E-F-002`/AC-003 first. |
+| Task design health assessment is present, evidence-backed, and preserved by the implementation | `Pass` | The reviewed boundary/ownership refactor is implemented: OS Python stays under `/usr/bin`; public Python is selected through `/usr/local`; `/opt/browser-tools` owns the three pip-installed operational tools. | None. |
+| Implementation matches approved behavior-defining supplemental artifacts | `Pass` | Source matches RER-007, SR-001/SR-002, ARCH-REV-002, the Noble feasibility evidence, and the corrected deferred server-adoption identity. | None. |
+| Data-flow spine inventory clarity and preservation under shared principles | `Pass` | DS-001 through DS-006 remain traceable from supported build, runtime, publication, and documentation triggers to their outcomes; IR-005 changes only the DS-004 provider and DS-005 final handoff. | None. |
+| Ownership boundary preservation and clarity | `Pass` | Dockerfile owns immutable package/path composition, entrypoint owns preparation/handoff, and `base.conf` owns the unchanged service graph. | None. |
+| Off-spine concern clarity | `Pass` | External repositories, zh payload, configured identity, mobile-safe Chrome, documentation, and validation remain attached to their established owners rather than entering the Python/Supervisor main line. | None. |
+| Existing capability/subsystem reuse check | `Pass` | IR-005 extends the existing Dockerfile, `/opt/browser-tools`, entrypoint, and README boundaries; it adds no helper or competing subsystem. | None. |
+| Reusable owned structures check | `Pass` | One `/opt/browser-tools` environment and stable `/usr/local` links replace repeated or provider-specific path selection. | None. |
+| Shared-structure/data-model tightness check | `Pass` | The operational environment contains only Supervisor, websockify, and `uv`; OS Python, public Python, Node tooling, and browser configuration remain separate. | None. |
+| Repeated coordination ownership check | `Pass` | Interpreter/tool installation and selection are composed once in Dockerfile; startup selection is a single absolute entrypoint exec. | None. |
+| Empty indirection check | `Pass` | Public symlinks are justified stable command/asset interfaces over one owner, not pass-through service layers. | None. |
+| Scope-appropriate separation of concerns and file responsibility clarity | `Pass` | Dockerfile handles image layout, entrypoint only changes final Supervisor handoff, and README only changes observable identity wording. | None. |
+| Ownership-driven dependency check | `Pass` | Build wrapper does not know Python internals; entrypoint and service graph consume stable `/usr/local` boundaries; no consumer reaches into venv site-packages. | None. |
+| Authoritative Boundary Rule check | `Pass` | No caller depends on both the stable public boundary and its internal provider. `/usr/bin/python3` is not rewritten, entrypoint does not probe `/usr/bin/supervisord`, and `base.conf` does not reference `/opt/browser-tools/lib/...`. | None. |
+| File placement check | `Pass` | The compact root layout still maps one production file to each operational boundary; no new structural owner was introduced. | None. |
+| Flat-vs-over-split layout judgment | `Pass` | Three small, focused production/documentation changes are clearer in the existing flat repository than in a new module hierarchy. | None. |
+| Interface/API/query/command/service-method boundary clarity | `Pass` | Public `python3`/`python`, Supervisor daemon/control, websockify/uv commands, entrypoint, build CLI, and ports each retain one explicit responsibility. | None. |
+| Naming quality and naming-to-responsibility alignment check | `Pass` | `/opt/browser-tools`, `/usr/local/bin/*`, `entrypoint.sh`, and existing build/runtime variable names match their owners and behavior. | None. |
+| No unjustified duplication of code / repeated structures in changed scope | `Pass` | Provider creation and stable-link exposure occur once; no parallel Python or Supervisor installation path remains. | None. |
+| Patch-on-patch complexity control | `Pass` | IR-005 replaces the superseded provider cleanly rather than layering a fallback over IR-004. The Dockerfile delta is +14/-10 and entrypoint delta is +2/-2. | None. |
+| Dead/obsolete code cleanup completeness in changed scope | `Pass` | Explicit apt Supervisor, Python 3.12 developer/pip/venv selection, `python-is-python3`, `/usr/bin/supervisord`, global pip/update-alternatives, and version-coupled consumer paths are absent from active production source. | None. |
+| Relevant test scenarios and assertions are clear and requirement-aligned | `Pass` | The reviewed design and handoff enumerate the required integrated matrix. Existing harness intent remains coherent, but their superseded Python assertions are explicitly assigned to API/E2E coverage investigation before execution. | API/E2E must correct the stale assertions before claiming current coverage. |
+| Test fixtures/helpers are reasonably reusable and test structure remains coherent | `Pass` | No test file changed; the existing source/image/runtime separation remains the approved coverage shape. | API/E2E owns any durable edits and return review. |
+| No stale, duplicated, or compatibility-only tests are retained in changed scope | `Pass` | IR-005 changed no test. Known stale 3.12 assertions are not accepted as current evidence and are explicitly queued for removal/replacement by the owning stage. | API/E2E must not execute or retain them as authoritative RER-007 coverage without correction. |
+| API/E2E readiness for the next workflow stage | `Pass` | Source, ownership, command paths, and expected matrix are explicit; syntax/lint/config/diff checks pass; the exact stale-test inventory and required executable journeys are identified. | Run coverage investigation, correct durable coverage, then execute the full integrated matrix. |
 
 ## Source File Size And Structure Audit
 
-| Source File | Effective Non-Empty, Non-Comment Lines | `>500` Hard-Limit Check | `>220` Delta Check | SoC / Ownership Check | Placement Check | Preliminary Classification | Required Action |
+| Source File | Effective Non-Empty Lines | `>500` Hard-Limit Check | `>220` Delta Check | SoC / Ownership Check | Placement Check | Preliminary Classification | Required Action |
 | --- | ---: | --- | --- | --- | --- | --- | --- |
-| `build-multi-arch.sh` | `116` (`145` physical lines) | `Pass` | `Pass — IR-003 is one insertion and one deletion in one case label` | `Pass — build orchestration and platform normalization remain coherent` | `Pass` | `Pass` | None. |
+| `Dockerfile` | `173` (`225` physical) | `Pass` | `Pass — +14/-10` | `Pass — one atomic image-layout/provider transaction` | `Pass` | `Pass` | None. |
+| `entrypoint.sh` | `77` (`104` physical) | `Pass` | `Pass — +2/-2` | `Pass — only the authoritative final handoff changes` | `Pass` | `Pass` | None. |
+
+`README.md` was reviewed as documentation, not implementation source; it is 102 effective lines and changes by one replacement line.
 
 ## Legacy / Backward-Compatibility Verdict
 
 | Check | Result | Notes |
 | --- | --- | --- |
-| No backward-compatibility mechanisms in changed scope | `Pass` | Two current supported host spellings normalize to one current Docker platform; no old-version behavior is retained. |
-| No legacy old-behavior retention in changed scope | `Pass` | The rejecting Apple Silicon behavior is replaced, not retained behind a branch. |
-| Dead/obsolete code cleanup completeness in changed scope | `Pass` | No obsolete alternate mapping, wrapper, or flag was introduced. |
-| Approved persisted-data transition decision is followed without unnecessary migration work | `Pass` | Persisted data is not affected. |
-| No version-specific dual reads/writes or request-time old-shape fallback exists | `Pass` | Not applicable to the host alias change; no such mechanism exists. |
-| Approved transition mechanics match the reviewed design | `Pass` | `Not Affected`; no migration or runtime fallback is present. |
+| No backward-compatibility mechanisms in changed scope | `Pass` | There is no Python-version selector, Supervisor fallback, dual provider, or runtime probing branch. |
+| No legacy old-behavior retention in changed scope | `Pass` | Public Python 3.12 and distribution Supervisor are replaced rather than retained alongside the target. |
+| Dead/obsolete code cleanup completeness in changed scope | `Pass` | Obsolete package selections and old exec paths are removed from active source. |
+| Approved persisted-data transition decision is followed without unnecessary migration work | `Pass` | Chromium profile data is `Not Affected`; profile preparation/recovery code is unchanged. |
+| No version-specific dual reads/writes or request-time old-shape fallback exists | `Pass` | No persisted-data schema or runtime compatibility branch is introduced. |
+| Approved transition mechanics match the reviewed design, including migration safety only when required | `Pass` | No migration is required or implemented. |
 
 ## Dead / Obsolete / Legacy Items Requiring Removal
 
-None.
+None in implementation-owned source. The stale Python 3.12 assertions in `tests/validate-source-contract.sh` and `tests/validate-image.sh`, plus the missing RER-007 Supervisor-provider assertions in `tests/validate-running-container.sh`, are explicit API/E2E-owned coverage corrections and are not accepted as current evidence.
 
 ## Docs-Impact Verdict
 
-- Docs impact: `No`
-- Why: README already documents Apple Silicon `arm64` and the supported local build command. IR-003 corrects source to match it without changing usage.
-- Files or areas likely affected: None beyond the already updated implementation/review artifacts.
+- Docs impact: `Yes`
+- Why: The public developer interpreter and Supervisor provider/version changed. README is aligned in IR-005; final release records must reflect the validated/published 1.4.0 identity.
+- Files or areas likely affected: `README.md` is already updated. Delivery should refresh release/handoff/publication records only after integrated API/E2E passes.
 
 ## Material Premise Validation
 
-### Upstream Material-Premise Decisions
+### Upstream Design-Review Material-Premise Decisions
 
-| Premise ID | Current Status | Changed Evidence / Reason |
-| --- | --- | --- |
-| `CR-PREM-002` — Apple Silicon local-load execution reaches the architecture switch | `Confirmed` | The approved README/SCN-001/AC-003 trigger remains unchanged. IR-003 now maps its observed `arm64` value to `linux/arm64`; controlled command evidence confirms the forward source path. |
-
-No new or reclassified material premise is needed. Exact Docker execution is a downstream validation requirement, not missing reachability evidence.
+None. ARCH-REV-002 recorded no material premise decision. No new or reclassified production, failure, or lifecycle premise drives this review. The relevant triggers are already approved: maintainer build/load/push actions (SCN-001/SCN-002), supported container startup (SCN-003), documentation inspection (SCN-004), and post-publication follow-up activation (SCN-005).
 
 ## Review Scorecard
 
-- Overall score (`/10`): `9.78`
-- Overall score (`/100`): `97.8`
-- Score calculation note: Simple average of the ten categories; the pass decision also requires every category to meet the `9.0` clean threshold and no unresolved finding.
+- Overall score (`/10`): `9.58`
+- Overall score (`/100`): `95.8`
+- Score calculation note: Simple average of the ten categories. Every category is at least 9.0, the behavior basis is confirmed, and no unresolved finding exists.
 
 | Priority | Category | Score | Why This Score | What Is Weak / Holding It Down | What Should Improve |
 | --- | --- | ---: | --- | --- | --- |
-| `1` | `Data-Flow Spine Inventory and Clarity` | `9.8` | Local and push spines are short, explicit, and preserved through one wrapper. | Exact post-fix Docker execution remains downstream evidence. | API/E2E should close AC-003 on the normal host path. |
-| `2` | `Ownership Clarity and Boundary Encapsulation` | `9.8` | Host-platform normalization remains with the command owner and is not duplicated. | No material source weakness. | None. |
-| `3` | `API / Interface / Query / Command Clarity` | `9.7` | Existing flags, tags, variants, and platform output remain explicit and stable. | The script retains pre-existing intentional option-word expansion, which ShellCheck requires an explicit exclusion for. It is outside IR-003 and currently behaves as intended. | Consider array-based command assembly only in a separately justified cleanup, not as a blocker for this fix. |
-| `4` | `Separation of Concerns and File Placement` | `9.8` | The one-line mapping belongs directly in the existing build wrapper. | No material weakness. | None. |
-| `5` | `Shared-Structure / Data-Model Tightness and Reusable Owned Structures` | `9.8` | Both ARM spellings share one case arm and canonical platform assignment; no model change exists. | No material weakness. | None. |
-| `6` | `Naming Quality and Local Readability` | `9.8` | The case label and existing variable names make host input versus Docker platform output clear. | No material weakness. | None. |
-| `7` | `API/E2E Readiness` | `9.5` | Focused source and command-composition checks pass, and the exact prior failure has a direct first-rerun command. | The real Apple Silicon BuildX path has not yet been rerun after IR-003. This is an evidence gap, not a source finding. | API/E2E must rerun `./build-multi-arch.sh --no-cache` first and decide proportionate durable coverage. |
-| `8` | `Runtime Correctness And Behavioral Fidelity` | `9.6` | Independent controlled execution proves the corrected mapping and preserved matrix without changing Dockerfile inputs. | AC-003 still needs authoritative real-environment confirmation. | Complete the exact Docker/BuildX recheck. |
-| `9` | `No Backward-Compatibility / No Legacy Retention` | `10.0` | The implementation is a current-platform alias normalization with no version fallback or legacy path. | None. | None. |
-| `10` | `Cleanup Completeness` | `10.0` | The faulty label is directly replaced; no duplicate branch, helper, dead code, or test artifact was introduced. | None. | None. |
+| `1` | `Data-Flow Spine Inventory and Clarity` | `9.6` | The build, composition, runtime, release, and documentation spines remain explicit and the provider change is localized to DS-004/DS-005. | The final combined image has not yet traversed the executable spines after IR-005. | API/E2E should execute the specified integrated matrix. |
+| `2` | `Ownership Clarity and Boundary Encapsulation` | `9.7` | OS Python, public developer Python, operational tools, runtime bootstrap, and service graph have non-overlapping owners. | Standard PATH precedence still needs built-image confirmation for both root and `vncuser`. | Confirm actual command resolution in each target image. |
+| `3` | `API / Interface / Query / Command Clarity` | `9.5` | Stable public selectors and one absolute Supervisor daemon path make the interface shape deterministic. | `websockify` remains invoked by stable command name rather than absolute path, so inherited runtime PATH is part of the established contract and must be executed. | Prove the real Supervisor environment resolves the intended command. |
+| `4` | `Separation of Concerns and File Placement` | `9.7` | Each changed file retains one established responsibility and no new helper is introduced. | No material source weakness; integrated runtime proof remains downstream. | None in source; complete runtime validation. |
+| `5` | `Shared-Structure / Data-Model Tightness and Reusable Owned Structures` | `9.8` | One narrow `/opt/browser-tools` environment owns exactly the Python-installed operational commands; persisted data is unaffected. | websockify and `uv` remain unpinned by approved design. | Record resolved versions during API/E2E and release evidence. |
+| `6` | `Naming Quality and Local Readability` | `9.6` | Paths, comments, and command names clearly distinguish distribution, public, and operational Python ownership. | Dockerfile shell composition is necessarily dense in the single provider layer. | Keep future additions out of `/opt/browser-tools` unless they share this exact ownership. |
+| `7` | `API/E2E Readiness` | `9.2` | The exact matrix, stable boundaries, and stale-coverage inventory are explicit, and implementation-scoped checks pass. | The source/image harnesses still encode the superseded 3.12 target, the runtime harness does not yet prove the new provider boundary, and no IR-005 full image/runtime result exists. | API/E2E must first investigate/update coverage, then run the full Noble/Python 3.13 matrix and return durable edits for review. |
+| `8` | `Runtime Correctness And Behavioral Fidelity` | `9.3` | Source correctly implements the reviewed provider cut and preserves all other runtime owners. ARM64 boundary feasibility and prior Supervisor 4.3.0 execution support the mechanism. | The combined Noble/default/zh/AMD64/ARM64 image and normal entrypoint have not been executed at IR-005. | Validate package origin, path ownership, config start, services, browser, identity, locale, mobile-safe, and profile journeys. |
+| `9` | `No Backward-Compatibility / No Legacy Retention` | `9.8` | Active source contains no dual Python, dual Supervisor, fallback, global-pip, update-alternatives, or version-specific public asset path. | Stale durable assertions remain outside implementation ownership until the next stage. | API/E2E must replace, not broaden, them into 3.12-or-3.13 compatibility assertions. |
+| `10` | `Cleanup Completeness` | `9.6` | The old provider/package/exec paths are removed and no dead helper or dormant branch is added. | Current release/handoff documents and durable coverage still require downstream refresh after execution. | Complete the owned API/E2E and Delivery cleanup gates. |
 
 ## Findings
 
-None. `APIE2E-F-002` is resolved at the implementation-source level by IR-003; authoritative executable resolution remains with the required API/E2E rerun.
+None.
 
 ## Classification
 
@@ -154,20 +147,21 @@ None. `APIE2E-F-002` is resolved at the implementation-source level by IR-003; a
 ## Recommended Recipient
 
 - Recommended recipient: `/api_e2e_engineer`
-- Required next action: Recheck `APIE2E-F-002`/AC-003 first using the exact supported Apple Silicon command, then complete the applicable regression gate and update the canonical API/E2E result. Delivery and publication remain blocked until that stage passes.
+- Required next action: Investigate and correct the stale durable source/image/runtime assertions, then execute the complete integrated RER-007 matrix. Any repository-resident durable test change must return through proportional Code Review before Delivery.
 
 ## Residual Risks
 
-- The controlled implementation checks do not satisfy AC-003. Only the exact real Docker/BuildX rerun can replace the current API/E2E `Fail` result.
-- Docker Hub publication, remote multi-platform manifest/digest verification, and the separate server-adoption ticket remain blocked and outside this source-review pass.
-- API/E2E owns the decision whether to promote the controlled host-alias matrix into repository-resident durable coverage.
+- Deadsnakes, PyPI, Ubuntu, XtraDeb, NodeSource, and npm inputs are mutable. Clean builds must record resolved origin/versions and distinguish external dependency failure from a source defect.
+- The current combined Noble/Python 3.13 implementation has not yet completed default/zh × AMD64/ARM64 image/runtime validation. PATH resolution, distribution/public interpreter separation, Supervisor 4.3.0 startup/control, websockify assets, and unchanged services remain executable gates.
+- `websockify` and `uv` are intentionally unpinned by approved design; their resolved versions and behavior must be captured downstream.
+- Docker Hub publication, remote manifest/pull/run verification, explicit user verification, finalization, and the separate server-adoption ticket remain blocked.
 
 ## Latest Authoritative Result
 
 - Review Decision: `Pass`
 - Review Entry Point: `Implementation Review`
 - Material-Premise Gate: `Pass`
-- Score Summary: `9.78/10` (`97.8/100`); every category is `>=9.0`.
-- Failure Origin: `N/A — APIE2E-F-002 is resolved in source by IR-003; executable confirmation remains pending.`
-- Recommended Recipient: `/api_e2e_engineer`
-- Notes: Commit `6bbe7a9` is source-review ready for API/E2E re-entry. The separate `CRR-003` durable-test review remains `Pass`.
+- Score Summary: `9.58/10` (`95.8/100`); every category is `>=9.0`.
+- Failure Origin (when applicable): `N/A`
+- Recommended Recipient (when applicable): `/api_e2e_engineer`
+- Notes: IR-005 commit `f902e80771b304916858314fa9484cab8f6f1843` implements the RER-007/ARCH-REV-002 Python 3.13-on-Noble clean cut and is ready for API/E2E coverage investigation and execution. Pre-IR-005 API-REV-004 is not current validation.

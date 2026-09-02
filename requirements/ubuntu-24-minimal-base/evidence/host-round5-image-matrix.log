@@ -1,0 +1,96 @@
+=== initial harness failure classification ===
+=== 2026-09-01T15:51:07Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-default default 1000 1000 ===
+dpkg-query: no packages found matching python3.13-minimal
+scenario_rc=1
+=== 2026-09-01T15:51:08Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-zh zh 1000 1000 ===
+dpkg-query: no packages found matching python3.13-minimal
+scenario_rc=1
+=== 2026-09-01T15:51:08Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-default default 1000 1000 ===
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+dpkg-query: no packages found matching python3.13-minimal
+scenario_rc=1
+=== target-image package ownership inspection ===
+--- autobyteus/chrome-vnc:api-e2e-r5-arm64-default ---
+python3.13	3.13.15-1+noble1
+python3.13-dev	3.13.15-1+noble1
+python3.13-venv	3.13.15-1+noble1
+python3.13: /usr/bin/python3.13
+libpython3.13-stdlib:arm64: /usr/lib/python3.13/os.py
+libpython3.13-dev:arm64: /usr/include/python3.13/Python.h
+--- autobyteus/chrome-vnc:api-e2e-r5-amd64-default ---
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+python3.13	3.13.15-1+noble1
+python3.13-dev	3.13.15-1+noble1
+python3.13-venv	3.13.15-1+noble1
+python3.13: /usr/bin/python3.13
+libpython3.13-stdlib:amd64: /usr/lib/python3.13/os.py
+libpython3.13-dev:amd64: /usr/include/python3.13/Python.h
+classification=API/E2E durable harness defect; Deadsnakes Noble owns /usr/bin/python3.13 in python3.13, not python3.13-minimal
+=== corrected durable image harness rerun ===
+=== 2026-09-01T15:52:22Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-default default 1000 1000 ===
+scenario_rc=1
+=== 2026-09-01T15:52:25Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-zh zh 1000 1000 ===
+scenario_rc=1
+=== 2026-09-01T15:52:27Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-default default 1000 1000 ===
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+scenario_rc=1
+=== final corrected durable image harness rerun after package-owner correction ===
+=== 2026-09-01T15:53:16Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-default default 1000 1000 ===
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== 2026-09-01T15:53:19Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-zh zh 1000 1000 ===
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== 2026-09-01T15:53:21Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-default default 1000 1000 ===
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== AMD64 zh durable image harness ===
+start_utc=2026-09-01T16:04:21Z
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0 end_utc=2026-09-01T16:04:50Z
+=== custom 1234:1234 durable image harness ===
+start_utc=2026-09-01T16:10:20Z
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0 end_utc=2026-09-01T16:10:22Z
+=== final complete five-image durable harness rerun including GitHub CLI ===
+=== 2026-09-01T16:13:59Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-default default 1000 1000 ===
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== 2026-09-01T16:14:05Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-zh zh 1000 1000 ===
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== 2026-09-01T16:14:10Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-default default 1000 1000 ===
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== 2026-09-01T16:14:21Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-zh zh 1000 1000 ===
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+=== 2026-09-01T16:14:37Z tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-custom-1234 default 1234 1234 ===
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+scenario_rc=0
+matrix_rc=0 end_utc=2026-09-01T16:14:46Z
+
+=== FINAL AUTHORITATIVE IMAGE HARNESS RERUN AFTER ALL DURABLE TEST CORRECTIONS ===
+start_utc=2026-09-01T16:43:18Z
+--- tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-default default 1000 1000 ---
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+case_result=PASS image=autobyteus/chrome-vnc:api-e2e-r5-arm64-default
+--- tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-arm64-zh zh 1000 1000 ---
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+case_result=PASS image=autobyteus/chrome-vnc:api-e2e-r5-arm64-zh
+--- tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-default default 1000 1000 ---
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+case_result=PASS image=autobyteus/chrome-vnc:api-e2e-r5-amd64-default
+--- tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-amd64-zh zh 1000 1000 ---
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+case_result=PASS image=autobyteus/chrome-vnc:api-e2e-r5-amd64-zh
+--- tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-r5-custom-1234 default 1234 1234 ---
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.
+case_result=PASS image=autobyteus/chrome-vnc:api-e2e-r5-custom-1234
+matrix_rc=0 end_utc=2026-09-01T16:43:36Z

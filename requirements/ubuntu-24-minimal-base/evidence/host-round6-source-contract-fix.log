@@ -1,0 +1,70 @@
+=== BRD-UBUNTU24-001 API-REV-006 focused CRR-007 Local Fix validation ===
+start_utc=2026-09-01T16:56:57Z
+head=f902e80771b304916858314fa9484cab8f6f1843 branch=requirements/ubuntu-24-minimal-base
+finding=APIE2E-TEST-F-001 owner=api-e2e status=focused correction under test
+command=bash -n tests/validate-source-contract.sh
+PASS: Bash syntax
+command=shellcheck -e SC2016 tests/validate-source-contract.sh
+
+In tests/validate-source-contract.sh line 41:
+assert_literal_line '    python3.13 \' Dockerfile
+                                    ^-- SC1003 (info): Want to escape a single quote? echo 'This is how it'\''s done'.
+
+
+In tests/validate-source-contract.sh line 42:
+assert_literal_line '    python3.13-dev \' Dockerfile
+                                        ^-- SC1003 (info): Want to escape a single quote? echo 'This is how it'\''s done'.
+
+
+In tests/validate-source-contract.sh line 43:
+assert_literal_line '    python3.13-venv \' Dockerfile
+                                         ^-- SC1003 (info): Want to escape a single quote? echo 'This is how it'\''s done'.
+
+
+In tests/validate-source-contract.sh line 45:
+assert_literal_line 'RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 && \' Dockerfile
+                                                                             ^-- SC1003 (info): Want to escape a single quote? echo 'This is how it'\''s done'.
+
+
+In tests/validate-source-contract.sh line 46:
+assert_literal_line '    ln -s /usr/bin/python3.13 /usr/local/bin/python && \' Dockerfile
+                                                                            ^-- SC1003 (info): Want to escape a single quote? echo 'This is how it'\''s done'.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1003 -- Want to escape a single quote? ec...
+PASS: ShellCheck (intentional literal-regex SC2016 excluded)
+command=tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+command=python3 focused positive/negative discrimination fixtures
+positive-current-source: PASS accepted; rc=0; output=PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+negative-missing-explicit-python3.13-package-with-suffix-packages-retained: PASS rejected false-positive fixture; rc=1; output=FAIL: Dockerfile does not contain expected literal line:     python3.13 \
+negative-missing-explicit-python3.13-dev-with-libpython-confounder: PASS rejected false-positive fixture; rc=1; output=FAIL: Dockerfile does not contain expected literal line:     python3.13-dev \
+negative-missing-explicit-python3.13-venv-package: PASS rejected false-positive fixture; rc=1; output=FAIL: Dockerfile does not contain expected literal line:     python3.13-venv \
+negative-missing-public-python-selector-with-python3-selector-retained: PASS rejected false-positive fixture; rc=1; output=FAIL: Dockerfile does not contain expected literal line:     ln -s /usr/bin/python3.13 /usr/local/bin/python && \
+negative-missing-public-python3-selector-with-python-selector-retained: PASS rejected false-positive fixture; rc=1; output=FAIL: Dockerfile does not contain expected literal line: RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 && \
+PASS: literal-line assertions discriminate all explicit package and public-selector declarations from prefix/suffix confounders.
+command=git diff --check
+PASS: git diff --check
+end_utc=2026-09-01T16:56:59Z result=PASS
+
+=== FINAL AUTHORITATIVE FOCUSED VALIDATION AFTER SHELLCHECK-QUIET LITERAL QUOTING ===
+start_utc=2026-09-01T16:57:36Z
+PASS: bash -n tests/validate-source-contract.sh
+PASS: shellcheck -e SC2016 tests/validate-source-contract.sh (no diagnostics)
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS fixture=positive-current-source status=accepted rc=0 diagnostic=PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+PASS fixture=missing-python3.13-package-with-dev-and-venv-retained status=rejected false-positive fixture rc=1 diagnostic=FAIL: Dockerfile does not contain expected literal line:     python3.13 \
+PASS fixture=missing-python3.13-dev-with-libpython-confounder status=rejected false-positive fixture rc=1 diagnostic=FAIL: Dockerfile does not contain expected literal line:     python3.13-dev \
+PASS fixture=missing-python3.13-venv status=rejected false-positive fixture rc=1 diagnostic=FAIL: Dockerfile does not contain expected literal line:     python3.13-venv \
+PASS fixture=missing-public-python-with-python3-retained status=rejected false-positive fixture rc=1 diagnostic=FAIL: Dockerfile does not contain expected literal line:     ln -s /usr/bin/python3.13 /usr/local/bin/python && \
+PASS fixture=missing-public-python3-with-python-retained status=rejected false-positive fixture rc=1 diagnostic=FAIL: Dockerfile does not contain expected literal line: RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 && \
+PASS: all exact package and selector declarations reject prefix/suffix confounders.
+PASS: git diff --check
+end_utc=2026-09-01T16:57:37Z result=PASS
+
+=== API-REV-006 HANDOFF-TIME CANONICAL INTEGRITY ===
+start_utc=2026-09-01T16:59:39Z
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+head=f902e80771b304916858314fa9484cab8f6f1843 branch=requirements/ubuntu-24-minimal-base
+PASS: focused durable harness and canonical API-REV-006 artifacts align; no Docker/image/runtime rerun trigger exposed.
+end_utc=2026-09-01T16:59:39Z result=PASS

@@ -1,0 +1,12 @@
+BRD-UBUNTU24-001 DR-004 docs/handoff verification
+Date: 2026-09-01
+$ bash -n build-multi-arch.sh entrypoint.sh start-chrome.sh start-vnc.sh run-container.sh tests/validate-source-contract.sh tests/validate-image.sh tests/validate-running-container.sh
+PASS: Bash syntax
+$ bash tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+$ git diff --check (excluding retained raw evidence logs)
+PASS: diff hygiene
+$ active source/doc obsolete runtime scan
+PASS: no obsolete Ubuntu 22.04/Python 3.11 runtime claim in active source/docs
+$ release note status check
+PASS: release notes remain pre-publication truthful

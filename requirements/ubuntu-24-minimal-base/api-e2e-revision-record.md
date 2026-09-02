@@ -10,6 +10,8 @@ The latest `api-e2e-coverage-investigation.md` and `api-e2e-execution-coverage-r
 | API-REV-002 | Implementation Engineer / `IR-002` re-entry / round 2 | `RER-006`; `IR-002`; `CRR-001`; `API-REV-001` | `Fail` / `49%` | `Blocked — user-directed stop` / `58%` |
 | API-REV-003 | Solution Designer / host Docker/BuildX continuation / round 3 | `RER-006`; `IR-002`; `CRR-001`; `API-REV-002` | `Blocked — user-directed stop` / `58%` | `Fail` / `89%` |
 | API-REV-004 | Code Reviewer / `IR-003` + `CRR-004` re-entry / round 4 | `RER-006`; `IR-003`; `CRR-003`; `CRR-004`; `API-REV-003` | `Fail` / `89%` | `Pass` / `96%` |
+| API-REV-005 | Code Reviewer / `IR-005` + `CRR-006` re-entry / round 5 | `RER-007`; `SR-001/002`; `ARCH-REV-002`; `IR-005`; `CRR-006`; `API-REV-004` | `Pass` / `96%` | `Pass` / `97%` |
+| API-REV-006 | Code Reviewer / `CRR-007` bounded Local Fix / focused round 6 | `RER-007`; `IR-005`; `CRR-006/007`; `API-REV-005` | `Pass` / `97%` | `Pass` / `97%` |
 
 ## Revision Entries
 
@@ -114,3 +116,68 @@ None — this is the initial baseline.
 - New or remaining failure IDs: `None`.
 - Recommended recipient: `/code_reviewer` for proportional review of the round-4 `tests/validate-source-contract.sh` update; then Delivery if it passes.
 - Remaining risk/deferred scope: no local API/E2E blocker. Docker Hub publication/remote manifest verification is Delivery-owned, and server adoption remains the separate post-publication ticket.
+
+### API-REV-005 — Integrated Python 3.13/Supervisor matrix passes
+
+- Triggering role, report path, and round: Code Reviewer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` (`CRR-006`); API/E2E round 5 at implementation/worktree HEAD `f902e80771b304916858314fa9484cab8f6f1843`.
+- Triggering behavior/scenarios: RER-007 public Python 3.13 on Noble, separate OS Python ownership, one Python 3.13 `/opt/browser-tools` provider, Supervisor 4.3.0 normal-entrypoint execution, and full preserved build/runtime/browser/profile matrix; AE2E-SCN-001/002/003/006/007/008/009; AC-001–010/013.
+- Related revisions: requirements `RER-007`; solution `SR-001`, `SR-002`; architecture `ARCH-REV-002`; implementation `IR-005`; source review `CRR-006`; prior API/E2E `API-REV-004`; prior test review `CRR-005` is pre-IR-005 context only.
+- Why recorded: replace the pre-IR-005 API-REV-004 proof with direct executable evidence for the superseding Python 3.13/Supervisor provider and the complete integrated pre-publication-local regression gate.
+- Environment/command delta: macOS Apple Silicon host; Docker Engine 29.0.1; BuildX v0.29.1-desktop.1; BuildKit v0.26.2; real ARM64 plus supported AMD64 emulation; clean default/`zh` builds; normal-entrypoint runtimes; local no-push multi-platform OCI outputs.
+- Coverage decisions/durable paths changed:
+  - Updated `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-source-contract.sh` for exact Deadsnakes Noble/Python 3.13/sole Supervisor/stable commands and assets/entrypoint/`gh`/legacy-rejection contracts.
+  - Updated `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-image.sh` for public-versus-OS Python ownership, actual Deadsnakes Noble package/source layout, isolated tool owner/version/assets, `gh`, identity/variant/locale and no apt provider.
+  - Updated `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-running-container.sh` for Supervisor 4.3.0 control/PID1/provider/log evidence and native/Rosetta-valid full-command-vector interpreter ownership while preserving process/protocol/DOM/profile checks.
+  - Durable files added: none. Durable files removed: none.
+- Scenarios rechecked: exact Apple ARM64 wrapper; aliases/tags/load/push composition; clean ARM64/AMD64 default/`zh`; custom 1234:1234; image/provider/tool/locale identity; normal and mobile-safe live runtime; VNC/websockify/DevTools/semantic Chromium; real Pinyin commit; profile persistence and stale-lock recovery; default/`zh` local AMD64+ARM64 OCI indexes.
+- Result delta: the integrated IR-005 local/pre-publication gate passes at 97% confidence. AC-011 remote publication/verification and AC-012 server adoption remain sequenced outside this API/E2E round.
+
+#### Prior Failure Resolution
+
+| Prior Scenario / Failure | Previous Classification | Current Resolution | Evidence |
+| --- | --- | --- | --- |
+| `APIE2E-F-002` / AC-003 — Apple Silicon `arm64` wrapper | Resolved in IR-003/API-REV-004 | Remains resolved: exact real-host `./build-multi-arch.sh --no-cache` reaches BuildX, selects ARM64, clean-builds, tags/loads and passes current image/runtime gates. | `evidence/host-round5-build-arm64-default-retry1.log`; current image/runtime logs |
+| `APIE2E-F-001` — Noble default UID/GID collision | Resolved in IR-002/prior rounds | Remains resolved across both architectures, both variants and custom 1234:1234 build/runtime. | Current build/image/custom runtime logs |
+| Pre-IR-005 public Python 3.12/provider evidence | Superseded behavior, not a failure ID | Replaced by exact public Python 3.13, Noble OS Python separation, Deadsnakes origin and isolated Supervisor 4.3.0 evidence on both targets. | `evidence/host-round5-python-origin-and-tools.log`; image/runtime logs |
+
+- Execution observations and corrections:
+  - The first ARM64 default build hit an unrelated Ubuntu ports mirror/index `ncurses` 404 window; the exact no-cache command passed on controlled retry. No implementation failure was opened.
+  - API/E2E corrected a nonexistent `python3.13-minimal` package assertion, native/Rosetta procfs assumptions, a temporary origin-probe quoting defect, and the omitted explicit `gh` assertion. All final durable/temporary reruns passed.
+- Canonical artifacts updated:
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Prior result and confidence: `Pass` / `96%` (API-REV-004, pre-IR-005).
+- Current result and confidence: `Pass` / `97%`.
+- Broader-validation decision: `Required and completed`.
+- New or remaining failure IDs: `None`.
+- Recommended recipient: `/code_reviewer` for proportional review of the three updated durable test files; Delivery may resume only after that review passes.
+- Remaining risk/deferred scope: mutable external build inputs and the observed transient Ubuntu mirror synchronization window; Docker Hub remote publication/manifest/runtime verification and separate server adoption were intentionally not performed.
+- Cleanup: all task containers, volumes, image aliases and OCI archives removed; pre-existing `latest`/`zh` IDs restored; shared builder/cache retained; no Docker Hub or server-repository mutation.
+
+### API-REV-006 — Exact source declarations reject prefix/suffix confounders
+
+- Triggering role, report path, and round: Code Reviewer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` (`CRR-007`); focused API/E2E round 6 at worktree HEAD `f902e80771b304916858314fa9484cab8f6f1843`.
+- Triggering finding/scenario: `APIE2E-TEST-F-001`; AE2E-SCN-001; exact Python package/public-selector source contract for AC-006/AC-010.
+- Related revisions: requirements `RER-007`; implementation `IR-005`; source review `CRR-006`; proportional test review `CRR-007`; prior API/E2E `API-REV-005`.
+- Why recorded: close the bounded API/E2E-owned source-harness correctness defect without discarding or redundantly rerunning API-REV-005's successful broader product evidence.
+- Coverage decision/durable path changed: updated only `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-source-contract.sh` after CRR-007. Added `assert_literal_line`; changed `python3.13`, `python3.13-dev`, `python3.13-venv`, `/usr/local/bin/python3`, and `/usr/local/bin/python` source declarations to full literal-line assertions. No file was added or removed. `tests/validate-image.sh` and `tests/validate-running-container.sh` were unchanged and retain their CRR-007 Pass.
+- Focused execution: current source positive case; Bash syntax; ShellCheck excluding only intentional SC2016; five isolated negative fixtures covering generic-package suffixes, `libpython3.13-dev`, and `python`/`python3` selector-prefix confounders; diff hygiene.
+- Result: every focused check passed. All tightened declarations exist in current source, so no implementation mismatch or Docker-rerun trigger was exposed.
+- Broader-validation decision: `Not Required` for API-REV-006. API-REV-005's real Docker/BuildX/image/runtime/browser/desktop/profile/multi-platform evidence remains authoritative and completed.
+
+#### Prior Finding Resolution
+
+| Finding ID | Prior Status | Current Resolution | Evidence |
+| --- | --- | --- | --- |
+| `APIE2E-TEST-F-001` | CRR-007 Fail — API/E2E Local Fix; regex assertions accepted longer/different declarations | `Resolved in returned durable state; proportional re-review pending`. Literal-line assertions protect the exact package and selector declarations; all five confounding fixtures are rejected while current source passes. | `evidence/host-round6-source-contract-fix.log`, final authoritative focused section |
+
+- Canonical artifacts updated:
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-coverage-investigation.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`
+  - `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-revision-record.md`
+- Prior result and confidence: `Pass` / `97%` (`API-REV-005`; CRR-007 separately failed the source-test discrimination review).
+- Current result and confidence: `Pass` / `97%`.
+- New or remaining implementation failure IDs: `None`.
+- Recommended recipient: `/code_reviewer` for focused proportional re-review of `tests/validate-source-contract.sh` and the negative-discrimination evidence.
+- Delivery/publication: still blocked pending review Pass; no Docker Hub or server-repository mutation.

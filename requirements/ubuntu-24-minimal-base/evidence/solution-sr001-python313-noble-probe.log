@@ -1,0 +1,47 @@
+BRD-UBUNTU24-001 Python 3.13 on Noble design probe (authoritative retry)
+Date: 2026-09-01
+Host: macOS arm64 / Docker Desktop
+debconf: delaying package configuration, since apt-utils is not installed
+-- apt candidates --
+python3.13:
+  Installed: (none)
+  Candidate: 3.13.15-1+noble1
+  Version table:
+     3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+python3.13-dev:
+  Installed: (none)
+  Candidate: 3.13.15-1+noble1
+  Version table:
+     3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+python3.13-venv:
+  Installed: (none)
+  Candidate: 3.13.15-1+noble1
+  Version table:
+     3.13.15-1+noble1 500
+        500 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu noble/main arm64 Packages
+debconf: delaying package configuration, since apt-utils is not installed
+-- interpreter ownership --
+Python 3.12.3
+Python 3.13.15
+python3.13: /usr/bin/python3.13
+-- public developer runtime --
+/usr/local/bin/python3
+Python 3.13.15
+/usr/local/bin/python
+Python 3.13.15
+-- preserved distro runtime --
+Python 3.12.3
+/usr/bin/python3.12
+-- isolated operational tools --
+/usr/local/bin/supervisord
+4.3.0
+/usr/local/bin/supervisorctl
+/usr/local/bin/websockify
+supervisor=4.3.0
+websockify=0.13.0
+uv=0.12.8
+websockify_assets=/opt/browser-tools/lib/python3.13/site-packages/websockify
+uv 0.12.8 (aarch64-unknown-linux-gnu)
+PASS: Noble arm64 Python 3.13 public runtime and isolated Supervisor/websockify/uv design is feasible.

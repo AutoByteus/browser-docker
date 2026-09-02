@@ -50,26 +50,55 @@ fail() {
 
 python3_version="$(python3 --version 2>&1)"
 python_version="$(python --version 2>&1)"
-[[ "$python3_version" == Python\ 3.12.* ]] || fail "python3 is '$python3_version'"
-[[ "$python_version" == Python\ 3.12.* ]] || fail "python is '$python_version'"
-[[ "$(readlink -f /usr/bin/python3)" == "/usr/bin/python3.12" ]] || fail "/usr/bin/python3 does not resolve to Ubuntu Python 3.12"
-[[ "$(readlink -f /usr/bin/python)" == "/usr/bin/python3.12" ]] || fail "/usr/bin/python does not resolve to Ubuntu Python 3.12"
-dpkg-query -W -f='${db:Status-Status}\n' python3 python3.12 python3-dev python3-pip python3-venv python-is-python3 | grep -qv '^$'
+[[ "$python3_version" == Python\ 3.13.* ]] || fail "public python3 is '$python3_version', expected Python 3.13"
+[[ "$python_version" == Python\ 3.13.* ]] || fail "public python is '$python_version', expected Python 3.13"
+[[ "$(command -v python3)" == "/usr/local/bin/python3" ]] || fail "public python3 command is '$(command -v python3)'"
+[[ "$(command -v python)" == "/usr/local/bin/python" ]] || fail "public python command is '$(command -v python)'"
+[[ "$(readlink -f /usr/local/bin/python3)" == "/usr/bin/python3.13" ]] || fail "public python3 does not resolve to /usr/bin/python3.13"
+[[ "$(readlink -f /usr/local/bin/python)" == "/usr/bin/python3.13" ]] || fail "public python does not resolve to /usr/bin/python3.13"
+
+os_python_version="$(/usr/bin/python3 --version 2>&1)"
+[[ "$os_python_version" == Python\ 3.12.* ]] || fail "Noble OS /usr/bin/python3 is '$os_python_version'"
+[[ "$(readlink -f /usr/bin/python3)" == "/usr/bin/python3.12" ]] || fail "/usr/bin/python3 no longer resolves to Noble's distribution Python 3.12"
+[[ ! -e /usr/bin/python ]] || fail "unexpected /usr/bin/python selector exists"
+
+dpkg-query -W -f='${db:Status-Status}\n' \
+  python3 python3.12 python3.13 libpython3.13-stdlib libpython3.13-dev python3.13-dev python3.13-venv | grep -qv '^$'
 dpkg-query -S /usr/bin/python3.12 | grep -q '^python3.12-minimal:'
-! grep -Rqi 'deadsnakes' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Deadsnakes APT source is present"
+dpkg-query -S /usr/bin/python3.13 | grep -q '^python3.13:'
+python313_package_version="$(dpkg-query -W -f='${Version}' python3.13)"
+[[ "$python313_package_version" == *noble* ]] || fail "python3.13 package version '$python313_package_version' does not identify Noble"
+grep -Rqi 'ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Deadsnakes APT source is missing"
+deadsnakes_noble_source=false
+while IFS= read -r source_file; do
+  if grep -qiE 'Suites:[[:space:]]+noble|[[:space:]]noble([[:space:]-]|$)' "$source_file"; then
+    deadsnakes_noble_source=true
+    break
+  fi
+done < <(grep -Ril 'ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null)
+[[ "$deadsnakes_noble_source" == true ]] || fail "Deadsnakes source is not configured for Noble"
 grep -RqiE 'Suites:[[:space:]]+noble|[[:space:]]noble([[:space:]-]|$)' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || fail "Noble Ubuntu APT source not found"
 
 [[ -x /opt/browser-tools/bin/python ]] || fail "isolated browser-tools Python is missing"
+[[ "$(/opt/browser-tools/bin/python --version 2>&1)" == Python\ 3.13.* ]] || fail "browser-tools does not use Python 3.13"
+[[ "$(command -v supervisord)" == "/usr/local/bin/supervisord" ]] || fail "supervisord public command is not /usr/local/bin/supervisord"
+[[ "$(command -v supervisorctl)" == "/usr/local/bin/supervisorctl" ]] || fail "supervisorctl public command is not /usr/local/bin/supervisorctl"
+[[ "$(readlink -f /usr/local/bin/supervisord)" == "/opt/browser-tools/bin/supervisord" ]] || fail "supervisord public command is not isolated"
+[[ "$(readlink -f /usr/local/bin/supervisorctl)" == "/opt/browser-tools/bin/supervisorctl" ]] || fail "supervisorctl public command is not isolated"
 [[ "$(readlink -f /usr/local/bin/websockify)" == "/opt/browser-tools/bin/websockify" ]] || fail "websockify public command is not isolated"
 [[ "$(readlink -f /usr/local/bin/uv)" == "/opt/browser-tools/bin/uv" ]] || fail "uv public command is not isolated"
 [[ -d "$(readlink -f /usr/local/share/websockify)" ]] || fail "stable websockify data link is broken"
-/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, uv, websockify; assert sys.prefix == "/opt/browser-tools"; assert importlib.metadata.version("websockify")'
+/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, supervisor, uv, websockify; assert sys.prefix == "/opt/browser-tools"; assert sys.version_info[:2] == (3, 13); assert importlib.metadata.version("supervisor") == "4.3.0"; assert importlib.metadata.version("websockify"); assert importlib.metadata.version("uv")'
+[[ "$(supervisord --version)" == "4.3.0" ]] || fail "Supervisor is not 4.3.0"
+! dpkg-query -W -f='${db:Status-Status}' supervisor 2>/dev/null | grep -q 'installed' || fail "apt Supervisor provider is installed"
+! dpkg-query -S /usr/bin/supervisord >/dev/null 2>&1 || fail "/usr/bin/supervisord has a distribution package owner"
 websockify --help >/dev/null
 uv --version | grep -Eq '^uv [0-9]'
 
 [[ "$(node --version)" == v22.* ]] || fail "Node.js is not major version 22"
 yarn --version | grep -Eq '^[0-9]+'
-for command_name in chromium Xvnc startxfce4 supervisorctl socat copyq git go jq rg xdotool xclip; do
+gh --version | head -n 1 | grep -Eq '^gh version [0-9]'
+for command_name in chromium Xvnc startxfce4 supervisorctl socat copyq git gh go jq rg xdotool xclip; do
   command -v "$command_name" >/dev/null || fail "documented/preserved utility '$command_name' is unavailable"
 done
 locale -a | grep -qi '^en_US\.utf8$' || fail "en_US.UTF-8 locale is missing"
@@ -87,5 +116,5 @@ else
   ! dpkg-query -W -f='${db:Status-Status}' fcitx5 2>/dev/null | grep -q 'installed' || fail "default image unexpectedly contains fcitx5"
 fi
 
-printf 'PASS: image identity, Noble Python/tool origin, utility, locale, variant, and UID/GID contracts validated.\n'
+printf 'PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.\n'
 CONTAINER_CHECKS

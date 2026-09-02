@@ -11,6 +11,9 @@ The latest `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minim
 | `CRR-003` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Proportional durable-test review / `API-REV-003` | `N/A` | `Pass` | `None` |
 | `CRR-004` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` | Implementation review / `IR-003`, `APIE2E-F-002`, AC-003 | `Fail — Local Fix / implementation` | `Pass` | `APIE2E-F-002` resolved in source |
 | `CRR-005` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Proportional durable-test review / `API-REV-004` | `Pass` | `Pass` | `None` |
+| `CRR-006` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md` | Implementation review / `RER-007`, `ARCH-REV-002`, `IR-005` | `Pass` | `Pass` | `APIE2E-F-002` remains resolved |
+| `CRR-007` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Proportional durable-test review / `API-REV-005` | `Pass` | `Fail — Local Fix / API/E2E` | `APIE2E-TEST-F-001` |
+| `CRR-008` | `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md` | Focused proportional re-review / `API-REV-006` | `Fail — Local Fix / API/E2E` | `Pass` | `APIE2E-TEST-F-001` resolved |
 
 ## Revision Entries
 
@@ -133,3 +136,76 @@ None.
 - Material score or classification changes: No implementation scorecard applies. API/E2E advanced from `Fail / 89%` in `API-REV-003` to `Pass / 96%` in `API-REV-004`; proportional durable-test review remains `Pass`.
 - Recommended recipient: `/delivery_engineer`
 - Remaining risks or uncertainty: No local API/E2E or test-review blocker remains. Docker Hub publication and remote manifest verification are Delivery-owned; server adoption remains the separate post-publication ticket.
+
+### CRR-006 — Pass the reviewed Python 3.13-on-Noble clean cut
+
+- Canonical review report updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`
+- Review entry point and round: `Implementation Review`, round 4.
+- Triggering role, report path, and finding or scenario IDs: Implementation Engineer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/implementation-handoff.md`; `IR-005`; `BEH-001`–`BEH-003`; `SCN-001`–`SCN-005`; no new finding ID.
+- Relevant solution revision IDs: `SR-001`, `SR-002`
+- Relevant architecture-review revision IDs: `ARCH-REV-002`; `ARCH-F-001` resolved upstream
+- Relevant implementation revision IDs: `IR-005`
+- Relevant API/E2E revision IDs: `API-REV-004` as pre-IR-005 context only
+- Relevant delivery revision IDs: `DR-003`
+- Prior authoritative result: `Pass` (`CRR-004`) for the pre-IR-005 source; separate proportional test result `CRR-005` was and remains `Pass`. IR-004 received no completed code-review result because its Python 3.12 basis was superseded before review completion.
+- Current authoritative result: `Pass`; IR-005 source is ready for `/api_e2e_engineer` coverage investigation and executable validation.
+- What changed in the review result and why: RER-007 superseded Python 3.12 after the latest-base integration. SR-001/SR-002 and ARCH-REV-002 established the clean Noble/Python ownership design, and commit `f902e80771b304916858314fa9484cab8f6f1843` implements it. Independent review verified the exact parent and diff, behavior spines, Deadsnakes/Python 3.13 payload, preservation of Noble `/usr/bin/python3`, public `/usr/local` selectors, one Python 3.13 `/opt/browser-tools` provider for Supervisor 4.3.0/websockify/uv, stable commands/assets, deterministic entrypoint handoff, unchanged service/build/platform/variant/profile/Chrome contracts, syntax/lint/config/diff hygiene, removal of rejected active paths, and source guardrails.
+
+#### Prior Finding Resolution
+
+| Finding ID | Prior Status | Current Status | Related Revision References | Verification Evidence |
+| --- | --- | --- | --- | --- |
+| `APIE2E-F-002` | Resolved in source by IR-003 and executable-confirmed by API-REV-004 | `Remains resolved in current source; integrated regression required` | `IR-003`, `CRR-004`, `API-REV-004`, `IR-005` | `build-multi-arch.sh` is unchanged from the exact round-4 passing path and still maps `arm64|aarch64` to `linux/arm64`; IR-005 changes only Dockerfile, entrypoint, README, and implementation artifacts. |
+
+- New or remaining finding IDs: `None`
+- Material score or classification changes: The current score is `9.58/10` (`95.8/100`), with every category `>=9.0`. The lower score than CRR-004 reflects the broader approved provider refactor plus still-pending integrated executable evidence, not a source defect. No failure classification applies.
+- Recommended recipient: `/api_e2e_engineer`
+- Remaining risks or uncertainty: The durable harness package is not yet RER-007-current: source/image assertions still encode Python 3.12, while runtime coverage lacks the new Supervisor-provider assertions. API/E2E must investigate/correct it before claiming current coverage. The complete Noble/Python 3.13 default/zh × AMD64/ARM64 image/runtime matrix, mutable dependency resolution, publication, remote verification, finalization, and server adoption remain downstream gates.
+
+### CRR-007 — Return non-discriminating source-contract assertions
+
+- Canonical review report updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md`
+- Review entry point and round: `Proportional API/E2E Test-Code Review`, round 3.
+- Triggering role, report path, and finding or scenario IDs: API/E2E Engineer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`; `API-REV-005`; `AE2E-SCN-001`–`AE2E-SCN-003`; new `APIE2E-TEST-F-001`.
+- Relevant solution revision IDs: `SR-001`, `SR-002`
+- Relevant architecture-review revision IDs: `ARCH-REV-002`
+- Relevant implementation revision IDs: `IR-005`
+- Relevant API/E2E revision IDs: `API-REV-005`
+- Relevant delivery revision IDs: `DR-003`
+- Prior authoritative result: `Pass` (`CRR-005`) for the earlier round-4 alias assertion; source review `CRR-006` is and remains `Pass`.
+- Current authoritative result: `Fail — Local Fix / API/E2E` for the round-5 durable test-code state. API-REV-005's successful execution result remains valid.
+- What changed in the review result and why: The RER-007 image and runtime harness changes are coherent, deterministic, and backed by the passing integrated matrix. Focused source-fixture discrimination found that new `validate-source-contract.sh` substring regexes do not prove the exact declarations they name: the public `python` selector pattern passes against the `python3` line, the generic `python3.13` pattern passes against a variant package token, and the `python3.13-dev` pattern passes against `libpython3.13-dev`. The source harness can remain green after removal of the specific declaration it claims to protect.
+
+#### Prior Finding Resolution
+
+None.
+
+- New or remaining finding IDs: `APIE2E-TEST-F-001`
+- Material score or classification changes: No implementation scorecard applies. Proportional test review changes from `Pass` to `Fail` for a bounded test-code correctness defect; implementation source and API-REV-005 remain passed.
+- Recommended recipient: `/api_e2e_engineer`
+- Remaining risks or uncertainty: The correction should be limited to token/line-discriminating source assertions and focused source-harness syntax/lint/execution unless it exposes a real source mismatch. Delivery and publication remain blocked pending the return review; remote publication and server adoption remain deferred as already recorded.
+
+### CRR-008 — Pass exact Python package and selector source contracts
+
+- Canonical review report updated: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-test-review-report.md`
+- Review entry point and round: `Proportional API/E2E Test-Code Review`, round 4 focused re-review.
+- Triggering role, report path, and finding or scenario IDs: API/E2E Engineer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/api-e2e-execution-coverage-report.md`; `API-REV-006`; `AE2E-SCN-001`; `APIE2E-TEST-F-001`.
+- Relevant solution revision IDs: `SR-001`, `SR-002`
+- Relevant architecture-review revision IDs: `ARCH-REV-002`
+- Relevant implementation revision IDs: `IR-005`
+- Relevant API/E2E revision IDs: `API-REV-005`, `API-REV-006`
+- Relevant delivery revision IDs: `DR-003`
+- Prior authoritative result: `Fail — Local Fix / API/E2E` (`CRR-007`) for non-discriminating source-contract substring assertions. CRR-006 source review and API-REV-005 execution remained Pass.
+- Current authoritative result: `Pass`; the complete validated package is ready for `/delivery_engineer`.
+- What changed in the review result and why: `validate-source-contract.sh` now defines one `assert_literal_line` helper using `grep -Fqx` and applies it to the explicit `python3.13`, `python3.13-dev`, and `python3.13-venv` Dockerfile package lines plus both `/usr/local/bin/python3` and `/usr/local/bin/python` selector lines. Independent current-source execution and five temporary negative fixtures confirm that each required declaration is discriminated from every prefix/suffix confounder identified in CRR-007. Bash syntax, ShellCheck, and diff hygiene pass. No product source or broader test path changed, so the retained API-REV-005 Docker evidence remains proportionate and authoritative.
+
+#### Prior Finding Resolution
+
+| Finding ID | Prior Status | Current Status | Related Revision References | Verification Evidence |
+| --- | --- | --- | --- | --- |
+| `APIE2E-TEST-F-001` | Open — the public `python` selector and explicit Python package source assertions accepted prefix/suffix false positives | `Resolved` | `CRR-007`, `API-REV-006`, `CRR-008` | `tests/validate-source-contract.sh:18-22,41-46`; `evidence/host-round6-source-contract-fix.log`; independent reviewer Bash/ShellCheck/current-source run and five negative temporary-repository fixtures. |
+
+- New or remaining finding IDs: `None`
+- Material score or classification changes: No implementation scorecard applies. Proportional durable-test review advances from `Fail — Local Fix / API/E2E` to `Pass`; no current failure classification remains.
+- Recommended recipient: `/delivery_engineer`
+- Remaining risks or uncertainty: No local implementation, API/E2E, or durable-test review blocker remains. Docker Hub publication and remote manifest/runtime verification remain Delivery-owned; server adoption remains the separate verified-publication follow-up ticket.

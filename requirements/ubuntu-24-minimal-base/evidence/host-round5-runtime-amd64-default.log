@@ -1,0 +1,68 @@
+start_utc=2026-09-01T16:01:09Z
+b1dd6672fea342b79234286f20f2c0217c5f94a53b539df0335d2fb3f77f9976
+chrome                           RUNNING   pid 38, uptime 0:00:06
+copyq                            RUNNING   pid 37, uptime 0:00:06
+dbus                             RUNNING   pid 32, uptime 0:00:06
+disable_screensaver              EXITED    Sep 01 04:01 PM
+fcitx                            RUNNING   pid 35, uptime 0:00:06
+socat                            RUNNING   pid 39, uptime 0:00:06
+tigervnc                         RUNNING   pid 33, uptime 0:00:06
+websockify                       RUNNING   pid 40, uptime 0:00:06
+xfce                             RUNNING   pid 34, uptime 0:00:06
+FAIL: PID 1 does not execute Python 3.13
+=== focused AMD64 Rosetta/procfs probe after harness-only failure ===
+uname=x86_64
+pid1-kernel-exe=
+pid1-argv=/opt/browser-tools/bin/python /usr/local/bin/supervisord -n -c /etc/supervisor/supervisord.conf 
+pid1-argv0-resolved=/usr/bin/python3.13
+websockify-pid=40 kernel-exe= argv=/run/rosetta/rosetta /opt/browser-tools/bin/python /opt/browser-tools/bin/python /usr/local/bin/websockify --web=/usr/local/share/websockify 6080 localhost:5900 
+websockify-argv0-resolved=
+classification=API/E2E procfs assertion portability defect under Docker Desktop Rosetta; argv[0] remains the strict image-owned provider signal
+=== corrected durable runtime harness rerun ===
+chrome                           RUNNING   pid 38, uptime 0:01:05
+copyq                            RUNNING   pid 37, uptime 0:01:05
+dbus                             RUNNING   pid 32, uptime 0:01:05
+disable_screensaver              EXITED    Sep 01 04:01 PM
+fcitx                            RUNNING   pid 35, uptime 0:01:05
+socat                            RUNNING   pid 39, uptime 0:01:05
+tigervnc                         RUNNING   pid 33, uptime 0:01:05
+websockify                       RUNNING   pid 40, uptime 0:01:05
+xfce                             RUNNING   pid 34, uptime 0:01:05
+FAIL: websockify argv[0] does not resolve to Python 3.13
+=== host protocol probes ===
+PASS host VNC RFB 003.008
+PASS host websockify HTTP 200
+PASS host DevTools Chrome/151.0.7922.173
+2026-09-01 16:01:10,660 INFO supervisord started with pid 1
+2026-09-01 16:01:12,695 INFO success: chrome entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 16:01:12,695 INFO success: websockify entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2026-09-01 16:01:14,509 INFO success: tigervnc entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+corrected_end_utc=2026-09-01T16:02:18Z
+=== final corrected Rosetta-aware durable runtime harness rerun ===
+pid=1
+     1	/opt/browser-tools/bin/python
+     2	/usr/local/bin/supervisord
+     3	-n
+     4	-c
+     5	/etc/supervisor/supervisord.conf
+pid=40
+     1	/run/rosetta/rosetta
+     2	/opt/browser-tools/bin/python
+     3	/opt/browser-tools/bin/python
+     4	/usr/local/bin/websockify
+     5	--web=/usr/local/share/websockify
+     6	6080
+     7	localhost:5900
+/usr/bin/python3.13
+chrome                           RUNNING   pid 38, uptime 0:01:52
+copyq                            RUNNING   pid 37, uptime 0:01:52
+dbus                             RUNNING   pid 32, uptime 0:01:52
+disable_screensaver              EXITED    Sep 01 04:01 PM
+fcitx                            RUNNING   pid 35, uptime 0:01:52
+socat                            RUNNING   pid 39, uptime 0:01:52
+tigervnc                         RUNNING   pid 33, uptime 0:01:52
+websockify                       RUNNING   pid 40, uptime 0:01:52
+xfce                             RUNNING   pid 34, uptime 0:01:52
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+final_corrected_harness_rc=0 end_utc=2026-09-01T16:03:07Z

@@ -1,0 +1,15 @@
+BRD-UBUNTU24-001 Noble amd64 Python 3.13 package availability probe
+Date: 2026-09-01
+Unable to find image 'ubuntu:24.04' locally
+24.04: Pulling from library/ubuntu
+0926a8eb0e60: Pulling fs layer
+0926a8eb0e60: Download complete
+0926a8eb0e60: Pull complete
+Digest: sha256:33ceb71981b602c1a7443a53469e4dba065f7503eab3078a2d7a57a2ab987517
+Status: Downloaded newer image for ubuntu:24.04
+debconf: delaying package configuration, since apt-utils is not installed
+amd64
+python3.13=3.13.15-1+noble1
+python3.13-dev=3.13.15-1+noble1
+python3.13-venv=3.13.15-1+noble1
+PASS: Noble amd64 Deadsnakes Python 3.13 package family has install candidates.

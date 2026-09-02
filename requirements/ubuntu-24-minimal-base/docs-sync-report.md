@@ -3,40 +3,52 @@
 ## Scope
 
 - Ticket: `BRD-UBUNTU24-001`
-- Trigger: User-requested pre-verification ticket-branch publication, followed by an explicit request to commit and push the truthful partial validation package for host-environment testing.
-- Bootstrap base reference: `2bc0b4a26c87bdf6903e4977679849e5f7ee0bef` (`main` at the ticket branch point).
-- Integrated base reference used for docs sync: `N/A — the test branch remains based on implementation commit e604ffa and is not an integrated delivery candidate.`
-- Post-integration verification reference: `N/A — no integration was performed for this limited test push.`
+- Trigger: Delivery re-entry after requirements `RER-007`, architecture `ARCH-REV-002`, implementation `IR-005`, source review `CRR-006`, API/E2E `API-REV-005`/`API-REV-006`, and durable-test review `CRR-008` passed.
+- Bootstrap base reference: `2bc0b4a26c87bdf6903e4977679849e5f7ee0bef` (`main` at the original ticket branch point).
+- Integrated base reference used for docs sync: current `origin/main` `fb0f59372254b853e85c69046aa921f1d59d96c7`, already present as an ancestor of integrated source commit `f902e80771b304916858314fa9484cab8f6f1843` through merge commit `cc30abff0769553c84fb1ebb453c28e6123f4218`.
+- Post-integration verification reference: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr004-integration-refresh.log`; current integrated executable evidence is recorded in `api-e2e-execution-coverage-report.md` and its round-5/round-6 evidence inventory.
 
 ## Why Docs Were Updated
 
-- Summary: No long-lived documentation was changed in this limited delivery action.
-- Why this should live in long-lived project docs: `N/A — the committed README already carries the implementation's Ubuntu 24.04/Python 3.12 claims, but full docs sync must wait for completed executable validation and latest-base integration.`
+- Summary: The README now documents the durable split between the public Python 3.13 developer commands and Noble's OS-owned Python 3.12, plus the single isolated Python 3.13 owner for Supervisor 4.3.0, websockify, and `uv`. Pre-publication release notes for `1.4.0`/`1.4.0-zh` were created.
+- Why this should live in long-lived project docs: The public-versus-OS Python boundary and sole operational-tool environment prevent future maintainers from repointing `/usr/bin/python3`, mixing Supervisor providers, or reintroducing Python-version-specific tool paths. These are durable runtime ownership rules, not ticket-only implementation details.
 
 ## Long-Lived Docs Reviewed
 
 | Doc Path | Why It Was Reviewed | Result (`Updated`/`No change`/`Needs follow-up`) | Notes |
 | --- | --- | --- | --- |
-| `/home/autobyteus/workspace/browser-docker/README.md` | Confirm the user test commit contains the implementation-owned OS/Python documentation. | `Needs follow-up` | The ticket README state was not re-synchronized with current `origin/main`; final docs sync is not yet eligible. |
+| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/README.md` | Confirm Ubuntu, Python, Supervisor, architecture/variant, build, runtime, locale/input, and persistence claims against the integrated checked implementation. | `Updated` | Added the public Python 3.13 versus OS Python 3.12 ownership boundary and `/opt/browser-tools` operational-tool topology. Existing Ubuntu 24.04, Supervisor 4.3.0, GitHub CLI, Node.js 22, variant, build, and runtime instructions remain accurate. |
+| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/VERSION` | Confirm the immutable publication identity used by the build script and release notes. | `No change` | Already `1.4.0`, matching approved requirements and planned default/`zh` tags. |
+| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tickets/done/ubuntu-24-minimal-base/release-notes.md` | Prepare the required release record before user verification. | `Updated` | Created with accurate pre-publication status and the integrated release delta. |
+| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/server-base-image-adoption-follow-up.md` | Confirm downstream sequencing after publication. | `No change` | Current RER-007-aligned follow-up remains explicitly deferred until verified `1.4.0`/`1.4.0-zh` publication. |
 
 ## Docs Updated
 
-None in this limited test-branch push.
+| Doc Path | Type Of Update | What Changed | Why |
+| --- | --- | --- | --- |
+| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/README.md` | Durable runtime documentation | Added the supported public Python selectors, preserved OS interpreter, and isolated Supervisor/websockify/`uv` owner and paths. | Keep maintenance and troubleshooting guidance aligned with the reviewed Noble/Python 3.13 design. |
+| `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tickets/done/ubuntu-24-minimal-base/release-notes.md` | Release record | Added the `1.4.0`/`1.4.0-zh` change summary and truthful pending-publication status. | Provide the pre-verification artifact required for later repository finalization and Docker Hub publication. |
 
 ## Durable Design / Runtime Knowledge Promoted
 
-None in this limited test-branch push.
+| Topic | What Future Readers Need To Understand | Source Ticket Artifact(s) | Target Long-Lived Doc |
+| --- | --- | --- | --- |
+| Python ownership | `/usr/local/bin/python3` and `/usr/local/bin/python` select Python 3.13, while Noble's `/usr/bin/python3` remains distribution-owned Python 3.12. | `design-spec.md`; `implementation-handoff.md`; `api-e2e-execution-coverage-report.md` | `README.md` |
+| Operational-tool owner | Supervisor 4.3.0, websockify, and `uv` share `/opt/browser-tools` and stable `/usr/local` commands/assets; mixed or OS-owned Supervisor providers are not the supported topology. | `design-spec.md`; `implementation-handoff.md`; `api-e2e-execution-coverage-report.md` | `README.md` |
 
 ## Removed / Replaced Components Recorded
 
-None in this limited test-branch push.
+| Old Component / Path / Concept | What Replaced It | Where The New Truth Is Documented |
+| --- | --- | --- |
+| Ubuntu 22.04 image baseline | Canonical official minimal Ubuntu 24.04 LTS OCI base | `README.md`; `tickets/done/ubuntu-24-minimal-base/release-notes.md` |
+| Global/mixed Python tool ownership and version-specific websockify asset path | One Python 3.13 `/opt/browser-tools` environment with stable `/usr/local` commands/assets | `README.md`; `tickets/done/ubuntu-24-minimal-base/release-notes.md` |
 
 ## Delivery Continuation
 
-- Result: `Blocked`
-- Next delivery action: User host-environment testing of the published ticket branch (implementation commit `e604ffa1ee8d3e33aa83a4960b48e434647e965b` plus the committed stopped/partial API/E2E package), followed by latest-base integration assessment.
-- Notes: `origin/main` advanced to `fb0f59372254b853e85c69046aa921f1d59d96c7`; final delivery docs must not be asserted against the unintegrated test branch.
+- Result: `Pass`
+- Next delivery action: The user explicitly verified the handoff on 2026-09-02. Complete repository finalization, then publish and remotely verify `1.4.0`, `latest`, `1.4.0-zh`, and `zh` on Docker Hub.
+- Notes: The current integration is already based on the latest tracked `origin/main`; no new base commit was integrated in DR-004. Delivery docs checks passed at `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/delivery-dr004-docs-handoff-check.log`. The release-note folder is archived under `tickets/done`; Docker Hub and server-repository state remain unmodified at the start of finalization.
 
 ## Blocked Or Escalated Follow-Up
 
-No defect classification or upstream-design escalation is opened by this limited action. Docs sync remains pending because the user requested a pre-verification push, API/E2E round 2 is partial, and current `origin/main` contains later overlapping runtime/release changes not present in the tested commit.
+None. Docs sync is complete; only the explicit user-verification/finalization gate remains.

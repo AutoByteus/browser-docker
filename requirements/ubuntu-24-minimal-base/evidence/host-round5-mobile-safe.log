@@ -1,0 +1,20 @@
+start_utc=2026-09-01T16:00:07Z
+=== normal profile supervised Chrome arguments ===
+pid=45 args=/usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 
+PASS normal Chrome parent omits --no-sandbox
+=== mobile-safe normal-entrypoint run ===
+29264ab55cee87c5acbc8ccd68ba093e1b7c9ee2a3320ced89156e976bca22aa
+chrome                           RUNNING   pid 40, uptime 0:00:07
+copyq                            RUNNING   pid 38, uptime 0:00:07
+dbus                             RUNNING   pid 33, uptime 0:00:07
+disable_screensaver              EXITED    Sep 01 04:00 PM
+fcitx                            RUNNING   pid 36, uptime 0:00:07
+socat                            RUNNING   pid 44, uptime 0:00:07
+tigervnc                         RUNNING   pid 34, uptime 0:00:07
+websockify                       RUNNING   pid 45, uptime 0:00:07
+xfce                             RUNNING   pid 35, uptime 0:00:07
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+pid=40 args=/usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --no-sandbox --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 
+PASS mobile-safe Chrome parent includes --no-sandbox
+end_utc=2026-09-01T16:00:15Z

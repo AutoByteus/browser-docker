@@ -53,16 +53,46 @@ fail() {
   exit 1
 }
 
+process_uses_browser_tools_python313() {
+  local pid="$1"
+  local token=""
+
+  while IFS= read -r token; do
+    if [[ "$token" == "/opt/browser-tools/bin/python" ]] &&
+       [[ "$(readlink -f "$token")" == "/usr/bin/python3.13" ]]; then
+      return 0
+    fi
+  done < <(tr '\0' '\n' < "/proc/$pid/cmdline")
+
+  return 1
+}
+
 [[ "$(id -u vncuser)" == "$EXPECTED_UID" ]] || fail "runtime vncuser UID mismatch"
 [[ "$XDG_RUNTIME_DIR" == "/run/user/$EXPECTED_UID" ]] || fail "runtime XDG_RUNTIME_DIR mismatch: $XDG_RUNTIME_DIR"
 [[ -S "/run/user/$EXPECTED_UID/bus" ]] || fail "DBus session socket missing from configured UID path"
 [[ "$(stat -c %u "/run/user/$EXPECTED_UID")" == "$EXPECTED_UID" ]] || fail "runtime path ownership mismatch"
+
+[[ "$(command -v supervisord)" == "/usr/local/bin/supervisord" ]] || fail "runtime supervisord command is not /usr/local/bin/supervisord"
+[[ "$(command -v supervisorctl)" == "/usr/local/bin/supervisorctl" ]] || fail "runtime supervisorctl command is not /usr/local/bin/supervisorctl"
+[[ "$(readlink -f /usr/local/bin/supervisord)" == "/opt/browser-tools/bin/supervisord" ]] || fail "runtime supervisord provider is not /opt/browser-tools"
+[[ "$(readlink -f /usr/local/bin/supervisorctl)" == "/opt/browser-tools/bin/supervisorctl" ]] || fail "runtime supervisorctl provider is not /opt/browser-tools"
+[[ "$(supervisord --version)" == "4.3.0" ]] || fail "runtime Supervisor is not 4.3.0"
+[[ "$(supervisorctl version)" == "4.3.0" ]] || fail "running Supervisor control API is not 4.3.0"
+[[ "$(supervisorctl pid)" == "1" ]] || fail "Supervisor is not container PID 1"
+process_uses_browser_tools_python313 1 || fail "PID 1 command line does not use the isolated Python 3.13 interpreter"
+tr '\0' ' ' < /proc/1/cmdline | grep -Fq '/usr/local/bin/supervisord' || fail "PID 1 command line does not contain the sole public Supervisor path"
+/opt/browser-tools/bin/python -c 'import importlib.metadata, sys, supervisor; assert sys.prefix == "/opt/browser-tools"; assert sys.version_info[:2] == (3, 13); assert importlib.metadata.version("supervisor") == "4.3.0"'
+! grep -RqiE 'pkgutil\.ImpImporter|AttributeError.*ImpImporter' /var/log/supervisor /var/log/supervisor* 2>/dev/null || fail "prior Python compatibility traceback is present"
 
 pgrep -u vncuser -x Xvnc >/dev/null || fail "Xvnc process missing"
 pgrep -u vncuser -x dbus-daemon >/dev/null || fail "session DBus process missing"
 pgrep -u vncuser -f '/usr/lib/chromium/chromium.*--remote-debugging-port=9222' >/dev/null || fail "Chromium process missing"
 pgrep -u vncuser -f 'socat TCP-LISTEN:9223' >/dev/null || fail "socat debugging proxy missing"
 pgrep -u vncuser -f 'websockify.*6080 localhost:5900' >/dev/null || fail "websockify process missing"
+[[ "$(readlink -f /usr/local/bin/websockify)" == "/opt/browser-tools/bin/websockify" ]] || fail "runtime websockify provider is not /opt/browser-tools"
+[[ "$(readlink -f /usr/local/bin/uv)" == "/opt/browser-tools/bin/uv" ]] || fail "runtime uv provider is not /opt/browser-tools"
+websockify_pid="$(pgrep -u vncuser -f 'websockify.*6080 localhost:5900' | head -n 1)"
+process_uses_browser_tools_python313 "$websockify_pid" || fail "websockify command line does not use the isolated Python 3.13 interpreter"
 if [[ "$EXPECTED_VARIANT" == "zh" ]]; then
   pgrep -u vncuser -x fcitx5 >/dev/null || fail "fcitx5 process missing in zh image"
 else
@@ -99,7 +129,7 @@ PY
 su -s /bin/bash vncuser -c 'test -w /home/vncuser/.config/chromium && printf runtime-write-ok > /home/vncuser/.config/chromium/api-e2e-runtime-marker'
 [[ "$(stat -c %u /home/vncuser/.config/chromium/api-e2e-runtime-marker)" == "$EXPECTED_UID" ]] || fail "profile write ownership mismatch"
 
-printf 'PASS: Supervisor, process, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.\n'
+printf 'PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.\n'
 CONTAINER_CHECKS
 
 # Drive the existing Chromium instance over its real DevTools WebSocket and
