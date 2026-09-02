@@ -22,6 +22,7 @@ assert_not_contains() {
 }
 
 fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/build-wrapper-test.XXXXXX")"
+trap 'rm -rf -- "$fixture_root"' EXIT
 fake_bin="$fixture_root/bin"
 mkdir -p "$fake_bin"
 

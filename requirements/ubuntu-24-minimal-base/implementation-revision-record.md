@@ -12,6 +12,7 @@ The current source and `implementation-handoff.md` remain authoritative.
 | IR-004 | Delivery Engineer / `delivery-revision-record.md` / latest-base refresh round | `DR-003` | `Local Fix` | `SR: RER-006`; `ARCH-REV: N/A`; `CRR-004`, `CRR-005`; `API-REV-004`; `DR-003` | Latest `origin/main` is intentionally integrated: approved Noble/Python 3.12/1.4.0 behavior is retained, and applicable current-base `gh` plus Chromium-wrapper changes are incorporated; focused checks pass. |
 | IR-005 | Architecture Reviewer / `design-review-report.md` / `ARCH-REV-002` | `N/A — ARCH-F-001 resolved upstream` | `Reviewed Design Implementation` | `SR-001`, `SR-002`; `ARCH-REV-002`; `CRR-004`, `CRR-005`; `API-REV-004`; `DR-003` | The approved Python 3.13/Noble clean cut is implemented with preserved OS Python, one isolated Supervisor/websockify/uv owner, stable public paths, and no stale Python 3.12/distribution-Supervisor provider. |
 | IR-006 | Delivery Engineer / `delivery-revision-record.md` / `DR-005` | `DR-005 publication wrapper blocker` | `Local Fix` | `SR-001`, `SR-002`; `ARCH-REV-002`; `CRR-006`, `CRR-008`; `API-REV-005`, `API-REV-006`; `DR-005` | The push path no longer rejects valid credential-helper sessions by parsing `docker info`; BuildX is the push authority and its real failure status propagates without false success. |
+| IR-007 | Code Reviewer / `code-review-report.md` / `CRR-009` | `CR-F-001` | `Local Fix` | `SR-001`, `SR-002`; `ARCH-REV-002`; `CRR-009`; `API-REV-005`, `API-REV-006`; `DR-005` | The deterministic wrapper harness owns its temporary tree through an immediate EXIT trap; normal, assertion-error, and command-error runs leave zero fixture-count increase. |
 
 ## Revision Entries
 
@@ -135,3 +136,24 @@ The current source and `implementation-handoff.md` remain authoritative.
 - Local validation and result: Bash syntax and ShellCheck passed; the new deterministic harness passed both no-`Username`/successful-BuildX and real-BuildX-failure scenarios while asserting the exact default and `zh` multi-platform tags/arguments; the current source-contract harness, unstable-presentation scan, diff hygiene, and source-size guardrail passed. All DR-005-owned uncommitted artifacts/evidence were hash-verified unchanged. No real Docker build, login, registry request, or publication was executed.
 - Next recipient or routing: `/code_reviewer` for source and focused test review before `/api_e2e_engineer` investigates/executes applicable wrapper coverage; only then may Delivery retry publication.
 - Remaining limitations or risks: The deterministic harness proves wrapper command composition and failure propagation, not actual credential-helper interoperability or registry authorization. Docker Hub remains untouched by Implementation; `1.4.0`/`1.4.0-zh` remain absent and `latest`/`zh` remain at Delivery's recorded `1.3.8` baselines. Repository finalization is not rolled back. AC-011, remote manifest/runtime verification, release record completion, cleanup, and separate server adoption remain blocked.
+
+
+### IR-007 — Close deterministic wrapper fixture lifecycle
+
+- Triggering role, report path, and round: Code Reviewer; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/code-review-report.md`; implementation review `CRR-009`.
+- Triggering finding IDs: `CR-F-001`.
+- Classification: `Local Fix`.
+- Prior authoritative result: `CRR-009 Fail` — IR-006's production-source correction was sound, but `tests/validate-build-wrapper.sh` created a `build-wrapper-test.*` tree without an EXIT cleanup, so every normal or failed execution leaked the fake Docker executable and call logs.
+- Current authoritative result: The harness installs an immediate, quoted EXIT trap after successful fixture creation and removes only its own `fixture_root`. Focused checks prove cleanup on normal completion, a controlled assertion error, and a controlled command error with zero matching-fixture count increase. Focused source/test re-review remains required before API/E2E.
+- Related solution revision IDs: `SR-001`, `SR-002` — unchanged context.
+- Related architecture-review revision IDs: `ARCH-REV-002`.
+- Related code-review revision IDs: `CRR-009`.
+- Related API/E2E revision IDs: `API-REV-005`, `API-REV-006` remain pre-IR-006 context only.
+- Related delivery revision IDs: `DR-005`.
+- Why this baseline or implementation revision is recorded: Close the reachable durable-test lifecycle defect without changing the already accepted BuildX production boundary or expanding test infrastructure.
+- Approved behavior or requirement IDs affected: Durable validation of `BEH-001`, `SCN-002`, `REQ-003`, `REQ-005`, `REQ-008`, `AC-004`, and `AC-011`; production behavior is unchanged from IR-006.
+- Implementation delta: Added `trap 'rm -rf -- "$fixture_root"' EXIT` immediately after `mktemp -d` in `tests/validate-build-wrapper.sh`. The quoted late-bound variable targets only the successfully created harness-owned directory and applies to normal, assertion/error, and command-error process exits. Removed five historical matching fixture trees left by pre-fix implementation/reviewer executions from the host temporary directory; no repository source or external system was affected.
+- Changed files or areas: `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/tests/validate-build-wrapper.sh`; current implementation handoff/revision record; `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base/requirements/ubuntu-24-minimal-base/evidence/implementation-ir-007-test-cleanup-check.log`.
+- Local validation and result: Bash syntax, ShellCheck, normal wrapper harness, current source contract, and `git diff --check` passed. Explicit count evidence showed `0 -> 0` matching fixtures for the normal run, controlled assertion-error exit `1`, and controlled command-error exit `44`; the final count remained zero. CRR-009/DR-005-owned uncommitted artifacts were hash-verified unchanged. No real Docker/registry action ran.
+- Next recipient or routing: `/code_reviewer` for focused `CR-F-001` re-review before API/E2E may resume.
+- Remaining limitations or risks: EXIT traps do not run on uncatchable `SIGKILL` or catastrophic host termination, which is standard process behavior and not a reachable cleanup guarantee a shell harness can provide. Actual credential-helper/registry interoperability remains downstream. Publication, AC-011 verification, release completion, cleanup, and server adoption remain blocked.

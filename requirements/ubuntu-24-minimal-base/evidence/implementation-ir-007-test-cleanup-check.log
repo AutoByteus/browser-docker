@@ -1,0 +1,44 @@
+BRD-UBUNTU24-001 implementation IR-007 CR-F-001 fixture-cleanup checks
+UTC 2026-09-02T03:06:12Z
+--- starting revision ---
+24a61a8542a220c32d1d88b600fde5b7a33d8a06
+--- remove historical leaked fixtures from pre-fix executions ---
+historical matching fixture count before cleanup: 5
+historical matching fixture count after cleanup: 0
+PASS: historical leaked fixtures removed
+--- Bash syntax ---
+PASS: Bash syntax
+--- ShellCheck ---
+PASS: ShellCheck (only existing intentional production SC2086/source-contract SC2016 exclusions)
+--- normal EXIT cleanup and wrapper behavior ---
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+matching fixture count before normal run: 0
+matching fixture count after normal run: 0
+PASS: normal run leaves zero fixture-count increase
+--- assertion-error EXIT cleanup ---
+assertion-error status: 1
+matching fixture count before assertion-error run: 0
+matching fixture count after assertion-error run: 0
+PASS: assertion-error exit removes its fixture tree
+--- command-error EXIT cleanup ---
+command-error status: 44
+matching fixture count before command-error run: 0
+matching fixture count after command-error run: 0
+PASS: command-error exit removes its fixture tree
+--- current source contract ---
+PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.
+--- diff hygiene and final count ---
+final matching fixture count: 0
+PASS: git diff hygiene and zero remaining matching fixtures
+--- review/delivery artifact preservation ---
+requirements/ubuntu-24-minimal-base/code-review-report.md: OK
+requirements/ubuntu-24-minimal-base/code-review-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/delivery-revision-record.md: OK
+requirements/ubuntu-24-minimal-base/docs-sync-report.md: OK
+requirements/ubuntu-24-minimal-base/handoff-summary.md: OK
+requirements/ubuntu-24-minimal-base/release-deployment-report.md: OK
+tickets/done/ubuntu-24-minimal-base/release-notes.md: OK
+requirements/ubuntu-24-minimal-base/evidence/delivery-dr005-publication-preflight-failure.log: OK
+requirements/ubuntu-24-minimal-base/evidence/delivery-dr005-publish-default.log: OK
+PASS: CRR-009 and DR-005 artifacts remain byte-for-byte unchanged
+PASS: IR-007 focused implementation checks
