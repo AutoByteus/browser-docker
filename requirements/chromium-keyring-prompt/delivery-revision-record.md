@@ -49,3 +49,8 @@ The latest docs sync report, handoff summary, and release/publication/deployment
 - Why this delivery revision was recorded: Records the verified finalization, publication, re-publication, rollout, and cleanup round with exact identities.
 - Next recipient/action: `/solution_designer` verifies the terminal receipt.
 - Remaining blockers, rollback concerns, or untested scope: None blocking. amd64 remains validated under emulation only (published amd64 children passed under Rosetta). AC-002 navigation was not re-run on the user's live nodes (to avoid touching their browser state); it is proven on the identical published server images. "Restore pages?" bubble remains for its separate ticket (DEC-004). Rollback identities in `release-deployment-report.md`. Paths in DR-001 refer to the since-removed ticket worktree; the same files now live on `main`.
+
+#### Terminal return confirmation (DR-002)
+
+- Terminal return to `/solution_designer`: `Sent` at 2026-09-25T08:54:18Z via `send_message_to` (message type `Delivery Completed`) after the release record `4efef88` reached `main`.
+- Tool result: accepted, code `DELIVERED`, `target_agent_run_id` `solution_designer_e71a8e894c394d1c9bf6b65e050637f4`.

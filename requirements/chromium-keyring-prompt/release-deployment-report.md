@@ -181,5 +181,5 @@ All passed — see the tables above and "Deployment Steps". AC coverage at deliv
 - Applicable safe cleanup complete or not required: `Yes`
 - Unresolved blocker: `None`
 - Successful terminal package eligible for return: `Yes`
-- Terminal package sent to `/solution_designer`: recorded in `delivery-revision-record.md` DR-002 after the send
+- Terminal package sent to `/solution_designer`: `Yes` (accepted, `DELIVERED`, run `solution_designer_e71a8e894c394d1c9bf6b65e050637f4`)
 - Terminal message/reference: see `delivery-revision-record.md` DR-002
