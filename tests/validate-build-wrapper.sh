@@ -21,6 +21,11 @@ assert_not_contains() {
   [[ "$actual" != *"$rejected"* ]] || fail "output unexpectedly contains: $rejected"
 }
 
+# VERSION is the single release-version authority (pinned by
+# validate-source-contract.sh); the wrapper must tag whatever it declares.
+image_version="$(tr -d '\r\n' < VERSION)"
+[[ -n "$image_version" ]] || fail "VERSION is empty"
+
 fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/build-wrapper-test.XXXXXX")"
 trap 'rm -rf -- "$fixture_root"' EXIT
 fake_bin="$fixture_root/bin"
@@ -82,7 +87,7 @@ assert_contains "Multi-architecture image pushed to Docker Hub" "$success_output
 if grep -Fq $'CALL\tinfo' "$success_log"; then
   fail "push path must not parse docker info presentation"
 fi
-expected_success_call=$'CALL\tbuildx\tbuild\t--push\t--platform\tlinux/amd64,linux/arm64\t--tag\tautobyteus/chrome-vnc:1.4.0\t--tag\tautobyteus/chrome-vnc:latest\t--build-arg\tIMAGE_VARIANT=default\t.'
+expected_success_call=$'CALL\tbuildx\tbuild\t--push\t--platform\tlinux/amd64,linux/arm64\t--tag\tautobyteus/chrome-vnc:'"$image_version"$'\t--tag\tautobyteus/chrome-vnc:latest\t--build-arg\tIMAGE_VARIANT=default\t.'
 grep -Fqx -- "$expected_success_call" "$success_log" || fail "successful push did not preserve the default multi-platform BuildX command"
 
 failure_log="$fixture_root/push-failure.calls"
@@ -103,7 +108,7 @@ assert_not_contains "Multi-architecture image pushed to Docker Hub" "$failure_ou
 if grep -Fq $'CALL\tinfo' "$failure_log"; then
   fail "failing push path must not parse docker info presentation"
 fi
-expected_failure_call=$'CALL\tbuildx\tbuild\t--push\t--no-cache\t--platform\tlinux/amd64,linux/arm64\t--tag\tautobyteus/chrome-vnc:1.4.0-zh\t--tag\tautobyteus/chrome-vnc:zh\t--build-arg\tIMAGE_VARIANT=zh\t.'
+expected_failure_call=$'CALL\tbuildx\tbuild\t--push\t--no-cache\t--platform\tlinux/amd64,linux/arm64\t--tag\tautobyteus/chrome-vnc:'"$image_version"$'-zh\t--tag\tautobyteus/chrome-vnc:zh\t--build-arg\tIMAGE_VARIANT=zh\t.'
 grep -Fqx -- "$expected_failure_call" "$failure_log" || fail "failing push did not preserve the zh/no-cache multi-platform BuildX command"
 
 printf 'PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.\n'

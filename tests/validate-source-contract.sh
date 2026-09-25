@@ -32,7 +32,7 @@ assert_not_contains() {
 first_from="$(awk 'toupper($1) == "FROM" { print $2; exit }' Dockerfile)"
 [[ "$first_from" == "ubuntu:24.04" ]] || fail "first effective Dockerfile base is '$first_from', expected ubuntu:24.04"
 
-[[ "$(tr -d '\r\n' < VERSION)" == "1.4.0" ]] || fail "VERSION must be 1.4.0"
+[[ "$(tr -d '\r\n' < VERSION)" == "1.4.1" ]] || fail "VERSION must be 1.4.1"
 
 assert_not_contains 'ubuntu:22\.04|Ubuntu 22\.04|python3\.11' \
   Dockerfile base.conf entrypoint.sh README.md build-multi-arch.sh
@@ -73,11 +73,37 @@ assert_contains 'TAG_PRIMARY="\$IMAGE_NAME:\$\{VERSION\}-\$\{VARIANT\}"' build-m
 assert_contains 'TAG_SECONDARY="\$IMAGE_NAME:\$VARIANT"' build-multi-arch.sh
 assert_contains 'EXPOSE 5900 6080 9223' Dockerfile
 
+# No OS keyring: the package set purges the interactive provider inside the
+# install layer, and one /etc/chromium.d drop-in owns Chromium's password store.
+password_store_dropin='chromium.d/autobyteus-password-store'
+password_store_export='export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"'
+purge_line='    apt-get purge -y gnome-keyring libpam-gnome-keyring && \'
+assert_literal_line "$purge_line" Dockerfile
+PURGE_LINE="$purge_line" awk '
+  $0 == ENVIRON["PURGE_LINE"] { getline next_line; found = 1; exit (next_line == "    apt-get clean && rm -rf /var/lib/apt/lists/*" ? 0 : 1) }
+  END { if (!found) exit 1 }
+' Dockerfile || fail "keyring purge must directly precede apt-get clean in the package install layer"
+assert_literal_line "COPY $password_store_dropin /etc/chromium.d/autobyteus-password-store" Dockerfile
+assert_contains 'dos2unix .*/etc/chromium\.d/autobyteus-password-store' Dockerfile
+assert_literal_line '    chmod 0644 /etc/chromium.d/autobyteus-password-store' Dockerfile
+assert_not_contains 'chmod \+x .*chromium\.d|chown vncuser.*chromium\.d' Dockerfile
+[[ "$(grep -Ev '^[[:space:]]*(#|$)' "$password_store_dropin")" == "$password_store_export" ]] ||
+  fail "$password_store_dropin must contain only comments and: $password_store_export"
+assert_not_contains '--password-store' \
+  Dockerfile start-chrome.sh base.conf entrypoint.sh supervisord.conf start-vnc.sh
+assert_contains '^exec /usr/bin/chromium ' start-chrome.sh
+
 assert_contains "Canonical's official minimal Ubuntu 24\.04 LTS OCI base" README.md
 assert_contains 'Python 3\.13 developer runtime, Supervisor 4\.3\.0' README.md
 assert_contains 'GitHub CLI, Node\.js 22, and Yarn' README.md
 assert_contains 'default \(English\) image and a `zh` variant' README.md
+assert_contains '^### No OS keyring$' README.md
+assert_contains 'gnome-keyring` and `libpam-gnome-keyring' README.md
+assert_contains '/etc/chromium\.d/autobyteus-password-store' README.md
+assert_contains '--password-store=basic' README.md
+assert_contains 'profile volume' README.md
+assert_contains 're-login' README.md
 assert_contains 'linux/amd64' build-multi-arch.sh
 assert_contains 'linux/arm64' build-multi-arch.sh
 
-printf 'PASS: source, build, release, runtime-path, port, and documentation contracts are consistent.\n'
+printf 'PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.\n'

@@ -103,6 +103,33 @@ for command_name in chromium Xvnc startxfce4 supervisorctl socat copyq git gh go
 done
 locale -a | grep -qi '^en_US\.utf8$' || fail "en_US.UTF-8 locale is missing"
 
+# No OS keyring: no Secret Service provider is shipped, and every Chromium
+# launch through the distribution wrapper carries --password-store=basic.
+package_is_installed() {
+  dpkg-query -W -f='${db:Status-Status}' "$1" 2>/dev/null | grep -qx 'installed'
+}
+for package_name in gnome-keyring libpam-gnome-keyring; do
+  ! package_is_installed "$package_name" || fail "keyring package '$package_name' is installed"
+done
+for package_name in chromium xfce4-session; do
+  package_is_installed "$package_name" || fail "package '$package_name' is missing after the keyring purge"
+done
+for service_name in org.freedesktop.secrets org.freedesktop.impl.portal.Secret org.gnome.keyring; do
+  [[ ! -e "/usr/share/dbus-1/services/$service_name.service" ]] || fail "D-Bus service file $service_name.service is present"
+done
+! grep -Rqsx 'Name=org.freedesktop.secrets' /usr/share/dbus-1/services || fail "a D-Bus service still provides org.freedesktop.secrets"
+
+password_store_dropin=/etc/chromium.d/autobyteus-password-store
+[[ -f "$password_store_dropin" ]] || fail "$password_store_dropin is missing"
+[[ "$(stat -c '%U:%G %a' "$password_store_dropin")" == "root:root 644" ]] || fail "$password_store_dropin must be root:root 644, is $(stat -c '%U:%G %a' "$password_store_dropin")"
+[[ "$(CHROMIUM_FLAGS='' sh -c ". $password_store_dropin && printf '%s' \"\$CHROMIUM_FLAGS\"")" == " --password-store=basic" ]] || fail "$password_store_dropin does not yield --password-store=basic"
+[[ "$(grep -rl -- '--password-store' /etc/chromium.d)" == "$password_store_dropin" ]] || fail "--password-store is set outside $password_store_dropin"
+wrapper_exec="$(su -s /bin/sh vncuser -c 'sh -x /usr/bin/chromium --version' 2>&1 | grep -E '^\+ exec /usr/lib/chromium/chromium ' || true)"
+[[ " $wrapper_exec " == *" --password-store=basic "* ]] || fail "/usr/bin/chromium does not launch Chromium with --password-store=basic: ${wrapper_exec:-no exec trace}"
+grep -qx 'Exec=/usr/bin/chromium %U' /usr/share/applications/chromium.desktop || fail "chromium.desktop does not launch through /usr/bin/chromium"
+[[ "$(xdg-mime query default x-scheme-handler/http)" == "chromium.desktop" ]] || fail "xdg-open does not resolve http URLs to chromium.desktop"
+[[ "$(readlink -f /etc/alternatives/x-www-browser)" == "/usr/bin/chromium" ]] || fail "x-www-browser does not resolve to /usr/bin/chromium"
+
 if [[ "$EXPECTED_VARIANT" == "zh" ]]; then
   for package_name in fonts-noto-cjk fonts-noto-color-emoji fonts-wqy-zenhei language-pack-zh-hans language-pack-zh-hant fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk3 fcitx5-frontend-qt5 fcitx5-config-qt im-config; do
     dpkg-query -W -f='${db:Status-Status}' "$package_name" 2>/dev/null | grep -q 'installed' || fail "zh package '$package_name' is missing"
@@ -116,5 +143,5 @@ else
   ! dpkg-query -W -f='${db:Status-Status}' fcitx5 2>/dev/null | grep -q 'installed' || fail "default image unexpectedly contains fcitx5"
 fi
 
-printf 'PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, locale, variant, and UID/GID contracts validated.\n'
+printf 'PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.\n'
 CONTAINER_CHECKS

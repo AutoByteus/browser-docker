@@ -87,6 +87,21 @@ tr '\0' ' ' < /proc/1/cmdline | grep -Fq '/usr/local/bin/supervisord' || fail "P
 pgrep -u vncuser -x Xvnc >/dev/null || fail "Xvnc process missing"
 pgrep -u vncuser -x dbus-daemon >/dev/null || fail "session DBus process missing"
 pgrep -u vncuser -f '/usr/lib/chromium/chromium.*--remote-debugging-port=9222' >/dev/null || fail "Chromium process missing"
+# Chromium may rewrite its process title into one space-joined string, and an
+# emulator may prefix the command line, so match space-delimited flags anywhere.
+chromium_main_pid=""
+chromium_main_cmdline=""
+while IFS= read -r pid; do
+  cmdline="$(tr '\0' ' ' < "/proc/$pid/cmdline")"
+  if [[ " $cmdline " != *" --type="* ]]; then
+    chromium_main_pid="$pid"
+    chromium_main_cmdline="$cmdline"
+    break
+  fi
+done < <(pgrep -u vncuser -f '/usr/lib/chromium/chromium ')
+[[ -n "$chromium_main_pid" ]] || fail "Chromium main browser process missing"
+[[ " $chromium_main_cmdline " == *" --password-store=basic "* ]] ||
+  fail "Chromium main process $chromium_main_pid does not carry --password-store=basic: $chromium_main_cmdline"
 pgrep -u vncuser -f 'socat TCP-LISTEN:9223' >/dev/null || fail "socat debugging proxy missing"
 pgrep -u vncuser -f 'websockify.*6080 localhost:5900' >/dev/null || fail "websockify process missing"
 [[ "$(readlink -f /usr/local/bin/websockify)" == "/opt/browser-tools/bin/websockify" ]] || fail "runtime websockify provider is not /opt/browser-tools"
@@ -129,7 +144,7 @@ PY
 su -s /bin/bash vncuser -c 'test -w /home/vncuser/.config/chromium && printf runtime-write-ok > /home/vncuser/.config/chromium/api-e2e-runtime-marker'
 [[ "$(stat -c %u /home/vncuser/.config/chromium/api-e2e-runtime-marker)" == "$EXPECTED_UID" ]] || fail "profile write ownership mismatch"
 
-printf 'PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools and profile-write contracts validated.\n'
+printf 'PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.\n'
 CONTAINER_CHECKS
 
 # Drive the existing Chromium instance over its real DevTools WebSocket and
@@ -186,9 +201,72 @@ function getJson(path) {
     throw new Error(`Unexpected rendered DOM: ${JSON.stringify(observed)}`);
   }
   process.stdout.write(`PASS: Chromium rendered semantic DOM through DevTools: ${JSON.stringify(observed)}\n`);
+
+  // An http:// page needs Chromium's cookie store, which an OS keyring prompt
+  // blocks; the local websockify listing avoids any internet dependency.
+  const httpUrl = 'http://127.0.0.1:6080/';
+  const expectedTitle = 'Directory listing for /';
+  const navigationTimeoutMs = 30000;
+  const startedAt = Date.now();
+  let timer;
+  const httpNavigation = (async () => {
+    await send('Page.navigate', {url: httpUrl});
+    for (;;) {
+      try {
+        const state = await send('Runtime.evaluate', {
+          expression: 'JSON.stringify({url: location.href, readyState: document.readyState, title: document.title})',
+          returnByValue: true,
+        });
+        const page = JSON.parse(state.result.value);
+        if (page.url === httpUrl && page.readyState === 'complete' && page.title === expectedTitle) return page;
+      } catch (error) {
+        // The execution context is replaced while the navigation commits; poll again.
+      }
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  })();
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error(`${httpUrl} did not render '${expectedTitle}' within ${navigationTimeoutMs} ms`)),
+      navigationTimeoutMs,
+    );
+  });
+  const rendered = await Promise.race([httpNavigation, timeout]);
+  clearTimeout(timer);
+  process.stdout.write(`PASS: Chromium loaded ${httpUrl} unattended in ${Date.now() - startedAt} ms: ${JSON.stringify(rendered)}\n`);
   ws.close();
 })().catch(error => {
   console.error(`FAIL: Chromium DevTools render probe: ${error.stack || error}`);
   process.exit(1);
 });
 NODE
+
+# After startup and navigation, nothing may have asked for or provided an OS
+# keyring, and a Secret Service request from the desktop user must fail fast.
+docker exec -i "$container" /bin/bash -s <<'KEYRING_CHECKS'
+set -euo pipefail
+
+fail() {
+  printf 'FAIL: %s\n' "$*" >&2
+  exit 1
+}
+
+keyring_processes="$(pgrep -af 'gcr-prompter|gnome-keyring-daemon' || true)"
+[[ -z "$keyring_processes" ]] || fail "keyring processes are running: $keyring_processes"
+
+dbus_log=/var/log/supervisor/dbus.err.log
+[[ -f "$dbus_log" ]] || fail "session D-Bus log $dbus_log is missing"
+secrets_activation="$(grep -F "Activating service name='org.freedesktop.secrets'" "$dbus_log" || true)"
+[[ -z "$secrets_activation" ]] || fail "session D-Bus activated the Secret Service: $secrets_activation"
+
+started_ns="$(date +%s%N)"
+secret_status=0
+secret_output="$(su -s /bin/bash vncuser -c 'DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus" timeout 5 dbus-send --session --print-reply --dest=org.freedesktop.secrets /org/freedesktop/secrets org.freedesktop.DBus.Peer.Ping' 2>&1)" || secret_status=$?
+elapsed_ms=$(( ($(date +%s%N) - started_ns) / 1000000 ))
+(( secret_status != 0 )) || fail "Secret Service request succeeded: $secret_output"
+[[ "$secret_output" == *ServiceUnknown* || "$secret_output" == *"not provided by any .service files"* ]] ||
+  fail "Secret Service request failed for an unexpected reason (status $secret_status): $secret_output"
+(( elapsed_ms <= 2000 )) || fail "Secret Service request took ${elapsed_ms} ms, expected <= 2000 ms"
+
+printf 'PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in %s ms: %s\n' "$elapsed_ms" "$secret_output"
+KEYRING_CHECKS

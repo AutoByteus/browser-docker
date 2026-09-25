@@ -8,6 +8,7 @@ This repository contains a Docker setup for a browser environment with VNC acces
 - Python 3.13 developer runtime, Supervisor 4.3.0, GitHub CLI, Node.js 22, and Yarn
 - TigerVNC (`Xvnc`) server for remote desktop access
 - Screen lock/screensaver disabled for uninterrupted operation
+- No OS keyring: nothing blocks unattended use on a "Choose password for new keyring" dialog
 - Multi-architecture support (AMD64 and ARM64)
 - Optional `zh` locale tag with Chinese fonts installed and fcitx5 enabled (English keyboard stays default; toggle Chinese with `Ctrl+Space`).
 
@@ -18,6 +19,33 @@ Python 3.13. Ubuntu Noble's distribution-owned `/usr/bin/python3` remains on
 Python 3.12 for operating-system tools and is not replaced. Supervisor 4.3.0,
 websockify, and `uv` share the isolated Python 3.13 environment at
 `/opt/browser-tools`, with stable commands exposed through `/usr/local/bin`.
+
+### No OS keyring
+
+Containers from this image are operated by agents, so nothing may wait on an
+interactive keyring dialog.
+
+- The image ships no Secret Service (`org.freedesktop.secrets`) provider:
+  `gnome-keyring` and `libpam-gnome-keyring`, which Ubuntu 24.04 desktop extras
+  pull in only as apt Recommends, are purged during the build (this also removes
+  `evolution-data-server`, which hard-depends on `gnome-keyring`).
+- Every Chromium launch (Supervisor autostart, `xdg-open`, desktop menu) goes
+  through `/usr/bin/chromium`, which sources
+  `/etc/chromium.d/autobyteus-password-store` and adds
+  `--password-store=basic`. Chromium therefore never uses an OS keyring, even if
+  one is installed later.
+- Chromium protects cookies and saved passwords with its built-in key, which is
+  obfuscation rather than encryption. Treat the Chromium profile volume
+  (`/home/vncuser/.config/chromium`) as sensitive data.
+- Tools that try the system keyring (for example `gh`, Git credential helpers,
+  or Python `keyring`) fail immediately with "not provided by any .service
+  files" and fall back to their own file-based storage.
+- Upgrading from 1.4.0: in containers where someone typed a password into the
+  keyring dialog, Chromium cookies encrypted with that keyring are no longer
+  readable, so affected sites need one re-login. The profile volume is
+  otherwise kept as is.
+- Downstream images built on this image must not re-configure Chromium's
+  password store (`--password-store` or `/etc/chromium.d`).
 
 ## Prerequisites
 

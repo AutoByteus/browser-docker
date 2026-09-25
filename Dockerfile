@@ -86,6 +86,9 @@ RUN apt-get update && \
         im-config \
         ; \
     fi && \
+    # Agent-operated node: ship no interactive keyring service (it arrives only via
+    # apt Recommends and blocks unattended use with a "new keyring" dialog).
+    apt-get purge -y gnome-keyring libpam-gnome-keyring && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Ensure en_US locale exists for all variants
@@ -215,10 +218,12 @@ COPY entrypoint.sh /entrypoint.sh
 COPY start-vnc.sh /usr/local/bin/start-vnc.sh
 COPY start-chrome.sh /usr/local/bin/start-chrome.sh
 COPY disable-screensaver.sh /home/vncuser/disable-screensaver.sh
+COPY chromium.d/autobyteus-password-store /etc/chromium.d/autobyteus-password-store
 
-RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh /etc/chromium.d/autobyteus-password-store && \
     chmod +x /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
-    chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh
+    chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+    chmod 0644 /etc/chromium.d/autobyteus-password-store
 
 EXPOSE 5900 6080 9223
 
