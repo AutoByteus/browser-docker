@@ -1,0 +1,27 @@
+purpose=API-REV-001 independent mutation checks: each injected defect in a fresh temp copy of source 6d4aa75 must make the durable contract FAIL
+start_utc=2026-09-25T05:06:20Z
+--- baseline (no mutation) ---
+baseline source-contract (expect exit=0 MISSED)            exit=0 MISSED | PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+baseline build-wrapper (expect exit=0 MISSED)              exit=0 MISSED | PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+--- mutations: source contract ---
+S1 purge line deleted                                      exit=1 CAUGHT | FAIL: Dockerfile does not contain expected literal line:     apt-get purge -y gnome-keyring libpam-gnome-keyring && \
+S2 purge moved to a separate later RUN                     exit=1 CAUGHT | FAIL: Dockerfile does not contain expected literal line:     apt-get purge -y gnome-keyring libpam-gnome-keyring && \
+S3 only gnome-keyring purged (libpam kept)                 exit=1 CAUGHT | FAIL: Dockerfile does not contain expected literal line:     apt-get purge -y gnome-keyring libpam-gnome-keyring && \
+S4 drop-in COPY removed                                    exit=1 CAUGHT | FAIL: Dockerfile does not contain expected literal line: COPY chromium.d/autobyteus-password-store /etc/chromium.d/autobyteus-password-store
+S5 drop-in made executable (chmod +x list)                 exit=1 CAUGHT | FAIL: active source contains obsolete pattern: chmod \+x .*chromium\.d|chown vncuser.*chromium\.d
+S6 drop-in chowned to vncuser                              exit=1 CAUGHT | FAIL: active source contains obsolete pattern: chmod \+x .*chromium\.d|chown vncuser.*chromium\.d
+S7 drop-in flag value gnome-libsecret                      exit=1 CAUGHT | FAIL: chromium.d/autobyteus-password-store must contain only comments and: export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+S8 drop-in replaces instead of appends CHROMIUM_FLAGS      exit=1 CAUGHT | FAIL: chromium.d/autobyteus-password-store must contain only comments and: export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+S9 drop-in gains an extra flag line                        exit=1 CAUGHT | FAIL: chromium.d/autobyteus-password-store must contain only comments and: export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+S10 flag duplicated in start-chrome.sh                     exit=1 CAUGHT | FAIL: active source contains obsolete pattern: --password-store
+S11 flag duplicated in base.conf chrome command            exit=1 CAUGHT | FAIL: active source contains obsolete pattern: --password-store
+S12 start-chrome.sh execs the binary directly              exit=1 CAUGHT | FAIL: start-chrome.sh does not contain expected pattern: ^exec /usr/bin/chromium 
+S13 VERSION left at 1.4.0                                  exit=1 CAUGHT | FAIL: VERSION must be 1.4.1
+S14 README No-OS-keyring section removed                   exit=1 CAUGHT | FAIL: README.md does not contain expected pattern: ^### No OS keyring$
+223:RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh && \
+S15 drop-in dropped from dos2unix list                     exit=1 CAUGHT | FAIL: Dockerfile does not contain expected pattern: dos2unix .*/etc/chromium\.d/autobyteus-password-store
+--- mutations: build wrapper ---
+14:VERSION=1.4.0
+W1 wrapper hard-codes 1.4.0 instead of VERSION             exit=1 CAUGHT | FAIL: successful push did not preserve the default multi-platform BuildX command
+W2 VERSION=9.9.9, wrapper unchanged (expect exit=0: tags follow VERSION) exit=0 MISSED | PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+end_utc=2026-09-25T05:06:30Z

@@ -1,0 +1,12 @@
+purpose=C08 real https websites over DevTools 9223 within 30 s + cookie store readable; container=api-e2e-keyring-arm64-default utc=2026-09-25T05:14:22Z
+PASS: https://www.wikipedia.org/ -> {"url":"https://www.wikipedia.org/","readyState":"complete","title":"Wikipedia"} in 749 ms (limit 30000)
+PASS: https://example.com/ -> {"url":"https://example.com/","readyState":"complete","title":"Example Domain"} in 168 ms (limit 30000)
+PASS: https://github.com/autobyteus -> {"url":"https://github.com/autobyteus","readyState":"complete","title":"AutoByteus · GitHub"} in 1541 ms (limit 30000)
+INFO: Chromium cookie store holds 11 cookies for [".github.com",".wikipedia.org","github.com","www.wikipedia.org"]
+PASS: cookie store is initialised and readable (no keyring needed)
+exit=0
+933 bash -c pgrep -af "gcr-prompter|gnome-keyring-daemon" || echo "no keyring processes after external navigation"; grep -c "org.freedesktop.secrets" /var/log/supervisor/dbus.err.log || true
+0
+--- correction: the line above beginning '933 bash -c pgrep ...' is the probe's own bash -c command line matching its pattern (self-match), not a keyring process. Non-self-matching recheck:
+keyring process count by exact comm: 0
+org.freedesktop.secrets lines in dbus.err.log: 0

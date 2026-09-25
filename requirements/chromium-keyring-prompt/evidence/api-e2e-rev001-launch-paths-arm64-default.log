@@ -1,0 +1,36 @@
+purpose=C07 launch paths; container=api-e2e-keyring-arm64-default image=autobyteus/chrome-vnc:api-e2e-keyring-arm64-default
+C07 launch-path probe start_utc=2026-09-25T05:14:40Z image_variant=default vnc_uid=1000 chromium=Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+xdg-mime http default: chromium.desktop
+xfce WebBrowser helper: WebBrowser=debian-sensible-browser  ; x-www-browser -> /usr/bin/chromium; sensible-browser=/usr/bin/sensible-browser
+--- server bridge (warm): root -> open-vnc-browser-url.sh -> runuser vncuser xdg-open ---
+PASS: server bridge (warm): tab c07=warm-bridge rendered 'Directory listing for /' in 0 s via DevTools /json/list
+PASS: server bridge (warm): URL was handed to the existing Supervisor Chromium (pid 42)
+PASS: server bridge (warm): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- server bridge (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ /usr/local/bin/open-vnc-browser-url.sh http://127.0.0.1:6080/?c07=cold-bridge
+main pid=1302 ancestry: chromium[1302] <- xfce4-mime-help[1301] <- supervisord[1]
+main cmdline: /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension http://127.0.0.1:6080/?c07=cold-bridge 
+PASS: server bridge (cold): new Chromium main process carries --password-store=basic
+PASS: server bridge (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: server bridge (cold): page rendered unattended in 0 s; window title: Directory listing for / - Chromium
+PASS: server bridge (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- XFCE exo-open --launch WebBrowser (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ runuser -u vncuser -- env DISPLAY=:99 XAUTHORITY=/home/vncuser/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/vncuser /usr/bin/exo-open --launch WebBrowser http://127.0.0.1:6080/?c07=cold-exo
+main pid=1530 ancestry: chromium[1530] <- xfce4-mime-help[1529] <- supervisord[1]
+main cmdline: /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension http://127.0.0.1:6080/?c07=cold-exo 
+PASS: XFCE exo-open --launch WebBrowser (cold): new Chromium main process carries --password-store=basic
+PASS: XFCE exo-open --launch WebBrowser (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: XFCE exo-open --launch WebBrowser (cold): page rendered unattended in 1 s; window title: Directory listing for / - Chromium
+PASS: XFCE exo-open --launch WebBrowser (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- desktop entry gtk-launch chromium (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ runuser -u vncuser -- env DISPLAY=:99 XAUTHORITY=/home/vncuser/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/vncuser /usr/bin/gtk-launch chromium http://127.0.0.1:6080/?c07=cold-gtk
+main pid=1764 ancestry: chromium[1764] <- supervisord[1]
+main cmdline: /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension http://127.0.0.1:6080/?c07=cold-gtk 
+PASS: desktop entry gtk-launch chromium (cold): new Chromium main process carries --password-store=basic
+PASS: desktop entry gtk-launch chromium (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: desktop entry gtk-launch chromium (cold): page rendered unattended in 2 s; window title: Directory listing for / - Chromium
+PASS: desktop entry gtk-launch chromium (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+PASS: restored Supervisor Chromium (pid 1984) carries --password-store=basic and DevTools 9222
+supervisorctl status chrome: chrome                           RUNNING   pid 1984, uptime 0:00:02
+C07 end_utc=2026-09-25T05:14:52Z failures=0
+exit=0

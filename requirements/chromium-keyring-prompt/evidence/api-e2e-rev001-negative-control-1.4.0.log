@@ -1,0 +1,125 @@
+purpose=C06 independent negative control: every new durable keyring assertion must FAIL on the unfixed image; discriminating controls for C09/C10
+start_utc=2026-09-25T05:15:45Z image=autobyteus/chrome-vnc:1.4.0 id=sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1 arch=arm64 digests=[autobyteus/chrome-vnc@sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1]
+tests sha256: validate-image.sh=183b4e995acbaf84 validate-running-container.sh=439552ac5bf0bb98
+
+=== N1 full tests/validate-image.sh autobyteus/chrome-vnc:1.4.0 default (expect FAIL at first keyring assertion) ===
+FAIL: keyring package 'gnome-keyring' is installed
+exit=1
+
+=== N2 image 'No OS keyring' section extracted verbatim from tests/validate-image.sh with non-exiting fail() (expect every keyring assertion to FAIL; routing checks pass) ===
+extracted lines:       29
+FAIL: keyring package 'gnome-keyring' is installed
+FAIL: keyring package 'libpam-gnome-keyring' is installed
+FAIL: D-Bus service file org.freedesktop.secrets.service is present
+FAIL: D-Bus service file org.freedesktop.impl.portal.Secret.service is present
+FAIL: D-Bus service file org.gnome.keyring.service is present
+FAIL: a D-Bus service still provides org.freedesktop.secrets
+FAIL: /etc/chromium.d/autobyteus-password-store is missing
+FAIL: /etc/chromium.d/autobyteus-password-store must be root:root 644, is 
+FAIL: /etc/chromium.d/autobyteus-password-store does not yield --password-store=basic
+FAIL: --password-store is set outside /etc/chromium.d/autobyteus-password-store
+FAIL: /usr/bin/chromium does not launch Chromium with --password-store=basic: + exec /usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension= --version
+section-complete
+
+=== start api-e2e-keyring-neg-140 on autobyteus/chrome-vnc:1.4.0 (fresh profile) ===
+a223d3ca5c4e7d57dfbddde8f8d9592aa5703f17154e1dcff5497e9b93715d72
+
+=== N3 full tests/validate-running-container.sh api-e2e-keyring-neg-140 default (expect FAIL at the flag assertion) ===
+FAIL: Chromium main process 39 does not carry --password-store=basic: /usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 
+exit=1
+extracted: node.js       89 lines; keyring.sh       25 lines; neutralised lines: 2
+
+=== N4 NODE block verbatim (AC-002 http navigation; expect FAIL after 30 s) ===
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+FAIL: Chromium DevTools render probe: Error: http://127.0.0.1:6080/ did not render 'Directory listing for /' within 30000 ms
+exit=1 wall_s=32
+
+=== N5 KEYRING_CHECKS verbatim (expect FAIL: keyring processes) ===
+FAIL: keyring processes are running: 249 /usr/bin/gnome-keyring-daemon --start --foreground --components=secrets
+exit=1
+
+=== N6 KEYRING_CHECKS, process assertion neutralised -> activation-log assertion alone (expect FAIL) ===
+FAIL: session D-Bus activated the Secret Service: dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.secrets' requested by ':1.12' (uid=1000 pid=39 comm="/usr/lib/chromium/chromium --show-component-extens")
+exit=1
+
+=== N7 KEYRING_CHECKS, process + log assertions neutralised -> AC-007 dbus-send alone (expect FAIL: request succeeded) ===
+FAIL: Secret Service request succeeded: method return time=1790313389.324943 sender=:1.14 -> destination=:1.51 serial=14 reply_serial=2
+exit=1
+
+=== N8 C09 operator-view control on 1.4.0 (expect FAIL: dialog window + prompter process + activation) ===
+     0x1a00001 "gcr-prompter": ("gcr-prompter" "Gcr-prompter")  10x10+10+10  +10+10
+        0x1a00008 (has no name): ("gcr-prompter" "Gcr-prompter")  824x198+5+29  +548+453
+exit=126
+Error response from daemon: Could not find the file /tmp/c09-neg-140.png in container api-e2e-keyring-neg-140
+
+=== N9 C10 keyring-client control on 1.4.0 (expect FAIL: vncuser libsecret store hangs on the dialog; ping succeeds) ===
+exit=126
+
+=== cleanup ===
+api-e2e-keyring-neg-140
+api-e2e-keyring-neg-140-profile
+end_utc=2026-09-25T05:16:31Z
+
+=== RERUN N8/N9 (harness fix: probe files were copied without the exec bit -> exit 126 above; N1-N7 unaffected). Fresh container api-e2e-keyring-neg-140b on autobyteus/chrome-vnc:1.4.0 start_utc=2026-09-25T05:16:43Z ===
+5bdb726ca8d6c8d9dcccdfe4ff07b67ffaa1d20e35f1a4f8f0de95af54fe04a5
+gcr-prompter up after ~4s
+=== N8 C09 operator-view control on 1.4.0 (expect FAIL) ===
+C09 operator-view probe utc=2026-09-25T05:16:51Z image_variant=default
+  0xc00032  class="xfwm4", "Xfwm4"  name=Xfwm4
+  0x1e00013  class="xfdesktop", "Xfdesktop"  name=Desktop
+  0x600004  class="chromium", "Chromium"  name=New Tab - Chromium
+  0x1800003  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x2600003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2c00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2e00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x3000003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x1800010  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1800014  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+FAIL: keyring-related window(s) present:      0x1a00001 "gcr-prompter": ("gcr-prompter" "Gcr-prompter")  10x10+10+10  +10+10
+FAIL: prompt process(es): 272 /usr/bin/gnome-keyring-daemon --start --foreground --components=secrets
+  Activating service name='org.freedesktop.systemd1' requested by ':1.0' (uid=1000 pid=65 comm="systemctl --user list-jobs
+  Activating service name='org.a11y.Bus' requested by ':1.1' (uid=1000 pid=40 comm="xfce4-session
+  Activating service name='org.gtk.vfs.Daemon' requested by ':1.4' (uid=1000 pid=48 comm="/usr/lib/chromium/chromium --show-compon
+  Activating service name='org.xfce.Xfconf' requested by ':1.5' (uid=1000 pid=40 comm="xfce4-session
+  Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=40 comm="xfce4-session
+  Activating service name='org.freedesktop.secrets' requested by ':1.12' (uid=1000 pid=48 comm="/usr/lib/chromium/chromium --show-compon
+  Activating service name='org.freedesktop.Notifications' requested by ':1.12' (uid=1000 pid=48 comm="/usr/lib/chromium/chromium --show-compon
+  Activating service name='org.freedesktop.portal.Desktop' requested by ':1.12' (uid=1000 pid=48 comm="/usr/lib/chromium/chromium --show-compon
+  Activating service name='org.freedesktop.portal.Documents' requested by ':1.19' (uid=1000 pid=292 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.gnome.keyring.SystemPrompter' requested by ':1.17' (uid=1000 pid=272 comm="/usr/bin/gnome-keyring-daemon --start --
+  Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.21' (uid=1000 pid=307 comm="/usr/libexec/xdg-document-portal
+  Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.19' (uid=1000 pid=292 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.thumbnails.Thumbnailer1' requested by ':1.20' (uid=1000 pid=293 comm="xfdesktop
+  Activating service name='org.freedesktop.systemd1' requested by ':1.26' (uid=1000 pid=375 comm="systemctl --user start xfce4-notifyd.ser
+  Activating service name='ca.desrt.dconf' requested by ':1.28' (uid=1000 pid=379 comm="light-locker
+  Activating service name='org.gnome.evolution.dataserver.Sources5' requested by ':1.33' (uid=1000 pid=361 comm="/usr/libexec/evolution-data-server/evolu
+  Activating service name='org.gnome.evolution.dataserver.Calendar8' requested by ':1.33' (uid=1000 pid=361 comm="/usr/libexec/evolution-data-server/evolu
+  Activating service name='org.gnome.evolution.dataserver.AddressBook10' requested by ':1.39' (uid=1000 pid=460 comm="/usr/libexec/evolution-calendar-factory
+  Activating service name='org.gtk.vfs.Metadata' requested by ':1.39' (uid=1000 pid=460 comm="/usr/libexec/evolution-calendar-factory
+  Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.25' (uid=1000 pid=355 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.25' (uid=1000 pid=355 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.25' (uid=1000 pid=355 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.25' (uid=1000 pid=355 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.25' (uid=1000 pid=355 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+FAIL: keyring-related activation: dbus-daemon[38]: [session uid=1000 pid=38] Activating service name='org.freedesktop.secrets' requested by ':1.12' (uid=1000 pid=48 comm="/usr/lib/chromium/chromium --show-component-extens")
+dbus-daemon[38]: [session uid=1000 pid=38] Activating service name='org.gnome.keyring.SystemPrompter' requested by ':1.17' (uid=1000 pid=272 comm="/usr/bin/gnome-keyring-daemon --start --foreground")
+screenshot: /tmp/c09-neg-140.png (471964 bytes)
+C09 failures=3
+exit=1
+screenshot copied: api-e2e-rev001-negative-control-1.4.0-operator-view.png
+=== N9 C10 keyring-client control on 1.4.0 (expect FAIL: vncuser store hangs; ping succeeds) ===
+C10 keyring-client probe utc=2026-09-25T05:16:51Z image_variant=default python=Python 3.12.3 libsecret=0.21.4-1build3
+vncuser libsecret store (desktop user, own session bus): rc=124 wall_ms=12007 output= Session terminated, killing shell... ...killed. 
+FAIL: vncuser libsecret store (desktop user, own session bus) hung until the 10s timeout (keyring prompt or provider wait)
+vncuser libsecret lookup: rc=0 wall_ms=59 output=lookup: LOOKUP value=None elapsed_ms=7 
+FAIL: vncuser libsecret lookup succeeded - a keyring provider accepted the request
+root libsecret store (inherited vncuser bus address): rc=3 wall_ms=32 output=store: ERROR Error: g-io-error-quark: The connection is closed (18) elapsed_ms=1 
+PASS: root libsecret store (inherited vncuser bus address) failed fast (32 ms <= 2000 ms)
+vncuser dbus-send Secret Service ping: rc=0 wall_ms=51 output=method return time=1790313423.914528 sender=:1.17 -> destination=:1.53 serial=27 reply_serial=2 
+FAIL: vncuser dbus-send Secret Service ping succeeded - a keyring provider accepted the request
+FAIL: prompt/provider process after client requests: 272 /usr/bin/gnome-keyring-daemon --start --foreground --components=secrets
+C10 failures=4
+exit=1
+api-e2e-keyring-neg-140b
+api-e2e-keyring-neg-140b-profile
+end_utc=2026-09-25T05:17:05Z

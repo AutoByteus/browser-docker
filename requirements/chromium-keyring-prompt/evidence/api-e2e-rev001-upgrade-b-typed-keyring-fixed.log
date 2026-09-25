@@ -1,0 +1,49 @@
+C11 chain b start_utc=2026-09-25T05:21:15Z
+=== b1: 1.4.0; operator types a keyring password into the real dialog (xdotool) ===
+started api-e2e-keyring-upg-b1 from autobyteus/chrome-vnc:1.4.0 (sha256:cb49a54d8e74) on volume api-e2e-keyring-upg-b-profile
+gcr-prompter pending after ~4s
+dialog window: 37748744  Width: 824  Height: 198 
+keyring procs(exact comm): 1; secrets activations: 1; keyrings dir: default Default_Keyring.keyring 
+PASS: nav http://127.0.0.1:6080/ -> {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"} in 83 ms (limit 30000)
+SET: document.cookie now = "apie2e_140=v11-from-typed-keyring"
+COOKIES(apie2e*): [{"name":"apie2e_140","value":"v11-from-typed-keyring","domain":"127.0.0.1"}]
+waiting 40 s for Chromium's periodic cookie-store commit (30 s)
+pre-stop DB state:
+DB /p/Default/Cookies: apie2e rows = [{"host": "127.0.0.1", "name": "apie2e_140", "enc_prefix": "v11", "enc_len": 67, "plain_value": ""}]
+Local State os_crypt keys: ['portal']
+b1 stopped gracefully
+DB /p/Default/Cookies: apie2e rows = [{"host": "127.0.0.1", "name": "apie2e_140", "enc_prefix": "v11", "enc_len": 67, "plain_value": ""}]
+Local State os_crypt keys: ['portal']
+b1 removed (its container-layer keyring is gone, as on a real re-create)
+=== b2: fixed image re-created on the same profile volume ===
+started api-e2e-keyring-upg-b2 from autobyteus/chrome-vnc:api-e2e-keyring-arm64-default (sha256:8ba7962fa3c2) on volume api-e2e-keyring-upg-b-profile
+$ tests/validate-running-container.sh api-e2e-keyring-upg-b2 default
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 53 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+runtime contract exit=0
+PASS: nav http://127.0.0.1:6080/ -> {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"} in 28 ms (limit 30000)
+DOC: location=http://127.0.0.1:6080/ document.cookie=""
+COOKIES(apie2e*): []
+OBSERVED: keyring-encrypted cookie apie2e_140 is not readable (approved one-time re-login, DEC-003)
+keyring procs(exact comm): 0; secrets activations: 0; keyrings dir: 
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: api-e2e-rev001-upgrade-b-fixed-operator-view.png
+=== b3: re-login equivalent - a new cookie on the fixed image persists across docker restart ===
+SET: document.cookie now = "apie2e_141=v10-after-upgrade"
+waiting 40 s for Chromium's periodic cookie-store commit (30 s)
+pre-stop DB state:
+DB /p/Default/Cookies: apie2e rows = [{"host": "127.0.0.1", "name": "apie2e_141", "enc_prefix": "v10", "enc_len": 67, "plain_value": ""}]
+Local State os_crypt keys: ['portal']
+READY: 1 page target(s)
+PASS: nav http://127.0.0.1:6080/ -> {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"} in 199 ms (limit 30000)
+DOC: location=http://127.0.0.1:6080/ document.cookie="apie2e_141=v10-after-upgrade"
+PASS: cookie written by the fixed image persists across restart
+keyring procs(exact comm): 0; secrets activations: 0; keyrings dir: 
+DB /p/Default/Cookies: apie2e rows = [{"host": "127.0.0.1", "name": "apie2e_141", "enc_prefix": "v10", "enc_len": 67, "plain_value": ""}]
+Local State os_crypt keys: ['portal']
+volume api-e2e-keyring-upg-b-profile removed
+C11 chain b end_utc=2026-09-25T05:23:21Z

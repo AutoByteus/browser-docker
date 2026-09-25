@@ -1,0 +1,106 @@
+purpose=C07-C10 probes on amd64 (emulated) default; container=api-e2e-keyring-amd64-default
+execution arch: uname -m=x86_64; PID1 cmdline prefix: /opt/browser-tools/bin/python /usr/local/bin/supervisord -n -c /etc/supervisor/s; host=arm64
+
+===== C09 operator view (after startup + validate-running-container navigation) =====
+C09 operator-view probe utc=2026-09-25T05:25:02Z image_variant=default
+  0xe00032  class="xfwm4", "Xfwm4"  name=Xfwm4
+  0x1c00013  class="xfdesktop", "Xfdesktop"  name=Desktop
+  0x400004  class="chromium", "Chromium"  name=Directory listing for / - Chromium
+  0x1800003  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1e00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2400003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2800003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2a00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x1800010  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1800014  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+  Activating service name='org.a11y.Bus' requested by ':1.0' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.xfce.Xfconf' requested by ':1.5' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.gtk.vfs.Daemon' requested by ':1.7' (uid=1000 pid=38 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.thumbnails.Thumbnailer1' requested by ':1.16' (uid=1000 pid=240 comm="xfdesktop
+  Activating service name='org.freedesktop.systemd1' requested by ':1.17' (uid=1000 pid=266 comm="systemctl --user start xfce4-notifyd.ser
+  Activating service name='ca.desrt.dconf' requested by ':1.19' (uid=1000 pid=265 comm="light-locker
+  Activating service name='org.freedesktop.portal.Desktop' requested by ':1.3' (uid=1000 pid=38 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Documents' requested by ':1.30' (uid=1000 pid=360 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.18' (uid=1000 pid=263 comm="/usr/lib/x86_64-linux-gnu/tumbler-1/tumb
+  Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.31' (uid=1000 pid=371 comm="/usr/libexec/xdg-document-portal
+  Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.18' (uid=1000 pid=263 comm="/usr/lib/x86_64-linux-gnu/tumbler-1/tumb
+  Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.18' (uid=1000 pid=263 comm="/usr/lib/x86_64-linux-gnu/tumbler-1/tumb
+  Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.30' (uid=1000 pid=360 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.18' (uid=1000 pid=263 comm="/usr/lib/x86_64-linux-gnu/tumbler-1/tumb
+  Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.18' (uid=1000 pid=263 comm="/usr/lib/x86_64-linux-gnu/tumbler-1/tumb
+  Activating service name='org.gtk.vfs.Metadata' requested by ':1.16' (uid=1000 pid=240 comm="xfdesktop
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: /tmp/c09.png (488270 bytes)
+C09 failures=0
+exit=0
+
+===== C10 keyring clients =====
+C10 keyring-client probe utc=2026-09-25T05:25:05Z image_variant=default python=Python 3.12.3 libsecret=0.21.4-1build3
+vncuser libsecret store (desktop user, own session bus): rc=3 wall_ms=394 output=store: ERROR Error: g-dbus-error-quark: The name org.freedesktop.secrets was not provided by any .service files (2) elapsed_ms=53 
+PASS: vncuser libsecret store (desktop user, own session bus) failed fast (394 ms <= 2000 ms)
+vncuser libsecret lookup: rc=3 wall_ms=354 output=lookup: ERROR Error: g-dbus-error-quark: The name org.freedesktop.secrets was not provided by any .service files (2) elapsed_ms=53 
+PASS: vncuser libsecret lookup failed fast (354 ms <= 2000 ms)
+root libsecret store (inherited vncuser bus address): rc=3 wall_ms=287 output=store: ERROR Error: g-io-error-quark: The connection is closed (18) elapsed_ms=33 
+PASS: root libsecret store (inherited vncuser bus address) failed fast (287 ms <= 2000 ms)
+vncuser dbus-send Secret Service ping: rc=1 wall_ms=144 output=Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files 
+PASS: vncuser dbus-send Secret Service ping failed fast (144 ms <= 2000 ms)
+PASS: no prompt/provider process after the client requests
+C10 failures=0
+exit=0
+
+===== C08 external https navigation =====
+PASS: https://www.wikipedia.org/ -> {"url":"https://www.wikipedia.org/","readyState":"complete","title":"Wikipedia"} in 2650 ms (limit 30000)
+PASS: https://example.com/ -> {"url":"https://example.com/","readyState":"complete","title":"Example Domain"} in 1067 ms (limit 30000)
+PASS: https://github.com/autobyteus -> {"url":"https://github.com/autobyteus","readyState":"complete","title":"AutoByteus · GitHub"} in 4633 ms (limit 30000)
+INFO: Chromium cookie store holds 11 cookies for [".github.com",".wikipedia.org","github.com","www.wikipedia.org"]
+PASS: cookie store is initialised and readable (no keyring needed)
+exit=0
+
+===== C07 launch paths =====
+C07 launch-path probe start_utc=2026-09-25T05:25:16Z image_variant=default vnc_uid=1000 chromium=Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+xdg-mime http default: chromium.desktop
+xfce WebBrowser helper: WebBrowser=debian-sensible-browser  ; x-www-browser -> /usr/bin/chromium; sensible-browser=/usr/bin/sensible-browser
+--- server bridge (warm): root -> open-vnc-browser-url.sh -> runuser vncuser xdg-open ---
+PASS: server bridge (warm): tab c07=warm-bridge rendered 'Directory listing for /' in 3 s via DevTools /json/list
+PASS: server bridge (warm): URL was handed to the existing Supervisor Chromium (pid 38)
+PASS: server bridge (warm): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- server bridge (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ /usr/local/bin/open-vnc-browser-url.sh http://127.0.0.1:6080/?c07=cold-bridge
+main pid=1177 ancestry: chromium[1177] <- xfce4-mime-help[1170] <- python[1]
+main cmdline: /run/rosetta/rosetta /usr/lib/chromium/chromium /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension= http://127.0.0.1:6080/?c07=cold-bridge 
+PASS: server bridge (cold): new Chromium main process carries --password-store=basic
+PASS: server bridge (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: server bridge (cold): page rendered unattended in 6 s; window title: Directory listing for / - Chromium
+PASS: server bridge (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- XFCE exo-open --launch WebBrowser (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ runuser -u vncuser -- env DISPLAY=:99 XAUTHORITY=/home/vncuser/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/vncuser /usr/bin/exo-open --launch WebBrowser http://127.0.0.1:6080/?c07=cold-exo
+main pid=1429 ancestry: chromium[1429] <- xfce4-mime-help[1428] <- python[1]
+main cmdline: /run/rosetta/rosetta /usr/lib/chromium/chromium /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension= http://127.0.0.1:6080/?c07=cold-exo 
+PASS: XFCE exo-open --launch WebBrowser (cold): new Chromium main process carries --password-store=basic
+PASS: XFCE exo-open --launch WebBrowser (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: XFCE exo-open --launch WebBrowser (cold): page rendered unattended in 5 s; window title: Directory listing for / - Chromium
+PASS: XFCE exo-open --launch WebBrowser (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- desktop entry gtk-launch chromium (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ runuser -u vncuser -- env DISPLAY=:99 XAUTHORITY=/home/vncuser/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/vncuser /usr/bin/gtk-launch chromium http://127.0.0.1:6080/?c07=cold-gtk
+main pid=1684 ancestry: chromium[1684] <- python[1]
+main cmdline: /run/rosetta/rosetta /usr/lib/chromium/chromium /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension= http://127.0.0.1:6080/?c07=cold-gtk 
+PASS: desktop entry gtk-launch chromium (cold): new Chromium main process carries --password-store=basic
+PASS: desktop entry gtk-launch chromium (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: desktop entry gtk-launch chromium (cold): page rendered unattended in 4 s; window title: Directory listing for / - Chromium
+PASS: desktop entry gtk-launch chromium (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+PASS: restored Supervisor Chromium (pid 1909) carries --password-store=basic and DevTools 9222
+supervisorctl status chrome: chrome                           RUNNING   pid 1909, uptime 0:00:04
+C07 end_utc=2026-09-25T05:25:50Z failures=0
+exit=0
+
+===== C09 re-audit after C07/C08 =====
+C09 operator-view probe utc=2026-09-25T05:25:50Z image_variant=default
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: /tmp/c09b.png (492273 bytes)
+C09 failures=0
+exit=0

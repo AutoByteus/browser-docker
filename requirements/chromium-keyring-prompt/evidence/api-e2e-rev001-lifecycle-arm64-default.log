@@ -1,0 +1,40 @@
+purpose=C12 lifecycle + preserved profiles on autobyteus/chrome-vnc:api-e2e-keyring-arm64-default start_utc=2026-09-25T05:26:32Z
+
+=== L1 supervisorctl restart chrome ===
+chrome: stopped
+chrome: started
+main pid=2356 flags: --password-store=basic --remote-debugging-port=9222 
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 141 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 10 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+runtime contract exit=0
+
+=== L2 abrupt stop (docker kill = SIGKILL) then docker start: stale-lock recovery ===
+after kill, profile lock artifacts on volume: SingletonCookie SingletonLock SingletonSocket LOCK .org.chromium.Chromium.Network Persistent State.QZwhoN .org.chromium.Chromium.TransportSecurity.MPabue 
+entrypoint log: Clearing stale Chromium profile lock artifacts from /home/vncuser/.config/chromium. 
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 46 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+runtime contract exit=0
+main pid=35 flags: --password-store=basic --remote-debugging-port=9222 
+
+=== L3 graceful docker restart ===
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 47 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 6 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+runtime contract exit=0
+main pid=40 flags: --password-store=basic --remote-debugging-port=9222 
+dbus.err.log accumulated secrets activations across all restarts: 0
+
+=== L4 mobile-safe node profile (AUTOBYTEUS_NODE_PROFILE=mobile-safe) ===
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 52 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+runtime contract exit=0
+main pid=41 flags: --password-store=basic --no-sandbox --remote-debugging-port=9222 
+mobile-safe container/volume removed
+end_utc=2026-09-25T05:27:11Z

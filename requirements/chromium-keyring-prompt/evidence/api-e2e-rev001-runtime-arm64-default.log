@@ -1,0 +1,20 @@
+target=arm64-default platform=linux/arm64 variant=default uid=1000 image=autobyteus/chrome-vnc:api-e2e-keyring-arm64-default
+$ docker run -d --name api-e2e-keyring-arm64-default --platform linux/arm64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v api-e2e-keyring-arm64-default-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:api-e2e-keyring-arm64-default   start_utc=2026-09-25T05:13:22Z
+b83176d20b22d1db217aba0f75756d0762590bb630a3745c585fc40e033b4102
+=== C05 $ tests/validate-running-container.sh api-e2e-keyring-arm64-default default 1000
+chrome                           RUNNING   pid 42, uptime 0:00:07
+copyq                            RUNNING   pid 40, uptime 0:00:07
+dbus                             RUNNING   pid 32, uptime 0:00:07
+disable_screensaver              EXITED    Sep 25 05:13 AM
+fcitx                            RUNNING   pid 35, uptime 0:00:07
+socat                            RUNNING   pid 45, uptime 0:00:07
+tigervnc                         RUNNING   pid 33, uptime 0:00:07
+websockify                       RUNNING   pid 49, uptime 0:00:07
+xfce                             RUNNING   pid 34, uptime 0:00:07
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 47 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 7 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0 elapsed_s=9
+chromium: Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+end_utc=2026-09-25T05:13:31Z

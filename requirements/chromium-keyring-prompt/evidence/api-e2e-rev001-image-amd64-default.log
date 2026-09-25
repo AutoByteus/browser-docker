@@ -1,0 +1,6 @@
+target=amd64-default platform=linux/amd64 variant=default uid=1000 gid=1000 image=autobyteus/chrome-vnc:api-e2e-keyring-amd64-default id=sha256:b39b67fe98fefea2f9237befa37bccefb6c5451cbe410926dddf96e52b08b4c7 arch=amd64
+tests sha256: validate-image.sh=183b4e995acbaf84 validate-running-container.sh=439552ac5bf0bb98
+=== C04 $ tests/validate-image.sh autobyteus/chrome-vnc:api-e2e-keyring-amd64-default default 1000 1000   start_utc=2026-09-25T05:23:59Z
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0 elapsed_s=29

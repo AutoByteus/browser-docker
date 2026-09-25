@@ -1,0 +1,35 @@
+# DR-001 delivery integration refresh — 2026-09-25T05:40:24Z
+$ git fetch origin --prune  (run immediately before this capture)
+origin/main: 4d03f29a46d6d7cf96649718731efe25bef335ab
+bootstrap base (design/impl handoff): 4d03f29a46d6d7cf96649718731efe25bef335ab
+HEAD: a42873867a21b43f92c81ef60a6059e18631f464
+source commit: 6d4aa757b16279449e5c7e2b3ca198789b0f9deb
+$ git rev-list --left-right --count origin/main...HEAD
+0	2
+$ git merge-base --is-ancestor origin/main HEAD
+yes -> integration method: Already current (no merge/rebase)
+$ git ls-remote origin refs/heads/main
+4d03f29a46d6d7cf96649718731efe25bef335ab	refs/heads/main
+$ git ls-remote origin refs/heads/codex/chromium-keyring-prompt
+(empty = ticket branch not yet pushed)
+$ git status --short --untracked-files=no
+(empty = no tracked modifications; API/E2E artifacts are untracked only)
+
+## Delivery smoke on integrated HEAD (repository-level)
+$ bash tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+exit=0
+$ bash tests/validate-build-wrapper.sh
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+exit=0
+$ git diff --check 4d03f29 HEAD -- ':!requirements'  (ticket artifacts/raw evidence logs excluded; they keep tool output verbatim)
+exit=0
+$ shasum -a 256 (source files at HEAD)
+2fdca3168c676f0bf0ff6f8299363bd7d6f9475886959f76059ee12fa422cee9  Dockerfile
+9adba511aebab89e61aac25da5973a78cce21a5eef2e2de618ccedff5b7b7956  chromium.d/autobyteus-password-store
+7d072b48526b023950e4c48db01e8c273554a6401119f5691e7589ba9bc65d9d  VERSION
+86721d3fb2382f1e296b68c454f4e9ae6cde6666c3ea59049549c6d7d9723315  README.md
+169b2d530bc9fbfe443e01920b264b4838b0a35cbd41515444a67e8ee9001335  tests/validate-build-wrapper.sh
+183b4e995acbaf84d5ede45917c70cc1851c6f03dc982689efdb198119618cb6  tests/validate-image.sh
+439552ac5bf0bb988934fdbbc4a94821ffd6d5d8deafebdd451e0518eb95a994  tests/validate-running-container.sh
+4ef963f9fed342cf395092624cd7acb0eb8d443dcedb496847f2edb5812e041e  tests/validate-source-contract.sh

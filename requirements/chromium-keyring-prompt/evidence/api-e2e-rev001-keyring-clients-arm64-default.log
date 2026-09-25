@@ -1,0 +1,13 @@
+purpose=C10 real keyring clients fail fast; container=api-e2e-keyring-arm64-default
+C10 keyring-client probe utc=2026-09-25T05:14:07Z image_variant=default python=Python 3.12.3 libsecret=0.21.4-1build3
+vncuser libsecret store (desktop user, own session bus): rc=3 wall_ms=53 output=store: ERROR Error: g-dbus-error-quark: The name org.freedesktop.secrets was not provided by any .service files (2) elapsed_ms=5 
+PASS: vncuser libsecret store (desktop user, own session bus) failed fast (53 ms <= 2000 ms)
+vncuser libsecret lookup: rc=3 wall_ms=63 output=lookup: ERROR Error: g-dbus-error-quark: The name org.freedesktop.secrets was not provided by any .service files (2) elapsed_ms=4 
+PASS: vncuser libsecret lookup failed fast (63 ms <= 2000 ms)
+root libsecret store (inherited vncuser bus address): rc=3 wall_ms=40 output=store: ERROR Error: g-io-error-quark: The connection is closed (18) elapsed_ms=1 
+PASS: root libsecret store (inherited vncuser bus address) failed fast (40 ms <= 2000 ms)
+vncuser dbus-send Secret Service ping: rc=1 wall_ms=6 output=Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files 
+PASS: vncuser dbus-send Secret Service ping failed fast (6 ms <= 2000 ms)
+PASS: no prompt/provider process after the client requests
+C10 failures=0
+exit=0

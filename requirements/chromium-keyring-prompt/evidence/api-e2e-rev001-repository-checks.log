@@ -1,0 +1,32 @@
+purpose=API-REV-001 repository-resident checks (source contract, build wrapper, lint) on the worktree tree identical to source commit 6d4aa75
+start_utc=2026-09-25T05:05:51Z head=a42873867a21b43f92c81ef60a6059e18631f464 source_commit=6d4aa757b16279449e5c7e2b3ca198789b0f9deb
+tracked non-requirements diff 6d4aa75..HEAD: 0 files; git status: 0 dirty files outside requirements/
+tests/validate-build-wrapper.sh sha256=169b2d530bc9fbfe
+tests/validate-image.sh sha256=183b4e995acbaf84
+tests/validate-running-container.sh sha256=439552ac5bf0bb98
+tests/validate-source-contract.sh sha256=4ef963f9fed342cf
+chromium.d/autobyteus-password-store sha256=9adba511aebab89e
+Dockerfile sha256=2fdca3168c676f0b
+VERSION sha256=7d072b48526b0239
+README.md sha256=86721d3fb2382f1e
+=== $ bash -n tests/*.sh
+ok tests/validate-build-wrapper.sh
+ok tests/validate-image.sh
+ok tests/validate-running-container.sh
+ok tests/validate-source-contract.sh
+=== $ shellcheck -S warning tests/*.sh
+shellcheck: no warnings
+=== $ sh -n chromium.d/autobyteus-password-store
+ok
+chromium.d/autobyteus-password-store: ASCII text
+=== embedded Node probe syntax
+node --check ok (v22.23.1)
+=== $ tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+exit=0
+=== $ tests/validate-build-wrapper.sh
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+exit=0
+=== $ git diff --check 4d03f29 6d4aa75
+no whitespace errors
+end_utc=2026-09-25T05:05:53Z

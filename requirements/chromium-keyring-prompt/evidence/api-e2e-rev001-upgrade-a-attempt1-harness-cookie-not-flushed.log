@@ -1,0 +1,38 @@
+C11 chain a start_utc=2026-09-25T05:18:36Z
+=== a1: 1.3.8 creates the profile and a cookie (no provider on 22.04 -> built-in v10) ===
+started api-e2e-keyring-upg-a1 from autobyteus/chrome-vnc:1.3.8-arm64 (sha256:3c4d79b985ca) on volume api-e2e-keyring-upg-a-profile
+Chromium 149.0.7827.196 built on Ubuntu 22.04.5 LTS
+READY: 1 page target(s)
+PASS: nav http://127.0.0.1:6080/ -> {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"} in 754 ms (limit 30000)
+SET: document.cookie now = "apie2e_138=v10-from-1.3.8"
+COOKIES(apie2e*): [{"name":"apie2e_138","value":"v10-from-1.3.8","domain":"127.0.0.1"}]
+keyring procs(exact comm): 0; secrets activations: 0; keyrings dir: 
+a1 stopped gracefully and removed
+DB /p/Default/Cookies: apie2e rows = []
+Local State os_crypt keys: ['portal']
+=== a2: 1.4.0 runs on the same profile; keyring dialog left pending (the common field state) ===
+started api-e2e-keyring-upg-a2 from autobyteus/chrome-vnc:1.4.0 (sha256:cb49a54d8e74) on volume api-e2e-keyring-upg-a-profile
+gcr-prompter pending after ~4s: 322 /usr/libexec/gcr-prompter
+keyring procs(exact comm): 2; secrets activations: 1; keyrings dir: 
+a2 stopped and removed (container re-create, volume kept)
+DB /p/Default/Cookies: apie2e rows = []
+Local State os_crypt keys: ['portal']
+=== a3: fixed image re-created on the same profile volume ===
+started api-e2e-keyring-upg-a3 from autobyteus/chrome-vnc:api-e2e-keyring-arm64-default (sha256:8ba7962fa3c2) on volume api-e2e-keyring-upg-a-profile
+$ tests/validate-running-container.sh api-e2e-keyring-upg-a3 default
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 108 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 10 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+runtime contract exit=0
+PASS: nav http://127.0.0.1:6080/ -> {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"} in 30 ms (limit 30000)
+DOC: location=http://127.0.0.1:6080/ document.cookie=""
+COOKIES(apie2e*): []
+FAIL: 1.3.8 cookie not readable on the fixed image
+keyring procs(exact comm): 0; secrets activations: 0; keyrings dir: 
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: api-e2e-rev001-upgrade-a-fixed-operator-view.png
+volume api-e2e-keyring-upg-a-profile removed
+C11 chain a end_utc=2026-09-25T05:19:29Z

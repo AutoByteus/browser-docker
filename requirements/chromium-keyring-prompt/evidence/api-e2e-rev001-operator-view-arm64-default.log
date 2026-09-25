@@ -1,0 +1,116 @@
+purpose=C09 operator view after startup + DevTools navigation (validate-running-container.sh already ran); container=api-e2e-keyring-arm64-default image=autobyteus/chrome-vnc:api-e2e-keyring-arm64-default
+bridge script source: superrepo autobyteus-server-ts/docker/open-vnc-browser-url.sh sha256=f9e42685cdf786c4 (copied for C07)
+C09 operator-view probe utc=2026-09-25T05:13:59Z image_variant=default
+--- visible top-level windows (xdotool search --onlyvisible) ---
+  0xc00032  class="xfwm4", "Xfwm4"  name=Xfwm4
+  0x2000013  class="xfdesktop", "Xfdesktop"  name=Desktop
+  0x800004  class="chromium", "Chromium"  name=Directory listing for / - Chromium
+  0x1a00003  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x2200003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2a00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2800003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2c00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x1a00010  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1a00014  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+--- every session D-Bus activation since container start (/var/log/supervisor/dbus.err.log) ---
+  Activating service name='org.freedesktop.systemd1' requested by ':1.0' (uid=1000 pid=63 comm="systemctl --user list-jobs
+  Activating service name='org.a11y.Bus' requested by ':1.2' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.xfce.Xfconf' requested by ':1.5' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.gtk.vfs.Daemon' requested by ':1.6' (uid=1000 pid=42 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.freedesktop.Notifications' requested by ':1.1' (uid=1000 pid=42 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Desktop' requested by ':1.1' (uid=1000 pid=42 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Documents' requested by ':1.15' (uid=1000 pid=260 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.17' (uid=1000 pid=271 comm="/usr/libexec/xdg-document-portal
+  Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.15' (uid=1000 pid=260 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.systemd1' requested by ':1.23' (uid=1000 pid=345 comm="systemctl --user start xfce4-notifyd.ser
+  Activating service name='org.freedesktop.thumbnails.Thumbnailer1' requested by ':1.22' (uid=1000 pid=314 comm="xfdesktop
+  Activating service name='ca.desrt.dconf' requested by ':1.24' (uid=1000 pid=348 comm="light-locker
+  Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.Metadata' requested by ':1.22' (uid=1000 pid=314 comm="xfdesktop
+--- successful activations ---
+        1 Successfully activated service 'ca.desrt.dconf'
+        1 Successfully activated service 'org.a11y.atspi.Registry'
+        1 Successfully activated service 'org.a11y.Bus'
+        1 Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+        1 Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+        1 Successfully activated service 'org.freedesktop.Notifications'
+        1 Successfully activated service 'org.freedesktop.portal.Desktop'
+        1 Successfully activated service 'org.freedesktop.portal.Documents'
+        1 Successfully activated service 'org.freedesktop.thumbnails.Thumbnailer1'
+        1 Successfully activated service 'org.gtk.vfs.AfcVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.Daemon'
+        1 Successfully activated service 'org.gtk.vfs.GoaVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.GPhoto2VolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.Metadata'
+        1 Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+        1 Successfully activated service 'org.xfce.Xfconf'
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: /tmp/c09-arm64-default-after-startup.png (487873 bytes)
+C09 failures=0
+exit=0
+
+=== C09 re-audit after C08 external navigation + C07 cold launches (bridge, exo-open, gtk-launch) and Supervisor restore ===
+C09 operator-view probe utc=2026-09-25T05:15:01Z image_variant=default
+--- visible top-level windows (xdotool search --onlyvisible) ---
+  0xc00032  class="xfwm4", "Xfwm4"  name=Xfwm4
+  0x2000013  class="xfdesktop", "Xfdesktop"  name=Desktop
+  0x200004  class="chromium", "Chromium"  name=New Tab - Chromium
+  0x1a00003  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x2200003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2a00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2800003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2c00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x1a00010  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1a00014  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+--- every session D-Bus activation since container start (/var/log/supervisor/dbus.err.log) ---
+  Activating service name='org.freedesktop.systemd1' requested by ':1.0' (uid=1000 pid=63 comm="systemctl --user list-jobs
+  Activating service name='org.a11y.Bus' requested by ':1.2' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.xfce.Xfconf' requested by ':1.5' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.gtk.vfs.Daemon' requested by ':1.6' (uid=1000 pid=42 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=34 comm="xfce4-session
+  Activating service name='org.freedesktop.Notifications' requested by ':1.1' (uid=1000 pid=42 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Desktop' requested by ':1.1' (uid=1000 pid=42 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Documents' requested by ':1.15' (uid=1000 pid=260 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.17' (uid=1000 pid=271 comm="/usr/libexec/xdg-document-portal
+  Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.15' (uid=1000 pid=260 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.systemd1' requested by ':1.23' (uid=1000 pid=345 comm="systemctl --user start xfce4-notifyd.ser
+  Activating service name='org.freedesktop.thumbnails.Thumbnailer1' requested by ':1.22' (uid=1000 pid=314 comm="xfdesktop
+  Activating service name='ca.desrt.dconf' requested by ':1.24' (uid=1000 pid=348 comm="light-locker
+  Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.27' (uid=1000 pid=363 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.Metadata' requested by ':1.22' (uid=1000 pid=314 comm="xfdesktop
+--- successful activations ---
+        1 Successfully activated service 'ca.desrt.dconf'
+        1 Successfully activated service 'org.a11y.atspi.Registry'
+        1 Successfully activated service 'org.a11y.Bus'
+        1 Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+        1 Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+        1 Successfully activated service 'org.freedesktop.Notifications'
+        1 Successfully activated service 'org.freedesktop.portal.Desktop'
+        1 Successfully activated service 'org.freedesktop.portal.Documents'
+        1 Successfully activated service 'org.freedesktop.thumbnails.Thumbnailer1'
+        1 Successfully activated service 'org.gtk.vfs.AfcVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.Daemon'
+        1 Successfully activated service 'org.gtk.vfs.GoaVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.GPhoto2VolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.Metadata'
+        1 Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+        1 Successfully activated service 'org.xfce.Xfconf'
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: /tmp/c09-arm64-default-after-launch-paths.png (504755 bytes)
+C09 failures=0
+exit=0

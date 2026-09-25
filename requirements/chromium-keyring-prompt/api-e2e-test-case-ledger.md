@@ -1,0 +1,65 @@
+# API/E2E Test-Case Ledger
+
+## Ledger Meta
+
+- Assigned task workspace / worktree: `/Users/normy/autobyteus_org/browser_docker-worktrees/chromium-keyring-prompt`. Source commit `6d4aa75`, built from a `git archive` export at `/tmp/api-e2e-keyring-src-6d4aa75` (removed after the run).
+- Coverage investigation: `/Users/normy/autobyteus_org/browser_docker-worktrees/chromium-keyring-prompt/requirements/chromium-keyring-prompt/api-e2e-coverage-investigation.md`
+- Execution coverage report: `/Users/normy/autobyteus_org/browser_docker-worktrees/chromium-keyring-prompt/requirements/chromium-keyring-prompt/api-e2e-execution-coverage-report.md`
+- API/E2E revision record: `/Users/normy/autobyteus_org/browser_docker-worktrees/chromium-keyring-prompt/requirements/chromium-keyring-prompt/api-e2e-revision-record.md`
+- Ledger scope and reason it is required: API-REV-001. There are 13 cases, long clean builds (amd64 emulated, ~13 min each) and multi-container lifecycle probes, so interruption and context-compression risk is real.
+- Harness (temporary probes, preserved as evidence): `requirements/chromium-keyring-prompt/evidence/api-e2e-rev001-harness/`
+- Last updated: 2026-09-25T05:35Z
+
+## Planned Cases
+
+| Case ID | Case / Journey | Requirement / AC IDs | Boundary / Execution Surface | Planned Command Or Entry Point | Planned Order | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| C01 | Repository lint + source contract + build wrapper | AC-003/004/008 static, REQ-005 | Repository | `tests/validate-source-contract.sh`, `tests/validate-build-wrapper.sh`, lint | 1 | — |
+| C02 | Independent mutation checks | Durable coverage quality | Repository | temp copies of 6d4aa75 | 2 | — |
+| C03 | Clean builds ×5 + purge removal set | AC-008, escalation (a) | BuildKit | `harness/build.sh` | 3 | amd64 via Rosetta |
+| C04 | `validate-image.sh` ×5 | AC-003/004/008 | Image | `harness/run-matrix-target.sh` | 4 | — |
+| C05 | `validate-running-container.sh` ×5 | AC-001/002/003/004/007 | Running container | `harness/run-matrix-target.sh` | 5 | — |
+| C06 | Negative control 1.4.0 | Assertion discrimination | Image + container | `harness/negative-control.sh` | 6 | arm64 1.4.0 |
+| C07 | Launch paths (bridge warm/cold, exo-open, gtk-launch) | AC-003, AC-002 | Real launchers | `harness/probe-launch-paths.sh` | 7 | arm64 default/zh, amd64 default/zh |
+| C08 | External https navigation | AC-002 | CDP + internet | `harness/probe-external-navigation.js` | 8 | same 4 targets |
+| C09 | Operator view + D-Bus activation audit | AC-001, REQ-001 | X11 + D-Bus log | `harness/probe-operator-view.sh` | 9 | same 4 targets + 1.4.0 control + upgrade chains |
+| C10 | Real libsecret clients (vncuser, root) | AC-007, REQ-006 | D-Bus/libsecret | `harness/probe-keyring-clients.sh` | 10 | same 4 targets + 1.4.0 control |
+| C11 | Upgrade/persisted data chains | AC-005, REQ-004 | Profile volume | `harness/upgrade-probe.sh a\|b` + `harness/cdp.js` | 11 | 1.3.8 / 1.4.0 arm64 |
+| C12 | Restart lifecycle + mobile-safe | REQ-003, AC-001/004 | Process lifecycle | runtime script rerun + probes | 12 | arm64 default |
+| C13 | Downstream consumer readiness | AC-006 readiness, REQ-006 | Derived layer | read-only + throwaway | 13 | — |
+
+## Execution Events
+
+| Sequence | Case ID | Timestamp (UTC) | Event | Command / Entry Point / Material Configuration | Expected Observable Result | Observed Result Or Checkpoint | Result | Evidence / Artifact Path | Next Action / Unresolved Issue |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | C03 | 05:05:02 | Started | 5 clean `--no-cache` builds in two background chains | — | First attempt: an empty-array expansion under `set -u` (macOS bash 3.2) killed 4 of the 5 builds before BuildKit started (API/E2E harness defect, not product). Custom-1234 ran correctly | N/A | build logs (overwritten by rerun) | Harness fixed; 4 builds restarted 05:05:3x |
+| 2 | C01 | 05:05:53 | Completed | lint, `validate-source-contract.sh`, `validate-build-wrapper.sh`, `git diff --check` | All pass | All pass; tree identical to 6d4aa75 outside `requirements/` | Pass | `evidence/api-e2e-rev001-repository-checks.log` | — |
+| 3 | C02 | 05:06:30 | Completed | S1–S15 source mutations, W1/W2 wrapper mutations | Each defect fails the contract; W2 passes by design | 15/15 source mutations caught; W1 caught; W2 PASS (tags follow VERSION) | Pass | `evidence/api-e2e-rev001-source-contract-mutations.log` | — |
+| 4 | C03 | 05:11 | Checkpoint | arm64-default (388 s), arm64-custom-1234 (393 s) | exit 0; purge removes exactly e-d-s, gnome-keyring, libpam-gnome-keyring | Both exit 0; `REMOVED: evolution-data-server* gnome-keyring* libpam-gnome-keyring*`; "3 to remove" | Checkpoint | `evidence/api-e2e-rev001-build-arm64-{default,custom-1234}.log` | 3 builds still running |
+| 5 | C04/C05 | 05:13 | Checkpoint | image + runtime contracts on arm64-default and arm64-custom-1234 (UID 1234) | PASS | Both PASS; http nav 47/61 ms; Secret Service ping failed 7/14 ms | Checkpoint | `evidence/api-e2e-rev001-{image,runtime}-arm64-{default,custom-1234}.log` | — |
+| 6 | C09 | 05:13:59 | Checkpoint (arm64-default) | `probe-operator-view.sh` after startup + DevTools navigation | No keyring window/process; no keyring activation | 10 visible windows, none keyring; only benign activations (Chromium activated `portal.Desktop`, not a Secret backend); screenshot shows the page, no dialog | Checkpoint | `evidence/api-e2e-rev001-operator-view-arm64-default{.log,-after-startup.png}` | — |
+| 7 | C10 | 05:14:07 | Checkpoint (arm64-default) | `probe-keyring-clients.sh 20` | Every client fails ≤ 2 s, no prompt | vncuser libsecret store/lookup ServiceUnknown in 53/63 ms; root store "connection is closed" in 40 ms; dbus-send 6 ms; no prompt process | Checkpoint | `evidence/api-e2e-rev001-keyring-clients-arm64-default.log` | — |
+| 8 | C08 | 05:14:22 | Checkpoint (arm64-default) | `probe-external-navigation.js` over DevTools 9223 | Wikipedia, example.com, github.com/autobyteus render ≤ 30 s; cookies readable | 749 / 168 / 1541 ms; 11 cookies readable. The first pgrep line in the log was a self-match of the probe's own `bash -c` and is corrected in the log: exact-comm recount = 0 | Checkpoint | `evidence/api-e2e-rev001-external-navigation-arm64-default.log` | — |
+| 9 | C07 | 05:14:52 | Checkpoint (arm64-default) | `probe-launch-paths.sh` (superrepo bridge copied in unchanged) | Every path: flag on the new main process, page renders, no keyring activity | Warm bridge → existing Supervisor Chromium tab; cold bridge (via xfce4-mime-helper), cold `exo-open --launch WebBrowser`, cold `gtk-launch chromium`: new main process has `--password-store=basic`, window "Directory listing for / - Chromium" in 0–2 s; Supervisor chrome restored with flag + 9222. C09 re-audit afterwards clean | Checkpoint | `evidence/api-e2e-rev001-launch-paths-arm64-default.log`, `...operator-view-arm64-default-after-launch-paths.png` | — |
+| 10 | C06 | 05:17:05 | Completed | `negative-control.sh` on `autobyteus/chrome-vnc:1.4.0` (arm64, sha256:cb49a54d…) | Every new assertion FAILs on the unfixed image | N1 FAIL (gnome-keyring installed); N2 11 FAIL lines; N3 FAIL (flag missing); N4 FAIL (http page not rendered in 30 s); N5 FAIL (gnome-keyring-daemon); N6 FAIL (secrets activation by Chromium); N7 FAIL (ping succeeded); N8 FAIL ×3 (gcr-prompter window, daemon, secrets + SystemPrompter activation; screenshot shows the dialog); N9 FAIL ×4 (vncuser store hung 10 s; lookup/ping served). The first N8/N9 attempt returned exit 126 (exec bit lost on `docker cp`, harness) and was rerun on a fresh 1.4.0 container | Pass | `evidence/api-e2e-rev001-negative-control-1.4.0{.log,-operator-view.png}` | — |
+| 11 | C11 | 05:19:29 | Checkpoint (chain a attempt 1) | `upgrade-probe.sh a` | — | Harness defect: 1.3.8 was stopped before Chromium's ~30 s cookie commit (DB 0 rows before the upgrade), so the "not readable" line is not a product result. Probe fixed: 40 s wait + pre-stop DB check | N/A | `evidence/api-e2e-rev001-upgrade-a-attempt1-harness-cookie-not-flushed.log` | Rerun |
+| 12 | C11 | 05:23:21 | Completed | `upgrade-probe.sh a` (rerun) and `b`; fixed image arm64-default | a: 1.3.8 v10 cookie survives 1.4.0-pending → fixed, no dialog. b: typed keyring on 1.4.0 → fixed: no dialog, normal start/nav, v11 cookie unusable (approved), new cookies persist | a: 1.3.8 persisted `v10` row; 1.4.0 dialog pending; fixed: runtime contract PASS, `document.cookie="apie2e_138=v10-from-1.3.8"`, operator view clean. b: dialog answered via xdotool → `Default_Keyring.keyring`, cookie stored `v11`; after re-create on fixed: runtime contract PASS, v11 cookie absent (dropped from DB), no keyring window, no error UI; new cookie `v10` survives `docker restart` | Pass | `evidence/api-e2e-rev001-upgrade-a-138-140-fixed.log`, `evidence/api-e2e-rev001-upgrade-b-typed-keyring-fixed.log`, `evidence/api-e2e-rev001-upgrade-{a,b}-fixed-operator-view.png` | — |
+| 13 | C03 | 05:24 | Checkpoint | arm64-zh (463 s), amd64-default (771 s, Rosetta) | exit 0; same removal set | Both exit 0; same 3 packages (`libpam-gnome-keyring:amd64`) | Checkpoint | `evidence/api-e2e-rev001-build-{arm64-zh,amd64-default}.log` | amd64-zh building |
+| 14 | C04/C05 | 05:24 | Checkpoint | contracts on arm64-zh, amd64-default | PASS | Both PASS; nav 49 / 1105 ms; ping 7 / 195 ms | Checkpoint | `evidence/api-e2e-rev001-{image,runtime}-{arm64-zh,amd64-default}.log` | — |
+| 15 | C07–C10 | 05:25–05:26 | Checkpoint (amd64-default, arm64-zh) | full probe set per container | As on arm64-default | amd64 (x86_64 under Rosetta): clients 144–394 ms, sites 1.1–4.6 s, 4 launch paths flagged + rendered in 3–6 s, operator view clean before/after. arm64-zh (fcitx5 running): clients 5–112 ms, sites 0.2–1.6 s, launch paths 1 s, operator view clean | Checkpoint | `evidence/api-e2e-rev001-probes-{amd64-default,arm64-zh}.log`, `...operator-view-{amd64-default,arm64-zh}.png` | — |
+| 16 | C12 | 05:27:11 | Completed | `supervisorctl restart chrome`; `docker kill` + `docker start`; `docker restart`; mobile-safe container; runtime contract after each | Flag on every restarted main process; contract PASS; stale locks cleared; mobile-safe `--no-sandbox` + flag | All PASS; after SIGKILL the volume held Singleton*/LOCK artifacts and the entrypoint logged "Clearing stale Chromium profile lock artifacts"; 0 secrets activations across all restarts; mobile-safe flags `--password-store=basic --no-sandbox --remote-debugging-port=9222` | Pass | `evidence/api-e2e-rev001-lifecycle-arm64-default.log` | — |
+| 17 | C13 | 05:28 | Completed | read-only superrepo read (`personal` @ 0f54978ba); throwaway container running the server runtime-stage apt line on the fixed base | No keyring re-added; no server-side password-store config | Server stage installs only `--no-install-recommends git ripgrep` (0 newly installed); 0 keyring/password-store refs in server docker files; keyring packages absent; drop-in root:root 644; 0 `org.freedesktop.secrets` providers. Remaining `org.gnome.keyring.{System,Private}Prompter.service` belong to `gcr` (prompter; out of approved scope) | Pass | `evidence/api-e2e-rev001-downstream.log` | — |
+| 18 | C03 | 05:30 | Completed | amd64-zh (810 s, Rosetta) | exit 0; same removal set | exit 0; same 3 packages. All 5 builds exit 0 with an identical 3-package removal | Pass | `evidence/api-e2e-rev001-build-amd64-zh.log` | — |
+| 19 | C04/C05 | 05:31 | Completed | contracts on amd64-zh (the fifth target) | PASS | PASS; nav 1484 ms; ping 397 ms. C04 and C05 PASS on all 5 targets | Pass | `evidence/api-e2e-rev001-{image,runtime}-amd64-zh.log` | — |
+| 20 | C07–C10 | 05:33 | Completed | full probe set on amd64-zh (fourth probe target) | As above | 31 PASS / 0 FAIL: clients 132–400 ms; sites 1.1–4.8 s; launch paths 5–6 s; operator view clean (fcitx tray icon present). C07, C08, C09, C10 PASS on arm64 default/zh and amd64 default/zh | Pass | `evidence/api-e2e-rev001-probes-amd64-zh.log`, `...operator-view-amd64-zh.png` | — |
+| 21 | — | 05:34:36 | Completed | cleanup of `api-e2e-keyring-*` containers, volumes, images and temp dirs | 0 remaining; non-owned resources untouched | 0/0/0 remaining; `latest`/`zh`/`1.4.0`/`1.3.8-arm64` and `impl-keyring-*` untouched; user `autobyteus-server-*` containers listed only | N/A | `evidence/api-e2e-rev001-cleanup.log` | — |
+
+## Re-entry And Reconciliation
+
+- Last durably recorded event: 21
+- Last completed case and result: C07–C10 (amd64-zh) Pass; cleanup done
+- Cases still running, interrupted, or not started: None
+- Next case or recovery action: None. Round complete.
+- Interruption, context-compression, or rerun note: three harness defects were fixed in-round (empty-array build start, lost exec bit on `docker cp`, cookie-commit timing). Each affected case was rerun and none is a product result.
+- Reconciled into execution coverage report: `Yes`. See "Test-Case Ledger Reconciliation" in `api-e2e-execution-coverage-report.md`
+- Reconciliation note for any case missing a terminal result: None. Every case has a terminal `Pass`.
