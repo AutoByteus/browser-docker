@@ -1,0 +1,58 @@
+purpose=Negative control: every new keyring assertion in tests/validate-running-container.sh and tests/validate-image.sh must FAIL on the unfixed autobyteus/chrome-vnc:1.4.0
+start_utc=2026-09-25T04:56:06Z
+image=autobyteus/chrome-vnc:1.4.0 autobyteus/chrome-vnc@sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1 id=sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1 arch=arm64
+tests=final IR-001 working tree (base 4d03f29); sha256 validate-running-container.sh=439552ac5bf0bb98 validate-image.sh=183b4e995acbaf84
+$ docker run -d --name impl-keyring-neg-140 --platform linux/arm64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v impl-keyring-neg-140-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:1.4.0
+27279659339df75fd6668c9554ffcbf1501fd4f1fb66a983c11f9b30063d3df6
+
+=== 1. full tests/validate-running-container.sh impl-keyring-neg-140 default (expected: FAIL at the first new assertion) ===
+FAIL: Chromium main process 38 does not carry --password-store=basic: /usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 
+exit=1
+
+=== 2. NODE block extracted verbatim (AC-002 http navigation; expected: FAIL after 30 s) ===
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+FAIL: Chromium DevTools render probe: Error: http://127.0.0.1:6080/ did not render 'Directory listing for /' within 30000 ms
+    at Timeout._onTimeout ([stdin]:78:20)
+    at listOnTimeout (node:internal/timers:585:17)
+    at process.processTimers (node:internal/timers:521:7)
+exit=1 wall_s=32
+
+=== 3. KEYRING_CHECKS block extracted verbatim (expected: FAIL on keyring processes) ===
+FAIL: keyring processes are running: 248 /usr/bin/gnome-keyring-daemon --start --foreground --components=secrets
+290 /usr/libexec/gcr-prompter
+exit=1
+
+=== 4. KEYRING_CHECKS with the process assertion neutralised -> D-Bus activation-log assertion alone (expected: FAIL) ===
+FAIL: session D-Bus activated the Secret Service: dbus-daemon[32]: [session uid=1000 pid=32] Activating service name='org.freedesktop.secrets' requested by ':1.12' (uid=1000 pid=38 comm="/usr/lib/chromium/chromium --show-component-extens")
+exit=1
+
+=== 5. KEYRING_CHECKS with process and log assertions neutralised -> AC-007 dbus-send assertion alone (expected: FAIL) ===
+FAIL: Secret Service request succeeded: method return time=1790312205.414206 sender=:1.13 -> destination=:1.51 serial=14 reply_serial=2
+exit=1
+
+=== 6. full tests/validate-image.sh autobyteus/chrome-vnc:1.4.0 default (expected: FAIL at the first keyring assertion) ===
+FAIL: keyring package 'gnome-keyring' is installed
+exit=1
+
+=== 7. 'No OS keyring' section of tests/validate-image.sh extracted verbatim with a non-exiting fail() (expected: every keyring assertion FAILs; preserved launch-routing checks pass) ===
+FAIL: keyring package 'gnome-keyring' is installed
+FAIL: keyring package 'libpam-gnome-keyring' is installed
+FAIL: D-Bus service file org.freedesktop.secrets.service is present
+FAIL: D-Bus service file org.freedesktop.impl.portal.Secret.service is present
+FAIL: D-Bus service file org.gnome.keyring.service is present
+FAIL: a D-Bus service still provides org.freedesktop.secrets
+FAIL: /etc/chromium.d/autobyteus-password-store is missing
+stat: cannot statx '/etc/chromium.d/autobyteus-password-store': No such file or directory
+FAIL: /etc/chromium.d/autobyteus-password-store must be root:root 644, is 
+stat: cannot statx '/etc/chromium.d/autobyteus-password-store': No such file or directory
+sh: 1: .: cannot open /etc/chromium.d/autobyteus-password-store: No such file
+FAIL: /etc/chromium.d/autobyteus-password-store does not yield --password-store=basic
+FAIL: --password-store is set outside /etc/chromium.d/autobyteus-password-store
+FAIL: /usr/bin/chromium does not launch Chromium with --password-store=basic: + exec /usr/lib/chromium/chromium --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension= --version
+section-complete
+exit=0
+
+=== cleanup ===
+impl-keyring-neg-140
+impl-keyring-neg-140-profile
+end_utc=2026-09-25T04:56:48Z

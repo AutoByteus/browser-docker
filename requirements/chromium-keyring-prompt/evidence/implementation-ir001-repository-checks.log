@@ -1,0 +1,71 @@
+start_utc=2026-09-25T04:47:11Z base=4d03f29a46d6d7cf96649718731efe25bef335ab
+=== git status --short
+ M Dockerfile
+ M README.md
+ M VERSION
+ M tests/validate-image.sh
+ M tests/validate-running-container.sh
+ M tests/validate-source-contract.sh
+?? chromium.d/
+?? requirements/chromium-keyring-prompt/
+=== $ bash -n tests/*.sh
+ok tests/validate-build-wrapper.sh
+ok tests/validate-image.sh
+ok tests/validate-running-container.sh
+ok tests/validate-source-contract.sh
+=== $ shellcheck -S warning tests/*.sh
+shellcheck: no warnings
+=== embedded Node probe syntax
+node --check ok
+=== $ sh -n chromium.d/autobyteus-password-store
+ok
+chromium.d/autobyteus-password-store: ASCII text
+=== $ tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+exit=0
+=== $ tests/validate-build-wrapper.sh (unchanged)
+FAIL: successful push did not preserve the default multi-platform BuildX command
+exit=1
+=== git diff --check
+no whitespace errors
+end_utc=2026-09-25T04:47:12Z
+
+=== IN-ROUND FIX: tests/validate-build-wrapper.sh hard-coded the 1.4.0 tag literals; the wrapper correctly composed 1.4.1 from VERSION. Expected tags are now derived from VERSION (release version stays pinned once, in validate-source-contract.sh). Re-run: ===
+rerun_start_utc=2026-09-25T04:47:50Z
+=== $ bash -n / shellcheck tests/validate-build-wrapper.sh
+ok
+=== $ tests/validate-build-wrapper.sh
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+exit=0
+=== mutation (temp copy): wrapper tags a literal 9.9.9 instead of VERSION -> expected FAIL
+FAIL: successful push did not preserve the default multi-platform BuildX command
+exit=1
+=== mutation (temp copy): VERSION=2.0.0 with unchanged wrapper -> expected PASS (tags follow VERSION)
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+exit=0
+=== $ tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+exit=0
+rerun_end_utc=2026-09-25T04:47:52Z
+
+=== FINAL repository checks on the completed IR-001 tree ===
+start_utc=2026-09-25T04:57:03Z
+tests/validate-build-wrapper.sh sha256=169b2d530bc9fbfe
+tests/validate-image.sh sha256=183b4e995acbaf84
+tests/validate-running-container.sh sha256=439552ac5bf0bb98
+tests/validate-source-contract.sh sha256=4ef963f9fed342cf
+chromium.d/autobyteus-password-store sha256=9adba511aebab89e
+Dockerfile sha256=2fdca3168c676f0b
+README.md sha256=86721d3fb2382f1e
+VERSION sha256=7d072b48526b0239
+bash -n + shellcheck: ok
+node --check: ok
+drop-in sh -n: ok
+=== $ tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+exit=0
+=== $ tests/validate-build-wrapper.sh
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+exit=0
+git diff --check: clean
+end_utc=2026-09-25T04:57:04Z

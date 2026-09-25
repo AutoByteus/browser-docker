@@ -1,0 +1,13 @@
+start_utc=2026-09-25T04:49:54Z image=autobyteus/chrome-vnc:impl-keyring-arm64-custom-1234 id=sha256:56b63b194768adb0d98781d1738efe093a6e9db5d32562725207f891572d08ae arch=arm64
+=== $ tests/validate-image.sh autobyteus/chrome-vnc:impl-keyring-arm64-custom-1234 default 1234 1234
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0
+$ docker run -d --name impl-keyring-arm64-custom-1234 --platform linux/arm64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v impl-keyring-arm64-custom-1234-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:impl-keyring-arm64-custom-1234
+fa826f67f757ecb1aab6698d3f011add5a08d363f1e6bf2279e2be9a6214eea6
+=== $ tests/validate-running-container.sh impl-keyring-arm64-custom-1234 default 1234
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 50 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 9 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0
+end_utc=2026-09-25T04:50:06Z

@@ -1,0 +1,67 @@
+start_utc=2026-09-25T04:42:53Z
+=== $ tests/validate-image.sh autobyteus/chrome-vnc:impl-keyring-arm64-default default   (id=sha256:bb66fdb1be890dcf96128d65f774fbb4968312efb19e39627f7f8cf06dca3293 arch=arm64)
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0
+=== $ tests/validate-image.sh autobyteus/chrome-vnc:impl-keyring-arm64-zh zh   (id=sha256:0760a263fc8d7487f03dafe1e2faa405d370f6ea6dd7230ee7d43c2cd29e1c74 arch=arm64)
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0
+=== supplementary inspection (not a committed check) ===
+--- default
+total 32
+drwxr-xr-x 1 root root 4096 Sep 25 04:39 .
+drwxr-xr-x 1 root root 4096 Sep 25 04:42 ..
+-rw-r--r-- 1 root root  292 Jan 12  2025 apikeys
+-rw-r--r-- 1 root root  265 Sep 25 04:39 autobyteus-password-store
+-rw-r--r-- 1 root root  609 Jan 12  2025 default-flags
+-rw-r--r-- 1 root root  543 Sep 15 06:55 dev-shm
+-rw-r--r-- 1 root root  299 Jan 12  2025 extensions
+-rw-r--r-- 1 root root   80 Jan 12  2025 README
+
+# Sourced by /usr/bin/chromium for every launch (supervisor, xdg-open, desktop).
+# AutoByteus nodes are agent-operated: never use an OS keyring, whose
+# create/unlock dialogs block unattended browsing.
+export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+
+org.gnome.evolution.dataserver.UserPrompter0.service
+org.gnome.keyring.PrivatePrompter.service
+org.gnome.keyring.SystemPrompter.service
+gnome-keyring            not-installed 
+libpam-gnome-keyring     not-installed 
+evolution-data-server    not-installed 
+gcr                      installed 3.41.2-1build3
+chromium                 installed 153.0.8010.52-1xtradeb1.2404.1
+xfce4                    installed 4.18
+xfce4-session            installed 4.18.3-1build2
+network-manager-gnome    installed 1.34.0-1ubuntu3
+gvfs-backends            installed 1.54.4-0ubuntu1~24.04.2
+Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+--- zh
+total 32
+drwxr-xr-x 1 root root 4096 Sep 25 04:40 .
+drwxr-xr-x 1 root root 4096 Sep 25 04:42 ..
+-rw-r--r-- 1 root root  292 Jan 12  2025 apikeys
+-rw-r--r-- 1 root root  265 Sep 25 04:40 autobyteus-password-store
+-rw-r--r-- 1 root root  609 Jan 12  2025 default-flags
+-rw-r--r-- 1 root root  543 Sep 15 06:55 dev-shm
+-rw-r--r-- 1 root root  299 Jan 12  2025 extensions
+-rw-r--r-- 1 root root   80 Jan 12  2025 README
+
+# Sourced by /usr/bin/chromium for every launch (supervisor, xdg-open, desktop).
+# AutoByteus nodes are agent-operated: never use an OS keyring, whose
+# create/unlock dialogs block unattended browsing.
+export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+
+org.gnome.evolution.dataserver.UserPrompter0.service
+org.gnome.keyring.PrivatePrompter.service
+org.gnome.keyring.SystemPrompter.service
+gnome-keyring            not-installed 
+libpam-gnome-keyring     not-installed 
+evolution-data-server    not-installed 
+gcr                      installed 3.41.2-1build3
+chromium                 installed 153.0.8010.52-1xtradeb1.2404.1
+xfce4                    installed 4.18
+xfce4-session            installed 4.18.3-1build2
+network-manager-gnome    installed 1.34.0-1ubuntu3
+gvfs-backends            installed 1.54.4-0ubuntu1~24.04.2
+Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+end_utc=2026-09-25T04:43:00Z

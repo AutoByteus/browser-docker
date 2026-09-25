@@ -1,0 +1,2 @@
+# Probe: disable OS keyring integration for this container browser
+export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"

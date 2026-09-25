@@ -1,0 +1,54 @@
+start_utc=2026-09-25T04:53:35Z host=arm64 (linux/amd64 runs under Docker Desktop emulation)
+
+######## default  image=autobyteus/chrome-vnc:impl-keyring-amd64-default id=sha256:8a2028374d72490016bceebc54e49925d494f519ed84eacf8e588f79b2b616f8 arch=amd64
+=== $ tests/validate-image.sh autobyteus/chrome-vnc:impl-keyring-amd64-default default
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0
+Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+gnome-keyring            not-installed
+libpam-gnome-keyring     not-installed
+evolution-data-server    not-installed
+chromium                 installed
+xfce4-session            installed
+$ docker run -d --name impl-keyring-amd64-default --platform linux/amd64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v impl-keyring-amd64-default-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:impl-keyring-amd64-default
+de763f3a2e96ca6c10bdf9add4da6e0af07117392160ece9b51fa8372aacac1a
+=== $ tests/validate-running-container.sh impl-keyring-amd64-default default
+FAIL: Chromium main browser process missing
+exit=1
+
+######## zh  image=autobyteus/chrome-vnc:impl-keyring-amd64-zh id=sha256:3bf2ccdbec64913d2b12cec1a8c9a5d424dd628c23e5013e9460d805eca046db arch=amd64
+=== $ tests/validate-image.sh autobyteus/chrome-vnc:impl-keyring-amd64-zh zh
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0
+Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+gnome-keyring            not-installed
+libpam-gnome-keyring     not-installed
+evolution-data-server    not-installed
+chromium                 installed
+xfce4-session            installed
+$ docker run -d --name impl-keyring-amd64-zh --platform linux/amd64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v impl-keyring-amd64-zh-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:impl-keyring-amd64-zh
+46d8309a3c4726dc2ddd14f16ff42797fec4ab372a30beed58c4d2cddd3e1cbe
+=== $ tests/validate-running-container.sh impl-keyring-amd64-zh zh
+FAIL: Chromium main browser process missing
+exit=1
+end_utc=2026-09-25T04:55:00Z
+
+=== RERUN with final runtime script (sha256 439552ac5bf0bb98): main-process pgrep no longer anchored, because Rosetta prefixes the emulated command line with /run/rosetta/rosetta ===
+rerun_start_utc=2026-09-25T04:55:27Z
+/run/rosetta/rosetta /usr/lib/chromium/chromium /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enabl
+
+=== $ tests/validate-running-container.sh impl-keyring-amd64-default default
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 1087 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 210 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0
+=== $ tests/validate-running-container.sh impl-keyring-amd64-zh zh
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 1170 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 220 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0
+rerun_end_utc=2026-09-25T04:55:41Z

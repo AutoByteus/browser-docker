@@ -1,0 +1,65 @@
+start_utc=2026-09-25T04:43:35Z
+image=autobyteus/chrome-vnc:impl-keyring-arm64-zh id=sha256:0760a263fc8d7487f03dafe1e2faa405d370f6ea6dd7230ee7d43c2cd29e1c74 arch=arm64
+$ docker run -d --name impl-keyring-arm64-zh --platform linux/arm64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v impl-keyring-arm64-zh-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:impl-keyring-arm64-zh
+b8db6201de7ffe135e685df3e997a7eca6fe1d33b13699ca323f00adca3c7057
+=== $ tests/validate-running-container.sh impl-keyring-arm64-zh zh
+chrome                           RUNNING   pid 39, uptime 0:00:05
+copyq                            RUNNING   pid 38, uptime 0:00:05
+dbus                             RUNNING   pid 33, uptime 0:00:05
+disable_screensaver              EXITED    Sep 25 04:43 AM
+fcitx                            RUNNING   pid 36, uptime 0:00:05
+socat                            RUNNING   pid 46, uptime 0:00:05
+tigervnc                         RUNNING   pid 34, uptime 0:00:05
+websockify                       RUNNING   pid 50, uptime 0:00:05
+xfce                             RUNNING   pid 35, uptime 0:00:05
+FAIL: Chromium main process 39 does not carry --password-store=basic
+exit=1
+=== supplementary inspection (not a committed check) ===
+chromium_main_pid=39
+/usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension --no-first-run --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 
+--- dbus.err.log activation lines:
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.systemd1' requested by ':1.0' (uid=1000 pid=64 comm="systemctl --user list-jobs")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.a11y.Bus' requested by ':1.8' (uid=1000 pid=35 comm="xfce4-session")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.xfce.Xfconf' requested by ':1.10' (uid=1000 pid=35 comm="xfce4-session")
+dbus-daemon[122]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=35 comm="xfce4-session")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.Daemon' requested by ':1.15' (uid=1000 pid=39 comm="/usr/lib/chromium/chromium --password-store=basic ")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.3' (uid=1000 pid=36 comm="fcitx5 -D -r")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.portal.Documents' requested by ':1.17' (uid=1000 pid=155 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.19' (uid=1000 pid=167 comm="/usr/libexec/xdg-document-portal")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.17' (uid=1000 pid=155 comm="/usr/libexec/xdg-desktop-portal")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.thumbnails.Thumbnailer1' requested by ':1.28' (uid=1000 pid=280 comm="xfdesktop")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.systemd1' requested by ':1.31' (uid=1000 pid=338 comm="systemctl --user start xfce4-notifyd.service")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.freedesktop.Notifications' requested by ':1.2' (uid=1000 pid=39 comm="/usr/lib/chromium/chromium --password-store=basic ")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='ca.desrt.dconf' requested by ':1.34' (uid=1000 pid=340 comm="light-locker")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.30' (uid=1000 pid=326 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tumblerd")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.30' (uid=1000 pid=326 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tumblerd")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.30' (uid=1000 pid=326 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tumblerd")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.30' (uid=1000 pid=326 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tumblerd")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.30' (uid=1000 pid=326 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tumblerd")
+dbus-daemon[33]: [session uid=1000 pid=33] Activating service name='org.gtk.vfs.Metadata' requested by ':1.28' (uid=1000 pid=280 comm="xfdesktop")
+--- keyring dir:
+ls: cannot access '/home/vncuser/.local/share/keyrings': No such file or directory
+--- os_crypt in Local State:
+None
+--- Cookies DB:
+-rw------- 1 vncuser vncuser 20480 Sep 25 04:43 /home/vncuser/.config/chromium/Default/Cookies
+end_utc=2026-09-25T04:43:43Z
+
+=== RERUN after IR-001 in-round test fix (Chromium proctitle is space-joined; first run's NUL-split parser falsely failed although the flag is present, see inspection above) ===
+rerun_start_utc=2026-09-25T04:44:12Z
+=== $ tests/validate-running-container.sh impl-keyring-arm64-zh zh
+chrome                           RUNNING   pid 39, uptime 0:00:35
+copyq                            RUNNING   pid 38, uptime 0:00:35
+dbus                             RUNNING   pid 33, uptime 0:00:35
+disable_screensaver              EXITED    Sep 25 04:43 AM
+fcitx                            RUNNING   pid 36, uptime 0:00:35
+socat                            RUNNING   pid 46, uptime 0:00:35
+tigervnc                         RUNNING   pid 34, uptime 0:00:35
+websockify                       RUNNING   pid 50, uptime 0:00:35
+xfce                             RUNNING   pid 35, uptime 0:00:35
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 100 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 9 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0
+rerun_end_utc=2026-09-25T04:44:14Z

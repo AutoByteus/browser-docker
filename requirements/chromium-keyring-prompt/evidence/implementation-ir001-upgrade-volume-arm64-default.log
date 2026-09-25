@@ -1,0 +1,56 @@
+purpose=Supplementary (not a committed check): AC-005 common case - a Chromium profile volume used by 1.4.0 with the keyring dialog left pending is reused by the fixed image
+start_utc=2026-09-25T04:46:31Z
+$ docker run -d --name impl-keyring-upgrade-old ... -v impl-keyring-upgrade-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:1.4.0
+0025b04f2393a550d82b9e2a70740ef9946d1d64960e38f1e4b9493c74d863c6
+1.4.0 gcr-prompter pending: 308
+ActorSafetyLists
+AmountExtractionHeuristicRegexes
+CaptchaProviders
+CertificateRevocation
+component_crx_cache
+Crash Reports
+Crowd Deny
+Default
+Dictionaries
+extensions_crx_cache
+FileTypePolicies
+first_party_sets.db
+first_party_sets.db-journal
+FirstPartySetsPreloaded
+GPUPersistentCache
+hyphen-data
+Last Version
+Local State
+MEIPreload
+NativeMessagingHosts
+OnDeviceHeadSuggestModel
+OptimizationHints
+OriginTrials
+PKIMetadata
+PrivacySandboxAttestationsPreloaded
+Safe Browsing
+SafetyTips
+segmentation_platform
+SingletonCookie
+SingletonLock
+SingletonSocket
+SSLErrorAssistant
+Subresource Filter
+TrustTokenKeyCommitments
+Variations
+WasmTtsEngine
+ZxcvbnData
+$ docker rm -f impl-keyring-upgrade-old   (abrupt removal, like a launcher re-create)
+impl-keyring-upgrade-old
+$ docker run -d --name impl-keyring-upgrade-new ... -v impl-keyring-upgrade-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:impl-keyring-arm64-default
+761c036792b192fd7d491d2d87a4c1a2b686356fd790948b2deef5d9f39a7ec6
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 46 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 11 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0
+Clearing stale Chromium profile lock artifacts from /home/vncuser/.config/chromium.
+--- cleanup
+impl-keyring-upgrade-new
+impl-keyring-upgrade-profile
+end_utc=2026-09-25T04:47:03Z
