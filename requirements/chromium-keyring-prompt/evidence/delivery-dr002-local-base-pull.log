@@ -1,0 +1,5 @@
+# RSK-004 local base refresh 2026-09-25T08:02:01Z
+before: latest=sha256:f5a12a4fc553d40158b6d6c5f87e3ea0a2bcfbc71e3cb8153f7a3aa310241029 zh=sha256:24ca92cb4a274be088901f679ae9bb31317d2b73c3ab954d2fc8f631e6713071
+docker.io/autobyteus/chrome-vnc:latest
+docker.io/autobyteus/chrome-vnc:zh
+after:  latest=sha256:b2fde77f3bd7c73d412ea59d42e3b65290bae9f39d1ce85b5aaaac5d869596f4 zh=sha256:19d4c0164e5c7006e38a81c0260611cbf26f871f2d3e749d574016676f4f9a67

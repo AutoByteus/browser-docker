@@ -1,0 +1,20 @@
+# DR-002 worktree/branch cleanup 2026-09-25T08:50:18Z
+$ git -C /Users/normy/autobyteus_org/browser_docker-worktrees/chromium-keyring-prompt status --porcelain (must be empty)
+(end)
+ticket HEAD=6e02d7e6855b988d48b5ed44a0316b7ba34b5bf4 main=6e02d7e6855b988d48b5ed44a0316b7ba34b5bf4 origin/main=6e02d7e6855b988d48b5ed44a0316b7ba34b5bf4
+$ git merge-base --is-ancestor codex/chromium-keyring-prompt main
+merged: yes
+$ git worktree remove /Users/normy/autobyteus_org/browser_docker-worktrees/chromium-keyring-prompt
+removed
+$ git worktree prune
+pruned
+$ git branch -d codex/chromium-keyring-prompt
+Deleted branch codex/chromium-keyring-prompt (was 6e02d7e).
+$ git push origin --delete codex/chromium-keyring-prompt
+To github.com-ryan:AutoByteus/browser-docker.git
+ - [deleted]         codex/chromium-keyring-prompt
+remote ticket ref after delete: ''
+$ git worktree list
+/Users/normy/autobyteus_org/browser_docker                                                 fb0f593 [codex/python313-supervisor-compatibility]
+/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base-main-finalize  6e02d7e [main]
+worktree dir exists: no

@@ -1,0 +1,20 @@
+# DR-002 repository finalization — 2026-09-25T06:53:23Z
+user verification: 'i thjink its already verified. so finalize and release' (2026-09-25)
+origin/main before finalization: 4d03f29a46d6d7cf96649718731efe25bef335ab (refetched after verification; unchanged)
+ticket-artifact commit: 6e02d7e6855b988d48b5ed44a0316b7ba34b5bf4 (on codex/chromium-keyring-prompt)
+$ git push -u origin codex/chromium-keyring-prompt -> new branch; remote ref:
+6e02d7e6855b988d48b5ed44a0316b7ba34b5bf4	refs/heads/codex/chromium-keyring-prompt
+$ (main worktree) git merge --ff-only codex/chromium-keyring-prompt -> 4d03f29..6e02d7e fast-forward
+$ bash tests/validate-source-contract.sh
+PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.
+exit=0
+$ bash tests/validate-build-wrapper.sh
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.
+exit=0
+$ git push origin main -> 4d03f29..6e02d7e; remote ref:
+6e02d7e6855b988d48b5ed44a0316b7ba34b5bf4	refs/heads/main
+$ git log --oneline -4 main
+6e02d7e docs(release): record keyring-prompt validation and 1.4.1 delivery handoff
+a428738 docs(requirements): record keyring-prompt design and implementation IR-001
+6d4aa75 fix(image): stop the keyring dialog from blocking agent Chromium
+4d03f29 docs(release): record post-finalization cleanup

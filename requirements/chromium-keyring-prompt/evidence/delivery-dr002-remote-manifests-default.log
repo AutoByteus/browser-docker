@@ -1,0 +1,13 @@
+# default manifests 2026-09-25T07:28:36Z
+$ docker buildx imagetools inspect autobyteus/chrome-vnc:1.4.1 --raw
+index sha256:b2fde77f3bd7c73d412ea59d42e3b65290bae9f39d1ce85b5aaaac5d869596f4 application/vnd.oci.image.index.v1+json
+   sha256:31e3d3d8d15e16cba0187a74fd017a59e35ec70f5729d5dcb47acfe7144713e0 linux amd64 
+   sha256:f35358e25b29fac65b31b58e8024d4449e75c6db4af65281943f50a9114514ce linux arm64 
+   sha256:8275b7b3c04871604056a59b8ff29adc6bffe0af6b399ec5d8a980d41f4faca6 unknown unknown attestation-manifest
+   sha256:6482e6879e8b147e170c63fa020768f544e0a3426d7852b53eb40c50301fce26 unknown unknown attestation-manifest
+$ docker buildx imagetools inspect autobyteus/chrome-vnc:latest --raw
+index sha256:b2fde77f3bd7c73d412ea59d42e3b65290bae9f39d1ce85b5aaaac5d869596f4 application/vnd.oci.image.index.v1+json
+   sha256:31e3d3d8d15e16cba0187a74fd017a59e35ec70f5729d5dcb47acfe7144713e0 linux amd64 
+   sha256:f35358e25b29fac65b31b58e8024d4449e75c6db4af65281943f50a9114514ce linux arm64 
+   sha256:8275b7b3c04871604056a59b8ff29adc6bffe0af6b399ec5d8a980d41f4faca6 unknown unknown attestation-manifest
+   sha256:6482e6879e8b147e170c63fa020768f544e0a3426d7852b53eb40c50301fce26 unknown unknown attestation-manifest

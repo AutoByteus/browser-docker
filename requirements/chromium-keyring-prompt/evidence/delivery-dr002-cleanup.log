@@ -1,0 +1,31 @@
+# DR-002 cleanup 2026-09-25T08:49:37Z
+$ docker rmi autobyteus/autobyteus-server@sha256:a69be5d61cf67d7c416ccb2d878d00d5b3c808f7cf820203cf821fc7eb7f87cc -> removed
+$ docker rmi autobyteus/autobyteus-server@sha256:484fd8ebf3a7ac4bd03457a5fff1ec02d7854d5e554c252082cc8843be637cc5 -> removed
+$ docker rmi autobyteus/autobyteus-server@sha256:91e7ee2d142b9e05ee271a5ade9fc0dca466535b36f6c114348ff9c9cffcf292 -> removed
+$ docker rmi autobyteus/autobyteus-server@sha256:3350660fd39e5b7bffd32b5d29d88b02bbc78c3103b593424993cde462719bb0 -> removed
+$ docker rmi autobyteus/chrome-vnc:dr002-published-default-arm64 -> removed
+$ docker rmi autobyteus/chrome-vnc:dr002-published-default-amd64 -> removed
+$ docker rmi autobyteus/chrome-vnc:dr002-published-zh-arm64 -> removed
+$ docker rmi autobyteus/chrome-vnc:dr002-published-zh-amd64 -> removed
+$ docker rmi autobyteus/chrome-vnc:impl-keyring-arm64-default -> removed
+$ docker rmi autobyteus/chrome-vnc:impl-keyring-arm64-zh -> removed
+$ docker rmi autobyteus/chrome-vnc:impl-keyring-arm64-custom-1234 -> removed
+$ docker rmi autobyteus/chrome-vnc:impl-keyring-amd64-default -> removed
+$ docker rmi autobyteus/chrome-vnc:impl-keyring-amd64-zh -> removed
+--- remaining matching images
+(none)
+--- retained
+--- nodes still running on published images
+autobyteus-server-6 autobyteus/autobyteus-server:latest Up About a minute
+autobyteus-server-5 autobyteus/autobyteus-server:latest Up About a minute
+autobyteus-server-4 autobyteus/autobyteus-server:latest Up About a minute
+autobyteus-server-3 autobyteus/autobyteus-server:latest-zh Up 2 minutes
+autobyteus-server-2 autobyteus/autobyteus-server:latest Up 2 minutes
+autobyteus-server-1 autobyteus/autobyteus-server:latest Up 2 minutes
+autobyteus-server-0 autobyteus/autobyteus-server:latest Up 2 minutes
+--- retained (corrected listing; the grep above was mis-anchored)
+autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+autobyteus/autobyteus-server:latest-zh sha256:dc3efc572f201984cb34779671c69d8c137e475b1b509bedbddd4645d739aa01
+autobyteus/chrome-vnc:latest sha256:b2fde77f3bd7c73d412ea59d42e3b65290bae9f39d1ce85b5aaaac5d869596f4
+autobyteus/chrome-vnc:zh sha256:19d4c0164e5c7006e38a81c0260611cbf26f871f2d3e749d574016676f4f9a67
+autobyteus/chrome-vnc:1.4.0 sha256:cb49a54d8e745a45351ecab1e5f47db0eee71b30ab2e15e8c3745b91f2941af1

@@ -1,0 +1,142 @@
+=== server default autobyteus/autobyteus-server@sha256:91e7ee2d142b9e05ee271a5ade9fc0dca466535b36f6c114348ff9c9cffcf292 start_utc=2026-09-25T08:09:53Z
+image: sha256:91e7ee2d142b9e05ee271a5ade9fc0dca466535b36f6c114348ff9c9cffcf292 arch=arm64 created=2026-09-25T07:58:27.877743031Z
+$ docker run -d --name dr002-server-default (launcher env/volumes, SYS_ADMIN, seccomp=unconfined) autobyteus/autobyteus-server@sha256:91e7ee2d142b9e05ee271a5ade9fc0dca466535b36f6c114348ff9c9cffcf292
+$ tests/validate-running-container.sh dr002-server-default default
+autobyteus_server                RUNNING   pid 58, uptime 0:00:06
+chrome                           RUNNING   pid 45, uptime 0:00:06
+copyq                            RUNNING   pid 43, uptime 0:00:06
+dbus                             RUNNING   pid 38, uptime 0:00:06
+disable_screensaver              EXITED    Sep 25 08:11 AM
+fcitx                            RUNNING   pid 41, uptime 0:00:06
+socat                            RUNNING   pid 50, uptime 0:00:06
+tigervnc                         RUNNING   pid 39, uptime 0:00:06
+websockify                       RUNNING   pid 54, uptime 0:00:06
+xfce                             RUNNING   pid 40, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 46 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 7 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0 elapsed_s=9
+--- supervisorctl status
+autobyteus_server                RUNNING   pid 58, uptime 0:00:08
+chrome                           RUNNING   pid 45, uptime 0:00:08
+copyq                            RUNNING   pid 43, uptime 0:00:08
+dbus                             RUNNING   pid 38, uptime 0:00:08
+disable_screensaver              EXITED    Sep 25 08:11 AM
+fcitx                            RUNNING   pid 41, uptime 0:00:08
+socat                            RUNNING   pid 50, uptime 0:00:08
+tigervnc                         RUNNING   pid 39, uptime 0:00:08
+websockify                       RUNNING   pid 54, uptime 0:00:08
+xfce                             RUNNING   pid 40, uptime 0:00:08
+--- server HTTP (in-container) :8000 -> 404
+keyring packages: evolution-data-server unknown ok not-installed;gnome-keyring unknown ok not-installed;libpam-gnome-keyring unknown ok not-installed;
+drop-in: -rw-r--r-- 1 root root 265 Sep 25 06:57 /etc/chromium.d/autobyteus-password-store export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic" 
+other --password-store in image config: /etc/chromium.d/autobyteus-password-store 
+===== C07 launch paths (real server bridge /usr/local/bin/open-vnc-browser-url.sh shipped in the image) =====
+C07 launch-path probe start_utc=2026-09-25T08:11:57Z image_variant=default vnc_uid=1000 chromium=Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+xdg-mime http default: chromium.desktop
+xfce WebBrowser helper: WebBrowser=debian-sensible-browser  ; x-www-browser -> /usr/bin/chromium; sensible-browser=/usr/bin/sensible-browser
+--- server bridge (warm): root -> open-vnc-browser-url.sh -> runuser vncuser xdg-open ---
+PASS: server bridge (warm): tab c07=warm-bridge rendered 'Directory listing for /' in 0 s via DevTools /json/list
+PASS: server bridge (warm): URL was handed to the existing Supervisor Chromium (pid 45)
+PASS: server bridge (warm): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- server bridge (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ /usr/local/bin/open-vnc-browser-url.sh http://127.0.0.1:6080/?c07=cold-bridge
+main pid=1058 ancestry: chromium[1058] <- xfce4-mime-help[1057] <- supervisord[1]
+main cmdline: /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension http://127.0.0.1:6080/?c07=cold-bridge 
+PASS: server bridge (cold): new Chromium main process carries --password-store=basic
+PASS: server bridge (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: server bridge (cold): page rendered unattended in 1 s; window title: Directory listing for / - Chromium
+PASS: server bridge (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- XFCE exo-open --launch WebBrowser (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ runuser -u vncuser -- env DISPLAY=:99 XAUTHORITY=/home/vncuser/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/vncuser /usr/bin/exo-open --launch WebBrowser http://127.0.0.1:6080/?c07=cold-exo
+main pid=1315 ancestry: chromium[1315] <- xfce4-mime-help[1314] <- supervisord[1]
+main cmdline: /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension http://127.0.0.1:6080/?c07=cold-exo 
+PASS: XFCE exo-open --launch WebBrowser (cold): new Chromium main process carries --password-store=basic
+PASS: XFCE exo-open --launch WebBrowser (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: XFCE exo-open --launch WebBrowser (cold): page rendered unattended in 1 s; window title: Directory listing for / - Chromium
+PASS: XFCE exo-open --launch WebBrowser (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+--- desktop entry gtk-launch chromium (cold): cold launch (Supervisor chrome STOPPED, no Chromium running) ---
+$ runuser -u vncuser -- env DISPLAY=:99 XAUTHORITY=/home/vncuser/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/vncuser /usr/bin/gtk-launch chromium http://127.0.0.1:6080/?c07=cold-gtk
+main pid=1546 ancestry: chromium[1546] <- supervisord[1]
+main cmdline: /usr/lib/chromium/chromium --password-store=basic --show-component-extension-options --enable-gpu-rasterization --no-default-browser-check --disable-pings --media-router=0 --disable-dev-shm-usage --enable-remote-extensions --load-extension http://127.0.0.1:6080/?c07=cold-gtk 
+PASS: desktop entry gtk-launch chromium (cold): new Chromium main process carries --password-store=basic
+PASS: desktop entry gtk-launch chromium (cold): process did not come from start-chrome.sh (no remote-debugging flag)
+PASS: desktop entry gtk-launch chromium (cold): page rendered unattended in 0 s; window title: Directory listing for / - Chromium
+PASS: desktop entry gtk-launch chromium (cold): no keyring/prompter process and no secrets/keyring/portal D-Bus activation
+PASS: restored Supervisor Chromium (pid 1756) carries --password-store=basic and DevTools 9222
+supervisorctl status chrome: chrome                           RUNNING   pid 1756, uptime 0:00:01
+C07 end_utc=2026-09-25T08:12:07Z failures=0
+exit=0
+===== C09 operator view =====
+C09 operator-view probe utc=2026-09-25T08:12:07Z image_variant=default
+--- visible top-level windows (xdotool search --onlyvisible) ---
+  0xc00032  class="xfwm4", "Xfwm4"  name=Xfwm4
+  0x1e00013  class="xfdesktop", "Xfdesktop"  name=Desktop
+  0x600004  class="chromium", "Chromium"  name=New Tab - Chromium
+  0x1c00003  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1a00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2a00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2800003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x2c00003  class="wrapper-2.0", "Wrapper-2.0"  name=wrapper-2.0
+  0x1c00010  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+  0x1c00014  class="xfce4-panel", "Xfce4-panel"  name=xfce4-panel
+PASS: no keyring/prompter/unlock window exists anywhere in the X11 tree (xwininfo -root -tree)
+PASS: no gcr-prompter / gnome-keyring-daemon / pinentry process
+--- every session D-Bus activation since container start (/var/log/supervisor/dbus.err.log) ---
+  Activating service name='org.freedesktop.systemd1' requested by ':1.0' (uid=1000 pid=80 comm="systemctl --user list-jobs
+  Activating service name='org.a11y.Bus' requested by ':1.2' (uid=1000 pid=40 comm="xfce4-session
+  Activating service name='org.xfce.Xfconf' requested by ':1.4' (uid=1000 pid=40 comm="xfce4-session
+  Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=40 comm="xfce4-session
+  Activating service name='org.gtk.vfs.Daemon' requested by ':1.7' (uid=1000 pid=45 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.Notifications' requested by ':1.1' (uid=1000 pid=45 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Desktop' requested by ':1.1' (uid=1000 pid=45 comm="/usr/lib/chromium/chromium --password-st
+  Activating service name='org.freedesktop.portal.Documents' requested by ':1.14' (uid=1000 pid=272 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.15' (uid=1000 pid=278 comm="/usr/libexec/xdg-document-portal
+  Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.14' (uid=1000 pid=272 comm="/usr/libexec/xdg-desktop-portal
+  Activating service name='org.freedesktop.systemd1' requested by ':1.23' (uid=1000 pid=363 comm="systemctl --user start xfce4-notifyd.ser
+  Activating service name='org.freedesktop.thumbnails.Thumbnailer1' requested by ':1.22' (uid=1000 pid=348 comm="xfdesktop
+  Activating service name='ca.desrt.dconf' requested by ':1.24' (uid=1000 pid=367 comm="light-locker
+  Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.25' (uid=1000 pid=378 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.25' (uid=1000 pid=378 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.25' (uid=1000 pid=378 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.25' (uid=1000 pid=378 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.25' (uid=1000 pid=378 comm="/usr/lib/aarch64-linux-gnu/tumbler-1/tum
+  Activating service name='org.gtk.vfs.Metadata' requested by ':1.22' (uid=1000 pid=348 comm="xfdesktop
+--- successful activations ---
+        1 Successfully activated service 'ca.desrt.dconf'
+        1 Successfully activated service 'org.a11y.atspi.Registry'
+        1 Successfully activated service 'org.a11y.Bus'
+        1 Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+        1 Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+        1 Successfully activated service 'org.freedesktop.Notifications'
+        1 Successfully activated service 'org.freedesktop.portal.Desktop'
+        1 Successfully activated service 'org.freedesktop.portal.Documents'
+        1 Successfully activated service 'org.freedesktop.thumbnails.Thumbnailer1'
+        1 Successfully activated service 'org.gtk.vfs.AfcVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.Daemon'
+        1 Successfully activated service 'org.gtk.vfs.GoaVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.GPhoto2VolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.Metadata'
+        1 Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+        1 Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+        1 Successfully activated service 'org.xfce.Xfconf'
+PASS: no Secret Service, portal Secret backend, gnome-keyring prompter or e-d-s UserPrompter activation
+screenshot: /tmp/dr002-operator-view.png (494867 bytes)
+C09 failures=0
+exit=0
+screenshot copied: delivery-dr002-server-default-operator-view.png
+===== C10 keyring clients =====
+C10 keyring-client probe utc=2026-09-25T08:12:07Z image_variant=default python=Python 3.12.3 libsecret=0.21.4-1build3
+vncuser libsecret store (desktop user, own session bus): rc=3 wall_ms=40 output=store: ERROR Error: g-dbus-error-quark: The name org.freedesktop.secrets was not provided by any .service files (2) elapsed_ms=3 
+PASS: vncuser libsecret store (desktop user, own session bus) failed fast (40 ms <= 2000 ms)
+vncuser libsecret lookup: rc=3 wall_ms=35 output=lookup: ERROR Error: g-dbus-error-quark: The name org.freedesktop.secrets was not provided by any .service files (2) elapsed_ms=3 
+PASS: vncuser libsecret lookup failed fast (35 ms <= 2000 ms)
+root libsecret store (inherited vncuser bus address): rc=3 wall_ms=30 output=store: ERROR Error: g-io-error-quark: The connection is closed (18) elapsed_ms=1 
+PASS: root libsecret store (inherited vncuser bus address) failed fast (30 ms <= 2000 ms)
+vncuser dbus-send Secret Service ping: rc=1 wall_ms=5 output=Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files 
+PASS: vncuser dbus-send Secret Service ping failed fast (5 ms <= 2000 ms)
+PASS: no prompt/provider process after the client requests
+C10 failures=0
+exit=0
+RESULT server default rc=0 end_utc=2026-09-25T08:12:08Z

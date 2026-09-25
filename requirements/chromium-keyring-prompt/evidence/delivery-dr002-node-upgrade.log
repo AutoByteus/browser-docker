@@ -1,0 +1,308 @@
+# Node upgrade — before 2026-09-25T08:47:21Z
+$ autobyteus-docker status
+NODE                     CONTAINER                STATUS         BACKEND                         
+autobyteus-server-0      autobyteus-server-0      running        http://localhost:8001 (autobyteus/autobyteus-server:latest)
+autobyteus-server-1      autobyteus-server-1      running        http://localhost:50433 (autobyteus/autobyteus-server:latest)
+autobyteus-server-2      autobyteus-server-2      running        http://localhost:8003 (autobyteus/autobyteus-server:latest)
+autobyteus-server-3      autobyteus-server-3      running        http://localhost:8004 (autobyteus/autobyteus-server:latest-zh)
+autobyteus-server-4      autobyteus-server-4      running        http://localhost:8005 (autobyteus/autobyteus-server:latest)
+autobyteus-server-5      autobyteus-server-5      running        http://localhost:8006 (autobyteus/autobyteus-server:latest)
+autobyteus-server-6      autobyteus-server-6      running        http://localhost:8007 (autobyteus/autobyteus-server:latest)
+$ docker ps (autobyteus-server-*)
+autobyteus-server-6	autobyteus/autobyteus-server:latest	Up 26 hours	a3aea75e4d54
+autobyteus-server-5	autobyteus/autobyteus-server:latest	Up 26 hours	cd448baad7c6
+autobyteus-server-4	autobyteus/autobyteus-server:latest	Up 26 hours	ee8210388474
+autobyteus-server-2	autobyteus/autobyteus-server:latest	Up 26 hours	22bf400082b5
+autobyteus-server-1	autobyteus/autobyteus-server:latest	Up 26 hours	d9e43eca34c0
+autobyteus-server-0	autobyteus/autobyteus-server:latest	Up 6 hours	5eb2d42fffd3
+autobyteus-server-3	autobyteus/autobyteus-server:latest-zh	Up 2 weeks	fd9c7b0a9fac
+autobyteus-server-6 image_id=sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791 keyring_procs=3
+autobyteus-server-5 image_id=sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791 keyring_procs=3
+autobyteus-server-4 image_id=sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791 keyring_procs=2
+autobyteus-server-2 image_id=sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791 keyring_procs=3
+autobyteus-server-1 image_id=sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791 keyring_procs=3
+autobyteus-server-0 image_id=sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791 keyring_procs=2
+autobyteus-server-3 image_id=sha256:d0b43e3eca7c5e2fd3a1cca4c3a3127a20f05208fa636b67e9324d4f58711dc5 keyring_procs=3
+(note: keyring_procs above counts the probing 'sh -c pgrep' itself, so real process count = value - 1)
+
+# $ autobyteus-docker upgrade --all — start 2026-09-25T08:47:36Z
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest
+latest: Pulling from autobyteus/autobyteus-server
+Digest: sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+Status: Downloaded newer image for autobyteus/autobyteus-server:latest
+docker.io/autobyteus/autobyteus-server:latest
+[AutoByteus Docker] Image changed for autobyteus-server-0; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-0.
+AutoByteus Docker node: autobyteus-server-0
+Container: autobyteus-server-0
+Image: autobyteus/autobyteus-server:latest
+Backend: http://localhost:8001
+GraphQL: http://localhost:8001/graphql
+noVNC: http://localhost:64611
+VNC: localhost:5908
+Chrome debug: localhost:9228
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-0
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-0-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest
+latest: Pulling from autobyteus/autobyteus-server
+Digest: sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+Status: Image is up to date for autobyteus/autobyteus-server:latest
+docker.io/autobyteus/autobyteus-server:latest
+[AutoByteus Docker] Image changed for autobyteus-server-1; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-1.
+AutoByteus Docker node: autobyteus-server-1
+Container: autobyteus-server-1
+Image: autobyteus/autobyteus-server:latest
+Backend: http://localhost:50433
+GraphQL: http://localhost:50433/graphql
+noVNC: http://localhost:50436
+VNC: localhost:50435
+Chrome debug: localhost:50437
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-1
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-1-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest
+latest: Pulling from autobyteus/autobyteus-server
+Digest: sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+Status: Image is up to date for autobyteus/autobyteus-server:latest
+docker.io/autobyteus/autobyteus-server:latest
+[AutoByteus Docker] Image changed for autobyteus-server-2; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-2.
+AutoByteus Docker node: autobyteus-server-2
+Container: autobyteus-server-2
+Image: autobyteus/autobyteus-server:latest
+Backend: http://localhost:8003
+GraphQL: http://localhost:8003/graphql
+noVNC: http://localhost:56512
+VNC: localhost:5910
+Chrome debug: localhost:9230
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-2
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-2-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest-zh
+latest-zh: Pulling from autobyteus/autobyteus-server
+Digest: sha256:dc3efc572f201984cb34779671c69d8c137e475b1b509bedbddd4645d739aa01
+Status: Downloaded newer image for autobyteus/autobyteus-server:latest-zh
+docker.io/autobyteus/autobyteus-server:latest-zh
+[AutoByteus Docker] Image changed for autobyteus-server-3; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-3.
+AutoByteus Docker node: autobyteus-server-3
+Container: autobyteus-server-3
+Image: autobyteus/autobyteus-server:latest-zh
+Backend: http://localhost:8004
+GraphQL: http://localhost:8004/graphql
+noVNC: http://localhost:60670
+VNC: localhost:5911
+Chrome debug: localhost:9231
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-3
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-3-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest
+latest: Pulling from autobyteus/autobyteus-server
+Digest: sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+Status: Image is up to date for autobyteus/autobyteus-server:latest
+docker.io/autobyteus/autobyteus-server:latest
+[AutoByteus Docker] Image changed for autobyteus-server-4; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-4.
+AutoByteus Docker node: autobyteus-server-4
+Container: autobyteus-server-4
+Image: autobyteus/autobyteus-server:latest
+Backend: http://localhost:8005
+GraphQL: http://localhost:8005/graphql
+noVNC: http://localhost:6084
+VNC: localhost:5912
+Chrome debug: localhost:9232
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-4
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-4-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest
+latest: Pulling from autobyteus/autobyteus-server
+Digest: sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+Status: Image is up to date for autobyteus/autobyteus-server:latest
+docker.io/autobyteus/autobyteus-server:latest
+[AutoByteus Docker] Image changed for autobyteus-server-5; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-5.
+AutoByteus Docker node: autobyteus-server-5
+Container: autobyteus-server-5
+Image: autobyteus/autobyteus-server:latest
+Backend: http://localhost:8006
+GraphQL: http://localhost:8006/graphql
+noVNC: http://localhost:6085
+VNC: localhost:5913
+Chrome debug: localhost:9233
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-5
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-5-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Checking image autobyteus/autobyteus-server:latest
+latest: Pulling from autobyteus/autobyteus-server
+Digest: sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7
+Status: Image is up to date for autobyteus/autobyteus-server:latest
+docker.io/autobyteus/autobyteus-server:latest
+[AutoByteus Docker] Image changed for autobyteus-server-6; recreating the managed container while keeping named volumes.
+[AutoByteus Docker] Started autobyteus-server-6.
+AutoByteus Docker node: autobyteus-server-6
+Container: autobyteus-server-6
+Image: autobyteus/autobyteus-server:latest
+Backend: http://localhost:8007
+GraphQL: http://localhost:8007/graphql
+noVNC: http://localhost:6086
+VNC: localhost:5914
+Chrome debug: localhost:9234
+Workspace: /home/autobyteus/workspace -> /Users/normy/.autobyteus/docker-server/shared-workspace/nodes/autobyteus-server-6
+Shared folder: /home/autobyteus/shared -> /Users/normy/.autobyteus/docker-server/shared-workspace/shared
+Private app data: /home/autobyteus/data -> autobyteus-server-6-data (Docker named volume)
+Next step: paste Backend into Add Remote Node in AutoByteus. Then open that node over your trusted private network.
+[AutoByteus Docker] Removed unused AutoByteus server image sha256:1acd3167b4ae01b83d07f9b9be2e35cad0727713e716a6ea5d3a2d2f0b6ff791.
+[AutoByteus Docker] Removed unused AutoByteus server image sha256:d0b43e3eca7c5e2fd3a1cca4c3a3127a20f05208fa636b67e9324d4f58711dc5.
+upgrade exit=0 end 2026-09-25T08:48:21Z
+
+# After upgrade — read-only node checks 2026-09-25T08:48:53Z
+$ autobyteus-docker status
+NODE                     CONTAINER                STATUS         BACKEND                         
+autobyteus-server-0      autobyteus-server-0      running        http://localhost:8001 (autobyteus/autobyteus-server:latest)
+autobyteus-server-1      autobyteus-server-1      running        http://localhost:50433 (autobyteus/autobyteus-server:latest)
+autobyteus-server-2      autobyteus-server-2      running        http://localhost:8003 (autobyteus/autobyteus-server:latest)
+autobyteus-server-3      autobyteus-server-3      running        http://localhost:8004 (autobyteus/autobyteus-server:latest-zh)
+autobyteus-server-4      autobyteus-server-4      running        http://localhost:8005 (autobyteus/autobyteus-server:latest)
+autobyteus-server-5      autobyteus-server-5      running        http://localhost:8006 (autobyteus/autobyteus-server:latest)
+autobyteus-server-6      autobyteus-server-6      running        http://localhost:8007 (autobyteus/autobyteus-server:latest)
+--- autobyteus-server-0 image=autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7 state=running started=2026-09-25T08:47:39.835962804Z
+  autobyteus_server                RUNNING   pid 48, uptime 0:01:13
+  chrome                           RUNNING   pid 40, uptime 0:01:13
+  copyq                            RUNNING   pid 39, uptime 0:01:13
+  dbus                             RUNNING   pid 34, uptime 0:01:13
+  disable_screensaver              EXITED    Sep 25 08:47 AM
+  fcitx                            RUNNING   pid 37, uptime 0:01:13
+  socat                            RUNNING   pid 42, uptime 0:01:13
+  tigervnc                         RUNNING   pid 35, uptime 0:01:13
+  websockify                       RUNNING   pid 45, uptime 0:01:13
+  xfce                             RUNNING   pid 36, uptime 0:01:13
+PASS autobyteus-server-0: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-0: drop-in present
+PASS autobyteus-server-0: Chromium main process carries --password-store=basic (pid 40)
+PASS autobyteus-server-0: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-0: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-0: vncuser Secret Service request failed fast (15 ms, ServiceUnknown)
+PASS autobyteus-server-0: server GraphQL answered 200
+RESULT autobyteus-server-0 rc=0
+--- autobyteus-server-1 image=autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7 state=running started=2026-09-25T08:47:43.432355Z
+  autobyteus_server                RUNNING   pid 52, uptime 0:01:10
+  chrome                           RUNNING   pid 44, uptime 0:01:11
+  copyq                            RUNNING   pid 40, uptime 0:01:11
+  dbus                             RUNNING   pid 34, uptime 0:01:11
+  disable_screensaver              EXITED    Sep 25 08:47 AM
+  fcitx                            RUNNING   pid 37, uptime 0:01:11
+  socat                            RUNNING   pid 49, uptime 0:01:11
+  tigervnc                         RUNNING   pid 35, uptime 0:01:11
+  websockify                       RUNNING   pid 50, uptime 0:01:10
+  xfce                             RUNNING   pid 36, uptime 0:01:11
+PASS autobyteus-server-1: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-1: drop-in present
+PASS autobyteus-server-1: Chromium main process carries --password-store=basic (pid 44)
+PASS autobyteus-server-1: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-1: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-1: vncuser Secret Service request failed fast (4 ms, ServiceUnknown)
+PASS autobyteus-server-1: server GraphQL answered 200
+RESULT autobyteus-server-1 rc=0
+--- autobyteus-server-2 image=autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7 state=running started=2026-09-25T08:47:48.439165419Z
+  autobyteus_server                RUNNING   pid 55, uptime 0:01:07
+  chrome                           RUNNING   pid 46, uptime 0:01:07
+  copyq                            RUNNING   pid 297, uptime 0:01:05
+  dbus                             RUNNING   pid 33, uptime 0:01:07
+  disable_screensaver              EXITED    Sep 25 08:47 AM
+  fcitx                            RUNNING   pid 37, uptime 0:01:07
+  socat                            RUNNING   pid 51, uptime 0:01:07
+  tigervnc                         RUNNING   pid 34, uptime 0:01:07
+  websockify                       RUNNING   pid 53, uptime 0:01:07
+  xfce                             RUNNING   pid 296, uptime 0:01:05
+PASS autobyteus-server-2: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-2: drop-in present
+PASS autobyteus-server-2: Chromium main process carries --password-store=basic (pid 46)
+PASS autobyteus-server-2: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-2: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-2: vncuser Secret Service request failed fast (5 ms, ServiceUnknown)
+PASS autobyteus-server-2: server GraphQL answered 200
+RESULT autobyteus-server-2 rc=0
+--- autobyteus-server-3 image=autobyteus/autobyteus-server:latest-zh sha256:dc3efc572f201984cb34779671c69d8c137e475b1b509bedbddd4645d739aa01 state=running started=2026-09-25T08:47:53.648405963Z
+  autobyteus_server                RUNNING   pid 48, uptime 0:01:02
+  chrome                           RUNNING   pid 44, uptime 0:01:02
+  copyq                            RUNNING   pid 39, uptime 0:01:02
+  dbus                             RUNNING   pid 34, uptime 0:01:02
+  disable_screensaver              EXITED    Sep 25 08:47 AM
+  fcitx                            RUNNING   pid 37, uptime 0:01:02
+  socat                            RUNNING   pid 45, uptime 0:01:02
+  tigervnc                         RUNNING   pid 35, uptime 0:01:02
+  websockify                       RUNNING   pid 46, uptime 0:01:02
+  xfce                             RUNNING   pid 36, uptime 0:01:02
+PASS autobyteus-server-3: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-3: drop-in present
+PASS autobyteus-server-3: Chromium main process carries --password-store=basic (pid 44)
+PASS autobyteus-server-3: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-3: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-3: vncuser Secret Service request failed fast (7 ms, ServiceUnknown)
+PASS autobyteus-server-3: server GraphQL answered 200
+RESULT autobyteus-server-3 rc=0
+--- autobyteus-server-4 image=autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7 state=running started=2026-09-25T08:47:58.652875298Z
+  autobyteus_server                RUNNING   pid 68, uptime 0:00:58
+  chrome                           RUNNING   pid 44, uptime 0:00:58
+  copyq                            RUNNING   pid 336, uptime 0:00:57
+  dbus                             RUNNING   pid 34, uptime 0:00:58
+  disable_screensaver              EXITED    Sep 25 08:48 AM
+  fcitx                            RUNNING   pid 37, uptime 0:00:58
+  socat                            RUNNING   pid 63, uptime 0:00:58
+  tigervnc                         RUNNING   pid 35, uptime 0:00:58
+  websockify                       RUNNING   pid 66, uptime 0:00:58
+  xfce                             RUNNING   pid 36, uptime 0:00:58
+PASS autobyteus-server-4: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-4: drop-in present
+PASS autobyteus-server-4: Chromium main process carries --password-store=basic (pid 44)
+PASS autobyteus-server-4: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-4: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-4: vncuser Secret Service request failed fast (7 ms, ServiceUnknown)
+PASS autobyteus-server-4: server GraphQL answered 200
+RESULT autobyteus-server-4 rc=0
+--- autobyteus-server-5 image=autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7 state=running started=2026-09-25T08:48:04.833915635Z
+  autobyteus_server                RUNNING   pid 52, uptime 0:00:53
+  chrome                           RUNNING   pid 45, uptime 0:00:53
+  copyq                            RUNNING   pid 42, uptime 0:00:53
+  dbus                             RUNNING   pid 33, uptime 0:00:53
+  disable_screensaver              EXITED    Sep 25 08:48 AM
+  fcitx                            RUNNING   pid 39, uptime 0:00:53
+  socat                            RUNNING   pid 47, uptime 0:00:53
+  tigervnc                         RUNNING   pid 34, uptime 0:00:53
+  websockify                       RUNNING   pid 49, uptime 0:00:53
+  xfce                             RUNNING   pid 35, uptime 0:00:53
+PASS autobyteus-server-5: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-5: drop-in present
+PASS autobyteus-server-5: Chromium main process carries --password-store=basic (pid 45)
+PASS autobyteus-server-5: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-5: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-5: vncuser Secret Service request failed fast (4 ms, ServiceUnknown)
+PASS autobyteus-server-5: server GraphQL answered 200
+RESULT autobyteus-server-5 rc=0
+--- autobyteus-server-6 image=autobyteus/autobyteus-server:latest sha256:f42018efc2253507575034001b477f108c4a166ff3bd1769d662c47e8d78cfb7 state=running started=2026-09-25T08:48:10.295580471Z
+  autobyteus_server                RUNNING   pid 61, uptime 0:00:49
+  chrome                           RUNNING   pid 49, uptime 0:00:49
+  copyq                            RUNNING   pid 44, uptime 0:00:49
+  dbus                             RUNNING   pid 33, uptime 0:00:49
+  disable_screensaver              EXITED    Sep 25 08:48 AM
+  fcitx                            RUNNING   pid 36, uptime 0:00:49
+  socat                            RUNNING   pid 53, uptime 0:00:49
+  tigervnc                         RUNNING   pid 34, uptime 0:00:49
+  websockify                       RUNNING   pid 57, uptime 0:00:49
+  xfce                             RUNNING   pid 35, uptime 0:00:49
+PASS autobyteus-server-6: gnome-keyring / libpam-gnome-keyring / evolution-data-server not installed
+PASS autobyteus-server-6: drop-in present
+PASS autobyteus-server-6: Chromium main process carries --password-store=basic (pid 49)
+PASS autobyteus-server-6: no gnome-keyring-daemon / gcr-prompter process
+PASS autobyteus-server-6: no Secret Service / keyring / portal Secret activation in session D-Bus log
+PASS autobyteus-server-6: vncuser Secret Service request failed fast (4 ms, ServiceUnknown)
+PASS autobyteus-server-6: server GraphQL answered 200
+RESULT autobyteus-server-6 rc=0

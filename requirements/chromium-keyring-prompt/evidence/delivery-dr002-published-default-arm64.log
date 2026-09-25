@@ -1,0 +1,27 @@
+=== default linux/arm64 autobyteus/chrome-vnc@sha256:f35358e25b29fac65b31b58e8024d4449e75c6db4af65281943f50a9114514ce  start_utc=2026-09-25T07:28:48Z  main=6e02d7e
+$ docker pull --platform linux/arm64 autobyteus/chrome-vnc@sha256:f35358e25b29fac65b31b58e8024d4449e75c6db4af65281943f50a9114514ce
+docker.io/autobyteus/chrome-vnc@sha256:f35358e25b29fac65b31b58e8024d4449e75c6db4af65281943f50a9114514ce
+image: sha256:f35358e25b29fac65b31b58e8024d4449e75c6db4af65281943f50a9114514ce os=linux arch=arm64
+$ tests/validate-image.sh autobyteus/chrome-vnc:dr002-published-default-arm64 default
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.
+exit=0 elapsed_s=3
+$ docker run -d --name dr002-published-default-arm64 --platform linux/arm64 --cap-add SYS_ADMIN --security-opt seccomp=unconfined -v dr002-published-default-arm64-profile:/home/vncuser/.config/chromium autobyteus/chrome-vnc:dr002-published-default-arm64
+$ tests/validate-running-container.sh dr002-published-default-arm64 default
+chrome                           RUNNING   pid 44, uptime 0:00:06
+copyq                            RUNNING   pid 38, uptime 0:00:06
+dbus                             RUNNING   pid 33, uptime 0:00:06
+disable_screensaver              EXITED    Sep 25 07:32 AM
+fcitx                            RUNNING   pid 36, uptime 0:00:06
+socat                            RUNNING   pid 47, uptime 0:00:06
+tigervnc                         RUNNING   pid 34, uptime 0:00:06
+websockify                       RUNNING   pid 49, uptime 0:00:06
+xfce                             RUNNING   pid 35, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 45 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 6 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+exit=0 elapsed_s=8
+chromium: Chromium 153.0.8010.52 built on Ubuntu 24.04.5 LTS
+keyring packages: evolution-data-server unknown ok not-installed;gnome-keyring unknown ok not-installed;libpam-gnome-keyring unknown ok not-installed;
+drop-in: export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --password-store=basic"
+RESULT default linux/arm64 image=0 runtime=0 end_utc=2026-09-25T07:32:35Z

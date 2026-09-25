@@ -27,14 +27,14 @@
 | `Dockerfile` purge comment | In-file rationale | `No change` | Accurate |
 | `.env.chrome-vnc.example`, `docker-compose*.yml`, `run-container.sh` | Could mention keyring/password store | `No change` | No keyring or password-store configuration; nothing to update |
 | Superrepo `autobyteus-server-ts/docker/Dockerfile.monorepo`, `docker/Dockerfile.allinone`, server/docker READMEs (read-only) | Downstream consumers | `No change` | Only consume `autobyteus/chrome-vnc:${tag}`; `git grep` finds no keyring/password-store text. Server source changes are out of scope (requirements); no downstream doc claims the old behavior |
-| `tickets/in-progress/chromium-keyring-prompt/release-notes.md` | Release record | `Updated` (created) | Pre-verification release notes; moved to `tickets/done/` after user verification |
+| `tickets/done/chromium-keyring-prompt/release-notes.md` | Release record | `Updated` (created) | Created pre-verification in `tickets/in-progress/`; archived to `tickets/done/` after user verification (DR-002) and finalized with published digests |
 
 ## Docs Updated
 
 | Doc Path | Type Of Update | What Changed | Why |
 | --- | --- | --- | --- |
 | `README.md` (in source commit `6d4aa75`, verified by Delivery) | Behavior/contract docs | Features bullet + "No OS keyring" section | Documents the new invariant for consumers and operators |
-| `tickets/in-progress/chromium-keyring-prompt/release-notes.md` (Delivery) | Release notes | New `1.4.1` / `1.4.1-zh` notes (publication pending) | Repository release-record convention (`tickets/done/<ticket>/release-notes.md`) |
+| `tickets/done/chromium-keyring-prompt/release-notes.md` (Delivery) | Release notes | New `1.4.1` / `1.4.1-zh` notes with published digests and downstream server identities | Repository release-record convention (`tickets/done/<ticket>/release-notes.md`) |
 
 ## Durable Design / Runtime Knowledge Promoted
 
@@ -62,7 +62,7 @@
 ## Delivery Continuation
 
 - Result: `Pass`
-- Next delivery action: Hold for explicit user verification of the integrated handoff (`handoff-summary.md`), then archive release notes, finalize the repository, publish `1.4.1`, re-publish the server images, verify, and upgrade operator nodes (AC-006).
+- Next delivery action: Completed in DR-002 — user verified; release notes archived; repository finalized; `1.4.1` published; server images re-published; operator nodes upgraded (see `release-deployment-report.md`). No further README change was needed after publication.
 - Notes: Informational, out of approved scope (not documented as a feature): `gcr`/`pinentry-gnome3` remain and could show a GPG passphrase prompt only for a passphrase-protected GPG key; not a Secret Service request and never observed.
 
 ## Blocked Or Escalated Follow-Up (Use Only If Docs Sync Cannot Complete)

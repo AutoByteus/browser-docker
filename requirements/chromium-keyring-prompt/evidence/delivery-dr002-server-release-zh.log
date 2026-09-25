@@ -1,0 +1,8 @@
+# Server Docker Release zh — run 36110680037 (workflow_dispatch release_tag=v1.4.80 publish_zh=true)
+{"conclusion":"success","createdAt":"2026-09-25T08:01:35Z","jobs":[{"conclusion":"success","name":"Resolve Release Metadata"},{"conclusion":"success","name":"Build And Push Server Image"}],"status":"completed","updatedAt":"2026-09-25T08:41:02Z","url":"https://github.com/AutoByteus/autobyteus-workspace/actions/runs/36110680037"}
+--- base image resolution in build log (unique)
+[linux/amd64 runtime  1/32] FROM docker.io/***/chrome-vnc:zh@sha256:19d4c0164e5c7006e38a81c0260611cbf26f871f2d3e749d574016676f4f9a67
+[linux/arm64 runtime  1/32] FROM docker.io/***/chrome-vnc:zh@sha256:19d4c0164e5c7006e38a81c0260611cbf26f871f2d3e749d574016676f4f9a67
+--- published digests
+1.4.80-zh: sha256:dc3efc572f201984cb34779671c69d8c137e475b1b509bedbddd4645d739aa01 [('amd64', 'sha256:484fd8ebf3a7ac4bd03457a5fff1ec02d7854d5e554c252082cc8843be637cc5'), ('arm64', 'sha256:a69be5d61cf67d7c416ccb2d878d00d5b3c808f7cf820203cf821fc7eb7f87cc')]
+latest-zh: sha256:dc3efc572f201984cb34779671c69d8c137e475b1b509bedbddd4645d739aa01 [('amd64', 'sha256:484fd8ebf3a7ac4bd03457a5fff1ec02d7854d5e554c252082cc8843be637cc5'), ('arm64', 'sha256:a69be5d61cf67d7c416ccb2d878d00d5b3c808f7cf820203cf821fc7eb7f87cc')]
