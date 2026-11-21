@@ -4,10 +4,21 @@ set -euo pipefail
 display="${DISPLAY:-:99}"
 display_num="${display#:}"
 lock_file="/tmp/.X${display_num}-lock"
-socket_file="/tmp/.X11-unix/X${display_num}"
+x11_dir="/tmp/.X11-unix"
+socket_file="${x11_dir}/X${display_num}"
 
-mkdir -p /tmp/.X11-unix
-chmod 1777 /tmp/.X11-unix
+# The entrypoint keeps this directory root:root 1777, and any root X server in the
+# container takes it over as root, so change its mode only when we own it.
+if [ ! -d "$x11_dir" ]; then
+  mkdir -m 1777 "$x11_dir"
+fi
+if [ -O "$x11_dir" ]; then
+  chmod 1777 "$x11_dir"
+fi
+if [ ! -w "$x11_dir" ] || [ ! -k "$x11_dir" ]; then
+  echo "$x11_dir must be a world-writable sticky directory (mode 1777); found owner $(stat -c '%U:%G' "$x11_dir"), mode $(stat -c '%a' "$x11_dir")." >&2
+  exit 1
+fi
 
 # Remove stale X lock/socket if they do not belong to an active X server process.
 if [ -f "$lock_file" ]; then

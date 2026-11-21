@@ -190,6 +190,29 @@ docker exec <container> sh -lc 'rm -f /tmp/.X99-lock /tmp/.X11-unix/X99 && super
 
 To make recovery permanent, rebuild/pull the updated image and recreate containers.
 
+The X socket directory `/tmp/.X11-unix` is kept `root:root` with mode 1777, the
+X convention. The image is built that way, and `/entrypoint.sh` sets it again at
+every container start. A root X server started inside the container (for
+example `xvfb-run` or another `Xvnc`, as agents do for their own tests) takes
+the directory over as root. It no longer stops the desktop: `start-vnc.sh`
+changes the directory's mode only when `vncuser` owns it. Otherwise it only
+checks that the directory is world-writable and sticky, and when it is not,
+exits with a message naming the directory's owner and mode.
+
+On images before `1.4.2`, such a takeover made TigerVNC fail with
+`chmod: changing permissions of '/tmp/.X11-unix': Operation not permitted`.
+That happened after a container restart and after a Supervisor restart of Xvnc
+alike, and the desktop programs ended `FATAL`. Recover such a running container
+manually:
+
+```bash
+docker exec <container> sh -c 'chown vncuser:vncuser /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix && supervisorctl restart tigervnc xfce chrome copyq'
+```
+
+This command gives the directory back to `vncuser` because the launcher in
+those images needs to own it. Upgrade to `1.4.2` (and, for AutoByteus server
+nodes, a server image rebuilt on it) to make the recovery permanent.
+
 Chromium can also leave profile lock files behind when a container is removed
 and recreated while reusing the persistent profile volume. Current images clear
 known stale Chromium lock artifacts during `/entrypoint.sh` startup before

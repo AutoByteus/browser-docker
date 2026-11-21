@@ -185,8 +185,7 @@ RUN mkdir -p /home/vncuser/.vnc && \
 RUN mkdir -p /tmp/.X11-unix && \
     chmod 1777 /tmp/.X11-unix && \
     mkdir -p /dev/shm && \
-    chmod 1777 /dev/shm && \
-    chown -R ${USER_UID}:${USER_GID} /tmp/.X11-unix
+    chmod 1777 /dev/shm
 
 # Setup DBus directories and permissions
 RUN mkdir -p /run/dbus && \

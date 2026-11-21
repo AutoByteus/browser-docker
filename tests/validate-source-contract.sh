@@ -32,7 +32,7 @@ assert_not_contains() {
 first_from="$(awk 'toupper($1) == "FROM" { print $2; exit }' Dockerfile)"
 [[ "$first_from" == "ubuntu:24.04" ]] || fail "first effective Dockerfile base is '$first_from', expected ubuntu:24.04"
 
-[[ "$(tr -d '\r\n' < VERSION)" == "1.4.1" ]] || fail "VERSION must be 1.4.1"
+[[ "$(tr -d '\r\n' < VERSION)" == "1.4.2" ]] || fail "VERSION must be 1.4.2"
 
 assert_not_contains 'ubuntu:22\.04|Ubuntu 22\.04|python3\.11' \
   Dockerfile base.conf entrypoint.sh README.md build-multi-arch.sh
@@ -93,6 +93,32 @@ assert_not_contains '--password-store' \
   Dockerfile start-chrome.sh base.conf entrypoint.sh supervisord.conf start-vnc.sh
 assert_contains '^exec /usr/bin/chromium ' start-chrome.sh
 
+# The X socket directory is root:root 1777: root sets it at build and at every
+# start, and the vncuser launcher changes its mode only when it owns it.
+x11_owner_test='if [ -O "$x11_dir" ]; then'
+assert_literal_line 'x11_dir="/tmp/.X11-unix"' start-vnc.sh
+assert_literal_line "$x11_owner_test" start-vnc.sh
+assert_not_contains '^chmod[[:space:]].*(/tmp/\.X11-unix|x11_dir)' start-vnc.sh
+X11_OWNER_TEST="$x11_owner_test" awk '
+  /chmod/ && /x11_dir|\.X11-unix/ && !/mkdir/ { if (previous != ENVIRON["X11_OWNER_TEST"]) bad = 1; changes++ }
+  { previous = $0 }
+  END { exit (bad || changes != 1) }
+' start-vnc.sh || fail "start-vnc.sh must change the X socket directory mode once, only inside its ownership test"
+assert_contains '\[ ! -w "\$x11_dir" \] \|\| \[ ! -k "\$x11_dir" \]' start-vnc.sh
+assert_not_contains 'sudo|chown' start-vnc.sh
+assert_literal_line 'chown root:root /tmp/.X11-unix' entrypoint.sh
+assert_literal_line 'chmod 1777 /tmp/.X11-unix' entrypoint.sh
+awk '
+  $0 == "chmod 1777 /tmp/.X11-unix" { state = NR }
+  /^rm -f .*\/tmp\/\.X11-unix\/X/ { cleanup = NR }
+  /^exec \/usr\/local\/bin\/supervisord/ { supervisor = NR }
+  END { exit !(state && cleanup && supervisor && state < cleanup && cleanup < supervisor) }
+' entrypoint.sh || fail "entrypoint.sh must set the X socket directory state before the stale :99 cleanup and Supervisor"
+assert_not_contains 'chown.*\.X11-unix' Dockerfile
+assert_contains 'chrome-vnc\.test=throwaway' tests/validate-restart-recovery.sh
+awk '/^## Reliable Recovery After Host\/Daemon Restart$/ { in_section = 1; next } /^## / { in_section = 0 } in_section && /\/tmp\/\.X11-unix root:root 1777|`\/tmp\/\.X11-unix` .*root:root/ { found = 1 } END { exit !found }' README.md ||
+  fail "README recovery section must state the X socket directory's root:root 1777 state"
+
 assert_contains "Canonical's official minimal Ubuntu 24\.04 LTS OCI base" README.md
 assert_contains 'Python 3\.13 developer runtime, Supervisor 4\.3\.0' README.md
 assert_contains 'GitHub CLI, Node\.js 22, and Yarn' README.md
@@ -106,4 +132,4 @@ assert_contains 're-login' README.md
 assert_contains 'linux/amd64' build-multi-arch.sh
 assert_contains 'linux/arm64' build-multi-arch.sh
 
-printf 'PASS: source, build, release, runtime-path, port, no-keyring, and documentation contracts are consistent.\n'
+printf 'PASS: source, build, release, runtime-path, port, no-keyring, X socket directory, and documentation contracts are consistent.\n'

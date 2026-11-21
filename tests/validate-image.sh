@@ -143,5 +143,29 @@ else
   ! dpkg-query -W -f='${db:Status-Status}' fcitx5 2>/dev/null | grep -q 'installed' || fail "default image unexpectedly contains fcitx5"
 fi
 
-printf 'PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, and UID/GID contracts validated.\n'
+# The X socket directory is built root:root 1777. start-vnc.sh (as vncuser) changes
+# its mode only when it owns it, and otherwise refuses an unusable directory.
+x11_dir=/tmp/.X11-unix
+[[ "$(stat -c '%U %G %a' "$x11_dir")" == "root root 1777" ]] || fail "$x11_dir must be built root root 1777, is $(stat -c '%U %G %a' "$x11_dir")"
+chmod 0755 "$x11_dir"
+launcher_status=0
+launcher_output="$(su -s /bin/bash vncuser -c /usr/local/bin/start-vnc.sh 2>&1)" || launcher_status=$?
+(( launcher_status != 0 )) || fail "start-vnc.sh accepted a root-owned $x11_dir with mode 755"
+[[ "$launcher_output" == "$x11_dir must be a world-writable sticky directory (mode 1777); found owner root:root, mode 755." ]] ||
+  fail "start-vnc.sh refused $x11_dir with an unexpected message: $launcher_output"
+! pgrep -x Xvnc >/dev/null || fail "start-vnc.sh started Xvnc despite an unusable $x11_dir"
+
+rm -rf "$x11_dir"
+su -s /bin/bash vncuser -c /usr/local/bin/start-vnc.sh >/tmp/start-vnc-missing-dir.log 2>&1 &
+launcher_pid=$!
+for _ in $(seq 1 40); do
+  [[ -S "$x11_dir/X99" ]] && break
+  sleep 0.5
+done
+[[ -S "$x11_dir/X99" ]] || fail "start-vnc.sh did not start Xvnc :99 after creating $x11_dir: $(cat /tmp/start-vnc-missing-dir.log)"
+[[ "$(stat -c '%U %a' "$x11_dir")" == "vncuser 1777" ]] || fail "start-vnc.sh created $x11_dir as $(stat -c '%U %a' "$x11_dir"), expected vncuser 1777"
+pkill -u vncuser -x Xvnc
+wait "$launcher_pid" || true
+
+printf 'PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID contracts validated.\n'
 CONTAINER_CHECKS

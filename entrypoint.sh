@@ -91,6 +91,13 @@ chmod 755 /var/run/dbus
 # FIX: Clear potential stale PID file before starting supervisord/dbus
 rm -f /run/dbus/pid
 
+# The X socket directory is root:root 1777 (the X convention). Root X servers that
+# agents start in the container take it over as root anyway, and /tmp survives
+# `docker restart`, so set its state at every start; start-vnc.sh only checks it.
+mkdir -p /tmp/.X11-unix
+chown root:root /tmp/.X11-unix
+chmod 1777 /tmp/.X11-unix
+
 # Clear stale X display artifacts left by abrupt container shutdown.
 DISPLAY_NUM="${DISPLAY:-:99}"
 DISPLAY_NUM="${DISPLAY_NUM#:}"
