@@ -1,0 +1,6 @@
+# IMP-02
+# Command: bash tests/validate-build-wrapper.sh (fake docker; no push)
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.

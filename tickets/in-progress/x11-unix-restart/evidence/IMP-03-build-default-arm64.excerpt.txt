@@ -1,0 +1,14 @@
+# IMP-03
+# Command: docker build --progress=plain -t autobyteus-596-chrome-vnc:local --label chrome-vnc.test=throwaway . (image sha256:e88b1afc4bd4…)
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+# Excerpt of IMP-03-build-default-arm64.log: the X11 layer and the end of the build
+
+7502:#16 [11/25] RUN mkdir -p /tmp/.X11-unix &&     chmod 1777 /tmp/.X11-unix &&     mkdir -p /dev/shm &&     chmod 1777 /dev/shm
+#31 exporting manifest list sha256:e88b1afc4bd4b79bf7fa0ebc036690dec71112547779f7c28915c4fea8e2e54b done
+#31 naming to docker.io/library/autobyteus-596-chrome-vnc:local done
+#31 unpacking to docker.io/library/autobyteus-596-chrome-vnc:local
+#31 unpacking to docker.io/library/autobyteus-596-chrome-vnc:local 16.5s done
+#31 DONE 88.6s
+exit=0

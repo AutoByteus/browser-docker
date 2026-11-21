@@ -1,0 +1,54 @@
+# IMP-10a
+# Command: docker build -f tickets/in-progress/x11-unix-restart/probe/server-overlay.Dockerfile -t autobyteus-596-server-overlay:local . (FROM autobyteus/autobyteus-server:beta; never pushed)
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from server-overlay.Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from server-overlay.Dockerfile
+#1 transferring dockerfile: 661B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/autobyteus/autobyteus-server:beta
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [1/4] FROM docker.io/autobyteus/autobyteus-server:beta@sha256:52db87304cc4406b4fecb7933914c15ec3ecd0de676f0fe2b87580b55f90a9cc
+#5 resolve docker.io/autobyteus/autobyteus-server:beta@sha256:52db87304cc4406b4fecb7933914c15ec3ecd0de676f0fe2b87580b55f90a9cc 0.0s done
+#5 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 67B done
+#4 DONE 0.0s
+
+#5 [1/4] FROM docker.io/autobyteus/autobyteus-server:beta@sha256:52db87304cc4406b4fecb7933914c15ec3ecd0de676f0fe2b87580b55f90a9cc
+#5 CACHED
+
+#6 [2/4] COPY start-vnc.sh /usr/local/bin/start-vnc.sh
+#6 DONE 0.1s
+
+#7 [3/4] COPY entrypoint.sh /entrypoint.sh
+#7 DONE 0.1s
+
+#8 [4/4] RUN chmod +x /usr/local/bin/start-vnc.sh /entrypoint.sh
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 exporting layers 0.1s done
+#9 exporting manifest sha256:6062cd370ef757db16e228f0d03ad2775f5d7b78470490ab820583454850c4fd done
+#9 exporting config sha256:f5500a2ed6f567f40e4cacd6bb9d0e126f8661a0981023d7040e533d5137d995
+#9 exporting config sha256:f5500a2ed6f567f40e4cacd6bb9d0e126f8661a0981023d7040e533d5137d995 done
+#9 exporting attestation manifest sha256:44a662d049995a2e67d9ae2070b7b8a58864a64cedc37bc1016039a7cc0e27e3 done
+#9 exporting manifest list sha256:b7bba6a562e8b08b261f67beb1a989c584b5ab68ceb7666d5b8a405887513919 done
+#9 naming to docker.io/library/autobyteus-596-server-overlay:local done
+#9 unpacking to docker.io/library/autobyteus-596-server-overlay:local 0.0s done
+#9 DONE 0.2s

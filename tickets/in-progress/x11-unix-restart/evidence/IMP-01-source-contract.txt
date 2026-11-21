@@ -1,0 +1,6 @@
+# IMP-01
+# Command: bash tests/validate-source-contract.sh
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+PASS: source, build, release, runtime-path, port, no-keyring, X socket directory, and documentation contracts are consistent.

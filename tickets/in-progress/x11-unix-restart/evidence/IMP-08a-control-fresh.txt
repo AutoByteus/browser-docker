@@ -1,0 +1,18 @@
+# IMP-08a
+# Command: docker run ... --name ab596-control (labels/flags as IMP-05) autobyteus/chrome-vnc@sha256:b2fde77f…96f4 (1.4.1, unfixed); tests/validate-running-container.sh ab596-control default
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+chrome                           RUNNING   pid 38, uptime 0:00:06
+copyq                            RUNNING   pid 37, uptime 0:00:06
+dbus                             RUNNING   pid 32, uptime 0:00:06
+disable_screensaver              EXITED    Nov 21 03:34 PM
+fcitx                            RUNNING   pid 35, uptime 0:00:06
+socat                            RUNNING   pid 41, uptime 0:00:06
+tigervnc                         RUNNING   pid 33, uptime 0:00:06
+websockify                       RUNNING   pid 47, uptime 0:00:06
+xfce                             RUNNING   pid 34, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 47 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 9 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files

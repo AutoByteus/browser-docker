@@ -1,0 +1,18 @@
+# IMP-01b
+# Command: bash tests/validate-source-contract.sh with start-vnc.sh mutated (A: unconditional top-level chmod; B: ownership test removed), then restored
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+== mutation A: old unconditional chmod line restored
+8:chmod 1777 /tmp/.X11-unix
+8:chmod 1777 /tmp/.X11-unix
+FAIL: active source contains obsolete pattern: ^chmod[[:space:]].*(/tmp/\.X11-unix|x11_dir)
+exit=1
+== mutation B: ownership test removed (chmod runs unconditionally, indented)
+15-{
+16:  chmod 1777 "$x11_dir"
+FAIL: start-vnc.sh does not contain expected literal line: if [ -O "$x11_dir" ]; then
+exit=1
+== restored
+PASS: source, build, release, runtime-path, port, no-keyring, X socket directory, and documentation contracts are consistent.
+exit=0

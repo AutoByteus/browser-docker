@@ -1,0 +1,16 @@
+# IMP-10
+# Command: bash tickets/in-progress/x11-unix-restart/probe/x11-takeover-restart-probe.sh autobyteus-596-server-overlay:local ab596-server-overlay (exit 1 comes from its final grep -c finding 0 matches)
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+== fresh start
+ALL RUNNING after 4x2s
+drwxrwxrwt 1 root root 4096 Nov 21 15:40 /tmp/.X11-unix
+== root Xvnc :102 takes the dir
+drwxrwxrwt 1 root root 4096 Nov 21 15:40 /tmp/.X11-unix
+== in-life: kill Xvnc :99, Supervisor restarts it
+tigervnc                         RUNNING   pid 691, uptime 0:00:03
+== container restart
+ALL RUNNING after 4x2s
+drwxrwxrwt 1 root root 4096 Nov 21 15:40 /tmp/.X11-unix
+X11-unix chmod failures in supervisord.log: 0

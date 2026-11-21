@@ -1,0 +1,8 @@
+# IMP-07
+# Command: docker exec -u root ab596-fixed su -s /bin/bash vncuser -c /usr/local/bin/start-vnc.sh (while tigervnc runs)
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+tigervnc                         RUNNING   pid 40, uptime 0:07:24
+second start-vnc.sh exit=1: Display :99 appears to be used by live PID 40; refusing to start duplicate X server.
+tigervnc                         RUNNING   pid 40, uptime 0:07:25

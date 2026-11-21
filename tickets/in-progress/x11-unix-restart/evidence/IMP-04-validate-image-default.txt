@@ -1,0 +1,6 @@
+# IMP-04
+# Command: bash tests/validate-image.sh autobyteus-596-chrome-vnc:local default
+# Commit: 37edc71 (branch codex/x11-unix-restart)
+# Environment: macOS arm64, Docker Desktop (linux/arm64), 2026-11-21
+
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID contracts validated.
