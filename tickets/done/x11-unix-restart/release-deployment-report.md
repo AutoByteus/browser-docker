@@ -77,7 +77,18 @@
 
 ## Repository Finalization
 
-FINALIZATION
+- Bootstrap context source: `handoff-sd-to-implementation.md` (finalization `origin/main`) and `RELEASE.md` Finalization Target
+- Ticket branch: `codex/x11-unix-restart`
+- Ticket branch commit result: `7164571` (RELEASE.md, delivery records, ticket archived), on top of `5ebc4d9`
+- Ticket branch push result: pushed `origin/codex/x11-unix-restart` (new branch)
+- Finalization target remote / branch: `origin` (`AutoByteus/browser-docker`) / `main`
+- Target advanced after verification: `No` (`ef63a46` when fetched before the push)
+- Merge into target result: fast-forward `ef63a46..7164571` (repository practice: linear `main`). Source contract and build-wrapper checks PASS on `7164571`; gitleaks found no leaks.
+- Push target branch result: `ef63a46..7164571  HEAD -> main`
+- User's checkout:
+  - The primary checkout `/Users/normy/autobyteus_org/browser_docker` is on `codex/python313-supervisor-compatibility`, so it is not updated and left untouched.
+  - The repository's local `main` worktree `/Users/normy/autobyteus_org/browser_docker-worktrees/ubuntu-24-minimal-base-main-finalize` (clean, on `main` at `ef63a46`) is fast-forwarded with `git merge --ff-only origin/main` after this record's push; the result is in the terminal message.
+- Repository finalization status: `Completed`
 
 ## Release / Publication / Deployment
 
@@ -87,7 +98,13 @@ FINALIZATION
 
 ## Post-Finalization Cleanup
 
-CLEANUP
+- Dedicated ticket worktree path: `/Users/normy/autobyteus_org/autobyteus-worktrees/browser-docker-x11-restart`
+- Plan, run after this record's push:
+  - remove the worktree and prune;
+  - delete the local branch `codex/x11-unix-restart`;
+  - delete the remote branch `origin/codex/x11-unix-restart` (repository practice, as for 1.4.1);
+  - remove the ticket's local images `autobyteus-596-chrome-vnc:local`, `autobyteus-596-server-overlay:local` and `autobyteus-596-proto:local`, which no container uses (TESTING.md: remove the images you created).
+- The founder's `autobyteus-server-0/1/2` containers are not touched. The result is reported in the terminal message.
 
 ## Environment Or Persisted-Data Transition Notes
 
@@ -95,7 +112,10 @@ CLEANUP
 
 ## Verification Checks
 
-CHECKS
+- `bash tests/validate-source-contract.sh`: PASS (before and after the delivery commit)
+- `bash tests/validate-build-wrapper.sh`: PASS
+- `gitleaks git --log-opts=origin/main..HEAD`: no leaks (5 commits)
+- File names: no Windows-hostile character and no tracked path over 200 characters
 
 ## Rollback Criteria
 
@@ -103,4 +123,10 @@ CHECKS
 
 ## Final Status
 
-FINAL
+- Verification complete: `Yes` (from the evidence; amd64 and `zh` accepted risk, DEC-003)
+- Repository finalization complete: `Yes` (`7164571` on `main`; this record commit follows it)
+- Applicable release/deployment/rollout complete or not required: `Yes` (not required; on the founder's word)
+- Applicable safe cleanup complete or not required: run after this record's push (Post-Finalization Cleanup); result in the terminal message
+- Unresolved blocker: `None`
+- Successful terminal package eligible for return: `Yes`
+- Terminal package sent to the Solution Designer: by `send_message_to` after this record's push

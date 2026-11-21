@@ -6,7 +6,7 @@
 - Date: `2026-11-21`
 - Classification: `task_size: Small`, `architectural_risk: Low`, direct route. Architecture review, code review and test-code review: `Not Applicable`.
 - Current Status: `Verified from evidence / finalized on main; not published`
-- Branch: `codex/x11-unix-restart`, base `origin/main` @ `ef63a4670e` (current at delivery). Code at `37edc71`.
+- Branch: `codex/x11-unix-restart`, base `origin/main` @ `ef63a4670e` (current at delivery). Code at `37edc71`. Finalized: fast-forward of `main` to `7164571`, pushed.
 
 ## Delivery Summary
 
