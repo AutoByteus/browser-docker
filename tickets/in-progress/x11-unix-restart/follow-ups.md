@@ -1,0 +1,5 @@
+# Follow-ups
+
+| ID | Found by (role, document) | What is wrong, where | Evidence | Why it is outside this ticket | Urgent (`Yes`/`No`) | Suggested Task description | Sent (to, date) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| FU-001 | Solution Designer, investigation-notes.md / design-spec.md | `base.conf` uses `depends_on=` on six programs (`xfce`, `fcitx`, `disable_screensaver`, `copyq`, `chrome`, `websockify`). Supervisor has no such option and ignores it, so the file suggests a start ordering that does not exist; actual order comes only from `priority` and restart retries. | `grep -r depends_on /opt/browser-tools/lib/python3.13/site-packages/supervisor/` in `autobyteus/chrome-vnc` 1.4.1 (`sha256:b2fde77f…96f4`): 0 matches. Desktop startup still works today through retries (investigation probes). | The desktop recovers without it; the ticket's failure is the X socket directory, not ordering. | No | browser_docker: remove the ineffective `depends_on` keys from `base.conf` (or replace them with a real mechanism if ordering matters, e.g. launchers that wait for `:99`), and say in `DESIGN.md` how program order is achieved. | |
