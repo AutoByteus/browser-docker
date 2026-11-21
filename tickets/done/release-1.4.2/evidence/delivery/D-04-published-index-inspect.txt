@@ -1,0 +1,108 @@
+== autobyteus/chrome-vnc:1.4.2
+Name:      docker.io/autobyteus/chrome-vnc:1.4.2
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b
+           
+Manifests: 
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2@sha256:730bcd148ce6abc66a7119285c6934177ff41f9409795562fbf723f660735561
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2@sha256:fdd91bd5b93d45d47a0953583917704366d95542f911e75e8c603ea6b5fa1cb1
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2@sha256:42a0444b3c25b28fb0cb466728eb220ed1db334f08c6ed8f0998d761c336791c
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:730bcd148ce6abc66a7119285c6934177ff41f9409795562fbf723f660735561
+    vnd.docker.reference.type:   attestation-manifest
+               
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2@sha256:47a5355429b07f140380a922d510f1fc19a1cf5de2a55b43bdb32b362af6bb22
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:fdd91bd5b93d45d47a0953583917704366d95542f911e75e8c603ea6b5fa1cb1
+    vnd.docker.reference.type:   attestation-manifest
+== autobyteus/chrome-vnc:latest
+Name:      docker.io/autobyteus/chrome-vnc:latest
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b
+           
+Manifests: 
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:730bcd148ce6abc66a7119285c6934177ff41f9409795562fbf723f660735561
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:fdd91bd5b93d45d47a0953583917704366d95542f911e75e8c603ea6b5fa1cb1
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:42a0444b3c25b28fb0cb466728eb220ed1db334f08c6ed8f0998d761c336791c
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:730bcd148ce6abc66a7119285c6934177ff41f9409795562fbf723f660735561
+    vnd.docker.reference.type:   attestation-manifest
+               
+  Name:        docker.io/autobyteus/chrome-vnc:latest@sha256:47a5355429b07f140380a922d510f1fc19a1cf5de2a55b43bdb32b362af6bb22
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:fdd91bd5b93d45d47a0953583917704366d95542f911e75e8c603ea6b5fa1cb1
+    vnd.docker.reference.type:   attestation-manifest
+== autobyteus/chrome-vnc:1.4.2-zh
+Name:      docker.io/autobyteus/chrome-vnc:1.4.2-zh
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783
+           
+Manifests: 
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:ceb3ab231290d84a05fdbf9c3d187839a611612c9573605b29ba735154e07ddd
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:2ea28997a55b2c1f4ee48801cadf477c85292eb1c4abb084b235d4836a292957
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:90095121587066a6366ab4b48e20bf3330c93341b14e5369a299028c529acd1a
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:ceb3ab231290d84a05fdbf9c3d187839a611612c9573605b29ba735154e07ddd
+    vnd.docker.reference.type:   attestation-manifest
+               
+  Name:        docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:345395c75403a7e1526db550db1b5738b29d45ab41d0b9e10ea9cfaeafa63e28
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:2ea28997a55b2c1f4ee48801cadf477c85292eb1c4abb084b235d4836a292957
+    vnd.docker.reference.type:   attestation-manifest
+== autobyteus/chrome-vnc:zh
+Name:      docker.io/autobyteus/chrome-vnc:zh
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783
+           
+Manifests: 
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:ceb3ab231290d84a05fdbf9c3d187839a611612c9573605b29ba735154e07ddd
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:2ea28997a55b2c1f4ee48801cadf477c85292eb1c4abb084b235d4836a292957
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64
+               
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:90095121587066a6366ab4b48e20bf3330c93341b14e5369a299028c529acd1a
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:ceb3ab231290d84a05fdbf9c3d187839a611612c9573605b29ba735154e07ddd
+    vnd.docker.reference.type:   attestation-manifest
+               
+  Name:        docker.io/autobyteus/chrome-vnc:zh@sha256:345395c75403a7e1526db550db1b5738b29d45ab41d0b9e10ea9cfaeafa63e28
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.digest: sha256:2ea28997a55b2c1f4ee48801cadf477c85292eb1c4abb084b235d4836a292957
+    vnd.docker.reference.type:   attestation-manifest

@@ -1,0 +1,16 @@
+== publish default 2026-11-21T18:23:33Z at 9c0356d
+publish default exit=0 2026-11-21T18:46:41Z
+Image will be tagged as: autobyteus/chrome-vnc:1.4.2 and autobyteus/chrome-vnc:latest
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b 5.0s done
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:latest@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:latest@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b 2.4s done
+Build completed successfully!
+== publish zh 2026-11-21T18:46:41Z at 9c0356d
+publish zh exit=0 2026-11-21T19:16:33Z
+Image will be tagged as: autobyteus/chrome-vnc:1.4.2-zh and autobyteus/chrome-vnc:zh
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783 4.8s done
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783
+#57 pushing manifest for docker.io/autobyteus/chrome-vnc:zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783 2.4s done
+Build completed successfully!

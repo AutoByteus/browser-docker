@@ -39,6 +39,29 @@ here as a step or rule.
 - A release publishes both variants (default and `zh`) for `linux/amd64` and
   `linux/arm64`.
 
+## Checks Before Publishing
+
+Pushing moves `latest` and `zh` at once, so check every variant on every
+architecture before the push. From `main` at the finalized commit, build each
+one locally under a local tag (amd64 runs under emulation on an Apple-silicon
+host; a build takes about 15 minutes there):
+
+```bash
+docker buildx build --builder multi-platform-builder --load --platform linux/<arch> \
+  --build-arg IMAGE_VARIANT=<default|zh> -t <local-tag> .
+bash tests/validate-image.sh <local-tag> <default|zh>
+docker run -d --platform linux/<arch> --name <name> --label chrome-vnc.test=throwaway \
+  --cap-add SYS_ADMIN --security-opt seccomp=unconfined <local-tag>
+bash tests/validate-running-container.sh <name> <default|zh>
+bash tests/validate-restart-recovery.sh <name> <default|zh>
+```
+
+- Push only when all twelve pass (three checks, two variants, two
+  architectures). A failure is a defect: fix it on `main` first.
+- Before pushing, check that `X.Y.Z` and `X.Y.Z-zh` are not published yet
+  (`docker buildx imagetools inspect` fails for them), and record the current
+  `latest` and `zh` index digests as the rollback baseline.
+
 ## Cutting The Release
 
 From `main` at the finalized commit, with Docker Hub push access:
@@ -60,10 +83,10 @@ From `main` at the finalized commit, with Docker Hub push access:
 
 ## Checks After Publishing
 
-The checks a ticket runs cover the host architecture and the default variant;
-the other architecture and the `zh` variant are proven only here (TESTING.md
-"Choosing The Layer"). For each variant, inspect the published index and run
-the checks against each platform's exact child digest:
+The release builds with `--no-cache`, so the published images are a new build
+of the same source, not the images checked before publishing. For each variant,
+inspect the published index and run the same checks against each platform's
+exact child digest:
 
 ```bash
 docker buildx imagetools inspect autobyteus/chrome-vnc:X.Y.Z      # and :X.Y.Z-zh

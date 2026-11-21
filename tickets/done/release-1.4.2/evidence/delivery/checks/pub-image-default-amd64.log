@@ -1,0 +1,2 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID contracts validated.

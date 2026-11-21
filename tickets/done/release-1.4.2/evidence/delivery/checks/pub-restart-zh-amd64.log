@@ -1,0 +1,49 @@
+== Step 1: fresh start
+== Step 2: a root X server takes over /tmp/.X11-unix
+Root Xvnc :150 runs; /tmp/.X11-unix is root root 1777.
+== Step 3: Supervisor restarts Xvnc :99 in the running container
+tigervnc                         RUNNING   pid 721, uptime 0:00:03
+chrome                           RUNNING   pid 722, uptime 0:00:06
+copyq                            RUNNING   pid 815, uptime 0:00:05
+dbus                             RUNNING   pid 30, uptime 0:00:31
+disable_screensaver              EXITED    Nov 21 07:25 PM
+fcitx                            RUNNING   pid 727, uptime 0:00:06
+socat                            RUNNING   pid 37, uptime 0:00:31
+tigervnc                         RUNNING   pid 721, uptime 0:00:06
+websockify                       RUNNING   pid 38, uptime 0:00:31
+xfce                             RUNNING   pid 707, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 995 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 186 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+== Step 4: root X server again, then docker restart
+Root Xvnc :151 runs; /tmp/.X11-unix is root root 1777.
+chrome                           RUNNING   pid 45, uptime 0:00:08
+copyq                            RUNNING   pid 162, uptime 0:00:07
+dbus                             RUNNING   pid 39, uptime 0:00:08
+disable_screensaver              EXITED    Nov 21 07:26 PM
+fcitx                            RUNNING   pid 42, uptime 0:00:08
+socat                            RUNNING   pid 46, uptime 0:00:08
+tigervnc                         RUNNING   pid 40, uptime 0:00:08
+websockify                       RUNNING   pid 47, uptime 0:00:08
+xfce                             RUNNING   pid 41, uptime 0:00:08
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 940 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 172 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+== Step 5: root X server again, then kill and start
+Root Xvnc :152 runs; /tmp/.X11-unix is root root 1777.
+chrome                           RUNNING   pid 45, uptime 0:00:08
+copyq                            RUNNING   pid 188, uptime 0:00:07
+dbus                             RUNNING   pid 39, uptime 0:00:08
+disable_screensaver              EXITED    Nov 21 07:26 PM
+fcitx                            RUNNING   pid 42, uptime 0:00:08
+socat                            RUNNING   pid 46, uptime 0:00:08
+tigervnc                         RUNNING   pid 40, uptime 0:00:08
+websockify                       RUNNING   pid 47, uptime 0:00:08
+xfce                             RUNNING   pid 41, uptime 0:00:08
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 918 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 158 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.

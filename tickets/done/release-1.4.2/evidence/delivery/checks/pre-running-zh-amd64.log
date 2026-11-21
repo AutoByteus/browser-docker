@@ -1,0 +1,13 @@
+chrome                           RUNNING   pid 36, uptime 0:00:19
+copyq                            RUNNING   pid 35, uptime 0:00:19
+dbus                             RUNNING   pid 30, uptime 0:00:19
+disable_screensaver              EXITED    Nov 21 06:21 PM
+fcitx                            RUNNING   pid 33, uptime 0:00:19
+socat                            RUNNING   pid 37, uptime 0:00:19
+tigervnc                         RUNNING   pid 31, uptime 0:00:19
+websockify                       RUNNING   pid 38, uptime 0:00:19
+xfce                             RUNNING   pid 32, uptime 0:00:19
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 1005 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 272 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files

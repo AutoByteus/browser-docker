@@ -1,0 +1,10 @@
+publish-default.log:#57 exporting manifest list sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b done
+publish-default.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b
+publish-default.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b 5.0s done
+publish-default.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:latest@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b
+publish-default.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:latest@sha256:86b7891d3d1d74e1b3bd42c44df9729d56343127b6f745f1f3fda8d6a6e6a50b 2.4s done
+publish-zh.log:#57 exporting manifest list sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783 done
+publish-zh.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783
+publish-zh.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:1.4.2-zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783 4.8s done
+publish-zh.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783
+publish-zh.log:#57 pushing manifest for docker.io/autobyteus/chrome-vnc:zh@sha256:c381f2e82fc0f0da9a74367e1c4e5029e195c90016e0dd187f9269768dd68783 2.4s done

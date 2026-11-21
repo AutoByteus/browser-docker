@@ -1,0 +1,52 @@
+===== default arm64 (rel598-default-arm64:local) 2026-11-21T18:17:21Z
+image arch=arm64 id=sha256:81443a7151528dc4faec928ebd9d0bf194028d5a84d1cedc1cc3167db252eba0
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID cont
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts val
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 57 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Error org.freedesktop.DBus.Error.ServiceUn
+validate-restart-recovery exit=0
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 47 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by 
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.
+===== default amd64 (rel598-default-amd64:local) 2026-11-21T18:18:19Z
+image arch=amd64 id=sha256:e0ab97f76be602064b5f311e76b85f5a1100278bace2d726b7f8e6563a0a6812
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID cont
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts val
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 1033 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 296 ms: Error org.freedesktop.DBus.Error.Service
+validate-restart-recovery exit=0
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 969 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 205 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided b
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.
+===== zh arm64 (rel598-zh-arm64:local) 2026-11-21T18:20:12Z
+image arch=arm64 id=sha256:9433b9f39d06122818ec4292774beb3c0f18301c9c8452a9e49d0c5d8c3651cc
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID cont
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts val
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 50 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 10 ms: Error org.freedesktop.DBus.Error.ServiceU
+validate-restart-recovery exit=0
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 53 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by 
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.
+===== zh amd64 (rel598-zh-amd64:local) 2026-11-21T18:21:06Z
+image arch=amd64 id=sha256:923c44350a2f2dd5473d6b2c19062537797d1a2a7340f31781135e06cd0df5a7
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket directory and launcher check, and UID/GID cont
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts val
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 1005 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 272 ms: Error org.freedesktop.DBus.Error.Service
+validate-restart-recovery exit=0
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 925 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 208 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided b
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.

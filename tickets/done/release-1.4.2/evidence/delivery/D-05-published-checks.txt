@@ -1,0 +1,44 @@
+===== default amd64 autobyteus/chrome-vnc@sha256:730bcd148ce6abc66a7119285c6934177ff41f9409795562fbf723f660735561 2026-11-21T19:16:57Z
+pulled arch=amd64
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket direct
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium passwo
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render pass
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 971 ms: {"url":"http://127.0.0.1:6080/","readyState":"complet
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 205 ms: 
+validate-restart-recovery exit=0
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.
+===== default arm64 autobyteus/chrome-vnc@sha256:fdd91bd5b93d45d47a0953583917704366d95542f911e75e8c603ea6b5fa1cb1 2026-11-21T19:20:06Z
+pulled arch=arm64
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket direct
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium passwo
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render pass
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 46 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Er
+validate-restart-recovery exit=0
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.
+===== zh amd64 autobyteus/chrome-vnc@sha256:ceb3ab231290d84a05fdbf9c3d187839a611612c9573605b29ba735154e07ddd 2026-11-21T19:22:57Z
+pulled arch=amd64
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket direct
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium passwo
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render pass
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 940 ms: {"url":"http://127.0.0.1:6080/","readyState":"complet
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 180 ms: 
+validate-restart-recovery exit=0
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.
+===== zh arm64 autobyteus/chrome-vnc@sha256:2ea28997a55b2c1f4ee48801cadf477c85292eb1c4abb084b235d4836a292957 2026-11-21T19:26:32Z
+pulled arch=arm64
+validate-image exit=0
+PASS: image identity, public/OS Python ownership, isolated Supervisor/tool origin, utility, no-keyring/Chromium password-store, locale, variant, X socket direct
+validate-running-container exit=0
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium passwo
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render pass
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 46 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 8 ms: Er
+validate-restart-recovery exit=0
+PASS: after a root X server took over /tmp/.X11-unix, the desktop recovered after a Supervisor restart of Xvnc, docker restart, and kill/start; /tmp/.X11-unix stayed root root 1777.

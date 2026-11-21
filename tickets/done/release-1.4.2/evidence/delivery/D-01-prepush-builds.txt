@@ -1,0 +1,20 @@
+== build default arm64 2026-11-21T17:34:07Z
+build default arm64 exit=0 2026-11-21T17:39:44Z
+#31 exporting to oci image format
+#31 sending tarball 37.1s done
+#31 DONE 115.5s
+== build default amd64 2026-11-21T17:39:44Z
+build default amd64 exit=0 2026-11-21T17:54:10Z
+#31 exporting to oci image format
+#31 sending tarball 17.6s done
+#31 DONE 89.7s
+== build zh arm64 2026-11-21T17:54:10Z
+build zh arm64 exit=0 2026-11-21T18:00:31Z
+#31 exporting to oci image format
+#31 sending tarball 50.1s done
+#31 DONE 129.1s
+== build zh amd64 2026-11-21T18:00:31Z
+build zh amd64 exit=0 2026-11-21T18:17:10Z
+#31 exporting to oci image format
+#31 sending tarball 20.4s done
+#31 DONE 116.0s
