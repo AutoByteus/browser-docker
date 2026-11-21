@@ -1,0 +1,4 @@
+# V-05b the restart check refuses an unlabelled container (ab596-api-nolabel, my own)
+Refusing: container ab596-api-nolabel is not labelled chrome-vnc.test=throwaway; this check restarts and kills it.
+exit=2
+restart count after: 0 started 2026-11-21T15:55:13.075237804Z

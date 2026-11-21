@@ -1,0 +1,8 @@
+#1 [internal] load build definition from server-overlay.Dockerfile
+#2 [internal] load metadata for docker.io/autobyteus/autobyteus-server:beta
+#3 [internal] load .dockerignore
+#4 [1/4] FROM docker.io/autobyteus/autobyteus-server:beta@sha256:52db87304cc4406b4fecb7933914c15ec3ecd0de676f0fe2b87580b55f90a9cc
+#5 [internal] load build context
+#6 [2/4] COPY start-vnc.sh /usr/local/bin/start-vnc.sh
+#7 [3/4] COPY entrypoint.sh /entrypoint.sh
+#8 [4/4] RUN chmod +x /usr/local/bin/start-vnc.sh /entrypoint.sh

@@ -1,0 +1,7 @@
+mutation A exit=1 FAIL: active source contains obsolete pattern: ^chmod[[:space:]].*(/tmp/\.X11-unix|x11_dir)
+mutation B exit=1 FAIL: start-vnc.sh does not contain expected literal line: if [ -O "$x11_dir" ]; then
+mutation C exit=1 FAIL: active source contains obsolete pattern: ^chmod[[:space:]].*(/tmp/\.X11-unix|x11_dir)
+# A: an unconditional `chmod 1777 "$x11_dir"` before the ownership check; B: the `-O` test replaced by `true`;
+# C: an unconditional `chmod 1777 /tmp/.X11-unix || true` (a variant that would not stop the script). Each restored after.
+mutation D exit=1 FAIL: start-vnc.sh must change the X socket directory mode once, only inside its ownership test
+# D: an indented chmod of the directory inside another if-block, before the -O check

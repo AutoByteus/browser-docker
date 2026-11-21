@@ -1,0 +1,6 @@
+# V-09 duplicate :99 refusal on the fixed image (container ab596-api-fixed, after V-05's kill/start); 2026-11-21T15:54:22Z
+tigervnc before: tigervnc                         RUNNING   pid 40, uptime 0:08:57
+Display :99 appears to be used by live PID 40; refusing to start duplicate X server.
+second start-vnc.sh exit=1
+tigervnc after: tigervnc                         RUNNING   pid 40, uptime 0:08:58
+Xvnc :99 processes: 1

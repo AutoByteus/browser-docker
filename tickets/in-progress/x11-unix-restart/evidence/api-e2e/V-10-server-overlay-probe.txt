@@ -1,0 +1,17 @@
+# V-10 probe on my overlay autobyteus-596-server-overlay:api (FROM autobyteus/autobyteus-server:beta 52db87304cc4 + branch start-vnc.sh/entrypoint.sh); 2026-11-21T15:54:31Z
+== fresh start
+ALL RUNNING after 4x2s
+drwxrwxrwt 1 root root 4096 Nov 21 15:54 /tmp/.X11-unix
+== root Xvnc :102 takes the dir
+drwxrwxrwt 1 root root 4096 Nov 21 15:54 /tmp/.X11-unix
+== in-life: kill Xvnc :99, Supervisor restarts it
+tigervnc                         RUNNING   pid 683, uptime 0:00:03
+== container restart
+ALL RUNNING after 4x2s
+drwxrwxrwt 1 root root 4096 Nov 21 15:54 /tmp/.X11-unix
+X11-unix chmod failures in supervisord.log: 0
+
+real	0m22.312s
+user	0m0.251s
+sys	0m0.234s
+exit=1

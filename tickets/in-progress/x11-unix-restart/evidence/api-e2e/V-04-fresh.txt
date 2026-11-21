@@ -1,0 +1,36 @@
+# V-04 fresh container of my build autobyteus-596-chrome-vnc:api (HEAD f3cfa3d, code 37edc71); macOS arm64 Docker Desktop; 2026-11-21T15:44:47Z
+# docker run -d --name ab596-api-fixed --label chrome-vnc.test=throwaway --cap-add SYS_ADMIN --security-opt seccomp=unconfined autobyteus-596-chrome-vnc:api
+d009f3cbad27a6405687558cbc49b0b23bcc326773c2fa38a2556ef2dda03313
+chrome                           RUNNING   pid 36, uptime 0:00:06
+copyq                            RUNNING   pid 34, uptime 0:00:06
+dbus                             RUNNING   pid 29, uptime 0:00:06
+disable_screensaver              EXITED    Nov 21 03:44 PM
+fcitx                            RUNNING   pid 32, uptime 0:00:06
+socat                            RUNNING   pid 39, uptime 0:00:06
+tigervnc                         RUNNING   pid 30, uptime 0:00:06
+websockify                       RUNNING   pid 42, uptime 0:00:06
+xfce                             RUNNING   pid 31, uptime 0:00:06
+PASS: isolated Supervisor 4.3.0, Python 3.13 process ownership, UID/XDG/DBus, VNC, websockify, DevTools, Chromium password-store and profile-write contracts validated.
+PASS: Chromium rendered semantic DOM through DevTools: {"title":"BRD-UBUNTU24-001","evidence":"Noble browser render passed"}
+PASS: Chromium loaded http://127.0.0.1:6080/ unattended in 48 ms: {"url":"http://127.0.0.1:6080/","readyState":"complete","title":"Directory listing for /"}
+PASS: no keyring prompt/provider process or Secret Service activation; vncuser Secret Service request failed in 6 ms: Error org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.secrets was not provided by any .service files
+validate-running-container exit=0
+dir: root root 1777
+chrome                           RUNNING   pid 36, uptime 0:00:08
+copyq                            RUNNING   pid 34, uptime 0:00:08
+dbus                             RUNNING   pid 29, uptime 0:00:08
+disable_screensaver              EXITED    Nov 21 03:44 PM
+fcitx                            RUNNING   pid 32, uptime 0:00:08
+socat                            RUNNING   pid 39, uptime 0:00:08
+tigervnc                         RUNNING   pid 30, uptime 0:00:08
+websockify                       RUNNING   pid 42, uptime 0:00:08
+xfce                             RUNNING   pid 31, uptime 0:00:08
+chrome                           RUNNING   pid 36, uptime 0:00:08
+copyq                            RUNNING   pid 34, uptime 0:00:08
+dbus                             RUNNING   pid 29, uptime 0:00:08
+disable_screensaver              EXITED    Nov 21 03:44 PM
+fcitx                            RUNNING   pid 32, uptime 0:00:08
+socat                            RUNNING   pid 39, uptime 0:00:08
+tigervnc                         RUNNING   pid 30, uptime 0:00:08
+websockify                       RUNNING   pid 42, uptime 0:00:08
+xfce                             RUNNING   pid 31, uptime 0:00:08

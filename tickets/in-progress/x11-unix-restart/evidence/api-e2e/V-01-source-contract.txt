@@ -1,0 +1,1 @@
+PASS: source, build, release, runtime-path, port, no-keyring, X socket directory, and documentation contracts are consistent.

@@ -1,0 +1,22 @@
+# V-08 SCN-002 with xvfb-run -a (root) on the fixed image; 2026-11-21T15:53:29Z
+c13c6bffb8fea9e8c42dace6ac232346796697d9857d0b5c251a6f5847ed9c61
+fresh: chrome RUNNING copyq RUNNING dbus RUNNING disable_screensaver EXITED fcitx RUNNING socat RUNNING tigervnc RUNNING websockify RUNNING xfce RUNNING 
+xvfb install exit=0
+/usr/bin/xvfb-run
+== xvfb-run -a as root (holds its display while we restart Xvnc :99)
+DISPLAY=:100
+total 0
+srwxrwxrwx 1 root    root    0 Nov 21 15:53 X100
+srwxrwxrwx 1 vncuser vncuser 0 Nov 21 15:53 X99
+dir: root root 1777
+root     Xvfb :100 -screen 0 1280x1024x24 -nolisten tcp -auth /tmp/xvfb-run.u8uuhP/Xauthority
+== supervisorctl restart tigervnc (as Supervisor's own restart)
+tigervnc: stopped
+tigervnc: started
+after: chrome RUNNING copyq RUNNING dbus RUNNING disable_screensaver EXITED fcitx RUNNING socat RUNNING tigervnc RUNNING websockify RUNNING xfce RUNNING 
+validate after supervisorctl restart: exit=0
+== docker restart while the root X server's socket is left
+after restart: chrome RUNNING copyq RUNNING dbus RUNNING disable_screensaver EXITED fcitx RUNNING socat RUNNING tigervnc RUNNING websockify RUNNING xfce RUNNING 
+validate after docker restart: exit=0
+dir: root root 1777
+0

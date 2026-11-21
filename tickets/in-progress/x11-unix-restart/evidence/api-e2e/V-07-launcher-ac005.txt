@@ -1,0 +1,17 @@
+== root:root 0755
+dir before: root root 755
+exit=1
+output lines: 1
+output: /tmp/.X11-unix must be a world-writable sticky directory (mode 1777); found owner root:root, mode 755.
+Xvnc processes: 0
+== missing
+dir absent
+dir after: vncuser vncuser 1777
+srwxrwxrwx 1 vncuser vncuser 0 Nov 21 15:52 X99
+Xvnc: vncuser  /usr/bin/Xvnc :99 -geometry 1920x1080 -depth 24 -rfbport 5900 -SecurityTypes=None -localhost no -AlwaysShared
+== root:root 0777 (writable, not sticky)
+exit=1 output: /tmp/.X11-unix must be a world-writable sticky directory (mode 1777); found owner root:root, mode 777.
+Xvnc processes: 0
+== vncuser-owned 0755 (its own: fixed by chmod)
+dir after: vncuser vncuser 1777
+Xvnc: vncuser  /usr/bin/Xvnc :99 -geometry 192

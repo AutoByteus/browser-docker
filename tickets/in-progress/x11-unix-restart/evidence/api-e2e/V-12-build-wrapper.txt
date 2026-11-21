@@ -1,0 +1,1 @@
+PASS: modern credential-helper push sessions reach BuildX and BuildX failures propagate without false success.

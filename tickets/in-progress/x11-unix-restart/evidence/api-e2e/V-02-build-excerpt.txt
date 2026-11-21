@@ -1,0 +1,42 @@
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+#2 [internal] load metadata for docker.io/library/ubuntu:24.04
+#3 [auth] library/ubuntu:pull token for registry-1.docker.io
+#3 DONE 0.0s
+#2 [internal] load metadata for docker.io/library/ubuntu:24.04
+#2 DONE 1.1s
+#4 [internal] load .dockerignore
+#4 DONE 0.0s
+#5 [ 1/25] FROM docker.io/library/ubuntu:24.04@sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289
+#5 DONE 0.0s
+#6 [internal] load build context
+#6 DONE 0.0s
+#7 [ 7/25] RUN ln -s /usr/bin/python3.13 /usr/local/bin/python3 &&     ln -s /usr/bin/python3.13 /usr/local/bin/python &&     /usr/bin/python3.13 -m venv /opt/browser-tools &&     /opt/browser-tools/bin/python -m pip install --upgrade pip wheel setuptools &&     /opt/browser-tools/bin/python -m pip install supervisor==4.3.0 websockify uv &&     ln -s /opt/browser-tools/bin/supervisord /usr/local/bin/supervisord &&     ln -s /opt/browser-tools/bin/supervisorctl /usr/local/bin/supervisorctl &&     ln -s /opt/browser-tools/bin/websockify /usr/local/bin/websockify &&     ln -s /opt/browser-tools/bin/uv /usr/local/bin/uv &&     WEBSOCKIFY_PACKAGE_DIR="$(/opt/browser-tools/bin/python -c 'from pathlib import Path; import websockify; print(Path(websockify.__file__).parent)')" &&     ln -s "${WEBSOCKIFY_PACKAGE_DIR}" /usr/local/share/websockify &&     npm install -g yarn
+#8 [18/25] COPY supervisord.conf /etc/supervisor/supervisord.conf
+#9 [17/25] RUN touch /home/vncuser/copyq.log && chown 1000:1000 /home/vncuser/copyq.log
+#10 [ 6/25] RUN if [ "default" = "zh" ]; then         locale-gen en_US.UTF-8 zh_CN.UTF-8 zh_TW.UTF-8 &&         update-locale LANG=en_US.UTF-8 &&         su - vncuser -c "im-config -n fcitx5" &&         su - vncuser -c "mkdir -p ~/.config/fcitx5/conf ~/.config/autostart" &&         printf '%s\n' 'export GTK_IM_MODULE=fcitx' 'export QT_IM_MODULE=fcitx' 'export XMODIFIERS=@im=fcitx' 'export SDL_IM_MODULE=fcitx'         >> /home/vncuser/.xprofile &&         printf '%s\n' '[Groups]' '0=Default' 'Number=1' '' '[Groups/0]' 'Name=Default' 'Default Layout=us' '' '[Groups/0/Items/0]' 'Name=keyboard-us' 'Layout=us' 'Default=True' '' '[Groups/0/Items/1]' 'Name=pinyin'         > /home/vncuser/.config/fcitx5/profile &&         chown -R vncuser:vncuser /home/vncuser/.config/fcitx5;     fi
+#11 [12/25] RUN mkdir -p /run/dbus &&     chown messagebus:messagebus /run/dbus &&     dbus-uuidgen > /etc/machine-id
+#12 [23/25] COPY disable-screensaver.sh /home/vncuser/disable-screensaver.sh
+#13 [ 2/25] RUN apt-get update &&     apt-get install -y software-properties-common ca-certificates curl &&     add-apt-repository -y universe &&     add-apt-repository -y ppa:deadsnakes/ppa &&     add-apt-repository -y ppa:xtradeb/apps &&     curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+#14 [ 9/25] RUN mkdir -p /var/log/supervisor /etc/supervisor/conf.d &&     chown -R vncuser:vncuser /var/log/supervisor &&     chmod 755 /var/log/supervisor
+#15 [10/25] RUN mkdir -p /home/vncuser/.vnc &&     chown -R 1000:1000 /home/vncuser/.vnc &&     chmod 700 /home/vncuser/.vnc
+#16 [24/25] COPY chromium.d/autobyteus-password-store /etc/chromium.d/autobyteus-password-store
+#17 [14/25] RUN mkdir -p /run/user/1000 &&     chown -R 1000:1000 /run/user/1000 &&     chmod 700 /run/user/1000
+#18 [ 5/25] RUN if getent passwd ubuntu >/dev/null; then userdel --remove ubuntu; fi &&     if getent group ubuntu >/dev/null; then groupdel ubuntu; fi &&     groupadd -g 1000 vncuser &&     useradd -u 1000 -g 1000 -m -s /bin/bash vncuser &&     usermod -aG sudo vncuser &&     echo "vncuser:vncuser" | chpasswd &&     echo "vncuser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vncuser &&     chmod 0440 /etc/sudoers.d/vncuser &&     touch /home/vncuser/.xprofile &&     chown 1000:1000 /home/vncuser/.xprofile &&     chmod 644 /home/vncuser/.xprofile
+#19 [21/25] COPY start-vnc.sh /usr/local/bin/start-vnc.sh
+#20 [13/25] RUN touch /home/vncuser/.Xauthority &&     chown 1000:1000 /home/vncuser/.Xauthority &&     chmod 600 /home/vncuser/.Xauthority
+#21 [15/25] RUN mkdir -p /home/vncuser/workspace &&     chown -R 1000:1000 /home/vncuser/workspace
+#22 [11/25] RUN mkdir -p /tmp/.X11-unix &&     chmod 1777 /tmp/.X11-unix &&     mkdir -p /dev/shm &&     chmod 1777 /dev/shm
+#23 [ 8/25] RUN mkdir -p /home/vncuser/.local/bin &&     chown -R vncuser:vncuser /home/vncuser/.local &&     su - vncuser -c "yarn config set prefix /home/vncuser/.local" &&     echo '' >> /home/vncuser/.bashrc &&     echo '# Configure npm, yarn, and other tools to use a local directory for user installs' >> /home/vncuser/.bashrc &&     echo 'export NPM_CONFIG_PREFIX=/home/vncuser/.local' >> /home/vncuser/.bashrc &&     echo 'export PATH="/home/vncuser/.local/bin:$PATH"' >> /home/vncuser/.bashrc
+#24 [16/25] WORKDIR /home/vncuser/workspace
+#25 [19/25] COPY base.conf /etc/supervisor/conf.d/base.conf
+#26 [ 4/25] RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+#27 [20/25] COPY entrypoint.sh /entrypoint.sh
+#28 [22/25] COPY start-chrome.sh /usr/local/bin/start-chrome.sh
+#29 [ 3/25] RUN apt-get update &&     apt-get install -y     build-essential     copyq     dbus     dbus-x11     dnsutils     dos2unix     git     gh     golang     htop     iputils-ping     jq     locales     libx11-dev     libxext-dev     libxtst-dev     net-tools     ripgrep     scrot     socat     sudo     unzip     vim     wget     xclip     xdotool     chromium     tigervnc-standalone-server     xfce4     xfce4-terminal     nodejs     python3     python3.13     python3.13-dev     python3.13-venv     && if [ "default" = "zh" ]; then         apt-get install -y         fonts-noto-cjk         fonts-noto-color-emoji         fonts-wqy-zenhei         language-pack-zh-hans         language-pack-zh-hant         fcitx5         fcitx5-chinese-addons         fcitx5-frontend-gtk3         fcitx5-frontend-qt5         fcitx5-config-qt         im-config         ;     fi &&     apt-get purge -y gnome-keyring libpam-gnome-keyring &&     apt-get clean && rm -rf /var/lib/apt/lists/*
+#30 [25/25] RUN dos2unix /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh /etc/chromium.d/autobyteus-password-store &&     chmod +x /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh &&     chown vncuser:vncuser /entrypoint.sh /usr/local/bin/start-vnc.sh /usr/local/bin/start-chrome.sh /home/vncuser/disable-screensaver.sh &&     chmod 0644 /etc/chromium.d/autobyteus-password-store
+#31 DONE 0.1s
+exit=0
+# V-02 docker build -t autobyteus-596-chrome-vnc:api . at f3cfa3d (code 37edc71), macOS arm64; image sha256:e06f7274b79b…, arm64
+73:#22 [11/25] RUN mkdir -p /tmp/.X11-unix &&     chmod 1777 /tmp/.X11-unix &&     mkdir -p /dev/shm &&     chmod 1777 /dev/shm
+exit=0
